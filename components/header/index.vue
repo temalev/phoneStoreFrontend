@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="mainHeader">
     <div class="logo" />
     <nav class="menu">
       <ul>
@@ -14,13 +14,15 @@
 export default {};
 </script>
 <style scoped lang="scss">
-.main {
+.mainHeader {
+  position: fixed;
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 100px;
   width: 100%;
-  box-shadow: 0 5px 5px #dadada;
+  box-shadow: 0 0 10px #868686;
 }
 
 .logo {

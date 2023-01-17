@@ -1,0 +1,1 @@
+export { default } from "file:///Users/temalev/Web/RKTech/rk/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
