@@ -1,9 +1,9 @@
 <template>
 <div class="mainSliderContainer">
-  <NuxtLink v-for="a in 5" :key="a">
+  <NuxtLink v-for="card in cards" :key="card">
     <div class="productLink">
-      <div class="header">IPhone</div>
-      <div class="img" />
+      <div class="header">{{card.name}}</div>
+      <img class="img" :src="card.img"/>
     </div>
   </NuxtLink>
   
@@ -11,7 +11,45 @@
 </template>
 <script>
 export default {
-
+  name: 'Slider',
+  data() {
+  return {
+    cards: [
+      {
+        name: "IPhone",
+        img: "/images/iphone.jpeg"
+      },
+      {
+        name: "IPad",
+        img: "/images/ipad.jpeg"
+      },
+      {
+        name: "Mac",
+        img: "/images/mac.jpeg"
+      },
+      {
+        name: "Watch",
+        img: "/images/watchCard.jpeg"
+      },
+      {
+        name: "Airpods",
+        img: "/images/airpods.jpeg"
+      },
+      {
+        name: "Аксессуары",
+        img: "/images/accessories.jpg"
+      },
+      {
+        name: "Dyson",
+        img: "/images/dyson.jpeg"
+      },
+      {
+        name: "SonyPlaystation 5",
+        img: "/images/ps.jpeg"
+      }
+  ]
+  }
+}
 }
 </script>
 <style scoped lang="scss">
@@ -25,6 +63,8 @@ export default {
  .productLink {
   width: 300px;
   height: 350px;
+  flex-shrink: 0;
+  overflow: hidden;
   padding-top: 40px;
   background-color: #fff;
   box-shadow: 0 0 5px #dadada;
@@ -48,11 +88,7 @@ export default {
   color: #2c2c2c;
 }
  .img {
-  background-image: url(~/assets/images/iphone.jpeg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  object-fit:fill;
   width: 100%;
-  height: 220px;
  }
 </style>
