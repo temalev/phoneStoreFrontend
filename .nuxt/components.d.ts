@@ -2,7 +2,9 @@
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     'Header': typeof import("../components/header/index.vue")['default']
+    'InfoContainers': typeof import("../components/infoContainers.vue")['default']
     'Slider': typeof import("../components/slider/index.vue")['default']
+    'TheFooter': typeof import("../components/theFooter.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/layout")['default']
     'NuxtErrorBoundary': typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary")['default']
@@ -22,7 +24,9 @@ declare module '@vue/runtime-core' {
     'Html': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyHeader': typeof import("../components/header/index.vue")['default']
+    'LazyInfoContainers': typeof import("../components/infoContainers.vue")['default']
     'LazySlider': typeof import("../components/slider/index.vue")['default']
+    'LazyTheFooter': typeof import("../components/theFooter.vue")['default']
     'LazyNuxtWelcome': typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
     'LazyNuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/layout")['default']
     'LazyNuxtErrorBoundary': typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary")['default']
@@ -45,7 +49,9 @@ declare module '@vue/runtime-core' {
 }
 
 export const Header: typeof import("../components/header/index.vue")['default']
+export const InfoContainers: typeof import("../components/infoContainers.vue")['default']
 export const Slider: typeof import("../components/slider/index.vue")['default']
+export const TheFooter: typeof import("../components/theFooter.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary")['default']
@@ -65,7 +71,9 @@ export const Head: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyHeader: typeof import("../components/header/index.vue")['default']
+export const LazyInfoContainers: typeof import("../components/infoContainers.vue")['default']
 export const LazySlider: typeof import("../components/slider/index.vue")['default']
+export const LazyTheFooter: typeof import("../components/theFooter.vue")['default']
 export const LazyNuxtWelcome: typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
 export const LazyNuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/layout")['default']
 export const LazyNuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary")['default']

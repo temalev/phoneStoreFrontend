@@ -59,6 +59,8 @@ export default {
   gap: 30px;
   overflow: scroll;
   padding: 20px 10px;
+  &::-webkit-scrollbar {
+    display: none;
 }
  .productLink {
   width: 300px;
@@ -79,6 +81,8 @@ export default {
   &:hover {
     box-shadow: 0 0 20px #c4c4c4;
   }
+  
+}
  }
 
  .header {
