@@ -3,6 +3,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     'Header': typeof import("../components/header/index.vue")['default']
     'InfoContainers': typeof import("../components/infoContainers.vue")['default']
+    'ShopBag': typeof import("../components/shopBag/index.vue")['default']
     'Slider': typeof import("../components/slider/index.vue")['default']
     'TheFooter': typeof import("../components/theFooter.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
@@ -25,6 +26,7 @@ declare module '@vue/runtime-core' {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyHeader': typeof import("../components/header/index.vue")['default']
     'LazyInfoContainers': typeof import("../components/infoContainers.vue")['default']
+    'LazyShopBag': typeof import("../components/shopBag/index.vue")['default']
     'LazySlider': typeof import("../components/slider/index.vue")['default']
     'LazyTheFooter': typeof import("../components/theFooter.vue")['default']
     'LazyNuxtWelcome': typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
@@ -50,6 +52,7 @@ declare module '@vue/runtime-core' {
 
 export const Header: typeof import("../components/header/index.vue")['default']
 export const InfoContainers: typeof import("../components/infoContainers.vue")['default']
+export const ShopBag: typeof import("../components/shopBag/index.vue")['default']
 export const Slider: typeof import("../components/slider/index.vue")['default']
 export const TheFooter: typeof import("../components/theFooter.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
@@ -72,6 +75,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyHeader: typeof import("../components/header/index.vue")['default']
 export const LazyInfoContainers: typeof import("../components/infoContainers.vue")['default']
+export const LazyShopBag: typeof import("../components/shopBag/index.vue")['default']
 export const LazySlider: typeof import("../components/slider/index.vue")['default']
 export const LazyTheFooter: typeof import("../components/theFooter.vue")['default']
 export const LazyNuxtWelcome: typeof import("../node_modules/@nuxt/ui-templates/dist/templates/welcome.vue")['default']
