@@ -1,9 +1,12 @@
 <template>
   <div class="mainHeader">
-    <div class="logo" />
+    <NuxtLink to="/">
+      <div class="logo" />
+    </NuxtLink>
+    
     <nav class="menu">
 
-          <NuxtLink class="navLink">
+          <NuxtLink to="product/iphone" class="navLink">
             <div class="ico" style="background-image: url(/icons/iphone.svg)" />
             <span class="name">IPhone</span>
           </NuxtLink>
