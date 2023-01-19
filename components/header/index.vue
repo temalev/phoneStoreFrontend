@@ -14,8 +14,9 @@
     </nav>
     <div class="leftContainer">
       <div class="call" />
-      <div class="shopBag" />
+      <div class="shopBag" @click="isShopBag = true" />
     </div>
+    <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
 </template>
 <script>
@@ -64,7 +65,8 @@ export default {
         style: "height: 70px; width: 120px;",
         link: "ps"
       }
-    ]
+    ],
+    isShopBag: false,
     }
   }
 };
@@ -72,6 +74,7 @@ export default {
 <style scoped lang="scss">
 .mainHeader {
   position: fixed;
+  z-index: 5;
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -114,6 +117,11 @@ export default {
   height: 50px;
   box-sizing: border-box;
   cursor: pointer;
+  color: #2c2c2c;
+
+  &:hover {
+    color: #000000;
+  }
 }
 
 .name {
@@ -143,6 +151,7 @@ export default {
   background-repeat: no-repeat;
   width: 40px;
   height: 40px;
+  cursor: pointer;
 }
 
 .shopBag {
@@ -152,5 +161,6 @@ export default {
   background-repeat: no-repeat;
   width: 40px;
   height: 40px;
+  cursor: pointer;
 }
 </style>
