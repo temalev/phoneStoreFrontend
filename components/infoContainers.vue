@@ -18,7 +18,7 @@
     <div class="rightContainer">
       <div class="textInfoContainer">
         <h3 class="header">Доставка</h3>
-        <p class="textInfo">Мы осуществляем курьерскую доставку в Москве и Московской области, а также в г. Рязань с помощью собственного штата курьеров.</p>
+        <p class="textInfo">!!!!Мы осуществляем курьерскую доставку в Москве и Московской области, а также в г. Рязань с помощью собственного штата курьеров.</p>
       </div>
       <div class="imgBackground__rightContainer" style="background-image: url(/images/delivery.jpg); width: 350px; " />
     </div>
