@@ -6,42 +6,9 @@
     
     <nav class="menu">
 
-          <NuxtLink to="product/iphone" class="navLink">
-            <div class="ico" style="background-image: url(/icons/iphone.svg)" />
-            <span class="name">IPhone</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/ipad.svg)"></div>
-            <span class="name">IPad</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/mac.svg)"></div>
-            <span class="name">Mac</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/watch.svg)"></div>
-            <span class="name">Watch</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/airpods.svg)"></div>
-            <span class="name">AirPods</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/accessories.svg)"></div>
-            <span class="name">Аксессуары</span>
-          </NuxtLink>
-
-          <NuxtLink class="navLink">
-            <div class="ico" style="background-image: url(/icons/dyson.svg); height: 70px; width: 70px;"></div>
-          </NuxtLink>
-
-          <NuxtLink class="navLink" style="height: 70px; width: 100px;">
-            <div class="ico" style="background-image: url(/icons/ps.jpg); height: 70px; width: 120px;"></div>
+          <NuxtLink v-for="link in arrLinks" :key="link.name" :to="`product/${link.link}`" class="navLink">
+            <div class="ico" :style="{backgroundImage: `url(${link.img}); ${link.style}`}" />
+            <span class="name">{{ link.name }}</span>
           </NuxtLink>
 
     </nav>
@@ -52,7 +19,55 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'header',
+  data() {
+    return {
+      arrLinks: [
+      {
+        name: "IPhone",
+        img: "/icons/iphone.svg",
+        link: "iphone"
+      },
+      {
+        name: "IPad",
+        img: "/icons/ipad.svg",
+        link: "ipad"
+      },
+      {
+        name: "Mac",
+        img: "/icons/mac.svg",
+        link: "mac"
+      },
+      {
+        name: "Watch",
+        img: "/icons/watch.svg",
+        link: "watch"
+      },
+      {
+        name: "AirPods",
+        img: "/icons/airpods.svg",
+        link: "airpods"
+      },
+      {
+        name: "Аксессуары",
+        img: "/icons/accessories.svg",
+        link: "accessories"
+      },
+      {
+        img: "/icons/dyson.svg",
+        style: "height: 70px; width: 100px;",
+        link: "dyson"
+      },
+      {
+        img: "/icons/ps.jpg",
+        style: "height: 70px; width: 120px;",
+        link: "ps"
+      }
+    ]
+    }
+  }
+};
 </script>
 <style scoped lang="scss">
 .mainHeader {
