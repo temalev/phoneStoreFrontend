@@ -19,7 +19,8 @@ export default {
   z-index: 5;
   width: 100%;
   height: 100%;
-  background-color: rgba(168, 168, 168, 0.233);
+  background-color: rgba(255, 255, 255, 0.636);
+  backdrop-filter: blur(5px);
 }
 .shopBagContainer {
   position: fixed;

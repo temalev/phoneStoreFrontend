@@ -25,7 +25,6 @@ export default {
         this.isDesktop = true;
       }
       this.reveal = true;
-      console.log(this.isDesktop);
     });
   },
   methods: {

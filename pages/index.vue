@@ -17,12 +17,13 @@ export default {};
   gap: 50px;
 }
 .welcome {
+  position: relative;
   background-image: url(~/public/images/mainPageBackground.jpeg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 700px;
+  height: 80vh;
   box-shadow: inset 2px 0 10px rgb(144, 144, 144);
 }
 </style>

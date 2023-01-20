@@ -22,23 +22,28 @@
         <span class="name">{{ link.name }}</span>
       </NuxtLink>
     </nav>
+
     <div class="leftContainer">
       <div class="call" />
       <div class="shopBag" @click="isShopBag = true" />
     </div>
+
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
-  <div v-else class="mainHeaderMobile">ooo</div>
+
+  <div v-else class="mainHeader">ooo</div>
 </template>
 <script>
 export default {
   name: 'theHeader',
+
   props: {
     isDesktop: {
       type: Boolean,
       default: true,
     },
   },
+
   data() {
     return {
       arrLinks: [
@@ -88,6 +93,7 @@ export default {
   },
 };
 </script>
+
 <style scoped lang="scss">
 .mainHeader {
   position: fixed;
