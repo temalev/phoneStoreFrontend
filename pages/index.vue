@@ -11,12 +11,20 @@ export default {
   data() {
     return {
       categories: null,
+      all: null,
     };
   },
   async mounted() {
     const res = await this.$nuxt.$api.getCategories(this.$route);
     if (res.success) {
       this.categories = res.data;
+    } else {
+      console.log('Упс, ошибка!');
+    }
+
+    const res2 = await this.$nuxt.$api.getAll(this.$route);
+    if (res2.success) {
+      this.all = res2.data;
     } else {
       console.log('Упс, ошибка!');
     }
