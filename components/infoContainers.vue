@@ -1,34 +1,40 @@
 <template>
-<div class="mainInfoContainers">
-  <div class="leftContainer">
-    <div class="textInfoContainer">
-      <h3 class="header">Оригинальность</h3>
-      <p class="textInfo">Вся техника, представленная в нашем магазине, только новая и оригинальная.</p>
-    </div>
-    <div class="imgBackground__leftContainer" />
-  </div>
-  <div class="rightContainers">
-    <div class="rightContainer">
+  <div class="mainInfoContainers">
+    <div class="leftContainer">
       <div class="textInfoContainer">
-        <h3 class="header">Оплата</h3>
-        <p class="textInfo">Оплачивайте в той валюте, в которой удобно вам.</p>
+        <h3 class="header">Оригинальность</h3>
+        <p class="textInfo">
+          Вся техника, представленная в нашем магазине, только новая и оригинальная.
+        </p>
       </div>
-      <div class="imgBackground__rightContainer" />
+      <div class="imgBackground__leftContainer" />
     </div>
-    <div class="rightContainer">
-      <div class="textInfoContainer">
-        <h3 class="header">Доставка</h3>
-        <p class="textInfo">Мы осуществляем курьерскую доставку в Москве и Московской области, а также в г. Рязань с помощью собственного штата курьеров.</p>
+    <div class="rightContainers">
+      <div class="rightContainer">
+        <div class="textInfoContainer">
+          <h3 class="header">Оплата</h3>
+          <p class="textInfo">Оплачивайте в той валюте, в которой удобно вам.</p>
+        </div>
+        <div class="imgBackground__rightContainer" />
       </div>
-      <div class="imgBackground__rightContainer" style="background-image: url(/images/delivery.jpg); width: 350px; " />
+      <div class="rightContainer">
+        <div class="textInfoContainer">
+          <h3 class="header">Доставка</h3>
+          <p class="textInfo">
+            Мы осуществляем курьерскую доставку в Москве и Московской области, а также в г. Рязань с
+            помощью собственного штата курьеров.
+          </p>
+        </div>
+        <div
+          class="imgBackground__rightContainer"
+          style="background-image: url(/images/delivery.jpg); width: 350px"
+        />
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
-export default {
-
-}
+export default {};
 </script>
 <style scoped>
 .mainInfoContainers {
@@ -70,7 +76,7 @@ export default {
 }
 
 .textInfoContainer {
-  font-family: Helvetica, Arial,  sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   width: 280px;
   z-index: 2;
   margin: 30px;

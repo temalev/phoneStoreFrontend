@@ -3,14 +3,17 @@
     <NuxtLink to="/">
       <div class="logo" />
     </NuxtLink>
-    
+
     <nav class="menu">
-
-          <NuxtLink v-for="link in arrLinks" :key="link.name" :to="`product/${link.link}`" class="navLink">
-            <div class="ico" :style="{backgroundImage: `url(${link.img}); ${link.style}`}" />
-            <span class="name">{{ link.name }}</span>
-          </NuxtLink>
-
+      <NuxtLink
+        v-for="link in arrLinks"
+        :key="link.name"
+        :to="`product/${link.link}`"
+        class="navLink"
+      >
+        <div class="ico" :style="{ backgroundImage: `url(${link.img}); ${link.style}` }" />
+        <span class="name">{{ link.name }}</span>
+      </NuxtLink>
     </nav>
     <div class="leftContainer">
       <div class="call" />
@@ -21,54 +24,54 @@
 </template>
 <script>
 export default {
-  name: 'header',
+  name: 'theHeader',
   data() {
     return {
       arrLinks: [
-      {
-        name: "IPhone",
-        img: "/icons/iphone.svg",
-        link: "iphone"
-      },
-      {
-        name: "IPad",
-        img: "/icons/ipad.svg",
-        link: "ipad"
-      },
-      {
-        name: "Mac",
-        img: "/icons/mac.svg",
-        link: "mac"
-      },
-      {
-        name: "Watch",
-        img: "/icons/watch.svg",
-        link: "watch"
-      },
-      {
-        name: "AirPods",
-        img: "/icons/airpods.svg",
-        link: "airpods"
-      },
-      {
-        name: "Аксессуары",
-        img: "/icons/accessories.svg",
-        link: "accessories"
-      },
-      {
-        img: "/icons/dyson.svg",
-        style: "height: 70px; width: 100px;",
-        link: "dyson"
-      },
-      {
-        img: "/icons/ps.jpg",
-        style: "height: 70px; width: 120px;",
-        link: "ps"
-      }
-    ],
-    isShopBag: false,
-    }
-  }
+        {
+          name: 'IPhone',
+          img: '/icons/iphone.svg',
+          link: 'iphone',
+        },
+        {
+          name: 'IPad',
+          img: '/icons/ipad.svg',
+          link: 'ipad',
+        },
+        {
+          name: 'Mac',
+          img: '/icons/mac.svg',
+          link: 'mac',
+        },
+        {
+          name: 'Watch',
+          img: '/icons/watch.svg',
+          link: 'watch',
+        },
+        {
+          name: 'AirPods',
+          img: '/icons/airpods.svg',
+          link: 'airpods',
+        },
+        {
+          name: 'Аксессуары',
+          img: '/icons/accessories.svg',
+          link: 'accessories',
+        },
+        {
+          img: '/icons/dyson.svg',
+          style: 'height: 70px; width: 100px;',
+          link: 'dyson',
+        },
+        {
+          img: '/icons/ps.jpg',
+          style: 'height: 70px; width: 120px;',
+          link: 'ps',
+        },
+      ],
+      isShopBag: false,
+    };
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -100,10 +103,10 @@ export default {
 }
 
 .menu {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .navLink {
@@ -125,7 +128,7 @@ export default {
 }
 
 .name {
-  font-family: Inter, Helvetica, Arial,  sans-serif;
+  font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 400;
 }
