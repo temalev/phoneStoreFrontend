@@ -5,11 +5,13 @@
     </div>
   </Teleport>
 </template>
+
 <script>
 export default {
   emits: ['closeShopBag'],
 };
 </script>
+
 <style scoped>
 .background {
   position: fixed;

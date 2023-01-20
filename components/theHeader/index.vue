@@ -1,5 +1,5 @@
 <template>
-  <div class="mainHeader">
+  <div v-if="isDesktop" class="mainHeader">
     <NuxtLink to="/">
       <div class="logo" />
     </NuxtLink>
@@ -8,10 +8,17 @@
       <NuxtLink
         v-for="link in arrLinks"
         :key="link.name"
-        :to="`product/${link.link}`"
+        :to="`/product/${link.link}`"
         class="navLink"
       >
-        <div class="ico" :style="{ backgroundImage: `url(${link.img}); ${link.style}` }" />
+        <div
+          class="ico"
+          :style="{
+            backgroundImage: `url(${link.img})`,
+            width: `${link.style?.width}px`,
+            height: `${link.style?.height}px`,
+          }"
+        />
         <span class="name">{{ link.name }}</span>
       </NuxtLink>
     </nav>
@@ -21,10 +28,17 @@
     </div>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
+  <div v-else class="mainHeaderMobile">ooo</div>
 </template>
 <script>
 export default {
   name: 'theHeader',
+  props: {
+    isDesktop: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       arrLinks: [
@@ -60,12 +74,12 @@ export default {
         },
         {
           img: '/icons/dyson.svg',
-          style: 'height: 70px; width: 100px;',
+          style: { height: '70', width: '100' },
           link: 'dyson',
         },
         {
           img: '/icons/ps.jpg',
-          style: 'height: 70px; width: 120px;',
+          style: { height: '70', width: '120' },
           link: 'ps',
         },
       ],
