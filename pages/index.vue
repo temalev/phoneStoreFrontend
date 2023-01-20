@@ -7,7 +7,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      categories: null,
+    };
+  },
+  async mounted() {
+    const res = await this.$nuxt.$api.getCategories(this.$route);
+    if (res.success) {
+      this.categories = res.data;
+    } else {
+      console.log('Упс, ошибка!');
+    }
+  },
+};
 </script>
 
 <style scoped lang="scss">
