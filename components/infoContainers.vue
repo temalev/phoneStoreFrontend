@@ -36,7 +36,7 @@
 <script>
 export default {};
 </script>
-<style scoped>
+<style scoped lang="scss">
 .mainInfoContainers {
   display: flex;
   gap: 20px;
@@ -50,10 +50,15 @@ export default {};
   flex-direction: column;
   overflow: hidden;
   flex: 1;
+  min-width: 310px;
   height: 400px;
   background-color: #fff;
   box-shadow: 0 0 10px rgb(212, 212, 212);
   border-radius: 22px;
+
+  @media (max-width: 900px) {
+    height: 300px;
+  }
 }
 
 .rightContainers {
@@ -66,7 +71,7 @@ export default {};
 
 .rightContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   flex: 1;
   position: relative;
@@ -76,10 +81,29 @@ export default {};
 }
 
 .textInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   font-family: Helvetica, Arial, sans-serif;
   width: 280px;
   z-index: 2;
   margin: 30px;
+  position: absolute;
+  left: 0;
+  @media (max-width: 900px) {
+    margin: 12px 20px;
+    min-width: 280px;
+    width: fit-content;
+  }
+}
+
+.textInfo {
+  display: inline;
+  background-color: rgba(255, 255, 255, 0.636);
+  border-radius: 2px;
+  padding-right: 5px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .imgBackground__leftContainer {
@@ -92,6 +116,9 @@ export default {};
   height: 400px;
   bottom: 0;
   z-index: 1;
+  @media (max-width: 900px) {
+    height: 300px;
+  }
 }
 
 .imgBackground__rightContainer {
