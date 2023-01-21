@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   head: {
     titleTemplate: '%s - Nuxt',
+    meta: [{ name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' }],
   },
   runtimeConfig: {
     public: {

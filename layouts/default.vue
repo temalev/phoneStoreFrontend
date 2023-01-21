@@ -9,8 +9,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useApi } from '~/stores/api';
 
 const determiningWidth = useDetermininingWidth();
+const api = useApi();
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
@@ -19,6 +21,7 @@ onMounted(() => {
   } else {
     determiningWidth.editDesktop(true);
   }
+  api.getCategories();
 });
 
 //   created() {

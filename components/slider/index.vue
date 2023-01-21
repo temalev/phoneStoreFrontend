@@ -8,53 +8,13 @@
     </NuxtLink>
   </div>
 </template>
+
 <script setup>
 import { useCategories } from '~/stores/categories';
 
 const categories = useCategories();
-// export default {
-//   name: 'Slider',
-//   data() {
-//     return {
-//       cards: [
-//         {
-//           name: 'IPhone',
-//           img: '/images/iphone.jpeg',
-//         },
-//         {
-//           name: 'IPad',
-//           img: '/images/ipad.jpeg',
-//         },
-//         {
-//           name: 'Mac',
-//           img: '/images/mac.jpeg',
-//         },
-//         {
-//           name: 'Watch',
-//           img: '/images/watchCard.jpeg',
-//         },
-//         {
-//           name: 'Airpods',
-//           img: '/images/airpods.jpeg',
-//         },
-//         {
-//           name: 'Аксессуары',
-//           img: '/images/accessories.jpg',
-//         },
-//         {
-//           name: 'Dyson',
-//           img: '/images/dyson.jpeg',
-//         },
-//         {
-//           name: 'SonyPlaystation 5',
-//           img: '/images/ps.jpeg',
-
-//         },
-//       ],
-//     };
-//   },
-// };
 </script>
+
 <style scoped lang="scss">
 .mainSliderContainer {
   display: flex;
