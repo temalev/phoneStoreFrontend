@@ -1,5 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineStore } from 'pinia';
 
-// eslint-disable-next-line import/prefer-default-export
-export const useDetermininingWidth = defineStore('determininingWidth', {});
+export const useDetermininingWidth = defineStore('determininingWidth', {
+  state: () => ({
+    isDesktop: true,
+  }),
+
+  actions: {
+    editDesktop(val) {
+      this.isDesktop = val;
+    },
+  },
+});

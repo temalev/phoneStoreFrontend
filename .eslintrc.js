@@ -12,5 +12,11 @@ module.exports = {
   plugins: ['vue'],
   rules: {
     'vue/multi-word-component-names': 0,
+    'import/prefer-default-export': 'off',
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
   },
 };

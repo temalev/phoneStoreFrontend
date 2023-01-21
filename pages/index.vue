@@ -2,34 +2,40 @@
   <div class="main">
     <div class="welcome"></div>
     <Slider />
-    <InfoContainers />
+    <div v-if="determiningWidth.isDesktop" class="wrapper">
+      <InfoContainers />
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      categories: null,
-      all: null,
-    };
-  },
-  async mounted() {
-    const res = await this.$nuxt.$api.getCategories(this.$route);
-    if (res.success) {
-      this.categories = res.data;
-    } else {
-      console.log('Упс, ошибка!');
-    }
+<script setup>
+import { useDetermininingWidth } from '~/stores/determiningWidth';
 
-    const res2 = await this.$nuxt.$api.getAll(this.$route);
-    if (res2.success) {
-      this.all = res2.data;
-    } else {
-      console.log('Упс, ошибка!');
-    }
-  },
-};
+const determiningWidth = useDetermininingWidth();
+
+// export default {
+//   data() {
+//     return {
+//       categories: null,
+//       all: null,
+//     };
+//   },
+//   async mounted() {
+//     const res = await this.$nuxt.$api.getCategories(this.$route);
+//     if (res.success) {
+//       this.categories = res.data;
+//     } else {
+//       console.log('Упс, ошибка!');
+//     }
+
+//     const res2 = await this.$nuxt.$api.getAll(this.$route);
+//     if (res2.success) {
+//       this.all = res2.data;
+//     } else {
+//       console.log('Упс, ошибка!');
+//     }
+//   },
+// };
 </script>
 
 <style scoped lang="scss">
@@ -40,6 +46,7 @@ export default {
 }
 .welcome {
   position: relative;
+  margin-top: 70px;
   background-image: url(~/public/images/mainPageBackground.jpeg);
   background-position: center;
   background-repeat: no-repeat;

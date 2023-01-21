@@ -1,7 +1,10 @@
 <template>
   <Teleport to="body">
-    <div class="background" @click="$emit('closeShopBag')">
-      <div class="shopBagContainer">Тут пока одиноко</div>
+    <div class="background" @click.self="$emit('closeShopBag')">
+      <div class="shopBagContainer">
+        <CustomInput :label="' ФИО*'" />
+        Тут пока одиноко
+      </div>
     </div>
   </Teleport>
 </template>
@@ -20,7 +23,6 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.636);
-  backdrop-filter: blur(5px);
 }
 .shopBagContainer {
   position: fixed;

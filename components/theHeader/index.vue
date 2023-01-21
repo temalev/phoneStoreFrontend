@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isDesktop" class="mainHeader">
+  <div v-if="determiningWidth.isDesktop" class="mainHeader">
     <NuxtLink to="/">
       <div class="logo" />
     </NuxtLink>
@@ -27,77 +27,76 @@
       <div class="call" />
       <div class="shopBag" @click="isShopBag = true" />
     </div>
-
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
 
-  <div v-else class="mainHeader">ooo</div>
+  <div v-else class="mainHeader">
+    <div class="btnMenu" />
+    <div class="logo" />
+    <div class="leftContainer">
+      <div class="call" />
+      <div class="shopBag" @click="isShopBag = true" />
+    </div>
+    <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
+  </div>
 </template>
-<script>
-export default {
-  name: 'theHeader',
 
-  props: {
-    isDesktop: {
-      type: Boolean,
-      default: true,
-    },
-  },
+<script setup>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ref } from 'vue';
+import { useDetermininingWidth } from '~/stores/determiningWidth';
 
-  data() {
-    return {
-      arrLinks: [
-        {
-          name: 'IPhone',
-          img: '/icons/iphone.svg',
-          link: 'iphone',
-        },
-        {
-          name: 'IPad',
-          img: '/icons/ipad.svg',
-          link: 'ipad',
-        },
-        {
-          name: 'Mac',
-          img: '/icons/mac.svg',
-          link: 'mac',
-        },
-        {
-          name: 'Watch',
-          img: '/icons/watch.svg',
-          link: 'watch',
-        },
-        {
-          name: 'AirPods',
-          img: '/icons/airpods.svg',
-          link: 'airpods',
-        },
-        {
-          name: 'Аксессуары',
-          img: '/icons/accessories.svg',
-          link: 'accessories',
-        },
-        {
-          img: '/icons/dyson.svg',
-          style: { height: '70', width: '100' },
-          link: 'dyson',
-        },
-        {
-          img: '/icons/ps.jpg',
-          style: { height: '70', width: '120' },
-          link: 'ps',
-        },
-      ],
-      isShopBag: false,
-    };
+const arrLinks = ref([
+  {
+    name: 'IPhone',
+    img: '/icons/iphone.svg',
+    link: 'iphone',
   },
-};
+  {
+    name: 'IPad',
+    img: '/icons/ipad.svg',
+    link: 'ipad',
+  },
+  {
+    name: 'Mac',
+    img: '/icons/mac.svg',
+    link: 'mac',
+  },
+  {
+    name: 'Watch',
+    img: '/icons/watch.svg',
+    link: 'watch',
+  },
+  {
+    name: 'AirPods',
+    img: '/icons/airpods.svg',
+    link: 'airpods',
+  },
+  {
+    name: 'Аксессуары',
+    img: '/icons/accessories.svg',
+    link: 'accessories',
+  },
+  {
+    img: '/icons/dyson.svg',
+    style: { height: '70', width: '100' },
+    link: 'dyson',
+  },
+  {
+    img: '/icons/ps.jpg',
+    style: { height: '70', width: '120' },
+    link: 'ps',
+  },
+]);
+const isShopBag = ref(false);
+const determiningWidth = useDetermininingWidth();
 </script>
 
 <style scoped lang="scss">
 .mainHeader {
   position: fixed;
   z-index: 5;
+  top: 0;
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -185,5 +184,14 @@ export default {
   width: 40px;
   height: 40px;
   cursor: pointer;
+}
+
+.btnMenu {
+  background-image: url(~/public/icons/burger.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
 }
 </style>
