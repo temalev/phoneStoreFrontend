@@ -3,18 +3,19 @@ import { defineStore } from 'pinia';
 
 export const useApi = defineStore('api', {
   state: () => ({
-    categories: true,
+    categories: null,
+    category: null,
     // eslint-disable-next-line no-undef
     config: useRuntimeConfig(),
   }),
 
   actions: {
     async getCategories() {
-      console.log('run');
       const res = await fetch(`${this.config.public.URL}/category`, {
         method: 'GET',
       });
       const data = await res.json();
+      this.categories = data;
       return data;
     },
     getAll: async () => {
@@ -23,6 +24,9 @@ export const useApi = defineStore('api', {
       });
       const data = await res.json();
       return data;
+    },
+    getCategory(uuid) {
+      this.category = this.categories.filter((el) => el.uuid === uuid);
     },
   },
 });

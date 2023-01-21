@@ -1,13 +1,14 @@
 <template>
   <div class="mainCustomInput">
     <label for="">{{ label }}</label>
-    <input class="customInput" type="text" />
+    <input class="customInput" type="text" :placeholder="placeholder" />
   </div>
 </template>
 <script setup>
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   label: String,
+  placeholder: String,
 });
 </script>
 <style scoped>
@@ -17,6 +18,10 @@ const props = defineProps({
   gap: 5px;
 }
 
+label {
+  font-weight: 300;
+  font-size: 17px;
+}
 .customInput {
   padding: 10px;
   border-radius: 10px;

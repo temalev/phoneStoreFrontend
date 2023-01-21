@@ -10,6 +10,7 @@
         :key="link.name"
         :to="`/product/${link.link}`"
         class="navLink"
+        @click="api.getCategory(link.uuid)"
       >
         <div
           class="ico"
@@ -32,7 +33,13 @@
 
   <div v-else class="mainHeader">
     <div class="wrapper" style="justify-content: flex-start">
-      <div class="btnMenu" />
+      <div
+        class="btnMenu"
+        @click="isMenu = !isMenu"
+        :style="{
+          backgroundImage: !isMenu ? 'url(/icons/burger.svg)' : 'url(/icons/burgerClose.svg)',
+        }"
+      />
     </div>
 
     <div class="wrapper" style="justify-content: center">
@@ -45,6 +52,11 @@
         <div class="shopBag" @click="isShopBag = true" />
       </div>
     </div>
+    <Teleport v-if="isMenu" to="body">
+      <div class="menuModal">
+        <nav class="menuModalLinks">k</nav>
+      </div>
+    </Teleport>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
 </template>
@@ -54,10 +66,13 @@
 import { ref } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useCategories } from '~/stores/categories';
+import { useApi } from '~/stores/api';
 
 const isShopBag = ref(false);
+const isMenu = ref(false);
 const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
+const api = useApi();
 </script>
 
 <style scoped lang="scss">
@@ -161,7 +176,6 @@ const categories = useCategories();
 }
 
 .btnMenu {
-  background-image: url(~/public/icons/burger.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -172,5 +186,13 @@ const categories = useCategories();
 .wrapper {
   display: flex;
   flex: 1;
+}
+
+.menuModal {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
 }
 </style>

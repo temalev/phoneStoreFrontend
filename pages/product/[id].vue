@@ -1,11 +1,13 @@
 <template>
-<div class="mainProduct">hi</div>
+  <div class="mainProduct">{{ api.category }}</div>
 </template>
-<script>
-export default {
+<script setup>
+import { useApi } from '~/stores/api';
 
-}
+const api = useApi();
 </script>
 <style scoped>
-
+.mainProduct {
+  margin-top: 70px;
+}
 </style>

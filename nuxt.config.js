@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.css'],
   modules: ['@pinia/nuxt'],
   head: {
+    title: 'rk-tech',
     titleTemplate: '%s - Nuxt',
     meta: [{ name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' }],
   },
