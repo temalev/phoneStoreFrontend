@@ -1,5 +1,5 @@
 <template>
-  <div class="mainAdmin">{{ determiningWidth.message }}</div>
+  <div class="mainAdmin">Админка</div>
 </template>
 <script setup lang="ts">
 import { useDetermininingWidth } from '~/stores/determiningWidth';

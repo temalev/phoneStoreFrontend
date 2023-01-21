@@ -6,7 +6,7 @@
 
     <nav class="menu">
       <NuxtLink
-        v-for="link in arrLinks"
+        v-for="link in categories.categories"
         :key="link.name"
         :to="`/product/${link.link}`"
         class="navLink"
@@ -14,7 +14,7 @@
         <div
           class="ico"
           :style="{
-            backgroundImage: `url(${link.img})`,
+            backgroundImage: `url(${link.ico})`,
             width: `${link.style?.width}px`,
             height: `${link.style?.height}px`,
           }"
@@ -53,51 +53,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useCategories } from '~/stores/categories';
 
-const arrLinks = ref([
-  {
-    name: 'IPhone',
-    img: '/icons/iphone.svg',
-    link: 'iphone',
-  },
-  {
-    name: 'IPad',
-    img: '/icons/ipad.svg',
-    link: 'ipad',
-  },
-  {
-    name: 'Mac',
-    img: '/icons/mac.svg',
-    link: 'mac',
-  },
-  {
-    name: 'Watch',
-    img: '/icons/watch.svg',
-    link: 'watch',
-  },
-  {
-    name: 'AirPods',
-    img: '/icons/airpods.svg',
-    link: 'airpods',
-  },
-  {
-    name: 'Аксессуары',
-    img: '/icons/accessories.svg',
-    link: 'accessories',
-  },
-  {
-    img: '/icons/dyson.svg',
-    style: { height: '70', width: '100' },
-    link: 'dyson',
-  },
-  {
-    img: '/icons/ps.jpg',
-    style: { height: '70', width: '120' },
-    link: 'ps',
-  },
-]);
 const isShopBag = ref(false);
 const determiningWidth = useDetermininingWidth();
+const categories = useCategories();
 </script>
 
 <style scoped lang="scss">
