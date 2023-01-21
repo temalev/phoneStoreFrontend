@@ -6,11 +6,11 @@
   </div>
 </template>
 <script setup>
+// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { useDetermininingWidth } from '~/stores/determiningWidth';
-import { useApi } from '~/stores/api';
 
 const determiningWidth = useDetermininingWidth();
-const api = useApi;
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
@@ -19,18 +19,8 @@ onMounted(() => {
   } else {
     determiningWidth.editDesktop(true);
   }
-  console.log(api.getComponents);
 });
-// import { useDetermininingWidth } from '~/stores/determiningWidth';
 
-// export default {
-//   data() {
-//     return {};
-//   },
-//   setup() {
-//     const determiningWidth = useDetermininingWidth();
-//     return determiningWidth;
-//   },
 //   created() {
 //     if (process.client) {
 //       window.addEventListener('resize', this.onResize);
