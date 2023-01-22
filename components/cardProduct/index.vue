@@ -6,6 +6,9 @@
         <h3>{{ product.name }}</h3>
         <span class="price">{{ price }} <strong>₽</strong> </span>
       </div>
+      <div class="optionsContainer">
+        <Option v-for="option in product.options" :key="option.name" :option="option" />
+      </div>
     </div>
     <button class="buttonProduct">В корзину</button>
   </div>
@@ -18,6 +21,16 @@ const props = defineProps({
   product: Object,
 });
 const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
+// const options = computed(() => {
+//   const opt = null;
+//   for (const option of options) {
+//     for (const item of option.items) {
+
+//     }
+//   }
+//   return opt;
+// });
+// console.log(options);
 </script>
 <style scoped lang="scss">
 .mainCardProduct {
@@ -25,7 +38,6 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
   flex-direction: column;
   align-content: center;
   width: 300px;
-  height: 400px;
   border: 1px solid #eee;
   box-shadow: 0 0 10px #eee;
   border-radius: 12px;
@@ -38,6 +50,9 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
 }
 
 .infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin: 10px;
 }
 
@@ -47,6 +62,12 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
   font-size: 18px;
   font-weight: 300;
   color: #373737;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .buttonProduct {

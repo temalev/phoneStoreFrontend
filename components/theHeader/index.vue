@@ -10,6 +10,7 @@
         :key="link.name"
         :to="`/product/${link.link}`"
         class="navLink"
+        @click="getProduct(link.link)"
       >
         <div
           class="ico"
@@ -72,6 +73,11 @@ const isMenu = ref(false);
 const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
 const api = useApi();
+
+const getProduct = (link) => {
+  const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
+  api.getProducts(uuidSelectCategory);
+};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
