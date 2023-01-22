@@ -10,7 +10,6 @@
         :key="link.name"
         :to="`/product/${link.link}`"
         class="navLink"
-        @click="api.getCategory(link.uuid)"
       >
         <div
           class="ico"
@@ -73,6 +72,14 @@ const isMenu = ref(false);
 const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
 const api = useApi();
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  const currentCategory = window.location.href.split('/').at(-1);
+  const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
+
+  api.getProducts(uuidCurrentCategory);
+});
 </script>
 
 <style scoped lang="scss">
