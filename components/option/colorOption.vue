@@ -1,6 +1,6 @@
 <template>
   <div class="mainColorOption">
-    <h3>{{ option.name }}</h3>
+    <h3 class="optionName">{{ option.name }}</h3>
     <div class="colorContainer">
       <div
         v-for="item in option.items"
@@ -55,6 +55,10 @@ export default {
   gap: 10px;
 }
 
+.optionName {
+  font-weight: 300;
+}
+
 .color {
   cursor: pointer;
 }
@@ -69,8 +73,8 @@ export default {
 
 .colorDot {
   position: relative;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: #eee;
   transition: 0.2s;
@@ -83,8 +87,8 @@ export default {
   position: absolute;
   top: -5px;
   left: -5px;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: 2px solid black;
   padding: 3px;

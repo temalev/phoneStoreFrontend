@@ -3,7 +3,7 @@
     <img class="imgProduct" src="" alt="" />
     <div class="infoContainer">
       <div class="header">
-        <h3>{{ product.name }}</h3>
+        <h3 class="productName">{{ product.name }}</h3>
         <span class="price">{{ price }} <strong>₽</strong> </span>
       </div>
       <div class="optionsContainer">
@@ -52,8 +52,15 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
 .infoContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 10px;
+  gap: 20px;
+  margin: 20px;
+}
+
+.productName {
+  font-size: 20px;
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
 }
 
 .price {
@@ -67,7 +74,7 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
 .optionsContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .buttonProduct {

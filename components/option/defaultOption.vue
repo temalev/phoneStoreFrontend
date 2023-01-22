@@ -1,46 +1,59 @@
 <template>
   <div class="mainColorOption">
-    <h3>Память</h3>
-    <div class="colorContainer">
-      <div class="color">
-        <label class="labelColor" for="i" />
-        <input id="i" class="inputColor" type="radio" />
+    <h3 class="optionName">{{ option?.name }}</h3>
+    <div class="itemsContainer">
+      <div
+        v-for="btn in option.items"
+        :key="btn.value"
+        class="btnOption"
+        @click="selected = btn.id"
+        :style="{
+          borderColor: selected === btn.id ? '#2c2c2c' : '#eee',
+        }"
+      >
+        {{ btn.value }}
       </div>
     </div>
   </div>
 </template>
-<script></script>
-<style scoped>
-.inputColor {
-  appearance: none;
-  position: absolute;
+<script>
+export default {
+  props: {
+    option: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      selected: null,
+    };
+  },
+};
+</script>
+<style scoped lang="scss">
+.mainColorOption {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.labelColor {
-  width: 40px;
-  height: 40px;
-  display: block;
+.optionName {
+  font-weight: 300;
+}
+.itemsContainer {
+  display: flex;
+  gap: 10px;
 }
 
-.labelColor:before {
-  content: '';
-  position: relative;
-  background-color: rgb(155, 155, 155);
-  border: 1px solid transparent;
-  width: 40px;
-  height: 40px;
-  display: block;
-  border-radius: 50%;
-}
-
-.inputColor:checked + .labelColor:before {
-  content: '';
-  position: relative;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid black;
-  width: 40px;
-  height: 40px;
-  display: block;
-  border-radius: 50%;
+.btnOption {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    border: 1px solid #2c2c2c;
+  }
 }
 </style>

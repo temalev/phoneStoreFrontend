@@ -30,7 +30,7 @@ export const useApi = defineStore('api', {
       this.category = this.categories.filter((el) => el.uuid === uuid);
     },
     async getProducts(uuid) {
-      const res = await fetch(`${this.config.public.URL}product?categoryUUID=${uuid}`, {
+      const res = await fetch(`${this.config.public.URL}/product?categoryUUID=${uuid}`, {
         method: 'GET',
       });
       const data = await res.json();
