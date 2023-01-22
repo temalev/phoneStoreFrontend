@@ -11,14 +11,14 @@
         <div
           class="colorDot"
           :style="{
-            backgroundColor: item.values,
+            backgroundColor: item.value,
           }"
         >
           <div
             v-if="selected === item.id"
             class="selectedColorDot"
             :style="{
-              borderColor: item.values,
+              borderColor: item.value,
             }"
           ></div>
         </div>
@@ -48,11 +48,15 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .mainColorOption {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.color {
+  cursor: pointer;
 }
 .colorContainer {
   display: flex;
@@ -69,6 +73,10 @@ export default {
   height: 30px;
   border-radius: 50%;
   background-color: #eee;
+  transition: 0.2s;
+  &:hover {
+    box-shadow: 0 0 5px #9e9e9e;
+  }
 }
 
 .selectedColorDot {
