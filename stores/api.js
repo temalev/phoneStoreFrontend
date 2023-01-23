@@ -12,6 +12,7 @@ export const useApi = defineStore('api', {
 
   actions: {
     async getCategories() {
+      console.log(this.config.public.URL);
       const res = await fetch(`${this.config.public.URL}/category`, {
         method: 'GET',
       });
