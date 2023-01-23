@@ -23,35 +23,6 @@ onMounted(() => {
   }
   api.getCategories();
 });
-
-//   created() {
-//     if (process.client) {
-//       window.addEventListener('resize', this.onResize);
-//     }
-//   },
-//   mounted() {
-//     console.log(this.determiningWidth.isDesktop);
-//     this.$nextTick(() => {
-//       if (window.screen.width <= 700) {
-//         this.isDesktop = false;
-//       } else {
-//         this.isDesktop = true;
-//       }
-//     });
-//   },
-//   methods: {
-//     onResize() {
-//       if (process.client) {
-//         if (window.screen.width <= 700) {
-//           this.isDesktop = false;
-//         } else {
-//           this.isDesktop = true;
-//         }
-//       }
-//       console.log(this.isDesktop);
-//     },
-//   },
-// };
 </script>
 
 <style scoped>

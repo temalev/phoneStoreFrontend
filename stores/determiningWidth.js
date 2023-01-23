@@ -10,13 +10,13 @@ export const useDetermininingWidth = defineStore('determininingWidth', {
     editDesktop(val) {
       this.isDesktop = val;
     },
-    onResize(width) {
-      console.log(width);
-      if (window.screen.width <= 700) {
-        this.isDesktop = false;
-      } else {
-        this.isDesktop = true;
-      }
-    },
+    // onResize(width) {
+    //   console.log(width);
+    //   if (window.screen.width <= 700) {
+    //     this.isDesktop = false;
+    //   } else {
+    //     this.isDesktop = true;
+    //   }
+    // },
   },
 });

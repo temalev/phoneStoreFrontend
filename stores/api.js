@@ -12,7 +12,6 @@ export const useApi = defineStore('api', {
 
   actions: {
     async getCategories() {
-      console.log(this.config.public.URL);
       const res = await fetch(`${this.config.public.URL}/category`, {
         method: 'GET',
       });
@@ -20,6 +19,7 @@ export const useApi = defineStore('api', {
       this.categories = data;
       return data;
     },
+
     getAll: async () => {
       const res = await fetch(`${this.config.public.URL}/product`, {
         method: 'GET',
@@ -27,16 +27,23 @@ export const useApi = defineStore('api', {
       const data = await res.json();
       return data;
     },
+
     getCategory(uuid) {
       this.category = this.categories.filter((el) => el.uuid === uuid);
     },
+
     async getProducts(uuid) {
-      const res = await fetch(`${this.config.public.URL}/product?categoryUUID=${uuid}`, {
-        method: 'GET',
-      });
-      const data = await res.json();
-      this.products = data;
-      return data;
+      if (this.config.public.URL) {
+        const res = await fetch(`${this.config.public.URL}/product?categoryUUID=${uuid}`, {
+          method: 'GET',
+        });
+        const data = await res.json();
+        this.products = data;
+        return data;
+      }
+      return {
+        success: false,
+      };
     },
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="mainCardProduct">
-    <img class="imgProduct" src="" alt="" />
+    <img class="imgProduct" :src="baseImg" alt="" />
     <div class="infoContainer">
       <div class="header">
         <h3 class="productName">{{ product.name }}</h3>
@@ -15,23 +15,33 @@
 </template>
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: Object,
 });
 const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
-// const options = computed(() => {
-//   const opt = null;
-//   for (const option of options) {
-//     for (const item of option.items) {
 
-//     }
-//   }
-//   return opt;
-// });
+const baseImg = computed(() => props.product.variants[0].optionInfo?.images[0]);
+
+const options = computed(() => {
+  const opt = null;
+  // eslint-disable-next-line
+  for (const items of props.product.options) {
+    // eslint-disable-next-line
+    for (const item of items.items) {
+      console.log(item);
+    }
+  }
+  return opt;
+});
+
+// eslint-disable-next-line no-undef
+onMounted(() => {});
+
 // console.log(options);
 </script>
+
 <style scoped lang="scss">
 .mainCardProduct {
   display: flex;
