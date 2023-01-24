@@ -7,7 +7,12 @@
         <span class="price">{{ price }} <strong>₽</strong> </span>
       </div>
       <div class="optionsContainer">
-        <Option v-for="option in product.options" :key="option.name" :option="option" />
+        <Option
+          v-for="option in product.options"
+          :key="option.name"
+          :option="option"
+          @selectedColor="(id) => (selectedColor = id)"
+        />
       </div>
     </div>
     <button class="buttonProduct">В корзину</button>
@@ -20,20 +25,15 @@ import { ref, computed } from 'vue';
 const props = defineProps({
   product: Object,
 });
+const selectedColor = ref(null);
 const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
 
-const baseImg = computed(() => props.product.variants[0].optionInfo?.images[0]);
-
-const options = computed(() => {
-  const opt = null;
-  // eslint-disable-next-line
-  for (const items of props.product.options) {
-    // eslint-disable-next-line
-    for (const item of items.items) {
-      console.log(item);
-    }
+const baseImg = computed(() => {
+  if (selectedColor.value) {
+    const selectedVariant = props.product.variants.find((el) => el.id === selectedColor.value);
+    return selectedVariant.optionInfo.images[0];
   }
-  return opt;
+  return props.product.variants[0].optionInfo?.images[0];
 });
 
 // eslint-disable-next-line no-undef

@@ -1,12 +1,12 @@
 <template>
   <div class="mainColorOption">
-    <h3 class="optionName">{{ option.name }}</h3>
+    <h3 class="optionName">{{ option.name }} {{ selectedItem }}</h3>
     <div class="colorContainer">
       <div
         v-for="item in option.items"
         :key="item.name"
         class="color"
-        @click="selectedItem = item.id"
+        @click="selectedColor(item.id)"
       >
         <div
           class="colorDot"
@@ -22,32 +22,33 @@
             }"
           ></div>
         </div>
-        <!-- <label class="labelColor" for="i" />
-        <input id="i" class="inputColor" type="radio" /> -->
       </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      selectedItem: null,
-    };
-  },
-  computed: {
-    selected() {
-      return !this.selectedItem ? this.option.items[0].id : this.selectedItem;
-    },
-  },
+
+<script setup>
+// eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
+import { ref, computed } from 'vue';
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  option: Object,
+});
+
+const emit = defineEmits(['selectedColor']);
+
+const selectedItem = ref(null);
+
+// eslint-disable-next-line max-len
+const selected = computed(() => (!selectedItem.value ? props.option.items[0].id : selectedItem.value));
+
+const selectedColor = (id) => {
+  selectedItem.value = id;
+  emit('selectedColor', selectedItem.value);
 };
 </script>
+
 <style scoped lang="scss">
 .mainColorOption {
   display: flex;

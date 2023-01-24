@@ -20,7 +20,7 @@
             height: `${link.style?.height}px`,
           }"
         />
-        <span class="name">{{ link.name }}</span>
+        <span v-if="link.isName" class="name">{{ link.name }}</span>
       </NuxtLink>
     </nav>
 

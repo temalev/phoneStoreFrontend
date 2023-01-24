@@ -1,6 +1,11 @@
 <template>
   <div class="mainSliderContainer">
-    <NuxtLink v-for="card in categories.categories" :key="card">
+    <NuxtLink
+      v-for="card in categories.categories"
+      :key="card"
+      :to="`/product/${card.link}`"
+      @click="getProduct(card.link)"
+    >
       <div class="productLink">
         <div class="header">{{ card.name }}</div>
         <img class="img" :src="card.img" />
@@ -11,8 +16,20 @@
 
 <script setup>
 import { useCategories } from '~/stores/categories';
+import { useApi } from '~/stores/api';
 
 const categories = useCategories();
+const api = useApi();
+
+const getProduct = (link) => {
+  const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
+  api.getProducts(uuidSelectCategory);
+};
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  console.log(categories);
+});
 </script>
 
 <style scoped lang="scss">
