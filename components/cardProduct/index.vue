@@ -11,22 +11,26 @@
           v-for="option in product.options"
           :key="option.name"
           :option="option"
-          @selectedColor="(id) => (selectedColor = id)"
+          @selectedOpt="(id) => selectedOpt(id)"
         />
       </div>
     </div>
-    <button class="buttonProduct">В корзину</button>
+    <button class="buttonProduct" @click="sendToShopBag">В корзину</button>
   </div>
 </template>
+
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
+
+const emit = defineEmits(['selectedProducts']);
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: Object,
 });
 const selectedColor = ref(null);
 const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
+const selectedOptions = ref([]);
 
 const baseImg = computed(() => {
   if (selectedColor.value) {
@@ -35,6 +39,17 @@ const baseImg = computed(() => {
   }
   return props.product.variants[0].optionInfo?.images[0];
 });
+const selectedOpt = (id) => {
+  selectedOptions.value.push(id);
+};
+
+const selectedProduct = ref([]);
+
+const sendToShopBag = () => {
+  selectedProduct.value.push([props.product, selectedOptions.value]);
+  console.log(selectedProduct.value);
+  emit('selectedProducts', selectedProduct.value);
+};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});

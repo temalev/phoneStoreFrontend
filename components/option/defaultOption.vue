@@ -6,9 +6,9 @@
         v-for="btn in option.items"
         :key="btn.value"
         class="btnOption"
-        @click="selected = btn.id"
+        @click="selectOpt(btn.id)"
         :style="{
-          borderColor: selected === btn.id ? '#2c2c2c' : '#eee',
+          borderColor: selectedOpt === btn.id ? '#2c2c2c' : '#eee',
         }"
       >
         {{ btn.value }}
@@ -16,20 +16,26 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      selected: null,
-    };
-  },
+<script setup>
+import { ref, computed } from 'vue';
+
+const emit = defineEmits(['selectedOpt']);
+
+const props = defineProps({
+  option: Object,
+});
+
+const selectedOpt = ref(props.option.items[0].id);
+
+const selectOpt = (id) => {
+  selectedOpt.value = id;
+  emit('selectedOpt', selectedOpt.value);
 };
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  emit('selectedOpt', selectedOpt.value);
+});
 </script>
 <style scoped lang="scss">
 .mainColorOption {

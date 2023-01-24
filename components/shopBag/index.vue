@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <div class="background" @click.self="$emit('closeShopBag')">
-      <div class="wrapper">
+    <div class="background" @click.self="closeShopBag()">
+      <div v-if="!isEmptyShopBag" class="wrapper">
         <div class="shopBagContainer"></div>
         <div class="orderContainer">
           <h3>Оформить заказ</h3>
@@ -20,6 +20,9 @@
           </div>
         </div>
       </div>
+      <div v-else class="empty">
+        <h3>Тут одиноко..</h3>
+      </div>
     </div>
   </Teleport>
 </template>
@@ -28,11 +31,26 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref } from 'vue';
 
+const emit = defineEmits(['closeShopBag']);
+
+const closeShopBag = () => {
+  console.log('isEmptyShopBag');
+  emit('closeShopBag');
+};
+
 const options = ref([
   { name: 'Самовывоз', info: '' },
   { name: 'Доставка по Москве', info: '' },
   { name: 'Доставка по России', info: '' },
 ]);
+
+const isEmptyShopBag = ref(true);
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  if (JSON.parse(localStorage?.orders).length) isEmptyShopBag.value = true;
+  else isEmptyShopBag.value = false;
+});
 </script>
 
 <style scoped lang="scss">
@@ -121,5 +139,12 @@ h2 {
   width: 300px;
   height: 300px;
   background-color: #eee;
+}
+
+.empty {
+  background-color: #fff;
+  padding: 50px;
+  box-shadow: 0 0 20px rgb(166, 166, 166);
+  border-radius: 32px;
 }
 </style>

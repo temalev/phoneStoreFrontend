@@ -38,15 +38,19 @@ const props = defineProps({
 
 const emit = defineEmits(['selectedColor']);
 
-const selectedItem = ref(null);
+const selectedItem = ref(props.option.items[0].id);
 
 // eslint-disable-next-line max-len
 const selected = computed(() => (!selectedItem.value ? props.option.items[0].id : selectedItem.value));
 
 const selectedColor = (id) => {
   selectedItem.value = id;
-  emit('selectedColor', selectedItem.value);
+  emit('selectedOpt', selectedItem.value);
 };
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  emit('selectedOpt', selectedItem.value);
+});
 </script>
 
 <style scoped lang="scss">

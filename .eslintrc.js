@@ -13,6 +13,9 @@ module.exports = {
   rules: {
     'vue/multi-word-component-names': 0,
     'import/prefer-default-export': 'off',
+    'no-unused-vars': 'off',
+    'eslint-disable-next-line': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
   settings: {
     'import/resolver': {
