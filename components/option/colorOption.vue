@@ -1,6 +1,6 @@
 <template>
   <div class="mainColorOption">
-    <h3 class="optionName">{{ option.name }} {{ selectedItem }}</h3>
+    <h3 class="optionName">{{ option.name.charAt(0).toUpperCase() + option.name.slice(1) }}</h3>
     <div class="colorContainer">
       <div
         v-for="item in option.items"

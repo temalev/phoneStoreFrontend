@@ -1,6 +1,6 @@
 <template>
   <div class="mainColorOption">
-    <h3 class="optionName">{{ option?.name }}</h3>
+    <h3 class="optionName">{{ option?.name.charAt(0).toUpperCase() + option?.name.slice(1) }}</h3>
     <div class="itemsContainer">
       <div
         v-for="btn in option.items"
@@ -50,6 +50,7 @@ onMounted(() => {
 .itemsContainer {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .btnOption {

@@ -35,9 +35,9 @@ const selectedOptions = ref([]);
 const baseImg = computed(() => {
   if (selectedColor.value) {
     const selectedVariant = props.product.variants.find((el) => el.id === selectedColor.value);
-    return selectedVariant.optionInfo.images[0];
+    return selectedVariant.optionsInfo.images[0];
   }
-  return props.product.variants[0].optionInfo?.images[0];
+  return props.product.variants[0].optionsInfo?.images[0];
 });
 const selectedOpt = (id) => {
   selectedOptions.value.push(id);
