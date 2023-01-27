@@ -8,10 +8,10 @@
       </div>
       <div class="optionsContainer">
         <Option
-          v-for="option in product.options"
+          v-for="(option, idOpt) in product.options"
           :key="option.name"
           :option="option"
-          @selectedOpt="(id) => selectedOpt(id)"
+          @selectedOpt="(id) => selectedOpt(id, idOpt)"
         />
       </div>
     </div>
@@ -33,28 +33,34 @@ const price = computed(() => new Intl.NumberFormat('ru').format(props.product.pr
 const selectedOptions = ref([]);
 
 const baseImg = computed(() => {
-  if (selectedColor.value) {
-    const selectedVariant = props.product.variants.find((el) => el.id === selectedColor.value);
-    return selectedVariant.optionsInfo.images[0];
+  if (selectedOptions.value.length) {
+    // eslint-disable-next-line max-len
+    let canditate = null;
+    props.product.variants
+      // eslint-disable-next-line max-len
+      .forEach(({ optionsIds }, idx) => {
+        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+
+        if (isContains) {
+          canditate = props.product.variants[idx];
+        }
+      });
+    return canditate.optionsInfo.images[0];
   }
   return props.product.variants[0].optionsInfo?.images[0];
 });
-const selectedOpt = (id) => {
-  selectedOptions.value.push(id);
+
+const selectedOpt = (id, index) => {
+  selectedOptions.value[index] = id;
 };
 
-const selectedProduct = ref([]);
-
 const sendToShopBag = () => {
-  selectedProduct.value.push([props.product, selectedOptions.value]);
-  console.log(selectedProduct.value);
-  emit('selectedProducts', selectedProduct.value);
+  const selectedProduct = [props.product, selectedOptions.value];
+  emit('selectedProducts', selectedProduct);
 };
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});
-
-// console.log(options);
 </script>
 
 <style scoped lang="scss">

@@ -36,7 +36,7 @@ const props = defineProps({
   option: Object,
 });
 
-const emit = defineEmits(['selectedColor']);
+const emit = defineEmits(['selectedOpt']);
 
 const selectedItem = ref(props.option.items[0].id);
 
