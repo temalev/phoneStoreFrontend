@@ -17,10 +17,11 @@ import { useApi } from '~/stores/api';
 
 const api = useApi();
 
+const currentCategory = ref(null);
+
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  const currentCategory = window.location.href.split('/').at(-1);
-  console.log(currentCategory);
+  currentCategory.value = window.location.href.split('/').at(-1);
 });
 const selectedProducts = (product) => {
   console.log(product);
