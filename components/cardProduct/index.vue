@@ -49,6 +49,7 @@ const baseImg = computed(() => {
           canditate = props.product.variants[idx];
         }
       });
+
     return canditate.optionsInfo.images[0];
   }
   return props.product.variants[0].optionsInfo?.images[0];

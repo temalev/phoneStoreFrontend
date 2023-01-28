@@ -2,9 +2,14 @@
   <Teleport to="body">
     <div class="background" @click.self="closeShopBag()">
       <div v-if="isEmptyShopBag" class="wrapper">
+        <div class="close" @click.self="closeShopBag()" />
         <div class="shopBagContainer">
           <h3>Корзина</h3>
           <ShopBagOrders :orders="orders" />
+          <div class="allCost">
+            <span class="name">Итого</span>
+            <span class="allPrice">200 000</span>
+          </div>
         </div>
         <div class="orderContainer">
           <h3>Оформить заказ</h3>
@@ -12,13 +17,9 @@
             <div class="inputsContainer">
               <CustomInput :label="'ФИО*'" :placeholder="'Иванов Иван Иванович'" />
               <CustomInput :label="'Телефон*'" :placeholder="'+7 900 100-00-00'" />
-            </div>
-            <div class="rightContainer">
-              <div class="btnOptionContainer">
-                <div v-for="btn in options" :key="btn.name" class="btnOption">
-                  <h2>{{ btn.name }}</h2>
-                </div>
-              </div>
+              <span>Самовывоз</span>
+              <span>Доставка по Москве</span>
+              <span>Доставка по России</span>
             </div>
           </div>
         </div>
@@ -51,7 +52,7 @@ const orders = ref(null);
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  if (JSON.parse(localStorage?.orders).length) {
+  if (localStorage?.orders) {
     isEmptyShopBag.value = true;
     orders.value = JSON.parse(localStorage?.orders);
   } else isEmptyShopBag.value = false;
@@ -70,16 +71,53 @@ h2 {
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 20px;
   top: 0;
   z-index: 5;
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.636);
+  @media (max-width: 500px) {
+    padding: 0;
+}
 }
 
 .wrapper {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 0 20px rgb(160, 160, 160);
+  border-radius: 32px;
+  padding: 50px;
+  @media (max-width: 500px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: 30px;
+    padding-top: 50px;
+}
+.close {
+  background-image: url(~/public/icons/close.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: none;
+  @media (max-width: 500px) {
+    display: block;
+}
+}
 }
 .orderContainer {
   position: relative;
@@ -87,14 +125,11 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 40px;
-  padding: 45px;
+  gap: 20px;
   font-size: 30px;
-  background-color: #fff;
-  box-shadow: 0 5px 20px #7a7a7a;
-  border-radius: 32px;
-  width: 60%;
+  width: 100%;
   height: 500px;
+  box-sizing: border-box;
 }
 
 .body {
@@ -139,13 +174,19 @@ h2 {
 }
 
 .shopBagContainer {
-  margin-top: 50px;
-  border-radius: 32px 0 0 32px;
-  width: 300px;
-  height: 300px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgb(166, 166, 166);
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-height: 320px;
+  box-sizing: border-box;
+}
+
+.allCost {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding: 5px 0;
 }
 
 .empty {
@@ -154,4 +195,5 @@ h2 {
   box-shadow: 0 0 20px rgb(166, 166, 166);
   border-radius: 32px;
 }
+
 </style>

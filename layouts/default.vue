@@ -24,8 +24,10 @@ onMounted(() => {
   } else {
     determiningWidth.editDesktop(true);
   }
-  api.orders = JSON.parse(localStorage.orders);
-  api.getCategories();
+  if (localStorage?.orders) {
+    api.orders = JSON.parse(localStorage.orders);
+    api.getCategories();
+  }
 });
 </script>
 

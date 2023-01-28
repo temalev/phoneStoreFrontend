@@ -87,7 +87,7 @@ const getProduct = (link) => {
 onMounted(() => {
   const currentCategory = window.location.href.split('/').at(-1);
   const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
-
+  console.log(api.orders);
   api.getProducts(uuidCurrentCategory);
 });
 </script>
