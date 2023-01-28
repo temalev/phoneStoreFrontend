@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>RK-Tech - {{ currentCategory }}</Title>
+  </Head>
   <div class="mainProducts">
     <CardProduct
       v-for="product in api.products"
@@ -9,11 +12,16 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
 
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  const currentCategory = window.location.href.split('/').at(-1);
+  console.log(currentCategory);
+});
 const selectedProducts = (product) => {
   console.log(product);
 };
