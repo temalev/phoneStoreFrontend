@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>RK-Tech - магазин техники Apple</Title>
+  </Head>
   <div class="main">
     <TheHeader :isDesktop="isDesktop" />
     <slot />

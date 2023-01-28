@@ -8,9 +8,11 @@ export default defineNuxtConfig({
     title: 'rk-tech',
     titleTemplate: '%s - Nuxt',
     meta: [
+      { charset: 'utf-8' },
       { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
       { name: 'yandex-verification', content: '6b51acfc4a41812d' },
     ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
   },
   runtimeConfig: {
     public: {
