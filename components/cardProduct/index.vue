@@ -22,12 +22,16 @@
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
+import { useApi } from '~/stores/api';
+
+const api = useApi();
 
 const emit = defineEmits(['selectedProducts']);
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: Object,
 });
+
 const selectedColor = ref(null);
 const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
 const selectedOptions = ref([]);
@@ -55,8 +59,9 @@ const selectedOpt = (id, index) => {
 };
 
 const sendToShopBag = () => {
-  const selectedProduct = [props.product, selectedOptions.value];
-  emit('selectedProducts', selectedProduct);
+  const selectedProduct = { product: props.product, options: selectedOptions.value };
+  api.orders.push(selectedProduct);
+  localStorage.setItem('orders', JSON.stringify(api.orders));
 };
 
 // eslint-disable-next-line no-undef

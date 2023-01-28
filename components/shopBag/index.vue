@@ -1,8 +1,11 @@
 <template>
   <Teleport to="body">
     <div class="background" @click.self="closeShopBag()">
-      <div v-if="!isEmptyShopBag" class="wrapper">
-        <div class="shopBagContainer"></div>
+      <div v-if="isEmptyShopBag" class="wrapper">
+        <div class="shopBagContainer">
+          <h3>Корзина</h3>
+          <ShopBagOrders :orders="orders" />
+        </div>
         <div class="orderContainer">
           <h3>Оформить заказ</h3>
           <div class="body">
@@ -34,7 +37,6 @@ import { ref } from 'vue';
 const emit = defineEmits(['closeShopBag']);
 
 const closeShopBag = () => {
-  console.log('isEmptyShopBag');
   emit('closeShopBag');
 };
 
@@ -45,11 +47,14 @@ const options = ref([
 ]);
 
 const isEmptyShopBag = ref(true);
+const orders = ref(null);
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  if (JSON.parse(localStorage?.orders).length) isEmptyShopBag.value = true;
-  else isEmptyShopBag.value = false;
+  if (JSON.parse(localStorage?.orders).length) {
+    isEmptyShopBag.value = true;
+    orders.value = JSON.parse(localStorage?.orders);
+  } else isEmptyShopBag.value = false;
 });
 </script>
 
@@ -138,7 +143,9 @@ h2 {
   border-radius: 32px 0 0 32px;
   width: 300px;
   height: 300px;
-  background-color: #eee;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgb(166, 166, 166);
+  padding: 20px;
 }
 
 .empty {

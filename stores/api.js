@@ -8,6 +8,7 @@ export const useApi = defineStore('api', {
     // eslint-disable-next-line no-undef
     config: useRuntimeConfig(),
     products: [],
+    orders: [],
   }),
 
   actions: {

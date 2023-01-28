@@ -7,7 +7,6 @@
       v-for="product in api.products"
       :key="product.uuid"
       :product="product"
-      @selectedProducts="(product) => selectedProducts(product)"
     />
   </div>
 </template>
@@ -18,14 +17,17 @@ import { useApi } from '~/stores/api';
 const api = useApi();
 
 const currentCategory = ref(null);
+// const orders = ref([]);
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
   currentCategory.value = window.location.href.split('/').at(-1);
 });
-const selectedProducts = (product) => {
-  console.log(product);
-};
+// const selectedProducts = (product) => {
+//   orders.value.push(product);
+//   localStorage.setItem('orders', JSON.stringify(orders.value));
+//   console.log(JSON.parse(localStorage.orders));
+// };
 </script>
 <style scoped>
 .mainProducts {

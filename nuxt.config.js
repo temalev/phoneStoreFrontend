@@ -3,7 +3,7 @@
 export default defineNuxtConfig({
   ssr: true,
   css: ['~/assets/styles/main.css'],
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', 'nuxt-icons'],
   head: {
     title: 'rk-tech',
     titleTemplate: '%s - Nuxt',
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
       { name: 'yandex-verification', content: '6b51acfc4a41812d' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
+    link: [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
   },
   runtimeConfig: {
     public: {

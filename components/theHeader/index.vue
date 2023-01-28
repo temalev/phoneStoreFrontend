@@ -26,7 +26,9 @@
 
     <div class="leftContainer">
       <div class="call" />
-      <div class="shopBag" @click="isShopBag = true" />
+      <div class="shopBag" @click="isShopBag = true">
+        <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
+      </div>
     </div>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
@@ -49,7 +51,9 @@
     <div class="wrapper" style="justify-content: flex-end">
       <div class="leftContainer">
         <div class="call" />
-        <div class="shopBag" @click="isShopBag = true" />
+        <div class="shopBag" @click="isShopBag = true">
+          <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
+        </div>
       </div>
     </div>
     <Teleport v-if="isMenu" to="body">
@@ -179,6 +183,7 @@ onMounted(() => {
 }
 
 .shopBag {
+  position: relative;
   background-image: url(~/public/icons/shopBag.svg);
   background-position: center;
   background-size: contain;
@@ -186,6 +191,22 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   cursor: pointer;
+}
+
+.ordersCounter {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  box-shadow: 0 0 5px rgb(194, 67, 67);
 }
 
 .btnMenu {

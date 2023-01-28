@@ -5,7 +5,7 @@ export const useCategories = defineStore('categories', {
   state: () => ({
     categories: [
       {
-        name: 'IPhone',
+        name: 'iPhone',
         ico: '/icons/iphone.svg',
         link: 'iphone',
         img: '/images/iphone.jpeg',
@@ -13,7 +13,7 @@ export const useCategories = defineStore('categories', {
         isName: true,
       },
       {
-        name: 'IPad',
+        name: 'iPad',
         ico: '/icons/ipad.svg',
         link: 'ipad',
         img: '/images/ipad.jpeg',
