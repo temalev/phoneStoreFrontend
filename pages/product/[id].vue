@@ -21,6 +21,7 @@ const selectedProducts = (product) => {
 <style scoped>
 .mainProducts {
   display: flex;
+  justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 70px;

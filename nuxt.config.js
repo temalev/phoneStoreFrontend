@@ -7,7 +7,10 @@ export default defineNuxtConfig({
   head: {
     title: 'rk-tech',
     titleTemplate: '%s - Nuxt',
-    meta: [{ name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' }],
+    meta: [
+      { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
+      { name: 'yandex-verification', content: '6b51acfc4a41812d' },
+    ],
   },
   runtimeConfig: {
     public: {
