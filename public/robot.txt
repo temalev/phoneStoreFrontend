@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: 
+Disallow: /lk/
+Disallow: /api/
+Sitemap: https://rk-tech.shop/sitemap.xml
