@@ -7,7 +7,7 @@
       </div>
       <div class="rightContainer">
         <div class="icoClose">{{  }}</div>
-        <span class="priceOrder">120 000</span>
+        <span class="priceOrder">{{orderPrice}}</span>
       </div>
     </div>
 </template>
@@ -19,6 +19,8 @@ const props = defineProps({
 });
 
 const imageOrder = ref(null);
+const orderPrice = ref(null);
+
 const img = (() => {
   props.order.product.variants.forEach(({ optionsIds }, idx) => {
     const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
@@ -29,9 +31,20 @@ const img = (() => {
   });
 });
 
+const price = (() => {
+  props.order.product.variants.forEach(({ optionsIds }, idx) => {
+    const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
+    if (isContains) {
+      // eslint-disable-next-line prefer-destructuring
+      orderPrice.value = new Intl.NumberFormat('ru').format(props.order.product.variants[idx].optionsInfo.price);
+    }
+  });
+});
+
 // eslint-disable-next-line no-undef
 onMounted(() => {
   img();
+  price();
 });
 
 </script>
