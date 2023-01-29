@@ -9,6 +9,7 @@ export const useApi = defineStore('api', {
     config: useRuntimeConfig(),
     products: [],
     orders: [],
+    lastOrder: null,
   }),
 
   actions: {
@@ -18,6 +19,16 @@ export const useApi = defineStore('api', {
       });
       const data = await res.json();
       this.categories = data;
+      return data;
+    },
+
+    async createOrder(orderData) {
+      const res = await fetch(`${this.config.public.URL}/order`, {
+        method: 'POST',
+        body: orderData,
+      });
+      const data = await res.json();
+      this.lastOrder = data;
       return data;
     },
 

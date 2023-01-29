@@ -3,6 +3,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     'CardProduct': typeof import("../components/cardProduct/index.vue")['default']
     'CustomInput': typeof import("../components/customInput/index.vue")['default']
+    'CustomRadio': typeof import("../components/customRadio/index.vue")['default']
     'InfoContainers': typeof import("../components/infoContainers.vue")['default']
     'OptionColorOption': typeof import("../components/option/colorOption.vue")['default']
     'OptionDefaultOption': typeof import("../components/option/defaultOption.vue")['default']
@@ -34,6 +35,7 @@ declare module '@vue/runtime-core' {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyCardProduct': typeof import("../components/cardProduct/index.vue")['default']
     'LazyCustomInput': typeof import("../components/customInput/index.vue")['default']
+    'LazyCustomRadio': typeof import("../components/customRadio/index.vue")['default']
     'LazyInfoContainers': typeof import("../components/infoContainers.vue")['default']
     'LazyOptionColorOption': typeof import("../components/option/colorOption.vue")['default']
     'LazyOptionDefaultOption': typeof import("../components/option/defaultOption.vue")['default']
@@ -68,6 +70,7 @@ declare module '@vue/runtime-core' {
 
 export const CardProduct: typeof import("../components/cardProduct/index.vue")['default']
 export const CustomInput: typeof import("../components/customInput/index.vue")['default']
+export const CustomRadio: typeof import("../components/customRadio/index.vue")['default']
 export const InfoContainers: typeof import("../components/infoContainers.vue")['default']
 export const OptionColorOption: typeof import("../components/option/colorOption.vue")['default']
 export const OptionDefaultOption: typeof import("../components/option/defaultOption.vue")['default']
@@ -99,6 +102,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyCardProduct: typeof import("../components/cardProduct/index.vue")['default']
 export const LazyCustomInput: typeof import("../components/customInput/index.vue")['default']
+export const LazyCustomRadio: typeof import("../components/customRadio/index.vue")['default']
 export const LazyInfoContainers: typeof import("../components/infoContainers.vue")['default']
 export const LazyOptionColorOption: typeof import("../components/option/colorOption.vue")['default']
 export const LazyOptionDefaultOption: typeof import("../components/option/defaultOption.vue")['default']

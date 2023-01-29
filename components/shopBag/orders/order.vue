@@ -4,7 +4,7 @@
       <img :src="imageOrder" :alt="order.product.name" width="50" height="50" class="imgOrder" />
       <div class="infoContainer">
         <span class="nameOrder">{{ order.product.name }}</span>
-        <span class="orderOptions">Gold</span>
+        <span class="orderOptions">{{ getSelectedOptionsNames().join(' ') }}</span>
       </div>
     </div>
 
@@ -14,6 +14,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, computed } from 'vue';
 
@@ -23,6 +24,7 @@ const props = defineProps({
 
 const imageOrder = ref(null);
 const orderPrice = ref(null);
+const options = ref([]);
 
 const img = () => {
   props.order.product.variants.forEach(({ optionsIds }, idx) => {
@@ -46,6 +48,10 @@ const price = () => {
   });
 };
 
+const getSelectedOptionsNames = () => props.order.product.options.map(
+  ({ items }) => items.find(({ id }) => props.order.options.includes(id)).name,
+);
+
 // eslint-disable-next-line no-undef
 onMounted(() => {
   img();
@@ -67,12 +73,12 @@ onMounted(() => {
 
 .leftContainer {
   display: flex;
+  align-items: center;
 }
 
 .infoContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   font-size: 16px;
   font-weight: 300;
   color: #373737;

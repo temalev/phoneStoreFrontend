@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
       { name: 'yandex-verification', content: '6b51acfc4a41812d' },
     ],
-    link: [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }],
+    link: [{ rel: 'icon', href: '/favicon.png' }],
   },
   runtimeConfig: {
     public: {

@@ -60,6 +60,7 @@ const selectedOpt = (id, index) => {
 };
 
 const sendToShopBag = () => {
+  // TODO хранить uuid продукта, чтобы проверять актуальность данных, в первую очередь цены
   const selectedProduct = { product: props.product, options: selectedOptions.value };
   api.orders.push(selectedProduct);
   localStorage.setItem('orders', JSON.stringify(api.orders));

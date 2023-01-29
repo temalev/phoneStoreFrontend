@@ -45,7 +45,9 @@
     </div>
 
     <div class="wrapper" style="justify-content: center">
-      <div class="logo" />
+      <NuxtLink to="/">
+        <div class="logo" />
+      </NuxtLink>
     </div>
 
     <div class="wrapper" style="justify-content: flex-end">
@@ -58,7 +60,17 @@
     </div>
     <Teleport v-if="isMenu" to="body">
       <div class="menuModal">
-        <nav class="menuModalLinks">k</nav>
+        <nav class="menuModalLinks">
+          <NuxtLink
+            v-for="link in categories.categories"
+            :key="link.name"
+            :to="`/product/${link.link}`"
+            class="navLinkMobile"
+            @click="getProduct(link.link)"
+          >
+            <span v-if="link.isName" class="navNameMobile">{{ link.name }}</span>
+          </NuxtLink>
+        </nav>
       </div>
     </Teleport>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
@@ -79,6 +91,7 @@ const categories = useCategories();
 const api = useApi();
 
 const getProduct = (link) => {
+  isMenu.value = false;
   const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
   api.getProducts(uuidSelectCategory);
 };
@@ -87,7 +100,6 @@ const getProduct = (link) => {
 onMounted(() => {
   const currentCategory = window.location.href.split('/').at(-1);
   const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
-  console.log(api.orders);
   api.getProducts(uuidCurrentCategory);
 });
 </script>
@@ -228,5 +240,16 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background-color: #fff;
+  padding-top: 70px;
+}
+.menuModalLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+}
+
+.navNameMobile {
+  color: #2c2c2c;
 }
 </style>

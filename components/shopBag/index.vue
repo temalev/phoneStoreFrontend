@@ -17,9 +17,19 @@
             <div class="inputsContainer">
               <CustomInput :label="'ФИО*'" :placeholder="'Иванов Иван Иванович'" />
               <CustomInput :label="'Телефон*'" :placeholder="'+7 900 100-00-00'" />
-              <span>Самовывоз</span>
-              <span>Доставка по Москве</span>
-              <span>Доставка по России</span>
+            </div>
+            <div class="radioContainer">
+              <h3>Получение товара</h3>
+              <div class="radioVariants">
+                <CustomRadio
+                  v-for="radio in radioVariants"
+                  :key="radio.id"
+                  :label="radio.name"
+                  :id="radio.id"
+                  :checked="currentSel === radio.id"
+                  @change="onChangeRadio"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -37,6 +47,12 @@ import { ref } from 'vue';
 
 const emit = defineEmits(['closeShopBag']);
 
+const radioVariants = ref([
+  { name: 'Самовывоз', id: 1 },
+  { name: 'Доставка по Москве', id: 2 },
+  { name: 'Доставка по России', id: 3 },
+]);
+
 const closeShopBag = () => {
   emit('closeShopBag');
 };
@@ -49,13 +65,23 @@ const options = ref([
 
 const isEmptyShopBag = ref(true);
 const orders = ref(null);
+const currentSel = ref(1);
+
+const onChangeRadio = (val) => {
+  currentSel.value = val;
+};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
   if (localStorage?.orders) {
     isEmptyShopBag.value = true;
     orders.value = JSON.parse(localStorage?.orders);
+    document.body.style.overflow = 'hidden';
   } else isEmptyShopBag.value = false;
+});
+// eslint-disable-next-line no-undef
+onUnmounted(() => {
+  document.body.style.overflow = 'auto';
 });
 </script>
 
@@ -78,9 +104,10 @@ h2 {
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.636);
+  overflow-x: auto;
   @media (max-width: 500px) {
     padding: 0;
-}
+  }
 }
 
 .wrapper {
@@ -93,31 +120,32 @@ h2 {
   background-color: #fff;
   border: 1px solid #eee;
   box-shadow: 0 0 20px rgb(160, 160, 160);
-  border-radius: 32px;
+  border-radius: 32px 32px 0 0;
   padding: 50px;
+  width: 375px;
   @media (max-width: 500px) {
     width: 100%;
     height: 100%;
     border-radius: 0;
     padding: 30px;
     padding-top: 50px;
-}
-.close {
-  background-image: url(~/public/icons/close.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  display: none;
-  @media (max-width: 500px) {
-    display: block;
-}
-}
+  }
+  .close {
+    background-image: url(~/public/icons/close.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: none;
+    @media (max-width: 500px) {
+      display: block;
+    }
+  }
 }
 .orderContainer {
   position: relative;
@@ -134,6 +162,8 @@ h2 {
 
 .body {
   display: flex;
+  flex-direction: column;
+  gap: 22px;
   justify-content: space-between;
 }
 
@@ -145,10 +175,16 @@ h2 {
   margin-right: 40px;
 }
 
-.rightContainer {
+.radioContainer {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: 12px;
+}
+
+.radioVariants {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .btnOptionContainer {
@@ -195,5 +231,4 @@ h2 {
   box-shadow: 0 0 20px rgb(166, 166, 166);
   border-radius: 32px;
 }
-
 </style>
