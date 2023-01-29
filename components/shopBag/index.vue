@@ -5,10 +5,12 @@
         <div class="close" @click.self="closeShopBag()" />
         <div class="shopBagContainer">
           <h3>Корзина</h3>
-          <ShopBagOrders :orders="orders" />
+          <ShopBagOrders :orders="orders" @orderPrice="orderPrice" />
           <div class="allCost">
             <span class="name">Итого</span>
-            <span class="allPrice">200 000</span>
+            <span class="allPrice"
+              >{{ new Intl.NumberFormat('ru').format(allPrice) }} <strong>₽</strong></span
+            >
           </div>
         </div>
         <div class="orderContainer">
@@ -52,7 +54,7 @@ const radioVariants = ref([
   { name: 'Доставка по Москве', id: 2 },
   { name: 'Доставка по России', id: 3 },
 ]);
-
+const allPrice = ref(null);
 const closeShopBag = () => {
   emit('closeShopBag');
 };
@@ -69,6 +71,10 @@ const currentSel = ref(1);
 
 const onChangeRadio = (val) => {
   currentSel.value = val;
+};
+
+const orderPrice = (val) => {
+  allPrice.value += val;
 };
 
 // eslint-disable-next-line no-undef

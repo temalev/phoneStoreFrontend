@@ -22,9 +22,10 @@ const props = defineProps({
   order: Object,
 });
 
+const emit = defineEmits(['orderPrice']);
+
 const imageOrder = ref(null);
 const orderPrice = ref(null);
-const options = ref([]);
 
 const img = () => {
   props.order.product.variants.forEach(({ optionsIds }, idx) => {
@@ -44,6 +45,7 @@ const price = () => {
       orderPrice.value = new Intl.NumberFormat('ru').format(
         props.order.product.variants[idx].optionsInfo.price,
       );
+      emit('orderPrice', props.order.product.variants[idx].optionsInfo.price);
     }
   });
 };

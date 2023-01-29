@@ -1,6 +1,11 @@
 <template>
   <div class="orders">
-    <ShopBagOrdersOrder v-for="(order, idOrder) in orders" :key="idOrder" :order="order"/>
+    <ShopBagOrdersOrder
+      v-for="(order, idOrder) in orders"
+      :key="idOrder"
+      :order="order"
+      @orderPrice="orderPrice"
+    />
   </div>
 </template>
 
@@ -11,10 +16,14 @@ const props = defineProps({
   orders: Object,
 });
 
-// eslint-disable-next-line no-undef
-onMounted(() => {
+const emit = defineEmits(['orderPrice']);
 
-});
+const orderPrice = (val) => {
+  emit('orderPrice', val);
+};
+
+// eslint-disable-next-line no-undef
+onMounted(() => {});
 </script>
 
 <style scoped lang="scss">
@@ -29,5 +38,4 @@ onMounted(() => {
 .orders::-webkit-scrollbar {
   width: 0;
 }
-
 </style>
