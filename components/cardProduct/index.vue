@@ -33,7 +33,7 @@ const props = defineProps({
 });
 
 const selectedColor = ref(null);
-const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
+// const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
 const selectedOptions = ref([]);
 
 const baseImg = computed(() => {
@@ -49,10 +49,27 @@ const baseImg = computed(() => {
           canditate = props.product.variants[idx];
         }
       });
-
     return canditate.optionsInfo.images[0];
   }
   return props.product.variants[0].optionsInfo?.images[0];
+});
+
+const price = computed(() => {
+  if (selectedOptions.value.length) {
+    // eslint-disable-next-line max-len
+    let canditate = null;
+    props.product.variants
+      // eslint-disable-next-line max-len
+      .forEach(({ optionsIds }, idx) => {
+        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+
+        if (isContains) {
+          canditate = props.product.variants[idx];
+        }
+      });
+    return new Intl.NumberFormat('ru').format(canditate.optionsInfo.price);
+  }
+  return new Intl.NumberFormat('ru').format(props.product.price);
 });
 
 const selectedOpt = (id, index) => {
