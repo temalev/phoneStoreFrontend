@@ -5,11 +5,12 @@
         <div class="close" @click.self="closeShopBag()" />
         <div class="shopBagContainer">
           <h3>Корзина</h3>
-          <ShopBagOrders :orders="orders" @orderPrice="orderPrice" />
+          <ShopBagOrders />
           <div class="allCost">
             <span class="name">Итого</span>
             <span class="allPrice"
-              >{{ new Intl.NumberFormat('ru').format(allPrice) }} <strong>₽</strong></span
+              >{{ new Intl.NumberFormat('ru').format(api.orders.totalCost) }}
+              <strong>₽</strong></span
             >
           </div>
         </div>
@@ -46,6 +47,9 @@
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref } from 'vue';
+import { useApi } from '~/stores/api';
+
+const api = useApi();
 
 const emit = defineEmits(['closeShopBag']);
 
@@ -54,7 +58,6 @@ const radioVariants = ref([
   { name: 'Доставка по Москве', id: 2 },
   { name: 'Доставка по России', id: 3 },
 ]);
-const allPrice = ref(null);
 const closeShopBag = () => {
   emit('closeShopBag');
 };
@@ -66,23 +69,34 @@ const options = ref([
 ]);
 
 const isEmptyShopBag = ref(true);
-const orders = ref(null);
 const currentSel = ref(1);
 
 const onChangeRadio = (val) => {
   currentSel.value = val;
 };
 
-const orderPrice = (val) => {
-  allPrice.value += val;
-};
+// const orderPrice = () => {
+//   let cost = null;
+//   api.orders.map((el) => {
+//     el.product.variants.forEach(({ optionsIds }, idx) => {
+//       const isContains = optionsIds.every((optionId) => el.options.includes(optionId));
+//       if (isContains) {
+//         // eslint-disable-next-line prefer-destructuring
+//         cost += el.product.variants[idx].optionsInfo.price;
+//       }
+//     });
+//     return cost;
+//   });
+//   allPrice.value = cost;
+// };
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
   if (localStorage?.orders) {
     isEmptyShopBag.value = true;
-    orders.value = JSON.parse(localStorage?.orders);
+    // orders.value = JSON.parse(localStorage?.orders);
     document.body.style.overflow = 'hidden';
+    api.getTotalCost();
   } else isEmptyShopBag.value = false;
 });
 // eslint-disable-next-line no-undef

@@ -40,6 +40,21 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    getTotalCost() {
+      let cost = null;
+      this.orders.map((el) => {
+        el.product.variants.forEach(({ optionsIds }, idx) => {
+          const isContains = optionsIds.every((optionId) => el.options.includes(optionId));
+          if (isContains) {
+            // eslint-disable-next-line prefer-destructuring
+            cost += el.product.variants[idx].optionsInfo.price;
+          }
+        });
+        return cost;
+      });
+      this.orders.totalCost = cost;
+    },
+
     getCategory(uuid) {
       this.category = this.categories.filter((el) => el.uuid === uuid);
     },

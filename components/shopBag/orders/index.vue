@@ -1,26 +1,21 @@
 <template>
   <div class="orders">
-    <ShopBagOrdersOrder
-      v-for="(order, idOrder) in orders"
-      :key="idOrder"
-      :order="order"
-      @orderPrice="orderPrice"
-    />
+    <ShopBagOrdersOrder v-for="(order, idOrder) in api.orders" :key="idOrder" :order="order" />
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useApi } from '~/stores/api';
 
-const props = defineProps({
-  orders: Object,
-});
+const api = useApi();
 
 const emit = defineEmits(['orderPrice']);
+const cost = ref(null);
 
-const orderPrice = (val) => {
-  emit('orderPrice', val);
-};
+// const orderPrice = (val) => {
+//   emit('orderPrice', val);
+// };
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});

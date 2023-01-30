@@ -9,7 +9,7 @@
     </div>
 
     <div class="rightContainer">
-      <div class="icoClose">{{}}</div>
+      <div class="icoDelete" @click="deleteOrder(order.product.uuid)" />
       <span class="priceOrder">{{ orderPrice }} <strong>₽</strong> </span>
     </div>
   </div>
@@ -17,12 +17,13 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useApi } from '~/stores/api';
+
+const api = useApi();
 
 const props = defineProps({
   order: Object,
 });
-
-const emit = defineEmits(['orderPrice']);
 
 const imageOrder = ref(null);
 const orderPrice = ref(null);
@@ -45,7 +46,6 @@ const price = () => {
       orderPrice.value = new Intl.NumberFormat('ru').format(
         props.order.product.variants[idx].optionsInfo.price,
       );
-      emit('orderPrice', props.order.product.variants[idx].optionsInfo.price);
     }
   });
 };
@@ -53,6 +53,13 @@ const price = () => {
 const getSelectedOptionsNames = () => props.order.product.options.map(
   ({ items }) => items.find(({ id }) => props.order.options.includes(id)).name,
 );
+
+const deleteOrder = (uuid) => {
+  const index = api.orders.findIndex((el) => el.product.uuid === uuid);
+  api.orders.splice(index, 1);
+  localStorage.setItem('orders', JSON.stringify(api.orders));
+  api.getTotalCost();
+};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
@@ -90,9 +97,26 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
   font-size: 14px;
   font-weight: 300;
   color: #373737;
   flex-shrink: 0;
+}
+
+.icoDelete {
+  background-image: url(~/public/icons/close.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 </style>
