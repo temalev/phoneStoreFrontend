@@ -18,25 +18,38 @@
           <h3>Оформить заказ</h3>
           <div class="body">
             <div class="inputsContainer">
-              <CustomInput :label="'ФИО*'" :placeholder="'Иванов Иван Иванович'" />
-              <CustomInput :label="'Телефон*'" :placeholder="'+7 900 100-00-00'" />
+              <CustomInput
+                :label="'ФИО*'"
+                :placeholder="'Иванов Иван Иванович'"
+                @inputValue="(val) => (userData.name = val)"
+              />
+              <CustomInput
+                :label="'Телефон*'"
+                :placeholder="'+7 900 100-00-00'"
+                @inputValue="(val) => (userData.tel = val)"
+              />
             </div>
             <div class="radioContainer">
               <h3>Получение товара</h3>
               <div class="radioVariants">
-                <CustomRadio
-                  v-for="radio in radioVariants"
-                  :key="radio.id"
-                  :label="radio.name"
-                  :id="radio.id"
-                  :checked="currentSel === radio.id"
-                  @change="onChangeRadio"
-                />
+                <div class="variant" v-for="radio in radioVariants" :key="radio.id">
+                  <CustomRadio
+                    :label="radio.name"
+                    :id="radio.id"
+                    :checked="currentSel === radio.id"
+                    @change="onChangeRadio"
+                  />
+                  <div class="icoQuestion">
+                    <div class="annotation">
+                      {{ radio.info }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <CustomButton :name="'Оформить заказ'" />
+        <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
       </div>
       <div v-else class="empty">
         <h3>Тут одиноко..</h3>
@@ -54,11 +67,23 @@ const api = useApi();
 
 const emit = defineEmits(['closeShopBag']);
 
+const userData = ref({});
+const currentSel = ref(1);
+
 const radioVariants = ref([
-  { name: 'Самовывоз', id: 1 },
-  { name: 'Доставка по Москве', id: 2 },
-  { name: 'Доставка по России', id: 3 },
+  {
+    name: 'Самовывоз',
+    id: 1,
+    info: 'Самовывоз - бесплатно. Офис №335 (3 этаж) по адресу: улица Барклая, 8.',
+  },
+  { name: 'Доставка по Москве', id: 2, info: 'Курьерская доставка в Москве - бесплатно/490р' },
+  {
+    name: 'Доставка по России',
+    id: 3,
+    info: 'Доставка по России - 490 рублей. Надежно упакуем и отправим в день заказа транспортной компанией «Сдэк».',
+  },
 ]);
+
 const closeShopBag = () => {
   emit('closeShopBag');
 };
@@ -69,8 +94,35 @@ const options = ref([
   { name: 'Доставка по России', info: '' },
 ]);
 
+// eslint-disable-next-line max-len
+const getPriceByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.price;
+// eslint-disable-next-line max-len
+const getTagByProduct = (product, selectedOptionIds) => product.options.map((opt) => opt.items.find((item) => selectedOptionIds.includes(item.id)).name);
+
+// eslint-disable-next-line max-len
+const getImgByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.images;
+
+const onCreateOrder = () => {
+  const items = api.orders.map((item) => ({
+    productUUID: item.product.uuid,
+    price: getPriceByProduct(item.product, item.options),
+    name: item.product.name,
+    tags: getTagByProduct(item.product, item.options),
+    images: getImgByProduct(item.product, item.options),
+    count: 1,
+  }));
+  const ordersData = {
+    fullName: userData.value.name,
+    phoneNumber: userData.value.tel,
+    items,
+    communicationMethod: 0,
+    delivery: currentSel.value,
+    deliveryMessage: 'улица Российская',
+  };
+  api.createOrder(ordersData);
+};
+
 const isEmptyShopBag = ref(true);
-const currentSel = ref(1);
 
 const onChangeRadio = (val) => {
   currentSel.value = val;
@@ -216,6 +268,45 @@ h2 {
   gap: 8px;
 }
 
+.variant {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.icoQuestion {
+  position: relative;
+  background-image: url(~/public/icons/question.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
+  opacity: 0.2;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+    .annotation {
+      opacity: 1;
+      display: block;
+    }
+  }
+}
+.annotation {
+  position: absolute;
+  bottom: 0px;
+  left: 25px;
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 15px;
+  width: 150px;
+  height: fit-content;
+  opacity: 0;
+  display: none;
+}
+
 .btnOptionContainer {
   display: flex;
   gap: 10px;
@@ -259,5 +350,7 @@ h2 {
   padding: 50px;
   box-shadow: 0 0 20px rgb(166, 166, 166);
   border-radius: 32px;
+  height: 50%;
+  width: 40%;
 }
 </style>

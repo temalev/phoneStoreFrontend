@@ -23,9 +23,13 @@ export const useApi = defineStore('api', {
     },
 
     async createOrder(orderData) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
       const res = await fetch(`${this.config.public.URL}/order`, {
         method: 'POST',
-        body: orderData,
+        headers,
+        body: JSON.stringify(orderData),
       });
       const data = await res.json();
       this.lastOrder = data;
