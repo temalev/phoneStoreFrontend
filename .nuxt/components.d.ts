@@ -2,6 +2,7 @@
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     'CardProduct': typeof import("../components/cardProduct/index.vue")['default']
+    'CustomButton': typeof import("../components/customButton/index.vue")['default']
     'CustomInput': typeof import("../components/customInput/index.vue")['default']
     'CustomRadio': typeof import("../components/customRadio/index.vue")['default']
     'InfoContainers': typeof import("../components/infoContainers.vue")['default']
@@ -34,6 +35,7 @@ declare module '@vue/runtime-core' {
     'Html': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyCardProduct': typeof import("../components/cardProduct/index.vue")['default']
+    'LazyCustomButton': typeof import("../components/customButton/index.vue")['default']
     'LazyCustomInput': typeof import("../components/customInput/index.vue")['default']
     'LazyCustomRadio': typeof import("../components/customRadio/index.vue")['default']
     'LazyInfoContainers': typeof import("../components/infoContainers.vue")['default']
@@ -69,6 +71,7 @@ declare module '@vue/runtime-core' {
 }
 
 export const CardProduct: typeof import("../components/cardProduct/index.vue")['default']
+export const CustomButton: typeof import("../components/customButton/index.vue")['default']
 export const CustomInput: typeof import("../components/customInput/index.vue")['default']
 export const CustomRadio: typeof import("../components/customRadio/index.vue")['default']
 export const InfoContainers: typeof import("../components/infoContainers.vue")['default']
@@ -101,6 +104,7 @@ export const Head: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyCardProduct: typeof import("../components/cardProduct/index.vue")['default']
+export const LazyCustomButton: typeof import("../components/customButton/index.vue")['default']
 export const LazyCustomInput: typeof import("../components/customInput/index.vue")['default']
 export const LazyCustomRadio: typeof import("../components/customRadio/index.vue")['default']
 export const LazyInfoContainers: typeof import("../components/infoContainers.vue")['default']

@@ -1,21 +1,25 @@
 <template>
   <div class="mainCardProduct">
-    <img class="imgProduct" :src="baseImg" alt="" />
-    <div class="infoContainer">
-      <div class="header">
-        <h3 class="productName">{{ product.name }}</h3>
-        <span class="price">{{ price }} <strong>₽</strong> </span>
-      </div>
-      <div class="optionsContainer">
-        <Option
-          v-for="(option, idOpt) in product.options"
-          :key="option.name"
-          :option="option"
-          @selectedOpt="(id) => selectedOpt(id, idOpt)"
-        />
+    <div class="mainCardContainer">
+      <img class="imgProduct" :src="baseImg" alt="" />
+      <div class="infoContainer">
+        <div class="header">
+          <h3 class="productName">{{ product.name }}</h3>
+          <span class="price">{{ price }} <strong>₽</strong> </span>
+        </div>
+        <div class="optionsContainer">
+          <Option
+            v-for="(option, idOpt) in product.options"
+            :key="option.name"
+            :option="option"
+            @selectedOpt="(id) => selectedOpt(id, idOpt)"
+          />
+        </div>
       </div>
     </div>
-    <button class="buttonProduct" @click="sendToShopBag">В корзину</button>
+    <div class="wrapperButton">
+      <CustomButton @click="sendToShopBag" :name="'В корзину'" />
+    </div>
   </div>
 </template>
 
@@ -91,16 +95,31 @@ onMounted(() => {});
 .mainCardProduct {
   display: flex;
   flex-direction: column;
-  align-content: center;
-  width: 300px;
+  align-items: center;
+  justify-content: space-between;
+  width: 330px;
   border: 1px solid #eee;
   box-shadow: 0 0 10px #eee;
   border-radius: 12px;
 }
 
-.imgProduct {
+.wrapperButton {
+  padding: 30px 20px;
   width: 100%;
-  height: 300px;
+  box-sizing: border-box;
+}
+
+.mainCardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.imgProduct {
+  width: 250px;
+  height: 250px;
   background-color: #eee;
 }
 
@@ -108,7 +127,9 @@ onMounted(() => {});
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 20px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .productName {
@@ -130,21 +151,5 @@ onMounted(() => {});
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-.buttonProduct {
-  height: 40px;
-  background-color: #2c2c2c;
-  color: #fff;
-  border-radius: 10px;
-  border: 1px solid #242424;
-  margin: 15px 20px;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    box-shadow: 0 0 10px rgba(103, 103, 103, 0.781);
-    background-color: #313131;
-  }
 }
 </style>

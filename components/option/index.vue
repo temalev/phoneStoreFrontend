@@ -15,7 +15,10 @@ export default {
   },
   computed: {
     isComponent() {
-      return this.option.name.charAt(0).toUpperCase() + this.option.name.slice(1) === 'Цвет' ? 'ColorOption' : 'defaultOption';
+      return this.option.name.charAt(0).toUpperCase() + this.option.name.slice(1).split(' ')[0]
+        === 'Цвет'
+        ? 'ColorOption'
+        : 'defaultOption';
     },
   },
   mounted() {},

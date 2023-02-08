@@ -36,6 +36,7 @@
             </div>
           </div>
         </div>
+        <CustomButton :name="'Оформить заказ'" />
       </div>
       <div v-else class="empty">
         <h3>Тут одиноко..</h3>
@@ -92,7 +93,7 @@ const onChangeRadio = (val) => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  if (localStorage?.orders) {
+  if (api.orders.length) {
     isEmptyShopBag.value = true;
     // orders.value = JSON.parse(localStorage?.orders);
     document.body.style.overflow = 'hidden';
@@ -117,7 +118,7 @@ h2 {
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-end;
   padding-top: 20px;
   top: 0;
   z-index: 5;
@@ -127,6 +128,7 @@ h2 {
   overflow-x: auto;
   @media (max-width: 500px) {
     padding: 0;
+    align-items: stretch;
   }
 }
 
@@ -143,12 +145,18 @@ h2 {
   border-radius: 32px 32px 0 0;
   padding: 50px;
   width: 375px;
+  overflow: auto;
+  height: fit-content;
+
   @media (max-width: 500px) {
     width: 100%;
-    height: 100%;
     border-radius: 0;
     padding: 30px;
     padding-top: 50px;
+  }
+
+  .wr {
+    height: 100%;
   }
   .close {
     background-image: url(~/public/icons/close.svg);
@@ -173,10 +181,10 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 20px;
   font-size: 30px;
   width: 100%;
-  height: 500px;
   box-sizing: border-box;
 }
 
@@ -185,6 +193,7 @@ h2 {
   flex-direction: column;
   gap: 22px;
   justify-content: space-between;
+  width: 100%;
 }
 
 .inputsContainer {

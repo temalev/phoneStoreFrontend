@@ -70,6 +70,7 @@ onMounted(() => {
 .colorContainer {
   display: flex;
   gap: 15px;
+  margin-left: 5px;
 }
 .inputColor {
   appearance: none;

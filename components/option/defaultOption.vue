@@ -51,6 +51,7 @@ onMounted(() => {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-left: 5px;
 }
 
 .btnOption {
