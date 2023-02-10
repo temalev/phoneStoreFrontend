@@ -10,9 +10,42 @@ export const useApi = defineStore('api', {
     products: [],
     orders: [],
     lastOrder: null,
+    isAuth: true,
+    aprovedOrders: [],
   }),
 
   actions: {
+    async fetchWithAuth(...args) {
+      const res = await fetch(...args);
+      if (res.status === 403 || res.status === 401) {
+        this.isAuth = false;
+        return null;
+      } return res;
+    },
+
+    async login(adminData) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await fetch(`${this.config.public.URL}/auth/login`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(adminData),
+      });
+      if (res.status === 201 || res.status === 201) {
+        this.isAuth = true;
+      }
+    },
+
+    async getOrders() {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/order`, {
+        method: 'GET',
+      });
+      const data = await res.json();
+      this.aprovedOrders = data;
+      return data;
+    },
+
     async getCategories() {
       const res = await fetch(`${this.config.public.URL}/category`, {
         method: 'GET',
