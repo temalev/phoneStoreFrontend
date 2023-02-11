@@ -25,6 +25,7 @@
               />
               <CustomInput
                 :label="'Телефон*'"
+                :type="'number'"
                 :placeholder="'+7 900 100-00-00'"
                 @inputValue="(val) => (userData.tel = val)"
               />

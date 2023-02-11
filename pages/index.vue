@@ -1,22 +1,20 @@
 <template>
-  <div class="main">
+  <div class="body">
     <div class="welcome"></div>
     <Slider />
-    <div class="wrapper">
-      <InfoContainers />
-    </div>
+    <InfoContainers />
   </div>
 </template>
 
 <script setup></script>
 
 <style scoped lang="scss">
-@media (max-width: 850px) {
-  .wrapper {
-    display: none;
-  }
-}
-.main {
+// @media (max-width: 850px) {
+//   .wrapper {
+//     display: none;
+//   }
+// }
+.body {
   display: flex;
   flex-direction: column;
   gap: 50px;

@@ -42,6 +42,12 @@ export default {};
   gap: 20px;
   justify-content: space-between;
   margin: 20px 80px;
+  @media (max-width: 850px) {
+    flex-direction: column;
+    height: 100%;
+    min-height: 800px;
+    margin: 20px;
+  }
 }
 
 .leftContainer {
@@ -128,5 +134,8 @@ export default {};
   background-size: cover;
   height: 100%;
   width: 275px;
+  @media (max-width: 850px) {
+    height: auto;
+  }
 }
 </style>

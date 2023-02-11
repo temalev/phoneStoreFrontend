@@ -93,14 +93,18 @@ const api = useApi();
 const getProduct = (link) => {
   isMenu.value = false;
   const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
-  api.getProducts(uuidSelectCategory);
+  if (uuidSelectCategory) {
+    api.getProducts(uuidSelectCategory);
+  }
 };
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
   const currentCategory = window.location.href.split('/').at(-1);
   const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
-  api.getProducts(uuidCurrentCategory);
+  if (uuidCurrentCategory) {
+    api.getProducts(uuidCurrentCategory);
+  }
 });
 </script>
 

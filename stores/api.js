@@ -35,11 +35,15 @@ export const useApi = defineStore('api', {
       if (res.status === 201 || res.status === 201) {
         this.isAuth = true;
       }
+      const data = await res.json();
+      document.cookie = `jwt1=${data.accessToken}`;
+      document.cookie = `jwt2=${data.refreshToken}`;
     },
 
     async getOrders() {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/order`, {
         method: 'GET',
+        credentials: 'include',
       });
       const data = await res.json();
       this.aprovedOrders = data;
