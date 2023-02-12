@@ -5,7 +5,7 @@
   <div class="main">
     <TheHeader :isDesktop="isDesktop" />
     <slot />
-    <TheFooter />
+    <!-- <TheFooter /> -->
   </div>
 </template>
 <script setup>

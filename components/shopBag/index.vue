@@ -1,7 +1,13 @@
 <template>
   <Teleport to="body">
-    <div class="background" @click.self="closeShopBag()">
-      <div v-if="isEmptyShopBag" class="wrapper">
+    <div
+      class="background"
+      :style="{
+        alignItems: isApprovedOrder || !isEmptyShopBag ? 'center' : '',
+      }"
+      @click.self="closeShopBag()"
+    >
+      <div v-if="isEmptyShopBag && !isApprovedOrder" class="wrapper">
         <div class="close" @click.self="closeShopBag()" />
         <div class="shopBagContainer">
           <h3>Корзина</h3>
@@ -50,7 +56,11 @@
             </div>
           </div>
         </div>
+        <span v-if="isInvalidData" class="message">Проверьте правильность заполнения полей</span>
         <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
+      </div>
+      <div v-else-if="isApprovedOrder" class="approvedOrder">
+        Заказ успешно оформелен, в ближайшее время мы с Вами свяжемся
       </div>
       <div v-else class="empty">
         <h3>Тут одиноко..</h3>
@@ -70,6 +80,8 @@ const emit = defineEmits(['closeShopBag']);
 
 const userData = ref({});
 const currentSel = ref(1);
+const isInvalidData = ref(false);
+const isApprovedOrder = ref(false);
 
 const radioVariants = ref([
   {
@@ -87,6 +99,7 @@ const radioVariants = ref([
 
 const closeShopBag = () => {
   emit('closeShopBag');
+  isApprovedOrder.value = false;
 };
 
 const options = ref([
@@ -120,7 +133,12 @@ const onCreateOrder = () => {
     delivery: currentSel.value,
     deliveryMessage: 'улица Российская',
   };
-  api.createOrder(ordersData);
+  if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
+    api.createOrder(ordersData);
+    isApprovedOrder.value = true;
+    api.orders = [];
+    localStorage.removeItem('orders');
+  } else isInvalidData.value = true;
 };
 
 const isEmptyShopBag = ref(true);
@@ -227,6 +245,19 @@ h2 {
       display: block;
     }
   }
+}
+
+.approvedOrder {
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 0 20px rgb(160, 160, 160);
+  border-radius: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 .orderContainer {
   position: relative;
@@ -346,12 +377,17 @@ h2 {
   padding: 5px 0;
 }
 
+.message {
+  color: rgb(242, 23, 23);
+}
+
 .empty {
   background-color: #fff;
   padding: 50px;
   box-shadow: 0 0 20px rgb(166, 166, 166);
   border-radius: 32px;
-  height: 50%;
-  width: 40%;
+  height: 200px;
+  width: 400px;
+  box-sizing: border-box;
 }
 </style>
