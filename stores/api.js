@@ -36,8 +36,6 @@ export const useApi = defineStore('api', {
         this.isAuth = true;
       }
       const data = await res.json();
-      document.cookie = `jwt1=${data.accessToken}`;
-      document.cookie = `jwt2=${data.refreshToken}`;
     },
 
     async getOrders() {
