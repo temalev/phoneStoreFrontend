@@ -16,5 +16,7 @@ declare module '@nuxt/schema' {
   }
   interface PublicRuntimeConfig {
    URL: string,
+
+   NODE_ENV: string,
   }
 }

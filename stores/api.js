@@ -15,8 +15,15 @@ export const useApi = defineStore('api', {
   }),
 
   actions: {
-    async fetchWithAuth(...args) {
-      const res = await fetch(...args);
+    async fetchWithAuth(url, opts) {
+      if (this.config.public.NODE_ENV === 'development') {
+        const accessToken = localStorage.jwt1;
+        opts.headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+      }
+      console.log(this.config.public.NODE_ENV);
+      const res = await fetch(url, opts);
       if (res.status === 403 || res.status === 401) {
         this.isAuth = false;
         return null;
@@ -34,8 +41,9 @@ export const useApi = defineStore('api', {
       });
       if (res.status === 201 || res.status === 201) {
         this.isAuth = true;
+        const data = await res.json();
+        localStorage.setItem('jwt1', data.accessToken);
       }
-      const data = await res.json();
     },
 
     async getOrders() {

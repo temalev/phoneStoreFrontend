@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       URL: process.env.URL || 'https://rk-tech.shop/api/v1/',
+      NODE_ENV: process.env.NODE_ENV || 'production',
     },
   },
 });
