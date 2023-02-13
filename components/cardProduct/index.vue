@@ -6,6 +6,7 @@
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>
           <span v-if="!api.isAuth" class="price">{{ priceFrmt }} <strong>₽</strong> </span>
+          <!-- <p class="description">{{ product?.description }}</p> -->
           <CustomInput
             v-if="api.isAuth"
             :value="price"
@@ -25,6 +26,8 @@
     </div>
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <!-- <CustomButton v-if="api.isAuth" @click="onDeleteProduct" :name="'Удалить'" /> -->
+      <div class="icoDelete" @click="onDeleteProduct"></div>
       <CustomButton v-if="api.isAuth" @click="onSaveProductData" :name="'Сохранить'" />
     </div>
   </div>
@@ -34,6 +37,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
+import { useCategories } from '~/stores/categories';
+
+const categories = useCategories();
 
 const api = useApi();
 const editedPrice = ref(null);
@@ -122,6 +128,15 @@ const onSaveProductData = () => {
   api.updateProduct(props.product.uuid, { variants });
 };
 
+const onDeleteProduct = () => {
+  api.deleteProduct(props.product.uuid);
+  const currentCategory = window.location.href.split('/').at(-1);
+  const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
+  if (uuidCurrentCategory) {
+    api.getProducts(uuidCurrentCategory);
+  }
+};
+
 // eslint-disable-next-line no-undef
 onMounted(() => {});
 </script>
@@ -139,6 +154,9 @@ onMounted(() => {});
 }
 
 .wrapperButton {
+  display: flex;
+  align-items: center;
+  gap: 18px;
   padding: 30px 20px;
   width: 100%;
   box-sizing: border-box;
@@ -186,5 +204,20 @@ onMounted(() => {});
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.icoDelete {
+  background-image: url(~/public/icons/delete.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  padding: 15px;
+  box-sizing: border-box;
+  border: 1px solid #2c2c2c;
+  border-radius: 8px;
+  opacity: .9;
+  cursor: pointer;
 }
 </style>

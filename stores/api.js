@@ -102,6 +102,15 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    async deleteProduct(uuid) {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      return data;
+    },
+
     async getCategories() {
       const res = await fetch(`${this.config.public.URL}/api/v1/category`, {
         method: 'GET',
