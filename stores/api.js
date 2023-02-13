@@ -35,7 +35,7 @@ export const useApi = defineStore('api', {
       const headers = {
         'Content-Type': 'application/json',
       };
-      const res = await fetch(`${this.config.public.URL}/auth/login`, {
+      const res = await fetch(`${this.config.public.URL}/api/v1/auth/login`, {
         method: 'POST',
         headers,
         body: JSON.stringify(adminData),
@@ -51,7 +51,7 @@ export const useApi = defineStore('api', {
       const headers = {
         'Content-Type': 'application/json',
       };
-      const res = await fetch(`${this.config.public.URL}/auth/logout`, {
+      const res = await fetch(`${this.config.public.URL}/api/v1/auth/logout`, {
         method: 'POST',
         headers,
       });
@@ -60,7 +60,7 @@ export const useApi = defineStore('api', {
     },
 
     async getOrders() {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/order`, {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -70,7 +70,7 @@ export const useApi = defineStore('api', {
     },
 
     async upgradeOrderStatus(uuid, status) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/order/${uuid}`, {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
         method: 'PUT',
         credentials: 'include',
         body: JSON.stringify({ status }),
@@ -81,7 +81,7 @@ export const useApi = defineStore('api', {
     },
 
     async deleteOrder(uuid) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/order/${uuid}`, {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -91,7 +91,7 @@ export const useApi = defineStore('api', {
     },
 
     async updateProduct(uuid, product) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/product/${uuid}`, {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
         method: 'PUT',
         credentials: 'include',
         body: JSON.stringify(product),
@@ -102,7 +102,7 @@ export const useApi = defineStore('api', {
     },
 
     async getCategories() {
-      const res = await fetch(`${this.config.public.URL}/category`, {
+      const res = await fetch(`${this.config.public.URL}/api/v1/category`, {
         method: 'GET',
       });
       const data = await res.json();
@@ -114,7 +114,7 @@ export const useApi = defineStore('api', {
       const headers = {
         'Content-Type': 'application/json',
       };
-      const res = await fetch(`${this.config.public.URL}/order`, {
+      const res = await fetch(`${this.config.public.URL}/api/v1/order`, {
         method: 'POST',
         headers,
         body: JSON.stringify(orderData),
@@ -125,7 +125,7 @@ export const useApi = defineStore('api', {
     },
 
     getAll: async () => {
-      const res = await fetch(`${this.config.public.URL}/product`, {
+      const res = await fetch(`${this.config.public.URL}/api/v1/product`, {
         method: 'GET',
       });
       const data = await res.json();
@@ -152,17 +152,12 @@ export const useApi = defineStore('api', {
     },
 
     async getProducts(uuid) {
-      if (this.config.public.URL) {
-        const res = await fetch(`${this.config.public.URL}/product?categoryUUID=${uuid}`, {
-          method: 'GET',
-        });
-        const data = await res.json();
-        this.products = data;
-        return data;
-      }
-      return {
-        success: false,
-      };
+      const res = await fetch(`${this.config.public.URL}/api/v1/product?categoryUUID=${uuid}`, {
+        method: 'GET',
+      });
+      const data = await res.json();
+      this.products = data;
+      return data;
     },
   },
 });
