@@ -2,13 +2,10 @@
   <Head>
     <Title>RK-Tech - {{ currentCategory }}</Title>
   </Head>
-  <div class="mainProducts">
-    <CardProduct
-      v-for="product in api.products"
-      :key="product.uuid"
-      :product="product"
-    />
+  <div v-if="api.products" class="mainProducts">
+    <CardProduct v-for="product in api.products" :key="product.uuid" :product="product" />
   </div>
+  <div v-else class="loader">загрузка</div>
 </template>
 <script setup>
 import { ref, computed } from 'vue';

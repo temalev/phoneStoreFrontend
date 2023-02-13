@@ -47,6 +47,18 @@ export const useApi = defineStore('api', {
       }
     },
 
+    async logout() {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await fetch(`${this.config.public.URL}/auth/logout`, {
+        method: 'POST',
+        headers,
+      });
+      localStorage.removeItem('jwt1');
+      this.isAuth = false;
+    },
+
     async getOrders() {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/order`, {
         method: 'GET',

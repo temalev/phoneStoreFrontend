@@ -33,7 +33,9 @@ const img = () => {
     const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
     if (isContains) {
       // eslint-disable-next-line prefer-destructuring
-      imageOrder.value = props.order.product.variants[idx].optionsInfo.images[0];
+      imageOrder.value = props.order.product.variants[idx].optionsInfo.images[0]
+        ? props.order.product.variants[idx].optionsInfo.images[0]
+        : props.order.product.images[0];
     }
   });
 };

@@ -34,6 +34,9 @@
       <NuxtLink to="/admin">
         <div class="admin" />
       </NuxtLink>
+      <NuxtLink to="/" @click="logout">
+        <div class="logout" />
+      </NuxtLink>
     </div>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
@@ -65,6 +68,9 @@
       <div v-if="api.isAuth" class="leftContainer">
         <NuxtLink to="/admin">
           <div class="admin" />
+        </NuxtLink>
+        <NuxtLink to="/" @click="logout">
+          <div class="logout" />
         </NuxtLink>
       </div>
     </div>
@@ -106,6 +112,10 @@ const getProduct = (link) => {
   if (uuidSelectCategory) {
     api.getProducts(uuidSelectCategory);
   }
+};
+
+const logout = () => {
+  api.logout();
 };
 
 // eslint-disable-next-line no-undef
@@ -194,6 +204,7 @@ onMounted(() => {
 
 .leftContainer {
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 20px;
 }
@@ -248,8 +259,18 @@ onMounted(() => {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.logout {
+  background-image: url(~/public/icons/logout.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
