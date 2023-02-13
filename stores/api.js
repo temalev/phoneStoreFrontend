@@ -57,6 +57,17 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    async upgradeOrderStatus(uuid, status) {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/order/${uuid}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json();
+      this.aprovedOrders = data;
+      return data;
+    },
+
     async deleteOrder(uuid) {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/order/${uuid}`, {
         method: 'DELETE',

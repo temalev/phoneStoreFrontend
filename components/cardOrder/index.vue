@@ -1,20 +1,22 @@
 <template>
   <div class="order">
     <div class="mainInfo">
-      <div class="header">
-        <span class="headerName">{{ data.fullName }}</span>
-        <span class="headerInfo"></span>
-      </div>
-
       <div class="infoContainer">
+        <span class="headerName">{{ data.fullName }}</span>
         <span class="info">{{ data.phoneNumber }}</span>
       </div>
+    </div>
+    <div class="orderItemsContainer">
       <CardOrderItemOrder v-for="order in data.items" :key="order.uuid" :order="order" />
     </div>
+    <div class="deliveryMesg">
+      {{ data.deliveryMessage }}
+    </div>
+    <span v-if="!data.deliveryMessage" class="delivery">Самовывоз</span>
 
     <div class="buttons">
       <CustomButton @click="deleteOrder(data.uuid)" name="Отменить" />
-      <CustomButton name="Подтвердить" />
+      <CustomButton @click="upgradeOrderStatus(data.uuid, data.status)" name="Подтвердить" />
     </div>
     <span class="date">{{ date }}</span>
   </div>
@@ -30,18 +32,28 @@ const props = defineProps({
 });
 const deleteOrder = (uuid) => {
   api.deleteOrder(uuid);
+  api.getOrders();
+};
+
+const upgradeOrderStatus = (uuid, status) => {
+  if (status === 0) {
+    api.upgradeOrderStatus(uuid, 1);
+    api.getOrders();
+  } else if (status === 1) {
+    api.upgradeOrderStatus(uuid, 2);
+    api.getOrders();
+  }
 };
 
 const date = computed(() => {
   const createdAt = new Date(props.data?.createdAt);
   const currentDate = new Date();
-  console.log(currentDate);
   const options = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    // hour: 'numeric',
-    // minute: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
   };
   const formatted = new Intl.DateTimeFormat('ru-RU', options).format(createdAt);
   return formatted;
@@ -66,6 +78,22 @@ onMounted(() => {});
   width: 320px;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+.mainInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.orderItemsContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .header {

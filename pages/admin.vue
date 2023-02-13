@@ -9,7 +9,17 @@
     <div v-if="api.newOrders && api.isAuth" class="container">
       <h3>Новые заказы</h3>
       <div class="ordersContainer">
-        <CardOrder v-for="order in api.newOrders" :key="`order_${order.uuid}`" :data="order" />
+        <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
+          <CardOrder v-if="order.status === 0" :data="order" />
+        </div>
+      </div>
+    </div>
+    <div v-if="api.newOrders && api.isAuth" class="container">
+      <h3>В работе</h3>
+      <div class="ordersContainer">
+        <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
+          <CardOrder v-if="order.status === 1" :data="order" />
+        </div>
       </div>
     </div>
   </div>
@@ -35,12 +45,15 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+h3 {
+  font-size: 25px;
+}
 .mainAdmin {
   margin-top: 70px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   height: 100%;
 }
 
@@ -55,7 +68,7 @@ onMounted(() => {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 22px;
   padding: 40px;
 }
 
