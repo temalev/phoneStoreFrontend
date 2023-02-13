@@ -17,13 +17,14 @@ export const useApi = defineStore('api', {
 
   actions: {
     async fetchWithAuth(url, opts) {
+      opts.headers = {
+        'Content-Type': 'application/json',
+      };
       if (this.config.public.NODE_ENV === 'development') {
         const accessToken = localStorage.jwt1;
-        opts.headers = {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        };
+        opts.headers.Authorization = `Bearer ${accessToken}`;
       }
+
       const res = await fetch(url, opts);
       if (res.status === 403 || res.status === 401) {
         this.isAuth = false;
