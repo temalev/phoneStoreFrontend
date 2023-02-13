@@ -1,6 +1,6 @@
 <template>
   <div class="mainFooter">
-    <div class="linksContainer">
+    <div class="navContainer">
       <h3>Навигация</h3>
       <nav class="links">
         <NuxtLink
@@ -13,6 +13,12 @@
           {{ link?.name }}
         </NuxtLink>
       </nav>
+    </div>
+    <div class="linksContainer">
+      <div class="rowLinks">
+        <div class="tel">+7(910)901-10-00</div>
+        <a href="https://t.me/RK_TECH01" class="telegramIco"></a>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +38,8 @@ const getProduct = (link) => {
 </script>
 <style scoped>
 .mainFooter {
+  display: flex;
+  justify-content: space-around;
   width: 100%;
   height: 400px;
   background-color: #2c2c2c;
@@ -42,7 +50,7 @@ const getProduct = (link) => {
   box-sizing: border-box;
 }
 
-.linksContainer {
+.navContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -55,5 +63,25 @@ const getProduct = (link) => {
 }
 .navLinkMobile {
   color: #fff;
+}
+
+.linksContainer {
+  display: flex;
+  align-items: flex-start;
+}
+.rowLinks {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.telegramIco {
+  background-image: url(~/public/icons/telegram.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  display: block;
 }
 </style>
