@@ -24,11 +24,16 @@
       </NuxtLink>
     </nav>
 
-    <div class="leftContainer">
+    <div v-if="!api.isAuth" class="leftContainer">
       <div class="call" />
       <div class="shopBag" @click="isShopBag = true">
         <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
       </div>
+    </div>
+    <div v-if="api.isAuth" class="leftContainer">
+      <NuxtLink to="/admin">
+        <div class="admin" />
+      </NuxtLink>
     </div>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
@@ -51,11 +56,16 @@
     </div>
 
     <div class="wrapper" style="justify-content: flex-end">
-      <div class="leftContainer">
+      <div v-if="!api.isAuth" class="leftContainer">
         <div class="call" />
         <div class="shopBag" @click="isShopBag = true">
           <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
         </div>
+      </div>
+      <div v-if="api.isAuth" class="leftContainer">
+        <NuxtLink to="/admin">
+          <div class="admin" />
+        </NuxtLink>
       </div>
     </div>
     <Teleport v-if="isMenu" to="body">
@@ -231,6 +241,16 @@ onMounted(() => {
   background-repeat: no-repeat;
   width: 40px;
   height: 40px;
+}
+
+.admin {
+  background-image: url(~/public/icons/user.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }
 
 .wrapper {

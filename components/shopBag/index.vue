@@ -40,17 +40,24 @@
               <h3>Получение товара</h3>
               <div class="radioVariants">
                 <div class="variant" v-for="radio in radioVariants" :key="radio.id">
-                  <CustomRadio
-                    :label="radio.name"
-                    :id="radio.id"
-                    :checked="currentSel === radio.id"
-                    @change="onChangeRadio"
-                  />
-                  <div class="icoQuestion">
-                    <div class="annotation">
-                      {{ radio.info }}
+                  <div class="rowVariant">
+                    <CustomRadio
+                      :label="radio.name"
+                      :id="radio.id"
+                      :checked="currentSel === radio.id"
+                      @change="onChangeRadio"
+                    />
+                    <div class="icoQuestion">
+                      <div class="annotation">
+                        {{ radio.info }}
+                      </div>
                     </div>
                   </div>
+                  <CustomTextarea
+                    v-if="currentSel > 1 && currentSel === radio.id"
+                    label="Адресс доставки"
+                    @inputValue="(val) => (userData.address = val)"
+                  />
                 </div>
               </div>
             </div>
@@ -60,7 +67,7 @@
         <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
       </div>
       <div v-else-if="isApprovedOrder" class="approvedOrder">
-        Заказ успешно оформелен, в ближайшее время мы с Вами свяжемся
+        Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
       </div>
       <div v-else class="empty">
         <h3>Тут одиноко..</h3>
@@ -131,7 +138,7 @@ const onCreateOrder = () => {
     items,
     communicationMethod: 0,
     delivery: currentSel.value,
-    deliveryMessage: 'улица Российская',
+    deliveryMessage: userData.value.address,
   };
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
     api.createOrder(ordersData);
@@ -301,6 +308,12 @@ h2 {
 }
 
 .variant {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rowVariant {
   display: flex;
   gap: 10px;
   align-items: center;

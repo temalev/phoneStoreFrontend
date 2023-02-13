@@ -1,7 +1,7 @@
 <template>
   <div class="mainCustomInput">
     <label for="">{{ label }}</label>
-    <input class="customInput" :type="type" :placeholder="placeholder" v-model="model" />
+    <textarea class="customInput" :type="type" :placeholder="placeholder" v-model="model" />
   </div>
 </template>
 <script>
@@ -48,10 +48,11 @@ label {
   outline: none;
   border: 1px solid #ccc;
   font-size: 18px;
+  resize: none;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+textarea::-webkit-outer-spin-button,
+textarea::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 </style>

@@ -4,6 +4,13 @@ export default defineNuxtConfig({
   ssr: true,
   css: ['~/assets/styles/main.css'],
   modules: ['@pinia/nuxt', 'nuxt-icons'],
+  buildModules: [
+    // Simple usage
+    '@nuxtjs/moment',
+
+    // With options
+    ['@nuxtjs/moment', { /* module options */ }],
+  ],
   head: {
     title: 'rk-tech',
     titleTemplate: '%s - Nuxt',

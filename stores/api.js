@@ -10,7 +10,8 @@ export const useApi = defineStore('api', {
     products: [],
     orders: [],
     lastOrder: null,
-    isAuth: true,
+    isAuth: false,
+    newOrders: [],
     aprovedOrders: [],
   }),
 
@@ -20,9 +21,9 @@ export const useApi = defineStore('api', {
         const accessToken = localStorage.jwt1;
         opts.headers = {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         };
       }
-      console.log(this.config.public.NODE_ENV);
       const res = await fetch(url, opts);
       if (res.status === 403 || res.status === 401) {
         this.isAuth = false;
@@ -39,7 +40,7 @@ export const useApi = defineStore('api', {
         headers,
         body: JSON.stringify(adminData),
       });
-      if (res.status === 201 || res.status === 201) {
+      if (res.status === 201 || res.status === 200) {
         this.isAuth = true;
         const data = await res.json();
         localStorage.setItem('jwt1', data.accessToken);
@@ -50,6 +51,27 @@ export const useApi = defineStore('api', {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/order`, {
         method: 'GET',
         credentials: 'include',
+      });
+      const data = await res.json();
+      this.newOrders = data;
+      return data;
+    },
+
+    async deleteOrder(uuid) {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/order/${uuid}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      this.aprovedOrders = data;
+      return data;
+    },
+
+    async updateProduct(uuid, product) {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/product/${uuid}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(product),
       });
       const data = await res.json();
       this.aprovedOrders = data;

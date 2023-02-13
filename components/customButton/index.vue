@@ -18,7 +18,6 @@ const props = defineProps({
   width: 100%;
   box-sizing: border-box;
   font-size: 16px;
-  flex-shrink: 0;
 
   &:hover {
     box-shadow: 0 0 10px rgba(103, 103, 103, 0.781);

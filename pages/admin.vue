@@ -6,6 +6,12 @@
       <CustomInput @inputValue="(val) => (adminData.password = val)" />
       <CustomButton @click="login" :name="'Войти'" />
     </div>
+    <div v-if="api.newOrders && api.isAuth" class="container">
+      <h3>Новые заказы</h3>
+      <div class="ordersContainer">
+        <CardOrder v-for="order in api.newOrders" :key="`order_${order.uuid}`" :data="order" />
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -35,7 +41,7 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  height: 100%;
 }
 
 .authContainer {
@@ -43,5 +49,19 @@ onMounted(() => {
   flex-direction: column;
   gap: 10px;
   width: 300px;
+  margin: 30px 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 40px;
+}
+
+.ordersContainer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 </style>

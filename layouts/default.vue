@@ -5,7 +5,7 @@
   <div class="main">
     <TheHeader :isDesktop="isDesktop" />
     <slot />
-    <!-- <TheFooter /> -->
+    <TheFooter />
   </div>
 </template>
 <script setup>
@@ -27,6 +27,9 @@ onMounted(() => {
   if (localStorage?.orders) {
     api.orders = JSON.parse(localStorage.orders);
     api.getCategories();
+  }
+  if (localStorage?.jwt1) {
+    api.isAuth = true;
   }
 });
 </script>

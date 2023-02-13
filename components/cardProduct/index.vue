@@ -5,7 +5,13 @@
       <div class="infoContainer">
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>
-          <span class="price">{{ price }} <strong>₽</strong> </span>
+          <span v-if="!api.isAuth" class="price">{{ priceFrmt }} <strong>₽</strong> </span>
+          <CustomInput
+            v-if="api.isAuth"
+            :value="price"
+            type="number"
+            @inputValue="(val) => (editedPrice = val)"
+          />
         </div>
         <div class="optionsContainer">
           <Option
@@ -18,7 +24,8 @@
       </div>
     </div>
     <div class="wrapperButton">
-      <CustomButton @click="sendToShopBag" :name="'В корзину'" />
+      <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <CustomButton v-if="api.isAuth" @click="onSaveProductData" :name="'Сохранить'" />
     </div>
   </div>
 </template>
@@ -29,6 +36,7 @@ import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
+const editedPrice = ref(null);
 
 const emit = defineEmits(['selectedProducts']);
 // eslint-disable-next-line no-unused-vars
@@ -71,10 +79,12 @@ const price = computed(() => {
           canditate = props.product.variants[idx];
         }
       });
-    return new Intl.NumberFormat('ru').format(canditate.optionsInfo.price);
+    return canditate.optionsInfo.price;
   }
-  return new Intl.NumberFormat('ru').format(props.product.price);
+  return props.product.price;
 });
+
+const priceFrmt = computed(() => new Intl.NumberFormat('ru').format(price.value));
 
 const selectedOpt = (id, index) => {
   selectedOptions.value[index] = id;
@@ -85,6 +95,31 @@ const sendToShopBag = () => {
   const selectedProduct = { product: props.product, options: selectedOptions.value };
   api.orders.push(selectedProduct);
   localStorage.setItem('orders', JSON.stringify(api.orders));
+};
+
+const isColorOpt = (options) => (optionId) => {
+  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
+  if (!colorOption) {
+    return true;
+  }
+  return !colorOption.items.some((el) => el.id === optionId);
+};
+
+const onSaveProductData = () => {
+  const { variants, options } = props.product;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds }, idx) => {
+    const isCandidate = notColorOptions.every((id) => optionsIds.includes(id));
+
+    if (isCandidate) {
+      variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo.price;
+      variants[idx].optionsInfo.price = editedPrice.value;
+    }
+  });
+
+  // props.product.variants = props.product.variants.map(({ optionsIds }) => )
+  api.updateProduct(props.product.uuid, { variants });
 };
 
 // eslint-disable-next-line no-undef
