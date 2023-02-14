@@ -157,10 +157,6 @@ onMounted(() => {
   transition: 0.1s;
   cursor: pointer;
   border-bottom: 1px solid transparent;
-
-  &:hover {
-    border-bottom: 1px solid rgb(89, 89, 89);
-  }
 }
 
 .menu {
