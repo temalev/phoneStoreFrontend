@@ -4,7 +4,7 @@
       <img class="imgProduct" :src="baseImg" alt="" />
       <div class="infoContainer">
         <div class="header">
-          <h3 class="productName">{{ product.name }}</h3>
+          <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
           <CustomInput
             v-if="api.isAuth"
             :value="product.name"
@@ -125,12 +125,13 @@ const onSaveProductData = () => {
 
     if (isCandidate) {
       variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo.price;
-      variants[idx].optionsInfo.price = editedPrice.value;
+      variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo.price;
     }
   });
 
-  // props.product.variants = props.product.variants.map(({ optionsIds }) => )
-  api.updateProduct(props.product.uuid, { variants });
+  const updatedProductData = { name: editedName.value || props.product.name, variants };
+
+  api.updateProduct(props.product.uuid, updatedProductData);
 };
 
 const onDeleteProduct = () => {
@@ -222,7 +223,7 @@ onMounted(() => {});
   box-sizing: border-box;
   border: 1px solid #2c2c2c;
   border-radius: 8px;
-  opacity: .9;
+  opacity: 0.9;
   cursor: pointer;
 }
 </style>
