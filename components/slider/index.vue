@@ -27,9 +27,7 @@ const getProduct = (link) => {
 };
 
 // eslint-disable-next-line no-undef
-onMounted(() => {
-  console.log(categories);
-});
+onMounted(() => {});
 </script>
 
 <style scoped lang="scss">
@@ -37,7 +35,12 @@ onMounted(() => {
   display: flex;
   gap: 30px;
   overflow: scroll;
+  scroll-behavior: smooth;
   padding: 20px 10px;
+  @media (max-width: 500px) {
+    scroll-snap-type: x mandatory;
+    padding: 0 100px;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -57,6 +60,9 @@ onMounted(() => {
     transition: 0.2s;
     box-sizing: border-box;
     cursor: pointer;
+    @media (max-width: 500px) {
+      scroll-snap-align: center;
+    }
     &:hover {
       box-shadow: 0 0 20px #c4c4c4;
     }
