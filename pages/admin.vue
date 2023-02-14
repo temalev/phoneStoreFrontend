@@ -1,5 +1,5 @@
 <template>
-  <div class="mainAdmin">
+  <div class="mainAdmin" :style="{ alignItems: !api.isAuth ? 'center' : '' }">
     <div v-if="!api.isAuth" class="authContainer">
       <h2>Авторизация</h2>
       <CustomInput @inputValue="(val) => (adminData.login = val)" />
