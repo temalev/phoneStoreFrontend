@@ -43,7 +43,7 @@
     </div>
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
-      <div class="icoDelete" @click="onDeleteProduct"></div>
+      <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
       <CustomButton v-if="api.isAuth" @click="onSaveProductData" :name="'Сохранить'" />
     </div>
   </div>
