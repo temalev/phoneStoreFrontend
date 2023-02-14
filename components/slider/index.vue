@@ -39,7 +39,7 @@ onMounted(() => {});
   padding: 20px 10px;
   @media (max-width: 500px) {
     scroll-snap-type: x mandatory;
-    padding: 0 100px;
+    padding: 20px 100px;
   }
   &::-webkit-scrollbar {
     display: none;
