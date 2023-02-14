@@ -84,7 +84,7 @@
             class="navLinkMobile"
             @click="getProduct(link.link)"
           >
-            <span v-if="link.isName" class="navNameMobile">{{ link.name }}</span>
+            <span class="navNameMobile">{{ link.name }}</span>
           </NuxtLink>
         </nav>
       </div>
