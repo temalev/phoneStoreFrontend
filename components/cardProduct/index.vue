@@ -11,7 +11,18 @@
             type="text"
             @inputValue="(val) => (editedName = val)"
           />
-          <span v-if="!api.isAuth" class="price">{{ priceFrmt }} <strong>₽</strong> </span>
+          <div class="priceRow">
+            <span v-if="!api.isAuth && priceFrmt(oldPrice)" class="oldPrice"
+              >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
+            </span>
+            <span
+              v-if="!api.isAuth"
+              class="price"
+              :style="{ color: priceFrmt(oldPrice) ? 'red' : '' }"
+              >{{ priceFrmt(price) }} <strong>₽</strong>
+            </span>
+          </div>
+
           <!-- <p class="description">{{ product?.description }}</p> -->
           <CustomInput
             v-if="api.isAuth"
@@ -94,8 +105,27 @@ const price = computed(() => {
   }
   return props.product.price;
 });
+const oldPrice = computed(() => {
+  if (selectedOptions.value.length) {
+    // eslint-disable-next-line max-len
+    let canditate = null;
+    props.product.variants
+      // eslint-disable-next-line max-len
+      .forEach(({ optionsIds }, idx) => {
+        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
-const priceFrmt = computed(() => new Intl.NumberFormat('ru').format(price.value));
+        if (isContains) {
+          canditate = props.product.variants[idx];
+        }
+      });
+    return canditate.optionsInfo.oldPrice > canditate.optionsInfo.price
+      ? canditate.optionsInfo.oldPrice
+      : null;
+  }
+  return props.product.oldPrice;
+});
+
+const priceFrmt = (val) => (val ? new Intl.NumberFormat('ru').format(val) : null);
 
 const selectedOpt = (id, index) => {
   selectedOptions.value[index] = id;
@@ -196,6 +226,20 @@ onMounted(() => {});
   font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
     'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
+}
+
+.priceRow {
+  display: flex;
+  gap: 12px;
+}
+
+.oldPrice {
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: #373737;
+  text-decoration: line-through;
 }
 
 .price {
