@@ -53,7 +53,7 @@
     </div>
 
     <div class="wrapper" style="justify-content: center">
-      <NuxtLink to="/">
+      <NuxtLink @click="isMenu = false" to="/">
         <div class="logo" />
       </NuxtLink>
     </div>
@@ -61,7 +61,7 @@
     <div class="wrapper" style="justify-content: flex-end">
       <div v-if="!api.isAuth" class="leftContainer">
         <div class="call" />
-        <div class="shopBag" @click="isShopBag = true">
+        <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
           <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
         </div>
       </div>
