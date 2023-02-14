@@ -5,6 +5,12 @@
       <div class="infoContainer">
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>
+          <CustomInput
+            v-if="api.isAuth"
+            :value="product.name"
+            type="text"
+            @inputValue="(val) => (editedName = val)"
+          />
           <span v-if="!api.isAuth" class="price">{{ priceFrmt }} <strong>₽</strong> </span>
           <!-- <p class="description">{{ product?.description }}</p> -->
           <CustomInput
@@ -26,7 +32,6 @@
     </div>
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
-      <!-- <CustomButton v-if="api.isAuth" @click="onDeleteProduct" :name="'Удалить'" /> -->
       <div class="icoDelete" @click="onDeleteProduct"></div>
       <CustomButton v-if="api.isAuth" @click="onSaveProductData" :name="'Сохранить'" />
     </div>
@@ -51,8 +56,8 @@ const props = defineProps({
 });
 
 const selectedColor = ref(null);
-// const price = computed(() => new Intl.NumberFormat('ru').format(props.product.price));
 const selectedOptions = ref([]);
+const editedName = ref(null);
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {

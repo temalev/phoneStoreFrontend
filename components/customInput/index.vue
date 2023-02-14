@@ -13,7 +13,10 @@ export default {
       type: String,
       default: 'text',
     },
-    value: Number,
+    value: {
+      type: [String, Number],
+      default: null,
+    },
   },
   emits: ['inputValue'],
   computed: {

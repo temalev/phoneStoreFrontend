@@ -1,6 +1,9 @@
 <template>
   <div class="body">
-    <div class="welcome"></div>
+    <div class="welcome">
+      <h1>RK TECH</h1>
+      <p>Высокий уровень сервиса и доступные цены.</p>
+    </div>
     <Slider />
     <InfoContainers />
   </div>
@@ -19,7 +22,16 @@
   flex-direction: column;
   gap: 50px;
 }
+
+h1{
+  font-size: 52px;
+}
 .welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
   position: relative;
   margin-top: 70px;
   background-image: url(~/public/images/mainPageBackground.jpeg);
