@@ -10,7 +10,7 @@ export const useApi = defineStore('api', {
     products: [],
     orders: [],
     lastOrder: null,
-    isAuth: false,
+    isAuth: true,
     newOrders: [],
     aprovedOrders: [],
     isCookie: true,
