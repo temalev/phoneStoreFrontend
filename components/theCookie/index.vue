@@ -5,7 +5,12 @@
 </div>
 </template>
 <script setup>
+import { useApi } from '~/stores/api';
+
+const api = useApi();
+
 const onCookie = () => {
+  api.isCookie = true;
   localStorage.setItem('cookie', 'true');
 };
 </script>
