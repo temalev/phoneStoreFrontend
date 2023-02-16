@@ -10,7 +10,7 @@ export const useApi = defineStore('api', {
     products: [],
     orders: [],
     lastOrder: null,
-    isAuth: true,
+    isAuth: false,
     newOrders: [],
     aprovedOrders: [],
     isCookie: true,
@@ -29,6 +29,7 @@ export const useApi = defineStore('api', {
       const res = await fetch(url, opts);
       if (res.status === 403 || res.status === 401) {
         this.isAuth = false;
+        localStorage.removeItem('isAuth');
         return null;
       } return res;
     },
@@ -68,6 +69,7 @@ export const useApi = defineStore('api', {
       });
       const data = await res.json();
       this.newOrders = data;
+      this.isAuth = true;
       return data;
     },
 

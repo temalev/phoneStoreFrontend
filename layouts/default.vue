@@ -26,6 +26,7 @@ const api = useApi();
 // });
 // eslint-disable-next-line no-undef
 onMounted(() => {
+  api.getOrders();
   if (window.screen.width <= 700) {
     determiningWidth.editDesktop(false);
   } else {
