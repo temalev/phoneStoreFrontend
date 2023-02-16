@@ -3,15 +3,40 @@
     <DropZone v-if="!urlFile" @drop.prevent="drop" @change="selectedFile" />
     <img v-if="urlFile" :src="urlFile" alt="" width="250" height="250" />
     <DropList />
-    <CustomInput @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
-    <input type="color" name="" id="" />
+    <Input @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
+    <Input @inputValue="(val) => (productData.description = val)" placeholder="Описание товара" />
+    <div class="addOption">
+      <div class="headerAddOption">
+        <h2>Добавьте опции</h2>
+        <CustomButton @click="opts += 1" type="plus" />
+      </div>
+
+      <AddOption />
+    </div>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
+
+const opts = ref(0);
+const colors = ref([
+  {
+    id: 1,
+    color: '#333',
+  },
+  {
+    id: 2,
+    color: '#eee',
+  },
+  {
+    id: 3,
+    color: '#5t5t5t',
+  },
+]);
 
 const dropzoneFile = ref(null);
 const urlFile = ref(null);
@@ -36,9 +61,8 @@ const selectedFile = () => {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 22px;
   width: 300px;
-  height: 400px;
   background-color: #fff;
   border: 1px solid #eee;
   box-shadow: 0 0 20px #949494;
@@ -48,5 +72,18 @@ const selectedFile = () => {
     border-radius: 32px;
     object-fit: cover;
   }
+}
+
+.addOption {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.headerAddOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 </style>

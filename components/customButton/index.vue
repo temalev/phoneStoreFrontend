@@ -1,9 +1,11 @@
 <template>
-  <button class="customButton">{{ name }}</button>
+  <button v-if="type === 'plus'" style="width: 40px; height: 30px" class="customButton">+</button>
+  <button v-else class="customButton">{{ name }}</button>
 </template>
 <script setup>
 const props = defineProps({
   name: String,
+  type: String,
 });
 </script>
 <style scoped lang="scss">

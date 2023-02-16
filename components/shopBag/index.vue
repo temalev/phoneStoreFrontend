@@ -24,12 +24,12 @@
           <h3>Оформить заказ</h3>
           <div class="body">
             <div class="inputsContainer">
-              <CustomInput
+              <Input
                 :label="'ФИО*'"
                 :placeholder="'Иванов Иван Иванович'"
                 @inputValue="(val) => (userData.name = val)"
               />
-              <CustomInput
+              <Input
                 :label="'Телефон*'"
                 :type="'number'"
                 :placeholder="'+7 900 100-00-00'"

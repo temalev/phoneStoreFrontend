@@ -5,7 +5,7 @@
         <span v-if="!selected.name">Выберите категорию</span>
         {{ selected.name }}</span
       >
-      <NuxtIcon name="down" filled />
+      <NuxtIcon class="ico" name="down" filled />
     </div>
     <div class="listContainer" :style="{ display: activeList ? 'flex' : '' }">
       <div
@@ -19,6 +19,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 import { useApi } from '~/stores/api';
@@ -29,12 +30,17 @@ const activeList = ref(false);
 
 const selected = ref({});
 </script>
+
 <style scoped lang="scss">
 .dropList {
   width: 100%;
   position: relative;
+  white-space: nowrap;
+  // overflow: hidden;
 }
 .selectedItem {
+  // position: relative;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   border: 1px solid #eee;
@@ -51,7 +57,16 @@ const selected = ref({});
   border: 1px solid #eee;
   background-color: #fff;
   width: 100%;
-  z-index: 12;
+  z-index: 22;
+}
+
+.ico {
+  right: 0px;
+  padding: 0 6px;
+  margin: 0 1px;
+  position: absolute;
+  flex-shrink: 0;
+  background-color: #fff;
 }
 
 .list {

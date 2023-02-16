@@ -5,7 +5,7 @@
       <div class="infoContainer">
         <div class="header">
           <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
-          <CustomInput
+          <Input
             v-if="api.isAuth"
             :value="product.name"
             type="text"
@@ -24,7 +24,7 @@
           </div>
 
           <!-- <p class="description">{{ product?.description }}</p> -->
-          <CustomInput
+          <Input
             v-if="api.isAuth"
             :value="price"
             type="number"

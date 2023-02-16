@@ -2,8 +2,8 @@
   <div class="mainAdmin" :style="{ alignItems: !api.isAuth ? 'center' : '' }">
     <div v-if="!api.isAuth" class="authContainer">
       <h2>Авторизация</h2>
-      <CustomInput @inputValue="(val) => (adminData.login = val)" />
-      <CustomInput @inputValue="(val) => (adminData.password = val)" />
+      <Input @inputValue="(val) => (adminData.login = val)" />
+      <Input @inputValue="(val) => (adminData.password = val)" />
       <CustomButton @click="login" :name="'Войти'" />
     </div>
     <div v-if="api.newOrders && api.isAuth" class="container">
@@ -26,6 +26,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';

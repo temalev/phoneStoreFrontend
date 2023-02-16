@@ -2,7 +2,6 @@
   <div class="mainCustomInput">
     <label for="">{{ label }}</label>
     <div class="input">
-      <DropList />
       <input class="customInput" :type="type" :placeholder="placeholder" v-model="model" />
     </div>
   </div>
@@ -59,7 +58,7 @@ label {
   padding: 5px;
 }
 .customInput {
-  padding: 5px 10px;
+  padding: 2px 5px;
   border: none;
   outline: none;
   width: 100%;
