@@ -25,11 +25,13 @@
     </nav>
 
     <div v-if="!api.isAuth" class="leftContainer">
-      <div class="call" />
+      <!-- <div class="call" /> -->
+      <div class="telContainer">+7 (910) 901-10-00</div>
       <div class="shopBag" @click="isShopBag = true">
         <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
       </div>
     </div>
+
     <div v-if="api.isAuth" class="leftContainer">
       <NuxtLink to="/admin">
         <div class="admin" />
@@ -213,6 +215,17 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   cursor: pointer;
+}
+
+.telContainer {
+  position: absolute;
+  bottom: -40px;
+  right: 70px;
+  width: max-content;
+  background-color: #1d1d1dac;
+  padding: 10px;
+  color: #fff;
+  border-radius: 0 0 8px 8px;
 }
 
 .shopBag {
