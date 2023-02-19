@@ -33,8 +33,8 @@
         </div>
         <div class="optionsContainer">
           <Option
-            v-for="(option, idOpt) in product.options"
-            :key="option.name"
+            v-for="(option, idOpt) in product?.options"
+            :key="option?.name"
             :option="option"
             @selectedOpt="(id) => selectedOpt(id, idOpt)"
           />
@@ -80,12 +80,12 @@ const baseImg = computed(() => {
         const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
-          canditate = props.product.variants[idx];
+          canditate = props.product?.variants[idx];
         }
       });
-    return canditate?.optionsInfo.images[0] || props.product.images[0];
+    return canditate?.optionsInfo?.images[0] || props.product?.images[0];
   }
-  return props.product.variants[0]?.optionsInfo?.images[0] || props.product.images[0];
+  return props.product?.variants[0]?.optionsInfo?.images[0] || props.product?.images[0];
 });
 
 const price = computed(() => {
@@ -98,10 +98,10 @@ const price = computed(() => {
         const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
-          canditate = props.product.variants[idx];
+          canditate = props.product?.variants[idx];
         }
       });
-    return canditate.optionsInfo.price || props.product.price;
+    return canditate?.optionsInfo?.price || props.product?.price;
   }
   return props.product.price;
 });
@@ -115,11 +115,11 @@ const oldPrice = computed(() => {
         const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
-          canditate = props.product.variants[idx];
+          canditate = props.product?.variants[idx];
         }
       });
-    return canditate.optionsInfo.oldPrice > canditate.optionsInfo.price
-      ? canditate.optionsInfo.oldPrice
+    return canditate?.optionsInfo?.oldPrice > canditate?.optionsInfo?.price
+      ? canditate.optionsInfo?.oldPrice
       : null;
   }
   return props.product.oldPrice;
@@ -154,8 +154,8 @@ const onSaveProductData = () => {
     const isCandidate = notColorOptions.every((id) => optionsIds.includes(id));
 
     if (isCandidate) {
-      variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo.price;
-      variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo.price;
+      variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo?.price;
     }
   });
 

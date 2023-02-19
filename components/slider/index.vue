@@ -21,8 +21,8 @@ const api = useApi();
 
 const props = defineProps({
   categories: {
-    type: Array,
-    default: () => [],
+    type: Object,
+    default: () => {},
   },
 });
 
