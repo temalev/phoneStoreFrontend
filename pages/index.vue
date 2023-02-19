@@ -6,12 +6,16 @@
         <p>Высокий уровень сервиса и доступные цены.</p>
       </div>
     </div>
-    <Slider />
+    <Slider :categories="categories" />
     <InfoContainers />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useCategories } from '~/stores/categories';
+
+const categories = useCategories();
+</script>
 
 <style scoped lang="scss">
 // @media (max-width: 850px) {

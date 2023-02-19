@@ -19,11 +19,7 @@ import { useApi } from '~/stores/api';
 
 const determiningWidth = useDetermininingWidth();
 const api = useApi();
-// const isCookie = computed(() => {
-//   if (!localStorage?.cookie) {
-//     return false;
-//   } return true;
-// });
+
 // eslint-disable-next-line no-undef
 onMounted(() => {
   api.getOrders();

@@ -8,7 +8,7 @@
       <NuxtLink
         v-for="link in categories.categories"
         :key="link.name"
-        :to="`/product/${link.link}`"
+        :to="link.link"
         class="navLink"
         @click="getProduct(link.link)"
       >

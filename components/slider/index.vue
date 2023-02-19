@@ -1,9 +1,9 @@
 <template>
   <div class="mainSliderContainer">
     <NuxtLink
-      v-for="card in categories.categories"
+      v-for="card in props.categories.categories"
       :key="card"
-      :to="`/product/${card.link}`"
+      :to="card.link"
       @click="getProduct(card.link)"
     >
       <div class="productLink">
@@ -15,14 +15,19 @@
 </template>
 
 <script setup>
-import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
 
-const categories = useCategories();
 const api = useApi();
 
+const props = defineProps({
+  categories: {
+    type: Array,
+    default: () => [],
+  },
+});
+
 const getProduct = (link) => {
-  const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
+  const uuidSelectCategory = props.categories.categories.find((el) => el.link === link)?.uuid;
   api.getProducts(uuidSelectCategory);
 };
 
@@ -72,11 +77,13 @@ onMounted(() => {});
 .header {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 22px;
   color: #2c2c2c;
+  text-align: center;
 }
 .img {
   object-fit: fill;
   width: 100%;
+  background-color: #fff;
 }
 </style>
