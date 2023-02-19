@@ -104,12 +104,12 @@ export default {};
 }
 
 .textInfo {
-  display: inline;
-  background-color: rgba(255, 255, 255, 0.636);
-  border-radius: 2px;
-  padding-right: 5px;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  // display: inline;
+  // background-color: rgba(255, 255, 255, 0.636);
+  // border-radius: 2px;
+  // padding-right: 5px;
+  // -webkit-box-decoration-break: clone;
+  // box-decoration-break: clone;
 }
 
 .imgBackground__leftContainer {

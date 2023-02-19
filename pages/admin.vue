@@ -7,8 +7,8 @@
       <CustomButton @click="login" :name="'Войти'" />
     </div>
     <div v-if="api.newOrders && api.isAuth" class="container">
-      <CustomButton name="Добавить продукт" />
-      <CreateProduct />
+      <CustomButton @click="isCreateProduct = true" name="Добавить продукт" />
+      <CreateProduct v-if="isCreateProduct" />
       <h3>Новые заказы</h3>
       <div class="ordersContainer">
         <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
@@ -35,6 +35,8 @@ import { useApi } from '~/stores/api';
 const api = useApi();
 
 const determiningWidth = useDetermininingWidth();
+
+const isCreateProduct = ref(false);
 
 const adminData = ref({ login: '', password: '' });
 

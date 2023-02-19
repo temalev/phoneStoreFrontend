@@ -62,7 +62,7 @@
 
     <div class="wrapper" style="justify-content: flex-end">
       <div v-if="!api.isAuth" class="leftContainer">
-        <div class="call" />
+        <a href="tel:+79109011000" class="call" />
         <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
           <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
         </div>
