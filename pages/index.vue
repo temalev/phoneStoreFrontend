@@ -1,8 +1,10 @@
 <template>
   <div class="body">
     <div class="welcome">
-      <h1>RK TECH</h1>
-      <p>Высокий уровень сервиса и доступные цены.</p>
+      <div class="text">
+        <h1>RK TECH</h1>
+        <p>Высокий уровень сервиса и доступные цены.</p>
+      </div>
     </div>
     <Slider />
     <InfoContainers />
@@ -23,7 +25,7 @@
   gap: 50px;
 }
 
-h1{
+h1 {
   font-size: 52px;
 }
 .welcome {
@@ -45,5 +47,14 @@ h1{
   @media (max-width: 850px) {
     height: 40vh;
   }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-top: -45px;
 }
 </style>
