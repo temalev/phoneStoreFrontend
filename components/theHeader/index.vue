@@ -97,7 +97,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
@@ -115,6 +115,12 @@ const getProduct = (link) => {
     api.getProducts(uuidSelectCategory);
   }
 };
+
+watch(isMenu, (newVal, oldVal) => {
+  if (newVal) {
+    document.body.style.overflow = 'hidden';
+  } else document.body.style.overflow = 'visible';
+});
 
 const logout = () => {
   api.logout();
