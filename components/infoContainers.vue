@@ -128,7 +128,7 @@ export default {};
 }
 
 .imgBackground__rightContainer {
-  background-image: url(~/public/images/buy.jpg);
+  background-image: url(~/public/images/delivery2.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
