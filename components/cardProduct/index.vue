@@ -209,7 +209,8 @@ onMounted(() => {});
 .imgProduct {
   width: 250px;
   height: 250px;
-  background-color: #eee;
+  background-color: #fff;
+  object-fit: contain;
 }
 
 .infoContainer {
