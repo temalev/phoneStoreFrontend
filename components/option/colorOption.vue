@@ -3,7 +3,7 @@
     <h3 class="optionName">{{ option.name.charAt(0).toUpperCase() + option.name.slice(1) }}</h3>
     <div class="colorContainer">
       <div
-        v-for="item in option.items"
+        v-for="item in option?.items"
         :key="item.name"
         class="color"
         @click="selectedColor(item.id)"
