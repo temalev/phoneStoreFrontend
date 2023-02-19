@@ -101,7 +101,7 @@ const price = computed(() => {
           canditate = props.product.variants[idx];
         }
       });
-    return canditate.optionsInfo.price;
+    return canditate.optionsInfo.price || props.product.price;
   }
   return props.product.price;
 });
