@@ -1,6 +1,6 @@
 <template>
 <div class="cookieContainer">
-  <p class="info">Мы используем куки, в наше время без кук никуда </p>
+  <p class="info">Мы используем куки, в наше время без них никуда </p>
   <CustomButton name="Прекрасно" @click="onCookie" style="width: fit-content; padding: 5px 10px;" />
 </div>
 </template>
