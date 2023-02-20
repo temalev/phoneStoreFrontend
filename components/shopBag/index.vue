@@ -70,7 +70,8 @@
         Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
       </div>
       <div v-else class="empty">
-        <h3>Тут одиноко..</h3>
+        <img src="icons/bag.svg" alt="" class="emptyBag">
+        <h3>Добавьте товар в корзину</h3>
       </div>
     </div>
   </Teleport>
@@ -395,6 +396,11 @@ h2 {
 }
 
 .empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   background-color: #fff;
   padding: 50px;
   box-shadow: 0 0 20px rgb(166, 166, 166);
@@ -402,5 +408,11 @@ h2 {
   height: 200px;
   width: 400px;
   box-sizing: border-box;
+}
+
+.emptyBag {
+  width: 80px;
+  height: 80px;
+  opacity: .2;
 }
 </style>
