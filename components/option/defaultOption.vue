@@ -55,7 +55,7 @@ onMounted(() => {
 }
 
 .btnOption {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #eee;
   border-radius: 12px;
   cursor: pointer;
