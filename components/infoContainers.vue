@@ -33,9 +33,9 @@
     </div>
   </div>
 </template>
-<script>
-export default {};
-</script>
+
+<script></script>
+
 <style scoped lang="scss">
 .mainInfoContainers {
   display: flex;
