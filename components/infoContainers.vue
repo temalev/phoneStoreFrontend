@@ -9,6 +9,7 @@
       </div>
       <div class="imgBackground__leftContainer" />
     </div>
+
     <div class="rightContainers">
       <div class="rightContainer">
         <div class="textInfoContainer">
