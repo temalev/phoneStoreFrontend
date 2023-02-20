@@ -70,7 +70,7 @@
         Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
       </div>
       <div v-else class="empty">
-        <img src="icons/bag.svg" alt="" class="emptyBag">
+        <img src="icons/bag.svg" alt="bag" class="emptyBag">
         <h3>Добавьте товар в корзину</h3>
       </div>
     </div>
