@@ -69,7 +69,7 @@ onMounted(() => {
 }
 .colorContainer {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 15px;
   margin-left: 5px;
 }
