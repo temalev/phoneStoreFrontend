@@ -7,71 +7,78 @@
       }"
       @click.self="closeShopBag()"
     >
-      <div v-if="isEmptyShopBag && !isApprovedOrder" class="wrapper">
-        <div class="close" @click.self="closeShopBag()" />
-        <div class="shopBagContainer">
-          <h3>Корзина</h3>
-          <ShopBagOrders />
-          <div class="allCost">
-            <span class="name">Итого</span>
-            <span class="allPrice"
-              >{{ new Intl.NumberFormat('ru').format(api.orders.totalCost) }}
-              <strong>₽</strong></span
-            >
-          </div>
-        </div>
-        <div class="orderContainer">
-          <h3>Оформить заказ</h3>
-          <div class="body">
-            <div class="inputsContainer">
-              <Input
-                :label="'ФИО*'"
-                :placeholder="'Иванов Иван Иванович'"
-                @inputValue="(val) => (userData.name = val)"
-              />
-
-              <RussianPhoneNumberInput
-                :label="'Телефон*'"
-                @inputValue="(val) => (userData.tel = val)"
-              />
+      <Transition>
+        <div v-if="isEmptyShopBag && !isApprovedOrder" class="wrapper">
+          <div class="close" @click.self="closeShopBag()" />
+          <div class="shopBagContainer">
+            <h3>Корзина</h3>
+            <ShopBagOrders />
+            <div class="allCost">
+              <span class="name">Итого</span>
+              <span class="allPrice"
+                >{{ new Intl.NumberFormat('ru').format(api.orders.totalCost) }}
+                <strong>₽</strong></span
+              >
             </div>
-            <div class="radioContainer">
-              <h3>Получение товара</h3>
-              <div class="radioVariants">
-                <div class="variant" v-for="radio in radioVariants" :key="radio.id">
-                  <div class="rowVariant">
-                    <CustomRadio
-                      :label="radio.name"
-                      :id="radio.id"
-                      :checked="currentSel === radio.id"
-                      @change="onChangeRadio"
-                    />
-                    <div class="icoQuestion">
-                      <div class="annotation">
-                        {{ radio.info }}
+          </div>
+          <div class="orderContainer">
+            <h3>Оформить заказ</h3>
+            <div class="body">
+              <div class="inputsContainer">
+                <Input
+                  :label="'ФИО*'"
+                  :placeholder="'Иванов Иван Иванович'"
+                  @inputValue="(val) => (userData.name = val)"
+                />
+
+                <RussianPhoneNumberInput
+                  :label="'Телефон*'"
+                  @inputValue="(val) => (userData.tel = val)"
+                />
+              </div>
+              <div class="radioContainer">
+                <h3>Получение товара</h3>
+                <div class="radioVariants">
+                  <div class="variant" v-for="radio in radioVariants" :key="radio.id">
+                    <div class="rowVariant">
+                      <CustomRadio
+                        :label="radio.name"
+                        :id="radio.id"
+                        :checked="currentSel === radio.id"
+                        @change="onChangeRadio"
+                      />
+                      <div class="icoQuestion">
+                        <div class="annotation">
+                          {{ radio.info }}
+                        </div>
                       </div>
                     </div>
+                    <CustomTextarea
+                      v-if="currentSel > 1 && currentSel === radio.id"
+                      label="Адресс доставки"
+                      @inputValue="(val) => (userData.address = val)"
+                    />
                   </div>
-                  <CustomTextarea
-                    v-if="currentSel > 1 && currentSel === radio.id"
-                    label="Адресс доставки"
-                    @inputValue="(val) => (userData.address = val)"
-                  />
                 </div>
               </div>
             </div>
           </div>
+          <span v-if="isInvalidData" class="message">Проверьте правильность заполнения полей</span>
+          <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
         </div>
-        <span v-if="isInvalidData" class="message">Проверьте правильность заполнения полей</span>
-        <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
-      </div>
-      <div v-else-if="isApprovedOrder" class="approvedOrder">
-        Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
-      </div>
-      <div v-else class="empty">
-        <img src="public/icons/bag.svg" alt="bag" class="emptyBag" />
-        <h3>Добавьте товар в корзину</h3>
-      </div>
+
+        <div v-else-if="isApprovedOrder" class="approvedOrder">
+          <div class="icoAccept" />
+          <span class="acceptMesg">
+            Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
+          </span>
+        </div>
+
+        <div v-else class="empty">
+          <img src="/icons/bag.svg" alt="bag" class="emptyBag" />
+          <h3>Добавьте товар в корзину</h3>
+        </div>
+      </Transition>
     </div>
   </Teleport>
 </template>
@@ -255,16 +262,27 @@ h2 {
 }
 
 .approvedOrder {
-  width: 300px;
-  height: 200px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 0 20px rgb(160, 160, 160);
-  border-radius: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  flex-direction: column;
+  padding: 36px 12px;
+  gap: 32px;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 0 20px rgb(160, 160, 160);
+  border-radius: 24px;
+}
+
+.icoAccept {
+  background-image: url(/icons/accept.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 80px;
 }
 .orderContainer {
   position: relative;
@@ -413,5 +431,16 @@ h2 {
   width: 80px;
   height: 80px;
   opacity: 0.2;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  position: absolute;
+  opacity: 0;
 }
 </style>
