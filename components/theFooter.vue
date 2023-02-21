@@ -39,6 +39,10 @@
           <a href="https://wa.me/79109011000" class="whatsappIco" />
         </div>
       </div>
+      <span class="email"
+        >info@rk-tech.shop -
+        <span> По вопросам сотрудничества, идеям по улучшению и жалобам. </span></span
+      >
       <div class="oferta">
         <p>
           Сайт носит исключительно информационный характер и не является публичной офертой,
@@ -167,5 +171,13 @@ const getProduct = (link) => {
   width: 25px;
   height: 25px;
   display: block;
+}
+
+.email {
+  font-size: 18px;
+  span {
+    font-weight: 300;
+    font-size: 15px;
+  }
 }
 </style>

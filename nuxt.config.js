@@ -2,6 +2,7 @@
 // eslint-disable-next-line no-undef
 export default defineNuxtConfig({
   ssr: true,
+  mode: 'universal',
   css: ['~/assets/styles/main.css'],
   modules: ['@pinia/nuxt'],
   buildModules: [

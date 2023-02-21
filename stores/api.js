@@ -67,10 +67,13 @@ export const useApi = defineStore('api', {
         method: 'GET',
         credentials: 'include',
       });
-      const data = await res.json();
-      this.newOrders = data;
-      this.isAuth = true;
-      return data;
+      if (res) {
+        const data = await res.json();
+        this.newOrders = data;
+        this.isAuth = true;
+        return data;
+      }
+      return false;
     },
 
     async upgradeOrderStatus(uuid, status) {
@@ -142,6 +145,7 @@ export const useApi = defineStore('api', {
         method: 'GET',
       });
       const data = await res.json();
+
       return data;
     },
 
