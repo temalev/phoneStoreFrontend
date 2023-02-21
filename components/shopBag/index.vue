@@ -29,10 +29,9 @@
                 :placeholder="'Иванов Иван Иванович'"
                 @inputValue="(val) => (userData.name = val)"
               />
-              <Input
+
+              <RussianPhoneNumberInput
                 :label="'Телефон*'"
-                :type="'number'"
-                :placeholder="'+7 900 100-00-00'"
                 @inputValue="(val) => (userData.tel = val)"
               />
             </div>
