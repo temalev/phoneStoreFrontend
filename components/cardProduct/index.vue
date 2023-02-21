@@ -258,7 +258,7 @@ onMounted(() => {});
 }
 
 .icoDelete {
-  background-image: url(~/public/icons/delete.svg);
+  background-image: url(/icons/delete.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;

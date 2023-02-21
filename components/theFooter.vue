@@ -36,9 +36,7 @@
         <div class="tel">+7(910)901-10-00</div>
         <div class="social">
           <a href="https://t.me/RK_TECH01" class="telegramIco" />
-          <a href="https://wa.me/79109011000">
-            <NuxtIcon name="whatsapp" filled style="font-size: 24px" />
-          </a>
+          <a href="https://wa.me/79109011000" class="whatsappIco" />
         </div>
       </div>
       <div class="oferta">
@@ -134,11 +132,15 @@ const getProduct = (link) => {
 .social {
   display: flex;
   gap: 8px;
+  justify-content: center;
+  align-items: center;
 }
 
 .oferta {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
   max-width: 500px;
   color: #ffffff63;
@@ -147,12 +149,22 @@ const getProduct = (link) => {
 }
 
 .telegramIco {
-  background-image: url(~/public/icons/telegram.svg);
+  background-image: url(/icons/telegram.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   width: 30px;
   height: 30px;
+  display: block;
+}
+
+.whatsappIco {
+  background-image: url(/icons/whatsapp.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 25px;
+  height: 25px;
   display: block;
 }
 </style>

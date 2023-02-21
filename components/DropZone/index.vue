@@ -33,7 +33,7 @@ const toggleActive = () => {
   align-items: center;
 
   label {
-    background-image: url(~/public/icons/plus.svg);
+    background-image: url(/icons/plus.svg);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

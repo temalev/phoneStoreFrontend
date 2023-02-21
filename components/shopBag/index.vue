@@ -70,7 +70,7 @@
         Заказ успешно оформлен, в ближайшее время мы с Вами свяжемся
       </div>
       <div v-else class="empty">
-        <img src="public/icons/bag.svg" alt="bag" class="emptyBag">
+        <img src="public/icons/bag.svg" alt="bag" class="emptyBag" />
         <h3>Добавьте товар в корзину</h3>
       </div>
     </div>
@@ -238,7 +238,7 @@ h2 {
     height: 100%;
   }
   .close {
-    background-image: url(~/public/icons/close.svg);
+    background-image: url(/icons/close.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -322,7 +322,7 @@ h2 {
 
 .icoQuestion {
   position: relative;
-  background-image: url(~/public/icons/question.svg);
+  background-image: url(/icons/question.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -413,6 +413,6 @@ h2 {
 .emptyBag {
   width: 80px;
   height: 80px;
-  opacity: .2;
+  opacity: 0.2;
 }
 </style>

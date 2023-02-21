@@ -70,7 +70,7 @@ onMounted(() => {});
 }
 
 .icoDelete {
-  background-image: url(~/public/icons/close.svg);
+  background-image: url(/icons/close.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

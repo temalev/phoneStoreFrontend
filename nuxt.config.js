@@ -3,7 +3,7 @@
 export default defineNuxtConfig({
   ssr: true,
   css: ['~/assets/styles/main.css'],
-  modules: ['@pinia/nuxt', 'nuxt-icons'],
+  modules: ['@pinia/nuxt'],
   buildModules: [
     // Simple usage
     '@nuxtjs/moment',

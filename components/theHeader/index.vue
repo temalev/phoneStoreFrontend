@@ -156,7 +156,7 @@ onMounted(() => {
 }
 
 .logo {
-  background-image: url(~/public/icons/rk.png);
+  background-image: url(/icons/rk.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -214,7 +214,7 @@ onMounted(() => {
 }
 
 .call {
-  background-image: url(~/public/icons/call.svg);
+  background-image: url(/icons/call.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -236,7 +236,7 @@ onMounted(() => {
 
 .shopBag {
   position: relative;
-  background-image: url(~/public/icons/shopBag.svg);
+  background-image: url(/icons/shopBag.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -270,7 +270,7 @@ onMounted(() => {
 }
 
 .admin {
-  background-image: url(~/public/icons/user.svg);
+  background-image: url(/icons/user.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -280,7 +280,7 @@ onMounted(() => {
 }
 
 .logout {
-  background-image: url(~/public/icons/logout.svg);
+  background-image: url(/icons/logout.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;

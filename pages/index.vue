@@ -40,7 +40,7 @@ h1 {
   justify-content: center;
   position: relative;
   margin-top: 70px;
-  background-image: url(~/public/images/mainPageBackground.jpeg);
+  background-image: url(/images/mainPageBackground.jpeg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

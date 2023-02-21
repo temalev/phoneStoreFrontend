@@ -114,7 +114,7 @@
 }
 
 .imgBackground__leftContainer {
-  background-image: url(~/public/images/applecare.jpeg);
+  background-image: url(/images/applecare.jpeg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -129,7 +129,7 @@
 }
 
 .imgBackground__rightContainer {
-  background-image: url(~/public/images/pay.jpg);
+  background-image: url(/images/pay.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
