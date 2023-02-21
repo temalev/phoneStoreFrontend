@@ -34,7 +34,22 @@
     <div class="linksContainer">
       <div class="rowLinks">
         <div class="tel">+7(910)901-10-00</div>
-        <a href="https://t.me/RK_TECH01" class="telegramIco"></a>
+        <div class="social">
+          <a href="https://t.me/RK_TECH01" class="telegramIco" />
+          <a href="https://wa.me/79109011000">
+            <NuxtIcon name="whatsapp" filled style="font-size: 24px" />
+          </a>
+        </div>
+      </div>
+      <div class="oferta">
+        <p>
+          Сайт носит исключительно информационный характер и не является публичной офертой,
+          определяемой Статьей 437 (2) ГК РФ.
+        </p>
+        <p>
+          Apple и логотип Apple являются зарегистрированными товарными знаками компании Apple Inc. в
+          США и других странах. App Store является знаком обслуживания компании Apple Inc.
+        </p>
       </div>
     </div>
   </div>
@@ -74,7 +89,6 @@ const getProduct = (link) => {
   display: flex;
   justify-content: space-around;
   width: 100%;
-  height: 400px;
   background-color: #2c2c2c;
   box-shadow: inset 0 20px 30px rgb(34, 34, 34);
   margin-top: 50px;
@@ -84,6 +98,7 @@ const getProduct = (link) => {
 
   @media (max-width: 500px) {
     flex-direction: column;
+    gap: 20px;
   }
 }
 
@@ -110,6 +125,25 @@ const getProduct = (link) => {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.tel {
+  font-size: 20px;
+}
+
+.social {
+  display: flex;
+  gap: 8px;
+}
+
+.oferta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 500px;
+  color: #ffffff63;
+  font-size: 13px;
+  font-weight: 300;
 }
 
 .telegramIco {
