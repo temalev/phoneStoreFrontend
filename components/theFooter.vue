@@ -126,6 +126,7 @@ const getProduct = (link) => {
 }
 
 .tel {
+  color: #fff;
   font-size: 20px;
 }
 

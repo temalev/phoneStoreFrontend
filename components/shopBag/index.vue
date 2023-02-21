@@ -64,7 +64,13 @@
             </div>
           </div>
           <span v-if="isInvalidData" class="message">Проверьте правильность заполнения полей</span>
-          <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
+          <div class="bottom">
+            <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
+            <p class="policy">
+              Нажимая на кнопку, вы даете согласие на обработку
+              <a href="~/rkTechPolicy.pdf" class="policyLink">персональных данных</a>
+            </p>
+          </div>
         </div>
 
         <div v-else-if="isApprovedOrder" class="approvedOrder">
@@ -410,6 +416,16 @@ h2 {
 
 .message {
   color: rgb(242, 23, 23);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.policy {
+  font-size: 13px;
 }
 
 .empty {
