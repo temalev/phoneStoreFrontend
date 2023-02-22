@@ -68,7 +68,7 @@
             <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
             <p class="policy">
               Нажимая на кнопку, вы даете согласие на обработку
-              <a href="http://cdn.rk-tech.shop/rkTechPolicy.pdf" class="policyLink">персональных данных</a>
+              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink">персональных данных</a>
             </p>
           </div>
         </div>
