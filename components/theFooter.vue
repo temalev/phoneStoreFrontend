@@ -115,6 +115,7 @@ const getProduct = (link) => {
   gap: 8px;
 }
 .navLinkMobile {
+  font-size: 16px;
   color: #fff;
 }
 
