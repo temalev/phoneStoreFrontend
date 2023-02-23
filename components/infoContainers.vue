@@ -43,6 +43,7 @@
   gap: 20px;
   justify-content: space-between;
   margin: 20px 80px;
+  cursor: pointer;
   @media (max-width: 850px) {
     flex-direction: column;
     height: 100%;
