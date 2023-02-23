@@ -9,7 +9,7 @@
     <Slider :categories="categories" />
     <InfoContainers @click="onInfoModal" />
     <Teleport v-if="isInfoModal" to="body">
-      <InfoModal />
+      <InfoModal @close="isInfoModal = false" />
     </Teleport>
   </div>
 </template>
@@ -23,9 +23,7 @@ const categories = useCategories();
 const isInfoModal = ref(false);
 
 const onInfoModal = () => {
-  console.log('true');
   isInfoModal.value = true;
-  console.log(isInfoModal.value);
 };
 </script>
 

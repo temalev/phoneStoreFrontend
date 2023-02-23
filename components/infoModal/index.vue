@@ -66,10 +66,27 @@ const info = ref([
     ],
   },
 ]);
+
+const emits = defineEmits(['close']);
+
+const close = () => {
+  emits('close', true);
+};
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+// eslint-disable-next-line no-undef
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 </script>
 <style scoped lang="scss">
 .infoModal {
   position: fixed;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
