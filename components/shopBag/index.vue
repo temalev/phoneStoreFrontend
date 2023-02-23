@@ -67,8 +67,8 @@
           <div class="bottom">
             <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
             <p class="policy">
-              Нажимая на кнопку, вы даете согласие на обработку
-              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink">персональных данных</a>
+              Нажимая «оформить заказ», вы соглашаетесь с
+              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink">политикой обработки персональных данных.</a>
             </p>
           </div>
         </div>
@@ -426,6 +426,11 @@ h2 {
 
 .policy {
   font-size: 13px;
+}
+
+.policyLink {
+  text-decoration: underline;
+  color: #2c2c2c;
 }
 
 .empty {

@@ -7,22 +7,29 @@
       </div>
     </div>
     <Slider :categories="categories" />
-    <InfoContainers />
+    <InfoContainers @click="onInfoModal" />
+    <Teleport v-if="isInfoModal" to="body">
+      <InfoModal />
+    </Teleport>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useCategories } from '~/stores/categories';
 
 const categories = useCategories();
+
+const isInfoModal = ref(false);
+
+const onInfoModal = () => {
+  console.log('true');
+  isInfoModal.value = true;
+  console.log(isInfoModal.value);
+};
 </script>
 
 <style scoped lang="scss">
-// @media (max-width: 850px) {
-//   .wrapper {
-//     display: none;
-//   }
-// }
 .body {
   display: flex;
   flex-direction: column;
