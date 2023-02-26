@@ -139,7 +139,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .mainHeader {
   position: fixed;
-  z-index: 5;
+  z-index: 6;
   top: 0;
   background-color: #fff;
   display: flex;
@@ -301,6 +301,7 @@ onMounted(() => {
   height: 100%;
   background-color: #fff;
   padding-top: 70px;
+  z-index: 5;
 }
 .menuModalLinks {
   display: flex;
