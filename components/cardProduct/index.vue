@@ -22,6 +22,12 @@
               >{{ priceFrmt(price) }} <strong>₽</strong>
             </span>
           </div>
+          <Input
+            v-if="api.isAuth"
+            :value="price"
+            type="number"
+            @inputValue="(val) => (editedPrice = val)"
+          />
 
           <p v-if="!api.isAuth" class="description">{{ product?.description }}</p>
           <Input
@@ -29,12 +35,6 @@
             :value="product?.description"
             type="text"
             @inputValue="(val) => (editedDescription = val)"
-          />
-          <Input
-            v-if="api.isAuth"
-            :value="price"
-            type="number"
-            @inputValue="(val) => (editedPrice = val)"
           />
         </div>
         <div class="optionsContainer">
