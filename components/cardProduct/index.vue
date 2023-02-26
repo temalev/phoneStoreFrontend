@@ -23,7 +23,13 @@
             </span>
           </div>
 
-          <!-- <p class="description">{{ product?.description }}</p> -->
+          <p class="description">{{ product?.description }}</p>
+          <Input
+            v-if="api.isAuth"
+            :value="product?.description"
+            type="text"
+            @inputValue="(val) => (editedDescription = val)"
+          />
           <Input
             v-if="api.isAuth"
             :value="price"
@@ -69,6 +75,7 @@ const props = defineProps({
 const selectedColor = ref(null);
 const selectedOptions = ref([]);
 const editedName = ref(null);
+const editedDescription = ref(null);
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
@@ -159,7 +166,11 @@ const onSaveProductData = () => {
     }
   });
 
-  const updatedProductData = { name: editedName.value || props.product.name, variants };
+  const updatedProductData = {
+    name: editedName.value || props.product.name,
+    variants,
+    description: editedDescription.value || props.product.description,
+  };
 
   api.updateProduct(props.product.uuid, updatedProductData);
 };
@@ -249,6 +260,10 @@ onMounted(() => {});
   font-size: 18px;
   font-weight: 300;
   color: #373737;
+}
+
+.description {
+  padding-top: 6px;
 }
 
 .optionsContainer {
