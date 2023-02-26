@@ -23,7 +23,7 @@
             </span>
           </div>
 
-          <p class="description">{{ product?.description }}</p>
+          <p v-if="!api.isAuth" class="description">{{ product?.description }}</p>
           <Input
             v-if="api.isAuth"
             :value="product?.description"
