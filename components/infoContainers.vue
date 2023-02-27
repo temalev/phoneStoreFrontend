@@ -74,7 +74,7 @@
     flex-direction: column;
     height: 100%;
     min-height: 800px;
-    margin: 20px;
+    margin: 0 20px;
   }
 }
 
@@ -90,7 +90,8 @@
   border-radius: 22px;
 
   @media (max-width: 900px) {
-    height: 300px;
+    height: 275px;
+    flex: none;
   }
 }
 
@@ -135,15 +136,6 @@
   }
 }
 
-.textInfo {
-  // display: inline;
-  // background-color: rgba(255, 255, 255, 0.636);
-  // border-radius: 2px;
-  // padding-right: 5px;
-  // -webkit-box-decoration-break: clone;
-  // box-decoration-break: clone;
-}
-
 .imgBackground__leftContainer {
   background-image: url(/images/applecare.jpeg);
   background-position: center;
@@ -155,7 +147,7 @@
   bottom: 0;
   z-index: 1;
   @media (max-width: 900px) {
-    height: 300px;
+    height: 220px;
   }
 }
 
@@ -188,7 +180,11 @@
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 40px 50px;
+    padding: 20px;
+    width: auto;
+    margin: 0 20px;
+    height: 250px;
+    box-shadow: 0 0 10px rgb(212 212 212);
   }
 }
 
