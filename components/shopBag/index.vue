@@ -139,10 +139,12 @@ const getImgByProduct = (product, selectedOptionIds) => product.variants.find(({
 const onCreateOrder = () => {
   const items = api.orders.map((item) => ({
     productUUID: item.product.uuid,
-    price: getPriceByProduct(item.product, item.options),
+    // eslint-disable-next-line max-len
+    price: item.product.variants.length ? getPriceByProduct(item.product, item.options) : item.product.price,
     name: item.product.name,
     tags: getTagByProduct(item.product, item.options),
-    images: getImgByProduct(item.product, item.options),
+    // eslint-disable-next-line max-len
+    images: item.product.variants.length ? getImgByProduct(item.product, item.options) : item.product.images[0],
     count: 1,
   }));
   const ordersData = {

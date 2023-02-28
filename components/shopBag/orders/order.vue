@@ -29,27 +29,36 @@ const imageOrder = ref(null);
 const orderPrice = ref(null);
 
 const img = () => {
-  props.order.product.variants.forEach(({ optionsIds }, idx) => {
-    const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
-    if (isContains) {
+  if (props.order.product.variants.length) {
+    props.order.product.variants.forEach(({ optionsIds }, idx) => {
+      const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
+      if (isContains) {
       // eslint-disable-next-line prefer-destructuring
-      imageOrder.value = props.order.product.variants[idx].optionsInfo.images[0]
-        ? props.order.product.variants[idx].optionsInfo.images[0]
-        : props.order.product.images[0];
-    }
-  });
+        imageOrder.value = props.order.product.variants[idx].optionsInfo.images[0]
+          ? props.order.product.variants[idx].optionsInfo.images[0]
+          : props.order.product.images[0];
+      }
+    });
+  // eslint-disable-next-line prefer-destructuring
+  } else imageOrder.value = props.order.product.images[0];
 };
 
 const price = () => {
-  props.order.product.variants.forEach(({ optionsIds }, idx) => {
-    const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
-    if (isContains) {
+  if (props.order.product.variants.length) {
+    props.order.product.variants.forEach(({ optionsIds }, idx) => {
+      const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
+      if (isContains) {
       // eslint-disable-next-line prefer-destructuring
-      orderPrice.value = new Intl.NumberFormat('ru').format(
-        props.order.product.variants[idx].optionsInfo.price,
-      );
-    }
-  });
+        orderPrice.value = new Intl.NumberFormat('ru').format(
+          props.order.product.variants[idx].optionsInfo.price,
+        );
+      }
+    });
+  } else {
+    orderPrice.value = new Intl.NumberFormat('ru').format(
+      props.order.product.price,
+    );
+  }
 };
 
 const getSelectedOptionsNames = () => props.order.product.options.map(
