@@ -61,7 +61,7 @@ const date = computed(() => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  console.log(props.data);
+
 });
 </script>
 <style scoped>
