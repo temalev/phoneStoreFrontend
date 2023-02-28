@@ -26,7 +26,7 @@
 
     <div v-if="!api.isAuth" class="leftContainer">
       <!-- <div class="call" /> -->
-      <div class="telContainer">+7 (980) 106-20-64</div>
+      <div class="telContainer"><a href="tel:+79801062064">+7 (980) 106-20-64 </a></div>
       <div class="shopBag" @click="isShopBag = true">
         <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
       </div>
@@ -153,6 +153,10 @@ onMounted(() => {
   @media (max-width: 750px) {
     padding: 0 20px;
   }
+}
+
+a {
+  color: #fff
 }
 
 .logo {
