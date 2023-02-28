@@ -33,10 +33,10 @@
 
     <div class="linksContainer">
       <div class="rowLinks">
-        <div class="tel">+7 (980) 106-20-64</div>
+        <div class="tel"><a href="tel:+79801062064">+7 (980) 106-20-64</a></div>
         <div class="social">
           <a href="https://t.me/RK_TECH01" class="telegramIco" />
-          <a href="https://wa.me/79109011000" class="whatsappIco" />
+          <a href="https://wa.me/79801062064" class="whatsappIco" />
         </div>
       </div>
       <span class="email"
@@ -137,6 +137,9 @@ const getProduct = (link) => {
 .tel {
   color: #fff;
   font-size: 20px;
+  a {
+    color: #fff;
+  }
 }
 
 .social {
