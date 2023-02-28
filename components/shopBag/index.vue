@@ -144,7 +144,7 @@ const onCreateOrder = () => {
     name: item.product.name,
     tags: getTagByProduct(item.product, item.options),
     // eslint-disable-next-line max-len
-    images: item.product.variants.length ? getImgByProduct(item.product, item.options) : item.product.images[0],
+    images: item.product.variants.length ? getImgByProduct(item.product, item.options) : item.product.images?.[0],
     count: 1,
   }));
   const ordersData = {
@@ -155,6 +155,7 @@ const onCreateOrder = () => {
     delivery: currentSel.value,
     deliveryMessage: userData.value.address,
   };
+
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
     api.createOrder(ordersData);
     isApprovedOrder.value = true;
