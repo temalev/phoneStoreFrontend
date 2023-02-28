@@ -26,7 +26,7 @@
 
     <div v-if="!api.isAuth" class="leftContainer">
       <!-- <div class="call" /> -->
-      <div class="telContainer">+7 (910) 901-10-00</div>
+      <div class="telContainer">+7 (980) 106-20-64</div>
       <div class="shopBag" @click="isShopBag = true">
         <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
       </div>
@@ -62,7 +62,7 @@
 
     <div class="wrapper" style="justify-content: flex-end">
       <div v-if="!api.isAuth" class="leftContainer">
-        <a href="tel:+79109011000" class="call" />
+        <a href="tel:+79801062064" class="call" />
         <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
           <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
         </div>

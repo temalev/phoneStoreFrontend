@@ -33,7 +33,7 @@
 
     <div class="linksContainer">
       <div class="rowLinks">
-        <div class="tel">+7(910)901-10-00</div>
+        <div class="tel">+7 (980) 106-20-64</div>
         <div class="social">
           <a href="https://t.me/RK_TECH01" class="telegramIco" />
           <a href="https://wa.me/79109011000" class="whatsappIco" />
