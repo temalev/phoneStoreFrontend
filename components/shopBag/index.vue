@@ -142,7 +142,7 @@ const onCreateOrder = () => {
     // eslint-disable-next-line max-len
     price: item.product.variants.length ? getPriceByProduct(item.product, item.options) : item.product.price,
     name: item.product.name,
-    tags: item.product.variants.length ? getTagByProduct(item.product, item.options) : '',
+    tags: item.product.variants.length ? getTagByProduct(item.product, item.options) : null,
     // eslint-disable-next-line max-len
     images: item.product.variants.length ? getImgByProduct(item.product, item.options) : item.product.images?.[0],
     count: 1,
@@ -157,6 +157,7 @@ const onCreateOrder = () => {
   };
 
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
+    console.log(ordersData);
     api.createOrder(ordersData);
     isApprovedOrder.value = true;
     api.orders = [];
