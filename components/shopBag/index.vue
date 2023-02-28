@@ -212,7 +212,7 @@ h2 {
   align-items: flex-end;
   padding-top: 20px;
   top: 0;
-  z-index: 5;
+  z-index: 7;
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.636);
