@@ -10,8 +10,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
+import { useCategories } from '~/stores/categories';
 
 const api = useApi();
+const categories = useCategories();
 
 const currentCategory = ref(null);
 // const orders = ref([]);
@@ -19,6 +21,10 @@ const currentCategory = ref(null);
 // eslint-disable-next-line no-undef
 onMounted(() => {
   currentCategory.value = window.location.href.split('/').at(-1);
+  const uuidCategory = categories.categories.find(
+    (el) => el.name.toLowerCase() === currentCategory.value,
+  ).uuid;
+  api.getProducts(uuidCategory);
 });
 // const selectedProducts = (product) => {
 //   orders.value.push(product);
