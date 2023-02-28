@@ -168,7 +168,7 @@ const onSaveProductData = () => {
   const updatedProductData = {
     name: editedName.value || props.product.name,
     variants,
-    newPrice,
+    price: newPrice,
     description: editedDescription.value || props.product.description,
   };
   api.updateProduct(props.product.uuid, updatedProductData);
