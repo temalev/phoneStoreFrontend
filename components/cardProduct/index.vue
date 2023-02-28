@@ -156,22 +156,21 @@ const isColorOpt = (options) => (optionId) => {
 const onSaveProductData = () => {
   const { variants, options } = props.product;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
-
   variants.forEach(({ optionsIds }, idx) => {
     const isCandidate = notColorOptions.every((id) => optionsIds.includes(id));
-
     if (isCandidate) {
       variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
       variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo?.price;
     }
   });
+  const newPrice = editedPrice.value || props.product.price;
 
   const updatedProductData = {
     name: editedName.value || props.product.name,
     variants,
+    newPrice,
     description: editedDescription.value || props.product.description,
   };
-
   api.updateProduct(props.product.uuid, updatedProductData);
 };
 
