@@ -55,6 +55,7 @@ h1 {
   width: 100%;
   height: 60vh;
   box-shadow: inset 2px 0 10px rgb(144, 144, 144);
+  flex-shrink: 0;
 
   @media (max-width: 850px) {
     height: 40vh;

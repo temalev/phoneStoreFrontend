@@ -42,6 +42,8 @@ onMounted(() => {});
   overflow: scroll;
   scroll-behavior: smooth;
   padding: 20px 10px;
+  flex-shrink: 0;
+
   @media (max-width: 500px) {
     scroll-snap-type: x mandatory;
     padding: 20px 100px;
