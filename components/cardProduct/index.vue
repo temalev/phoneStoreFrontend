@@ -109,8 +109,7 @@ const price = computed(() => {
         }
       });
     return canditate?.optionsInfo?.price || props.product?.price;
-  }
-  return props.product.price;
+  } return props.product.price;
 });
 const oldPrice = computed(() => {
   if (selectedOptions.value.length) {
@@ -150,12 +149,14 @@ const isColorOpt = (options) => (optionId) => {
   if (!colorOption) {
     return true;
   }
-  return !colorOption.items.some((el) => el.id === optionId);
+  if (options.length > 1) { return !colorOption.items.some((el) => el.id === optionId); }
+  return colorOption.items.some((el) => el.id === optionId);
 };
 
 const onSaveProductData = () => {
   const { variants, options } = props.product;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
   variants.forEach(({ optionsIds }, idx) => {
     const isCandidate = notColorOptions.every((id) => optionsIds.includes(id));
     if (isCandidate) {
@@ -164,7 +165,6 @@ const onSaveProductData = () => {
     }
   });
   const newPrice = editedPrice.value || props.product.price;
-
   const updatedProductData = {
     name: editedName.value || props.product.name,
     variants,
