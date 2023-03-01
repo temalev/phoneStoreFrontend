@@ -71,6 +71,8 @@ useHead({
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .slide-fade-enter-active {
