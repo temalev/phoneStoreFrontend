@@ -8,8 +8,8 @@
     </div>
     <Slider :categories="categories" />
     <InfoContainers @click="onInfoModal" />
-    <Teleport v-if="isInfoModal" to="body">
-      <InfoModal @close="isInfoModal = false" />
+    <Teleport v-if="api.isInfoModal" to="body">
+      <InfoModal @close="api.isInfoModal = false" />
     </Teleport>
   </div>
 </template>
@@ -17,13 +17,16 @@
 <script setup>
 import { ref } from 'vue';
 import { useCategories } from '~/stores/categories';
+import { useApi } from '~~/stores/api';
+
+const api = useApi();
 
 const categories = useCategories();
 
 const isInfoModal = ref(false);
 
 const onInfoModal = () => {
-  isInfoModal.value = true;
+  api.isInfoModal = true;
 };
 </script>
 

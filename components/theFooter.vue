@@ -17,7 +17,7 @@
       </div>
       <div class="linksContainer">
         <h3>Информация</h3>
-        <nav class="links">
+        <nav class="links" @click="api.isInfoModal = true">
           <NuxtLink
             v-for="link in info"
             :key="link.name"
@@ -121,6 +121,7 @@ const getProduct = (link) => {
 .navLinkMobile {
   font-size: 16px;
   color: #fff;
+  cursor: pointer;
 }
 
 .linksContainer {
