@@ -35,10 +35,15 @@ const categories = ref({
   ],
 });
 </script>
-<style scoped>
+<style scoped lang="scss">
 .accessories {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   margin-top: 100px;
+  @media (max-width: 500px) {
+    align-items: stretch;
+  }
 }
 </style>

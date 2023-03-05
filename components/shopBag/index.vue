@@ -55,7 +55,7 @@
                     </div>
                     <CustomTextarea
                       v-if="currentSel > 1 && currentSel === radio.id"
-                      label="Адресс доставки"
+                      label="Адрес доставки"
                       @inputValue="(val) => (userData.address = val)"
                     />
                   </div>
