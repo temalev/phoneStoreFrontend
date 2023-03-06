@@ -3,7 +3,7 @@
     <div v-if="!api.isAuth" class="authContainer">
       <h2>Авторизация</h2>
       <Input @inputValue="(val) => (adminData.login = val)" />
-      <Input @inputValue="(val) => (adminData.password = val)" />
+      <Input type="password" @inputValue="(val) => (adminData.password = val)" />
       <CustomButton @click="login" :name="'Войти'" />
     </div>
     <div v-if="api.newOrders && api.isAuth" class="container">
