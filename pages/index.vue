@@ -28,6 +28,7 @@ const isInfoModal = ref(false);
 const onInfoModal = () => {
   api.isInfoModal = true;
 };
+
 </script>
 
 <style scoped lang="scss">

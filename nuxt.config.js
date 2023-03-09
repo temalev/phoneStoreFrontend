@@ -19,6 +19,11 @@ export default defineNuxtConfig({
       { charset: 'utf-8' },
       { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
       { name: 'yandex-verification', content: '6b51acfc4a41812d' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.',
+      },
     ],
     link: [{ rel: 'icon', href: '/favicon.png' }],
   },
