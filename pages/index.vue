@@ -1,4 +1,8 @@
+<!-- eslint-disable max-len -->
 <template>
+  <Head>
+    <Meta name="description" content="RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа."/>
+  </Head>
   <div class="body">
     <div class="welcome">
       <div class="text">
@@ -15,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, useMeta } from 'vue';
+import { ref } from 'vue';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~~/stores/api';
 
@@ -28,20 +32,6 @@ const isInfoModal = ref(false);
 const onInfoModal = () => {
   api.isInfoModal = true;
 };
-
-// useMeta({
-//   meta: [
-//     {
-//       hid: 'description',
-//       name: 'description',
-//       content: 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.',
-//     },
-//   ],
-// });
-
-const { description } = useMeta();
-description.value = 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.';
-
 </script>
 
 <style scoped lang="scss">
