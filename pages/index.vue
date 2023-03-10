@@ -29,15 +29,18 @@ const onInfoModal = () => {
   api.isInfoModal = true;
 };
 
-useMeta({
-  meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.',
-    },
-  ],
-});
+// useMeta({
+//   meta: [
+//     {
+//       hid: 'description',
+//       name: 'description',
+//       content: 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.',
+//     },
+//   ],
+// });
+
+const { description } = useMeta();
+description.value = 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.';
 
 </script>
 
