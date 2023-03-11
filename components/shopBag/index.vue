@@ -68,7 +68,9 @@
             <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
             <p class="policy">
               Нажимая «оформить заказ», вы соглашаетесь с
-              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink">политикой обработки персональных данных.</a>
+              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink"
+                >политикой обработки персональных данных.</a
+              >
             </p>
           </div>
         </div>
@@ -140,11 +142,15 @@ const onCreateOrder = () => {
   const items = api.orders.map((item) => ({
     productUUID: item.product.uuid,
     // eslint-disable-next-line max-len
-    price: item.product.variants.length ? getPriceByProduct(item.product, item.options) : item.product.price,
+    price: item.product.variants.length
+      ? getPriceByProduct(item.product, item.options)
+      : item.product.price,
     name: item.product.name,
     tags: item.product.variants.length ? getTagByProduct(item.product, item.options) : null,
     // eslint-disable-next-line max-len
-    images: item.product.variants.length ? getImgByProduct(item.product, item.options) : item.product.images?.[0],
+    images: item.product.variants.length
+      ? getImgByProduct(item.product, item.options)
+      : item.product.images?.[0],
     count: 1,
   }));
   const ordersData = {
@@ -157,7 +163,6 @@ const onCreateOrder = () => {
   };
 
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
-    console.log(ordersData);
     api.createOrder(ordersData);
     isApprovedOrder.value = true;
     api.orders = [];

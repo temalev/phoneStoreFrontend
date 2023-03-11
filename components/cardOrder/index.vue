@@ -2,17 +2,17 @@
   <div class="order">
     <div class="mainInfo">
       <div class="infoContainer">
-        <span class="headerName">{{ data.fullName }}</span>
-        <span class="info">{{ data.phoneNumber }}</span>
+        <span class="headerName">{{ data?.fullName }}</span>
+        <span class="info">{{ data?.phoneNumber }}</span>
       </div>
     </div>
     <div class="orderItemsContainer">
-      <CardOrderItemOrder v-for="order in data.items" :key="order.uuid" :order="order" />
+      <CardOrderItemOrder v-for="order in data?.items" :key="order.uuid" :order="order" />
     </div>
     <div class="deliveryMesg">
-      {{ data.deliveryMessage }}
+      {{ data?.deliveryMessage }}
     </div>
-    <span v-if="!data.deliveryMessage" class="delivery">Самовывоз</span>
+    <span v-if="!data?.deliveryMessage" class="delivery">Самовывоз</span>
 
     <div class="buttons">
       <CustomButton @click="deleteOrder(data.uuid)" name="Отменить" />
@@ -60,9 +60,7 @@ const date = computed(() => {
 });
 
 // eslint-disable-next-line no-undef
-onMounted(() => {
-
-});
+onMounted(() => {});
 </script>
 <style scoped>
 .order {

@@ -6,13 +6,14 @@
       <Input type="password" @inputValue="(val) => (adminData.password = val)" />
       <CustomButton @click="login" :name="'Войти'" />
     </div>
-    <div v-if="api.newOrders && api.isAuth" class="container">
+
+    <div v-if="api.isAuth" class="container">
       <CustomButton @click="isCreateProduct = true" name="Добавить продукт" />
       <CreateProduct v-if="isCreateProduct" />
       <h3>Новые заказы</h3>
-      <div class="ordersContainer">
+      <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
         <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
-          <CardOrder v-if="order.status === 0" :data="order" />
+          <CardOrder v-if="order?.status === 0" :data="order?.status === 0 ? order : null" />
         </div>
       </div>
     </div>
@@ -20,15 +21,15 @@
       <h3>В работе</h3>
       <div class="ordersContainer">
         <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
-          <CardOrder v-if="order.status === 1" :data="order" />
+          <CardOrder v-if="order?.status === 1" :data="order" />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { Ref, ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
 
@@ -81,5 +82,9 @@ h3 {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+.wrapper:empty {
+  display: none;
 }
 </style>

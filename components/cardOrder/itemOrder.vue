@@ -4,7 +4,7 @@
       <img :src="order.images[0]" :alt="order.name" width="50" height="50" class="imgOrder" />
       <div class="infoContainer">
         <span class="nameOrder">{{ order.name }}</span>
-        <span class="orderOptions">{{ order.tags.join(' ') }}</span>
+        <span class="orderOptions">{{ tags }}</span>
       </div>
     </div>
 
@@ -28,6 +28,8 @@ const imageOrder = ref(null);
 const orderPrice = ref(null);
 
 const price = computed(() => new Intl.NumberFormat('ru').format(props.order.price));
+// eslint-disable-next-line valid-typeof
+const tags = computed(() => (typeof props.order?.tags === 'array' ? props.order?.tags?.join(' ') : ''));
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});
