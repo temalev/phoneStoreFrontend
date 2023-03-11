@@ -96,9 +96,7 @@ export const useApi = defineStore('api', {
         credentials: 'include',
         body: JSON.stringify({ status }),
       });
-      const data = await res.json();
-      this.aprovedOrders = data;
-      return data;
+      this.getOrders();
     },
 
     async deleteOrder(uuid) {
@@ -106,9 +104,7 @@ export const useApi = defineStore('api', {
         method: 'DELETE',
         credentials: 'include',
       });
-      const data = await res.json();
-      this.aprovedOrders = data;
-      return data;
+      this.getOrders();
     },
 
     async updateProduct(uuid, product) {
