@@ -48,8 +48,10 @@ const login = () => {
 // eslint-disable-next-line no-undef
 onMounted(() => {
   api.getOrders();
+  api.getStatistics();
 });
 </script>
+
 <style scoped>
 h3 {
   font-size: 25px;

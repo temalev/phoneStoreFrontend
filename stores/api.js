@@ -15,6 +15,7 @@ export const useApi = defineStore('api', {
     aprovedOrders: [],
     isCookie: true,
     isInfoModal: false,
+    statistics: [],
   }),
 
   actions: {
@@ -72,6 +73,18 @@ export const useApi = defineStore('api', {
         const data = await res.json();
         this.newOrders = data;
         this.isAuth = true;
+        return data;
+      }
+      return false;
+    },
+    async getStatistics() {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/statistics`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (res) {
+        const data = await res.json();
+        this.statistics = data;
         return data;
       }
       return false;
