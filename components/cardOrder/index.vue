@@ -3,7 +3,7 @@
     <div class="mainInfo">
       <div class="infoContainer">
         <span class="headerName">{{ data?.fullName }}</span>
-        <span class="info">{{ data?.phoneNumber }}</span>
+        <a class="info" :href="`tel:${data?.phoneNumber}`">{{ data?.phoneNumber }}</a>
       </div>
     </div>
     <div class="orderItemsContainer">
@@ -78,6 +78,10 @@ onMounted(() => {});
   width: 320px;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+.info {
+  color: #1d1d1d;
 }
 
 .mainInfo {
