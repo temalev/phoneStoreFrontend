@@ -29,7 +29,7 @@ const orderPrice = ref(null);
 
 const price = computed(() => new Intl.NumberFormat('ru').format(props.order.price));
 // eslint-disable-next-line valid-typeof
-const tags = computed(() => props.order?.tags?.join(' '));
+const tags = computed(() => (typeof props.order?.tags === 'array' ? props.order?.tags?.join(' ') : ''));
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});

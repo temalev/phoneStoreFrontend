@@ -10,7 +10,7 @@
     <div v-if="api.isAuth" class="container">
       <CustomButton @click="isCreateProduct = true" name="Добавить продукт" />
       <CreateProduct v-if="isCreateProduct" />
-      <h4>Завершенных заказов: {{ api.statistics.complited.value }}</h4>
+      <h4>Завершенных заказов: {{ api.statistics?.complited?.value }}</h4>
       <h3>Новые заказы</h3>
       <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
         <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
@@ -63,7 +63,6 @@ h3 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 100%;
 }
 
 .authContainer {
@@ -78,7 +77,7 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  padding: 40px;
+  padding: 30px;
 }
 
 .ordersContainer {
