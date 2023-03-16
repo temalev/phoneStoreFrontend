@@ -15,9 +15,6 @@ import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
 
-const api = useApi();
-const categories = useCategories();
-
 const currentCategory = ref(null);
 const descriptions = ref([
   {
@@ -55,6 +52,17 @@ const currentDescription = computed(() => {
   const current = descriptions.value.find((el) => el.category === currentCategory.value)?.text;
   return current;
 });
+
+// eslint-disable-next-line no-undef
+useServerSeoMeta({
+  title: `RK-Tech - ${currentCategory.value}`,
+  ogTitle: `RK-Tech - ${currentCategory.value}`,
+  description: currentDescription,
+  ogDescription: currentDescription,
+});
+
+const api = useApi();
+const categories = useCategories();
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
