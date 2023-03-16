@@ -1,12 +1,15 @@
 <template>
   <Head>
     <Title>RK-Tech - {{ currentCategory }}</Title>
+    <Meta name="description" :content="currentDescription"/>
   </Head>
+
   <div v-if="api.products" class="mainProducts">
     <CardProduct v-for="product in api.products" :key="product.uuid" :product="product" />
   </div>
   <div v-else class="loader">загрузка</div>
 </template>
+
 <script setup>
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
@@ -16,22 +19,53 @@ const api = useApi();
 const categories = useCategories();
 
 const currentCategory = ref(null);
-// const orders = ref([]);
+const descriptions = ref([
+  {
+    category: 'iphone',
+    text: 'Купить Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Чехол и стекло в подарок.',
+  },
+  {
+    category: 'ipad',
+    text: 'Купить Apple iPad в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+  },
+  {
+    category: 'mac',
+    text: 'Купить Apple Macbook в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Гравировка в подарок.',
+  },
+  {
+    category: 'watch',
+    text: 'Купить Apple Watch в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+  },
+  {
+    category: 'airpods',
+    text: 'Купить Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+  },
+  {
+    category: 'dyson',
+    text: 'Купить Dyson в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.',
+  },
+  {
+    category: 'ps',
+    text: 'Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.',
+  },
+]);
+
+// eslint-disable-next-line max-len
+const currentDescription = computed(() => {
+  const current = descriptions.value.find((el) => el.category === currentCategory.value)?.text;
+  return current;
+});
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
   currentCategory.value = window.location.href.split('/').at(-1);
   const uuidCategory = categories.categories.find(
-    (el) => el.name.toLowerCase() === currentCategory.value,
+    (el) => el.link.split('/').at(-1) === currentCategory.value,
   ).uuid;
   api.getProducts(uuidCategory);
 });
-// const selectedProducts = (product) => {
-//   orders.value.push(product);
-//   localStorage.setItem('orders', JSON.stringify(orders.value));
-//   console.log(JSON.parse(localStorage.orders));
-// };
 </script>
+
 <style scoped>
 .mainProducts {
   display: flex;
