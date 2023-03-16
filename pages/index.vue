@@ -1,7 +1,7 @@
 <!-- eslint-disable max-len -->
 <template>
   <Head>
-    <Meta name="description" content="RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа."/>
+    <Meta name="description" content="RK Tech - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа."/>
   </Head>
   <div class="body">
     <div class="welcome">
