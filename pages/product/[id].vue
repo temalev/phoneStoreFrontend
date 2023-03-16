@@ -14,6 +14,7 @@
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
+import { useHead } from 'unhead';
 
 const currentCategory = ref(null);
 const descriptions = ref([
@@ -52,6 +53,12 @@ const currentDescription = () => {
   const current = descriptions.value.find((el) => el.category === currentCategory.value)?.text;
   return current;
 };
+
+useHead({
+  meta: [
+    { name: 'description', content: currentDescription },
+  ],
+});
 
 const api = useApi();
 const categories = useCategories();

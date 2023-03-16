@@ -16,6 +16,9 @@ import { ref, computed } from 'vue';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
+import { createHead } from 'unhead';
+// Create a global head instance
+const head = createHead();
 
 const determiningWidth = useDetermininingWidth();
 const api = useApi();
