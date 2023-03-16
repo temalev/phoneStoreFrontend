@@ -48,10 +48,10 @@ const descriptions = ref([
 ]);
 
 // eslint-disable-next-line max-len
-const currentDescription = computed(() => {
+const currentDescription = () => {
   const current = descriptions.value.find((el) => el.category === currentCategory.value)?.text;
   return current;
-});
+};
 
 const api = useApi();
 const categories = useCategories();
