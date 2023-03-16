@@ -1,7 +1,7 @@
 <template>
   <Head>
     <Title>RK-Tech - {{ currentCategory }}</Title>
-    <Meta name="description" content="currentDescription"/>
+    <Meta name="description" :content="currentDescription"/>
   </Head>
 
   <div v-if="api.products" class="mainProducts">
@@ -57,7 +57,7 @@ const api = useApi();
 const categories = useCategories();
 
 // eslint-disable-next-line no-undef
-onMounted(() => {
+onBeforeMount(() => {
   currentCategory.value = window.location.href.split('/').at(-1);
   const uuidCategory = categories.categories.find(
     (el) => el.link.split('/').at(-1) === currentCategory.value,
