@@ -1,7 +1,7 @@
 <template>
   <Head>
     <Title>RK-Tech - {{ currentCategory }}</Title>
-    <Meta name="description" :content="currentDescription"/>
+    <Meta name="description" content="currentDescription"/>
   </Head>
 
   <div v-if="api.products" class="mainProducts">
