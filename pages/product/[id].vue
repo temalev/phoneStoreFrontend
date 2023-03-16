@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <Title>RK-Tech - {{ currentCategory }}</Title>
-    <Meta name="description" :content="currentDescription"/>
   <div v-if="api.products" class="mainProducts">
 
     <CardProduct v-for="product in api.products" :key="product.uuid" :product="product" />
   </div>
   <div v-else class="loader">загрузка</div>
-</div>
 </template>
 
 <script setup>
