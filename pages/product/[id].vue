@@ -1,10 +1,7 @@
 <template>
-  <Head>
+  <div v-if="api.products" class="mainProducts">
     <Title>RK-Tech - {{ currentCategory }}</Title>
     <Meta name="description" :content="currentDescription"/>
-  </Head>
-
-  <div v-if="api.products" class="mainProducts">
     <CardProduct v-for="product in api.products" :key="product.uuid" :product="product" />
   </div>
   <div v-else class="loader">загрузка</div>
@@ -57,7 +54,7 @@ const api = useApi();
 const categories = useCategories();
 
 // eslint-disable-next-line no-undef
-onBeforeMount(() => {
+onMounted(() => {
   currentCategory.value = window.location.href.split('/').at(-1);
   const uuidCategory = categories.categories.find(
     (el) => el.link.split('/').at(-1) === currentCategory.value,
