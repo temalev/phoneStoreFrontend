@@ -52,7 +52,7 @@ const currentDescription = () => {
 
 useHead({
   meta: [
-    { name: 'description', content: currentDescription },
+    { name: 'description', content: 'currentDescription' },
   ],
 });
 
