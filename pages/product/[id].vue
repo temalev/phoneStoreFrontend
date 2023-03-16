@@ -53,14 +53,6 @@ const currentDescription = computed(() => {
   return current;
 });
 
-// eslint-disable-next-line no-undef
-useServerSeoMeta({
-  title: `RK-Tech - ${currentCategory.value}`,
-  ogTitle: `RK-Tech - ${currentCategory.value}`,
-  description: currentDescription,
-  ogDescription: currentDescription,
-});
-
 const api = useApi();
 const categories = useCategories();
 
