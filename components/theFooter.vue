@@ -33,12 +33,13 @@
 
     <div class="linksContainer">
       <div class="rowLinks">
-        <div class="tel"><a href="tel:+79801062064">+7 (980) 106-20-64</a></div>
+        <span class="tel"><a href="tel:+79801062064">+7 (980) 106-20-64</a></span>
         <div class="social">
           <a href="https://t.me/RK_TECH01" class="telegramIco" />
           <a href="https://wa.me/79801062064" class="whatsappIco" />
         </div>
       </div>
+      <span class="tel">Москва, ул. Барклая, дом 8</span>
       <span class="email"
         >info@rk-tech.shop -
         <span> По вопросам сотрудничества, идеям по улучшению и жалобам. </span></span
