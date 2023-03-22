@@ -50,6 +50,7 @@ export const useApi = defineStore('api', {
         const data = await res.json();
         localStorage.setItem('jwt1', data.accessToken);
         this.getOrders();
+        this.getStatistics();
       }
     },
 
