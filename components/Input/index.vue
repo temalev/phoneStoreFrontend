@@ -1,5 +1,5 @@
 <template>
-  <div class="mainCustomInput">
+  <div class="mainCustomInput" :style="styles">
     <label for="">{{ label }}</label>
     <div class="input">
       <input class="customInput" :type="type" :placeholder="placeholder" v-model="model" />
@@ -14,6 +14,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    styles: {
+      type: Object,
+      default: null,
     },
     value: {
       type: [String, Number],

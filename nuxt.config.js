@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     // With options
     ['@nuxtjs/moment', { /* module options */ }],
   ],
+  plugins: [
+    '~/plugins/uuid.js',
+  ],
   head: {
     title: 'rk-tech',
     titleTemplate: '%s - Nuxt',

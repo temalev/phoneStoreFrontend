@@ -11,8 +11,9 @@
         <CustomButton @click="opts += 1" type="plus" />
       </div>
 
-      <AddOption />
+      <AddOption @change="val => options = val" />
     </div>
+    <CustomButton name="Создать продукт" @click="createProduct" />
   </div>
 </template>
 
@@ -37,22 +38,36 @@ const colors = ref([
     color: '#5t5t5t',
   },
 ]);
+const options = ref(null);
 
-const dropzoneFile = ref(null);
+const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 
 const productData = ref({});
 
 const drop = (event) => {
+  event.preventDefault();
   // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value = event.dataTransfer.files[0];
-  urlFile.value = URL.createObjectURL(dropzoneFile.value);
+  dropzoneFile.value.url = event.dataTransfer.files[0];
+  // eslint-disable-next-line prefer-destructuring
+
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
 };
 
 const selectedFile = () => {
   // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value = document.querySelector('.dragZone').files[0];
-  urlFile.value = URL.createObjectURL(dropzoneFile.value);
+  dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+};
+
+const createProduct = () => {
+  const formData = new FormData(); // Создаем экземпляр FormData
+  formData.append('file', dropzoneFile.value.url);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+  api.uploadImg(formData);
 };
 </script>
 <style scoped lang="scss">

@@ -44,17 +44,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useDetermininingWidth } from "~/stores/determiningWidth";
-import { useApi } from "~/stores/api";
+import { ref } from 'vue';
+import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useApi } from '~/stores/api';
 
 const api = useApi();
 
 const determiningWidth = useDetermininingWidth();
 
-const isCreateProduct = ref(false);
+const isCreateProduct = ref(true);
 
-const adminData = ref({ login: "", password: "" });
+const adminData = ref({ login: '', password: '' });
 
 const login = () => {
   api.login(adminData.value);

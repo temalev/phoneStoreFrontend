@@ -129,6 +129,17 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    async uploadImg(file) {
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/storage`, {
+        method: 'POST',
+        credentials: 'include',
+        file,
+      });
+      const data = await res.json();
+      console.log(data);
+      return data;
+    },
+
     async getCategories() {
       const res = await fetch(`${this.config.public.URL}/api/v1/category`, {
         method: 'GET',
