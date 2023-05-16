@@ -76,7 +76,7 @@ const createProduct = () => {
   align-items: center;
   gap: 12px;
   padding: 22px;
-  width: 300px;
+  // width: 300px;
   background-color: #fff;
   border: 1px solid #eee;
   box-shadow: 0 0 20px #949494;
