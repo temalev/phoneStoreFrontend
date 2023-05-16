@@ -5,14 +5,15 @@
     <DropList />
     <Input @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
     <Input @inputValue="(val) => (productData.description = val)" placeholder="Описание товара" />
-    <div class="addOption">
+    <Input @inputValue="(val) => (productData.price = val)" placeholder="Цена" />
+    <!-- <div class="addOption">
       <div class="headerAddOption">
         <h2>Добавьте опции</h2>
         <CustomButton @click="opts += 1" type="plus" />
       </div>
 
       <AddOption @change="val => options = val" />
-    </div>
+    </div> -->
     <CustomButton name="Создать продукт" @click="createProduct" />
   </div>
 </template>
@@ -58,18 +59,16 @@ const selectedFile = () => {
   // eslint-disable-next-line prefer-destructuring
   dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
   urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+  const formData = new FormData(); // Создаем экземпляр FormData
+  formData.append('file', dropzoneFile.value.url);
+  api.uploadImg(formData);
 };
 
 const createProduct = () => {
-  const formData = new FormData(); // Создаем экземпляр FormData
-  formData.append('file', dropzoneFile.value.url);
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
-  api.uploadImg(formData);
+  console.log('create');
 };
 </script>
+
 <style scoped lang="scss">
 .createProduct {
   display: flex;

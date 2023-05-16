@@ -13,7 +13,7 @@
     <div v-if="api.isAuth" class="container">
       <CreateProduct v-if="isCreateProduct" />
       <h4>Завершенных заказов: {{ api.statistics?.complited?.value }}</h4>
-      <Table :data="api.newOrders" />
+      <!-- <Table :data="api.newOrders" /> -->
       <h3>Новые заказы</h3>
       <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
         <div

@@ -20,9 +20,12 @@ export const useApi = defineStore('api', {
 
   actions: {
     async fetchWithAuth(url, opts) {
-      opts.headers = {
-        'Content-Type': 'application/json',
-      };
+      if (!opts.headers) {
+        opts.headers = {
+          // 'Content-Type': 'application/json',
+        };
+      }
+
       if (this.config.public.NODE_ENV === 'development') {
         const accessToken = localStorage.jwt1;
         opts.headers.Authorization = `Bearer ${accessToken}`;
@@ -130,10 +133,12 @@ export const useApi = defineStore('api', {
     },
 
     async uploadImg(file) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/storage`, {
+      const accessToken = localStorage.jwt1;
+      const res = await fetch(`${this.config.public.URL}/api/v1/storage`, {
         method: 'POST',
         credentials: 'include',
-        file,
+        body: file,
+        headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
       });
       const data = await res.json();
       console.log(data);
