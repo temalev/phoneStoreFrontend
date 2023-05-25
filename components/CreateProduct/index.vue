@@ -2,7 +2,7 @@
   <div class="createProduct">
     <DropZone v-if="!urlFile" @drop.prevent="drop" @change="selectedFile" />
     <img v-if="urlFile" :src="urlFile" alt="" width="250" height="250" />
-    <DropList />
+    <DropList :data="api.categories" @change="onSelect" />
     <Input @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
     <Input @inputValue="(val) => (productData.description = val)" placeholder="Описание товара" />
     <Input @inputValue="(val) => (productData.price = val)" placeholder="Цена" />
@@ -51,7 +51,6 @@ const drop = (event) => {
   // eslint-disable-next-line prefer-destructuring
   dropzoneFile.value.url = event.dataTransfer.files[0];
   // eslint-disable-next-line prefer-destructuring
-
   urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
 };
 
@@ -64,9 +63,18 @@ const selectedFile = () => {
   api.uploadImg(formData);
 };
 
-const createProduct = () => {
-  console.log('create');
+const onSelect = (val) => {
+  productData.value.categoryUUID = val.uuid;
 };
+
+const createProduct = () => {
+  console.log(productData.value);
+};
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  api.getCategories();
+});
 </script>
 
 <style scoped lang="scss">
