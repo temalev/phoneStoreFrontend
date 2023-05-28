@@ -92,7 +92,7 @@ export const useCategories = defineStore('categories', {
         ico: '/icons/samsung.svg',
         style: { height: '70', width: '75' },
         link: '/product/samsung',
-        img: '/images/dyson.jpeg',
+        img: '/images/samsung.jpg',
         uuid: 'ccc52d81-7c9c-4619-87ff-6ed7e363fea2',
         isName: false,
       },
