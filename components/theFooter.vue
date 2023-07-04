@@ -39,7 +39,21 @@
           <a href="https://wa.me/79801062064" class="whatsappIco" />
         </div>
       </div>
-      <span class="tel">Москва, ул. Барклая, дом 8</span>
+      <span class="tel">
+        <a
+          target="_blank"
+          href="https://yandex.ru/maps/213/moscow/house/ulitsa_barklaya_8/Z04YcwdiTkYFQFtvfXt1cH1mYg==/?ll=37.502732%2C55.741156&utm_source=main_stripe_big&z=17"
+        >
+        Москва, ул. Барклая, дом 8
+        </a></span>
+      <span class="tel">
+        <a
+          target="_blank"
+          href="https://yandex.ru/maps/11/ryazan/house/ulitsa_koltsova_1/Z0AYcQRlSk0AQFtufXpzeHtkZw==/?ll=39.735386%2C54.629774&utm_source=main_stripe_big&z=17"
+        >
+          Рязань , ул. Кольцова, дом 1
+        </a>
+      </span>
       <span class="email"
         >info@rk-tech.shop -
         <span> По вопросам сотрудничества, идеям по улучшению и жалобам. </span></span
