@@ -40,11 +40,12 @@ const colors = ref([
   },
 ]);
 const options = ref(null);
+const uploadedImgSrc = ref(null);
 
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 
-const productData = ref({});
+const productData = ref({ images: [] });
 
 const drop = (event) => {
   event.preventDefault();
@@ -54,13 +55,14 @@ const drop = (event) => {
   urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
 };
 
-const selectedFile = () => {
+const selectedFile = async () => {
   // eslint-disable-next-line prefer-destructuring
   dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
   urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
   const formData = new FormData(); // Создаем экземпляр FormData
   formData.append('file', dropzoneFile.value.url);
-  api.uploadImg(formData);
+  const res = await api.uploadImg(formData);
+  uploadedImgSrc.value = res.full;
 };
 
 const onSelect = (val) => {
@@ -68,7 +70,8 @@ const onSelect = (val) => {
 };
 
 const createProduct = () => {
-  console.log(productData.value);
+  productData.value.images.push(uploadedImgSrc.value);
+  api.createdProduct(productData.value);
 };
 
 // eslint-disable-next-line no-undef
