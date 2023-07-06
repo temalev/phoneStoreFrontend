@@ -123,6 +123,20 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    async createdProduct(productData) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product`, {
+        method: 'POST',
+        credentials: 'include',
+        headers,
+        body: JSON.stringify(productData),
+      });
+      const data = await res.json();
+      return data;
+    },
+
     async deleteProduct(uuid) {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
         method: 'DELETE',
@@ -140,8 +154,7 @@ export const useApi = defineStore('api', {
         body: file,
         headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
       });
-      const data = await res.json();
-      console.log(data);
+      const data = res.json();
       return data;
     },
 
