@@ -37,7 +37,6 @@
 
     <div v-if="api.isAuth" class="leftContainerAdmin">
       <NuxtIcon name="plus" style="color: black; font-size: 20px" />
-
       <NuxtIcon name="doc" style="color: black; font-size: 20px" />
       <NuxtLink to="/admin">
         <NuxtIcon name="user" filled style="color: black; font-size: 22px" />

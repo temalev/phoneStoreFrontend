@@ -76,6 +76,7 @@ const onActive = (uuid, name) => {
   height: 170px;
   overflow: scroll;
   z-index: 22;
+  box-sizing: border-box;
 }
 
 .ico {
