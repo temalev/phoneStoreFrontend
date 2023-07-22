@@ -2,6 +2,23 @@
   <div class="infoModal" @click.self="close">
     <div class="close" @click.self="close" />
     <div class="contents">
+      <div class="content">
+        <h3 class="header">Рассрочка</h3>
+        <div class="paragraphs">
+          <p class="paragraph">
+            В нашем магазине в г. Рязани вы можете приобрести все устройства техники Apple и Dyson в рассрочку по самым выгодным условиям без первоначального взноса.
+          </p>
+          <ul>
+            <li>&bull; От 18 лет</li>
+            <li>&bull; Срок от 6 до 24 месяцев</li>
+            <li>&bull; Наличие паспорта РФ и номера телефона</li>
+          </ul>
+          <p class="paragraph">
+            По вопросам и оформлению онлайн - <a href="https://t.me/Rk_tech_support">аккаунт поддержки</a> в Telegram
+          </p>
+        </div>
+      </div>
+
       <div v-for="(content, idContent) in info" :key="idContent" class="content">
         <h3 class="header">{{ content.header }}</h3>
         <div class="paragraphs">

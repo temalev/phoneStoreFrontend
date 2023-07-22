@@ -117,7 +117,6 @@
     min-width: 280px;
     width: fit-content;
     box-shadow: 0 0 10px rgb(212 212 212);
-    height: 295px;
   }
   cursor: pointer;
 }
@@ -150,7 +149,7 @@
   max-width: 1500px;
   height: 200px;
   @media (max-width: 900px) {
-    height: 60px;
+    height: 62px;
   }
 }
 
