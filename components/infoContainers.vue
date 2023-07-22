@@ -115,7 +115,6 @@
   @media (max-width: 900px) {
     margin: 12px 20px;
     min-width: 280px;
-    width: fit-content;
     box-shadow: 0 0 10px rgb(212 212 212);
   }
   cursor: pointer;
