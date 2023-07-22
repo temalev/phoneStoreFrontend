@@ -142,7 +142,7 @@
 }
 
 .img {
-  background-image: url("/images/credit.jpg");
+  background-image: url("../images/credit.jpg");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
