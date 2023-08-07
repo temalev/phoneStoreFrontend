@@ -12,7 +12,6 @@
         <h3 class="header-container">
           Продажа устройств, бывших в употреблении
         </h3>
-        <p class="textInfo">Подробности..</p>
       </div>
       </div>
     </div>
@@ -163,7 +162,9 @@
     min-width: 280px;
     height: 320px;
     padding: 24px;
-    border-radius: 0;
+    width: auto;
+    margin: 0 20px;
+    box-shadow: 0 0 10px rgb(212 212 212);
   }
 }
 
