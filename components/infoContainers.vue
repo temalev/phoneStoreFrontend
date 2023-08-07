@@ -8,6 +8,16 @@
       <div class="img" />
     </div>
 
+    <div class="flex">
+      <div class="container-tradeIn">
+        <h3>Программа Trade-In</h3>
+        <div class="img-tradeIn" />
+        </div>
+      <div class="container-oldTech">
+        <h3>Продажа устройств, бывших в употреблении</h3></div>
+        <div class="img-oldTech" />
+    </div>
+
     <div class="row">
       <div class="leftContainer">
         <div class="textInfoContainer">
@@ -90,6 +100,13 @@
   }
 }
 
+.flex {
+  display: flex;
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
+}
+
 .leftContainer {
   position: relative;
   display: flex;
@@ -118,6 +135,24 @@
     box-shadow: 0 0 10px rgb(212 212 212);
   }
   cursor: pointer;
+}
+
+.container-tradeIn {
+  background-color: #f9f9fb;
+  // box-shadow: 0 0 10px #d4d4d4;
+  border-radius: 22px;
+  box-sizing: border-box;
+  @media (max-width: 900px) {
+    margin: 12px 20px;
+    min-width: 280px;
+    height: 160px;
+    padding: 24px;
+    box-shadow: 0 0 10px rgb(212 212 212);
+    background-image: url(/images/tradeIn.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
 
 .text {
