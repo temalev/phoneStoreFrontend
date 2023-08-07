@@ -149,7 +149,7 @@
   background-color: #f9f9fb;
   // box-shadow: 0 0 10px #d4d4d4;
   box-sizing: border-box;
-  background-image: url(/images/tradeIn.jpg);
+  background-image: url(/images/tradein.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -158,7 +158,7 @@
   cursor: pointer;
   border-radius: 22px;
   @media (max-width: 900px) {
-    background-image: url(/images/tradeIn_mobile.jpg);
+    background-image: url(/images/tradein_mobile.jpg);
     min-width: 280px;
     height: 220px;
     padding: 24px;
