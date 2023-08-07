@@ -109,7 +109,7 @@
 .flex {
   display: flex;
   gap: 20px;
-  width: 1500px;
+  max-width: 1500px;
   @media (max-width: 850px) {
     flex-direction: column;
     gap: 20px;
@@ -164,6 +164,7 @@
     height: 320px;
     padding: 24px;
     border-radius: 0;
+    width: auto;
   }
 }
 
