@@ -88,6 +88,15 @@ export const useCategories = defineStore('categories', {
         isName: false,
       },
       {
+        name: 'Samsung',
+        ico: '/icons/samsung.svg',
+        style: { height: '70', width: '75' },
+        link: '/product/samsung',
+        img: '/images/samsung.jpg',
+        uuid: 'ccc52d81-7c9c-4619-87ff-6ed7e363fea2',
+        isName: false,
+      },
+      {
         name: 'PlayStation 5',
         ico: '/icons/ps.jpg',
         style: { height: '70', width: '120' },

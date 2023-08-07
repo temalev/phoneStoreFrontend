@@ -39,6 +39,9 @@ const onInfoModal = () => {
   display: flex;
   flex-direction: column;
   gap: 50px;
+  @media (max-width: 850px) {
+    gap: 26px;
+  }
 }
 
 h1 {

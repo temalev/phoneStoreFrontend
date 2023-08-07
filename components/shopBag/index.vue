@@ -93,7 +93,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
@@ -104,6 +104,7 @@ const userData = ref({});
 const currentSel = ref(1);
 const isInvalidData = ref(false);
 const isApprovedOrder = ref(false);
+const isEmptyShopBag = ref(true);
 
 const radioVariants = ref([
   {
@@ -111,7 +112,11 @@ const radioVariants = ref([
     id: 1,
     info: 'Самовывоз - бесплатно. Офис №335 (3 этаж) по адресу: улица Барклая, 8.',
   },
-  { name: 'Доставка по Москве', id: 2, info: 'Курьерская доставка в Москве - бесплатно/490р' },
+  {
+    name: 'Доставка по Москве',
+    id: 2,
+    info: 'Курьерская доставка в Москве - бесплатно/490р',
+  },
   {
     name: 'Доставка по России',
     id: 3,
@@ -129,6 +134,12 @@ const options = ref([
   { name: 'Доставка по Москве', info: '' },
   { name: 'Доставка по России', info: '' },
 ]);
+
+const orders = ref(api.orders);
+
+watch(orders.value, (newVal, oldVal) => {
+  isEmptyShopBag.value = !!newVal.length;
+});
 
 // eslint-disable-next-line max-len
 const getPriceByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.price;
@@ -150,7 +161,7 @@ const onCreateOrder = () => {
     // eslint-disable-next-line max-len
     images: item.product.variants.length
       ? getImgByProduct(item.product, item.options)
-      : item.product.images?.[0],
+      : [item.product.images?.[0]],
     count: 1,
   }));
   const ordersData = {
@@ -169,8 +180,6 @@ const onCreateOrder = () => {
     localStorage.removeItem('orders');
   } else isInvalidData.value = true;
 };
-
-const isEmptyShopBag = ref(true);
 
 const onChangeRadio = (val) => {
   currentSel.value = val;
