@@ -109,6 +109,7 @@
 .flex {
   display: flex;
   gap: 20px;
+  width: 1500px;
   @media (max-width: 850px) {
     flex-direction: column;
     gap: 20px;
@@ -154,13 +155,13 @@
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 250px;
+  height: 360px;
   cursor: pointer;
   border-radius: 22px;
   @media (max-width: 900px) {
     background-image: url(/images/tradein_mobile.jpg);
     min-width: 280px;
-    height: 220px;
+    height: 320px;
     padding: 24px;
     border-radius: 0;
   }
