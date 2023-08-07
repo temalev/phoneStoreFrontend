@@ -167,7 +167,6 @@
   }
 }
 
-
 .container-oldTech {
   background-color: #f9f9fb;
   // box-shadow: 0 0 10px #d4d4d4;
