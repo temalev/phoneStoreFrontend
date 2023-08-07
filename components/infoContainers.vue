@@ -1,21 +1,27 @@
 <template>
   <div class="mainInfoContainers">
+    <div class="flex">
+      <div class="container-tradeIn">
+        <div class="container-text">
+        <h3 class="header-container">Программа Trade-In</h3>
+        <p class="textInfo">И как она работает.</p>
+      </div>
+      </div>
+      <div class="container-oldTech">
+        <div class="container-text">
+        <h3 class="header-container">
+          Продажа устройств, бывших в употреблении
+        </h3>
+        <p class="textInfo">Подробности..</p>
+      </div>
+      </div>
+    </div>
     <div class="container">
       <div class="text">
         <h3 class="gradient">Рассрочка</h3>
-      <p class="textInfo">Нажмите, чтобы узнать подробности</p>
+        <p class="textInfo">Нажмите, чтобы узнать подробности</p>
       </div>
       <div class="img" />
-    </div>
-
-    <div class="flex">
-      <div class="container-tradeIn">
-        <h3>Программа Trade-In</h3>
-        <div class="img-tradeIn" />
-        </div>
-      <div class="container-oldTech">
-        <h3>Продажа устройств, бывших в употреблении</h3></div>
-        <div class="img-oldTech" />
     </div>
 
     <div class="row">
@@ -84,7 +90,7 @@
     flex-direction: column;
     height: 100%;
     min-height: 800px;
-    margin: 20px;
+    margin: 0;
   }
 }
 .row {
@@ -102,8 +108,10 @@
 
 .flex {
   display: flex;
+  gap: 20px;
   @media (max-width: 850px) {
     flex-direction: column;
+    gap: 20px;
   }
 }
 
@@ -130,9 +138,9 @@
   border-radius: 22px;
   box-sizing: border-box;
   @media (max-width: 900px) {
-    margin: 12px 20px;
     min-width: 280px;
     box-shadow: 0 0 10px rgb(212 212 212);
+    margin: 0 20px;
   }
   cursor: pointer;
 }
@@ -140,24 +148,56 @@
 .container-tradeIn {
   background-color: #f9f9fb;
   // box-shadow: 0 0 10px #d4d4d4;
+  box-sizing: border-box;
+  background-image: url(/images/tradeIn.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 250px;
+  cursor: pointer;
+  border-radius: 22px;
+  @media (max-width: 900px) {
+    background-image: url(/images/tradeIn_mobile.jpg);
+    min-width: 280px;
+    height: 220px;
+    padding: 24px;
+    border-radius: 0;
+  }
+}
+
+.container-oldTech {
+  background-color: #f9f9fb;
+  // box-shadow: 0 0 10px #d4d4d4;
   border-radius: 22px;
   box-sizing: border-box;
+  background-image: url(/images/oldTech.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  cursor: pointer;
   @media (max-width: 900px) {
-    margin: 12px 20px;
+    background-image: url(/images/oldTech_mobile.jpg);
     min-width: 280px;
-    height: 160px;
+    width: auto;
+    height: 180px;
     padding: 24px;
+    margin: 0 20px;
     box-shadow: 0 0 10px rgb(212 212 212);
-    background-image: url(/images/tradeIn.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  }
+}
+
+.container-text {
+  padding: 32px;
+  @media (max-width: 900px) {
+    font-size: 16px;
+    padding: 0;
   }
 }
 
 .text {
   padding: 34px;
-
   @media (max-width: 900px) {
     font-size: 16px;
     padding: 24px;
@@ -274,8 +314,8 @@
     gap: 20px;
     padding: 20px;
     width: auto;
-    margin: 0 20px;
     height: 250px;
+    margin: 0 20px;
     box-shadow: 0 0 10px rgb(212 212 212);
   }
 }
