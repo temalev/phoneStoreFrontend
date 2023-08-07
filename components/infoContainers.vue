@@ -160,7 +160,7 @@
   @media (max-width: 900px) {
     background-image: url(/images/tradein_mobile.jpg);
     min-width: 280px;
-    height: 320px;
+    height: 180px;
     padding: 24px;
     width: auto;
     margin: 0 20px;
