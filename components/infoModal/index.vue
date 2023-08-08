@@ -181,7 +181,7 @@ onUnmounted(() => {
   top: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   z-index: 99999;
