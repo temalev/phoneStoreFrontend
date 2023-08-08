@@ -1,20 +1,22 @@
 <template>
   <div class="mainInfoContainers">
-    <div class="flex">
-      <div class="container-tradeIn">
-        <div class="container-text">
+    <div class="container-tradeIn">
+      <div class="container-text">
         <h3 class="header-container">Программа Trade-In</h3>
         <p class="textInfo">И как она работает.</p>
       </div>
-      </div>
+    </div>
+    <div class="flex">
+      <div class="container-service"></div>
       <div class="container-oldTech">
         <div class="container-text">
-        <h3 class="header-container">
-          Продажа устройств, бывших в употреблении
-        </h3>
-      </div>
+          <h3 class="header-container">
+            Продажа устройств, бывших в употреблении
+          </h3>
+        </div>
       </div>
     </div>
+
     <div class="container">
       <div class="text">
         <h3 class="gradient">Рассрочка</h3>
@@ -85,11 +87,31 @@
   flex-direction: column;
   gap: 20px;
   margin: 20px 80px;
+  height: 100%;
   @media (max-width: 850px) {
     flex-direction: column;
     height: 100%;
     min-height: 800px;
     margin: 0;
+  }
+}
+
+.container-service {
+  background-image: url(/images/rk_service.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 100%;
+  height: 300px;
+  box-shadow: inset 0 0 30px #f9f9fb;
+  border-radius: 22px;
+  @media (max-width: 900px) {
+    min-width: 280px;
+    height: 160px;
+    padding: 24px;
+    width: auto;
+    margin: 0 20px;
+    box-shadow: 0 0 10px rgb(212 212 212);
   }
 }
 .row {
@@ -107,6 +129,7 @@
 
 .flex {
   display: flex;
+  justify-content: space-between;
   gap: 20px;
   max-width: 1500px;
   @media (max-width: 850px) {
@@ -154,13 +177,13 @@
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 360px;
+  height: 500px;
   cursor: pointer;
   border-radius: 22px;
   @media (max-width: 900px) {
     background-image: url(/images/tradein_mobile.jpg);
     min-width: 280px;
-    height: 180px;
+    height: 380px;
     padding: 24px;
     width: auto;
     margin: 0 20px;
@@ -183,7 +206,7 @@
     background-image: url(/images/oldTech_mobile.jpg);
     min-width: 280px;
     width: auto;
-    height: 180px;
+    height: 220px;
     padding: 24px;
     margin: 0 20px;
     box-shadow: 0 0 10px rgb(212 212 212);
