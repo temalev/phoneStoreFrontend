@@ -38,9 +38,9 @@
       <div class="rightContainers">
         <div class="rightContainer">
           <div class="textInfoContainer">
-            <h3 class="header">Оплата</h3>
+            <h3 class="header">Способы оплаты</h3>
             <p class="textInfo">
-              Оплачивайте в той валюте, в которой удобно вам.
+              Оплачивайте покупки удобным для вас способом.
             </p>
           </div>
           <div class="imgBackground__rightContainer" />
