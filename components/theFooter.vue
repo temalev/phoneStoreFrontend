@@ -51,7 +51,7 @@
           target="_blank"
           href="https://yandex.ru/maps/11/ryazan/house/ulitsa_koltsova_1/Z0AYcQRlSk0AQFtufXpzeHtkZw==/?ll=39.735386%2C54.629774&utm_source=main_stripe_big&z=17"
         >
-          Рязань , ул. Кольцова, дом 1
+          Рязань, ул. Кольцова, дом 1
         </a>
       </span>
       <span class="email"

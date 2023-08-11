@@ -26,7 +26,7 @@
             <div class="body">
               <div class="inputsContainer">
                 <Input
-                  :label="'ФИО*'"
+                  :label="'Фамилия Имя*'"
                   :placeholder="'Иванов Иван Иванович'"
                   @inputValue="(val) => (userData.name = val)"
                 />
