@@ -87,11 +87,9 @@ onMounted(() => {
   align-items: center;
   gap: 12px;
   padding: 22px;
-  // width: 300px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 0 20px #949494;
-  border-radius: 32px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 
   img {
     border-radius: 32px;

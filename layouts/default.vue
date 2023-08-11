@@ -11,7 +11,6 @@
       </Transition>
       <TheFooter />
     </div>
-    <TheAdminBottomPanel />
   </div>
 </template>
 <script setup>

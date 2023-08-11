@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   ssr: true,
   mode: 'universal',
   css: ['~/assets/styles/main.css'],
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', 'nuxt-icons'],
   buildModules: [
     // Simple usage
     '@nuxtjs/moment',
@@ -36,4 +36,7 @@ export default defineNuxtConfig({
       NODE_ENV: process.env.NODE_ENV || 'production',
     },
   },
+  svgo: {
+    autoImportPath: './assets/icons/',
+  }
 });
