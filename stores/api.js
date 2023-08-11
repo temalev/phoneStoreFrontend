@@ -152,7 +152,7 @@ export const useApi = defineStore('api', {
         method: 'POST',
         credentials: 'include',
         body: file,
-        headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
+        // headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
       });
       const data = res.json();
       return data;
