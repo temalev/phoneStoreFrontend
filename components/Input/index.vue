@@ -2,7 +2,12 @@
   <div class="mainCustomInput">
     <label for="">{{ label }}</label>
     <div class="input">
-      <input class="customInput" :type="type" :placeholder="placeholder" v-model="model" />
+      <input
+        class="customInput"
+        :type="type"
+        :placeholder="placeholder"
+        v-model="model"
+      />
     </div>
   </div>
 </template>
@@ -13,21 +18,21 @@ export default {
     placeholder: String,
     type: {
       type: String,
-      default: 'text',
+      default: "text",
     },
     value: {
       type: [String, Number],
       default: null,
     },
   },
-  emits: ['inputValue'],
+  emits: ["inputValue"],
   computed: {
     model: {
       get() {
         return this.value;
       },
       set(val) {
-        this.$emit('inputValue', val);
+        this.$emit("inputValue", val);
       },
     },
   },
@@ -70,4 +75,11 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+::-webkit-input-placeholder {
+  font-weight: 300;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
 </style>
