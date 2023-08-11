@@ -20,9 +20,12 @@ export const useApi = defineStore('api', {
 
   actions: {
     async fetchWithAuth(url, opts) {
-      opts.headers = {
-        'Content-Type': 'application/json',
-      };
+      if (!opts.headers) {
+        opts.headers = {
+          // 'Content-Type': 'application/json',
+        };
+      }
+
       if (this.config.public.NODE_ENV === 'development') {
         const accessToken = localStorage.jwt1;
         opts.headers.Authorization = `Bearer ${accessToken}`;
@@ -120,12 +123,38 @@ export const useApi = defineStore('api', {
       return data;
     },
 
+    async createdProduct(productData) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product`, {
+        method: 'POST',
+        credentials: 'include',
+        headers,
+        body: JSON.stringify(productData),
+      });
+      const data = await res.json();
+      return data;
+    },
+
     async deleteProduct(uuid) {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
         method: 'DELETE',
         credentials: 'include',
       });
       const data = await res.json();
+      return data;
+    },
+
+    async uploadImg(file) {
+      const accessToken = localStorage.jwt1;
+      const res = await fetch(`${this.config.public.URL}/api/v1/storage`, {
+        method: 'POST',
+        credentials: 'include',
+        body: file,
+        headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
+      });
+      const data = res.json();
       return data;
     },
 

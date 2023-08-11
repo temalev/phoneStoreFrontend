@@ -2,13 +2,15 @@
   <Head>
     <Title>RK-Tech - магазин техники Apple</Title>
   </Head>
-  <div class="main">
-    <TheHeader :isDesktop="isDesktop" />
-    <slot />
-    <Transition name="slide-fade">
-      <TheCookie v-if="!api.isCookie" />
-    </Transition>
-    <TheFooter />
+  <div class="main-admin">
+    <div class="main" style="overflow: scroll;">
+      <TheHeader :isDesktop="isDesktop" />
+      <slot />
+      <Transition name="slide-fade">
+        <TheCookie v-if="!api.isCookie" />
+      </Transition>
+      <TheFooter />
+    </div>
   </div>
 </template>
 <script setup>
@@ -57,15 +59,19 @@ const yaMetricaNoScript = '<div><img src="https://mc.yandex.ru/watch/92637429" s
 
 // eslint-disable-next-line no-undef
 useHead({
-  script: [{
-    children: yaMetrica,
-    body: true,
-    type: 'text/javascript',
-  }],
-  noscript: [{
-    children: yaMetricaNoScript,
-    body: true,
-  }],
+  script: [
+    {
+      children: yaMetrica,
+      body: true,
+      type: 'text/javascript',
+    },
+  ],
+  noscript: [
+    {
+      children: yaMetricaNoScript,
+      body: true,
+    },
+  ],
 });
 </script>
 
@@ -75,6 +81,12 @@ useHead({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+}
+
+.main-admin {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 

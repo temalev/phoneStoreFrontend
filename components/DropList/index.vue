@@ -9,9 +9,9 @@
     </div>
     <div class="listContainer" :style="{ display: activeList ? 'flex' : '' }">
       <div
-        v-for="list in api.categories"
+        v-for="list in data"
         :key="list.uuid"
-        @click="(selected.uuid = list.uuid), (selected.name = list.name), (activeList = false)"
+        @click="onActive(list.uuid, list.name)"
         class="list"
       >
         {{ list?.name }}
@@ -26,9 +26,25 @@ import { useApi } from '~/stores/api';
 
 const api = useApi();
 
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+const emit = defineEmits(['change']);
+
 const activeList = ref(false);
 
 const selected = ref({});
+
+const onActive = (uuid, name) => {
+  selected.value.uuid = uuid;
+  selected.value.name = name;
+  activeList.value = false;
+  emit('change', selected.value);
+};
 </script>
 
 <style scoped lang="scss">
@@ -57,7 +73,10 @@ const selected = ref({});
   border: 1px solid #eee;
   background-color: #fff;
   width: 100%;
+  height: 170px;
+  overflow: scroll;
   z-index: 22;
+  box-sizing: border-box;
 }
 
 .ico {
@@ -72,9 +91,13 @@ const selected = ref({});
 .list {
   padding: 8px;
   background-color: #fff;
-
+  overflow: hidden;
   transition: 0.2s;
   cursor: pointer;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 
   &:hover {
     background-color: #eee;
