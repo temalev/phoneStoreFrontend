@@ -1,5 +1,5 @@
 
-import { defuFn } from '/Users/temalev/Web/RKTech/rk/node_modules/defu/dist/defu.mjs'
+import { defuFn } from '/Users/temalev/Web/RKTech/phoneStoreFrontend/node_modules/defu/dist/defu.mjs'
 
 const inlineConfig = {}
 
