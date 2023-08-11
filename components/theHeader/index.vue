@@ -25,19 +25,24 @@
     </nav>
 
     <div v-if="!api.isAuth" class="leftContainer">
-      <!-- <div class="call" /> -->
-      <div class="telContainer"><a href="tel:+79801062064">+7 (980) 106-20-64 </a></div>
+      <div class="telContainer">
+        <a href="tel:+79801062064">+7 (980) 106-20-64 </a>
+      </div>
       <div class="shopBag" @click="isShopBag = true">
-        <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
+        <div v-if="api.orders.length" class="ordersCounter">
+          {{ api.orders.length }}
+        </div>
       </div>
     </div>
 
-    <div v-if="api.isAuth" class="leftContainer">
+    <div v-if="api.isAuth" class="leftContainerAdmin">
+      <NuxtIcon name="plus" style="color: black; font-size: 20px" />
+      <NuxtIcon name="doc" style="color: black; font-size: 20px" />
       <NuxtLink to="/admin">
-        <div class="admin" />
+        <NuxtIcon name="user" filled style="color: black; font-size: 22px" />
       </NuxtLink>
       <NuxtLink to="/" @click="logout">
-        <div class="logout" />
+        <NuxtIcon name="logout" filled style="color: black; font-size: 20px" />
       </NuxtLink>
     </div>
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
@@ -49,7 +54,9 @@
         class="btnMenu"
         @click="isMenu = !isMenu"
         :style="{
-          backgroundImage: !isMenu ? 'url(/icons/burger.svg)' : 'url(/icons/burgerClose.svg)',
+          backgroundImage: !isMenu
+            ? 'url(/icons/burger.svg)'
+            : 'url(/icons/burgerClose.svg)',
         }"
       />
     </div>
@@ -64,7 +71,9 @@
       <div v-if="!api.isAuth" class="leftContainer">
         <a href="tel:+79801062064" class="call" />
         <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
-          <div v-if="api.orders.length" class="ordersCounter">{{ api.orders.length }}</div>
+          <div v-if="api.orders.length" class="ordersCounter">
+            {{ api.orders.length }}
+          </div>
         </div>
       </div>
       <div v-if="api.isAuth" class="leftContainer">
@@ -110,7 +119,9 @@ const api = useApi();
 
 const getProduct = (link) => {
   isMenu.value = false;
-  const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
+  const uuidSelectCategory = categories.categories.find(
+    (el) => el.link === link,
+  )?.uuid;
   if (uuidSelectCategory) {
     api.getProducts(uuidSelectCategory);
   }
@@ -129,7 +140,9 @@ const logout = () => {
 // eslint-disable-next-line no-undef
 onMounted(() => {
   const currentCategory = window.location.href.split('/').at(-1);
-  const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
+  const uuidCurrentCategory = categories.categories.find(
+    (el) => el.link === currentCategory,
+  )?.uuid;
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
   }
@@ -156,7 +169,7 @@ onMounted(() => {
 }
 
 a {
-  color: #fff
+  color: #fff;
 }
 
 .logo {
@@ -215,6 +228,18 @@ a {
   align-items: center;
   flex-direction: row;
   gap: 20px;
+}
+
+.leftContainerAdmin {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 22px;
+  padding: 4px 8px;
+  box-sizing: border-box;
 }
 
 .call {
@@ -278,8 +303,8 @@ a {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -288,8 +313,8 @@ a {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 

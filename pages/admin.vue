@@ -3,25 +3,45 @@
     <div v-if="!api.isAuth" class="authContainer">
       <h2>Авторизация</h2>
       <Input @inputValue="(val) => (adminData.login = val)" />
-      <Input type="password" @inputValue="(val) => (adminData.password = val)" />
+      <Input
+        type="password"
+        @inputValue="(val) => (adminData.password = val)"
+      />
       <CustomButton @click="login" :name="'Войти'" />
     </div>
 
     <div v-if="api.isAuth" class="container">
-      <CustomButton @click="isCreateProduct = true" name="Добавить продукт" />
-      <CreateProduct v-if="isCreateProduct" />
+      <CustomButton
+        @click="isCreateProduct = true"
+        name="Создать товар"
+      />
+      <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
+        <CreateProduct />
+      </CustomModal>
       <h4>Завершенных заказов: {{ api.statistics?.complited?.value }}</h4>
+      <!-- <Table :data="api.newOrders" /> -->
       <h3>Новые заказы</h3>
       <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
-        <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
-          <CardOrder v-if="order?.status === 0" :data="order?.status === 0 ? order : null" />
+        <div
+          v-for="order in api.newOrders"
+          :key="`order_${order.uuid}`"
+          class="wrapper"
+        >
+          <CardOrder
+            v-if="order?.status === 0"
+            :data="order?.status === 0 ? order : null"
+          />
         </div>
       </div>
     </div>
     <div v-if="api.newOrders && api.isAuth" class="container">
       <h3>В работе</h3>
       <div class="ordersContainer">
-        <div v-for="order in api.newOrders" :key="`order_${order.uuid}`" class="wrapper">
+        <div
+          v-for="order in api.newOrders"
+          :key="`order_${order.uuid}`"
+          class="wrapper"
+        >
           <CardOrder v-if="order?.status === 1" :data="order" />
         </div>
       </div>
@@ -30,9 +50,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useDetermininingWidth } from '~/stores/determiningWidth';
-import { useApi } from '~/stores/api';
+import { ref } from "vue";
+import { useDetermininingWidth } from "~/stores/determiningWidth";
+import { useApi } from "~/stores/api";
 
 const api = useApi();
 
@@ -40,7 +60,7 @@ const determiningWidth = useDetermininingWidth();
 
 const isCreateProduct = ref(false);
 
-const adminData = ref({ login: '', password: '' });
+const adminData = ref({ login: "", password: "" });
 
 const login = () => {
   api.login(adminData.value);

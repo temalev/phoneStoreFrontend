@@ -92,7 +92,7 @@ const baseImg = computed(() => {
       });
     return canditate?.optionsInfo?.images?.[0] || props.product?.images?.[0];
   }
-  return props.product?.variants[0]?.optionsInfo?.images[0] || props.product?.images[0];
+  return props.product?.variants?.[0]?.optionsInfo?.images?.[0] || props.product?.images?.[0];
 });
 
 const price = computed(() => {

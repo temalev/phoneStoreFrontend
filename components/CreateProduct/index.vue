@@ -2,17 +2,19 @@
   <div class="createProduct">
     <DropZone v-if="!urlFile" @drop.prevent="drop" @change="selectedFile" />
     <img v-if="urlFile" :src="urlFile" alt="" width="250" height="250" />
-    <DropList />
+    <DropList :data="api.categories" @change="onSelect" />
     <Input @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
     <Input @inputValue="(val) => (productData.description = val)" placeholder="Описание товара" />
-    <div class="addOption">
+    <Input @inputValue="(val) => (productData.price = val)" placeholder="Цена" />
+    <!-- <div class="addOption">
       <div class="headerAddOption">
         <h2>Добавьте опции</h2>
         <CustomButton @click="opts += 1" type="plus" />
       </div>
 
-      <AddOption />
-    </div>
+      <AddOption @change="val => options = val" />
+    </div> -->
+    <CustomButton name="Создать продукт" @click="createProduct" />
   </div>
 </template>
 
@@ -37,24 +39,47 @@ const colors = ref([
     color: '#5t5t5t',
   },
 ]);
+const options = ref(null);
+const uploadedImgSrc = ref(null);
 
-const dropzoneFile = ref(null);
+const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 
-const productData = ref({});
+const productData = ref({ images: [] });
 
 const drop = (event) => {
+  event.preventDefault();
   // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value = event.dataTransfer.files[0];
-  urlFile.value = URL.createObjectURL(dropzoneFile.value);
+  dropzoneFile.value.url = event.dataTransfer.files[0];
+  // eslint-disable-next-line prefer-destructuring
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
 };
 
-const selectedFile = () => {
+const selectedFile = async () => {
   // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value = document.querySelector('.dragZone').files[0];
-  urlFile.value = URL.createObjectURL(dropzoneFile.value);
+  dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+  const formData = new FormData(); // Создаем экземпляр FormData
+  formData.append('file', dropzoneFile.value.url);
+  const res = await api.uploadImg(formData);
+  uploadedImgSrc.value = res.full;
 };
+
+const onSelect = (val) => {
+  productData.value.categoryUUID = val.uuid;
+};
+
+const createProduct = () => {
+  productData.value.images.push(uploadedImgSrc.value);
+  api.createdProduct(productData.value);
+};
+
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  api.getCategories();
+});
 </script>
+
 <style scoped lang="scss">
 .createProduct {
   display: flex;
@@ -62,11 +87,9 @@ const selectedFile = () => {
   align-items: center;
   gap: 12px;
   padding: 22px;
-  width: 300px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 0 20px #949494;
-  border-radius: 32px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 
   img {
     border-radius: 32px;

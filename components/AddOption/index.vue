@@ -1,22 +1,22 @@
 <template>
   <div class="editOption">
-    <h3 class="optionName">Цвет</h3>
+    <Input :placeholder="'Объем памяти'" @inputValue="(val) => (options.name = val)" />
     <div class="options">
-      <CustomInput
-        v-for="item in opts"
+      <Input v-for="item in options.items"
         :key="item"
-        @inputValue="(val) => (productData.description = val)"
+        @inputValue="(val) => (item.name = val, item.value = val)"
         :data="colors"
-        placeholder="Название"
-      />
-      <CustomButton @click="opts += 1" type="plus" />
+        placeholder="128ГБ"
+        :styles="{width: 'auto'}" />
+      <CustomButton @click="addOpt" type="plus" />
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
 
-const opts = ref(0);
+const opts = ref(1);
 const colors = ref([
   {
     id: 1,
@@ -31,6 +31,22 @@ const colors = ref([
     color: '#5t5t5t',
   },
 ]);
+
+const options = ref({
+  name: null,
+  items: [],
+});
+
+const emit = defineEmits(['change']);
+
+watch(options.value, (newVal, oldVal) => {
+  emit('change', newVal);
+});
+
+const addOpt = () => {
+  const Obj = { id: uuidv4(), name: null, value: null };
+  options.value.items.push(Obj);
+};
 </script>
 <style scoped>
 .optionName {
@@ -45,6 +61,7 @@ const colors = ref([
 
 .options {
   display: flex;
+  align-items: center;
   gap: 8px;
   flex-wrap: wrap;
   padding: 0 8px;
