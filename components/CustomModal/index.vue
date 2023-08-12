@@ -1,25 +1,24 @@
 <template>
   <div class="modal-background">
-  <div class="modal">
-    <img
-      src="/icons/close.svg"
-      width="28"
-      height="28"
-      alt=""
-      class="ico"
-      @click="emits('close')"
-    />
-    <slot></slot>
+    <div class="modal">
+      <img
+        src="/icons/close.svg"
+        width="28"
+        height="28"
+        alt=""
+        class="ico"
+        @click="emits('close')"
+      />
+      <slot></slot>
+    </div>
   </div>
-</div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
-const emits = defineEmits(['close']);
+const emits = defineEmits(["close"]);
 </script>
 <style scoped>
-
 .modal-background {
   position: fixed;
   top: 0;
@@ -29,19 +28,20 @@ const emits = defineEmits(['close']);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
+
 }
 .modal {
-  position: relative;
   background-color: #fff;
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 0 20px #eee;
-  border-radius: 8px;
+
+  @media (min-width: 850px) {
+    box-sizing: border-box;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 8px;
+  }
   @media (max-width: 850px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
     width: 100%;
     height: 100%;
   }

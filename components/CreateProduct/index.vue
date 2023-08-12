@@ -2,7 +2,7 @@
   <div class="createProduct">
     <DropZone v-if="!urlFile" @drop.prevent="drop" @change="selectedFile" />
     <img v-if="urlFile" :src="urlFile" alt="" width="250" height="250" />
-    <DropList :data="api.categories" @change="onSelect" />
+    <DropList class="mt-5" :data="api.categories" @change="onSelect" />
     <Input
       @inputValue="(val) => (productData.name = val)"
       placeholder="Название товара"
