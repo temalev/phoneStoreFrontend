@@ -3,9 +3,19 @@
     <DropZone v-if="!urlFile" @drop.prevent="drop" @change="selectedFile" />
     <img v-if="urlFile" :src="urlFile" alt="" width="250" height="250" />
     <DropList :data="api.categories" @change="onSelect" />
-    <Input @inputValue="(val) => (productData.name = val)" placeholder="Название товара" />
-    <Input @inputValue="(val) => (productData.description = val)" placeholder="Описание товара" />
-    <Input @inputValue="(val) => (productData.price = val)" placeholder="Цена" />
+    <Input
+      @inputValue="(val) => (productData.name = val)"
+      placeholder="Название товара"
+    />
+    <Input
+      @inputValue="(val) => (productData.description = val)"
+      placeholder="Описание товара"
+    />
+    <Input
+      @inputValue="(val) => (productData.price = val)"
+      placeholder="Цена"
+      type="number"
+    />
     <!-- <div class="addOption">
       <div class="headerAddOption">
         <h2>Добавьте опции</h2>
@@ -14,7 +24,12 @@
 
       <AddOption @change="val => options = val" />
     </div> -->
-    <CustomButton name="Создать продукт" @click="createProduct" />
+    <CustomButton
+      :isLoading="isLoading"
+      name="Создать продукт"
+      @click="createProduct"
+    />
+    <span class="confirm" v-if="createdProduct">{{ createdProduct.name }} успешно создан</span>
   </div>
 </template>
 
@@ -25,6 +40,7 @@ import { useApi } from '~/stores/api';
 const api = useApi();
 
 const opts = ref(0);
+const isLoading = ref(false);
 const colors = ref([
   {
     id: 1,
@@ -44,6 +60,7 @@ const uploadedImgSrc = ref(null);
 
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
+const createdProduct = ref(null)
 
 const productData = ref({ images: [] });
 
@@ -69,9 +86,12 @@ const onSelect = (val) => {
   productData.value.categoryUUID = val.uuid;
 };
 
-const createProduct = () => {
+const createProduct = async () => {
+  isLoading.value = true;
   productData.value.images.push(uploadedImgSrc.value);
-  api.createdProduct(productData.value);
+  const res = await api.createdProduct(productData.value);
+  createdProduct.value = res
+  isLoading.value = false;
 };
 
 // eslint-disable-next-line no-undef
@@ -108,5 +128,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.confirm {
+  color: rgb(37, 186, 37);
 }
 </style>

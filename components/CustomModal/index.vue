@@ -1,4 +1,5 @@
 <template>
+  <div class="modal-background">
   <div class="modal">
     <img
       src="/icons/close.svg"
@@ -10,6 +11,7 @@
     />
     <slot></slot>
   </div>
+</div>
 </template>
 <script setup>
 import { ref, computed } from 'vue';
@@ -17,11 +19,24 @@ import { ref, computed } from 'vue';
 const emits = defineEmits(['close']);
 </script>
 <style scoped>
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .modal {
   position: relative;
   background-color: #fff;
   padding: 20px;
   box-sizing: border-box;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 8px;
   @media (max-width: 850px) {
     position: fixed;
     top: 0;

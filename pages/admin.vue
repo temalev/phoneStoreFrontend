@@ -11,10 +11,8 @@
     </div>
 
     <div v-if="api.isAuth" class="container">
-      <CustomButton
-        @click="isCreateProduct = true"
-        name="Создать товар"
-      />
+      {{isCreateProduct }}
+      <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
       </CustomModal>
@@ -50,9 +48,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useDetermininingWidth } from "~/stores/determiningWidth";
-import { useApi } from "~/stores/api";
+import { ref } from 'vue';
+import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useApi } from '~/stores/api';
 
 const api = useApi();
 
@@ -60,7 +58,7 @@ const determiningWidth = useDetermininingWidth();
 
 const isCreateProduct = ref(false);
 
-const adminData = ref({ login: "", password: "" });
+const adminData = ref({ login: '', password: '' });
 
 const login = () => {
   api.login(adminData.value);

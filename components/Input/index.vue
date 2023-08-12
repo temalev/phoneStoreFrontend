@@ -18,7 +18,7 @@ export default {
     placeholder: String,
     type: {
       type: String,
-      default: "text",
+      default: 'text',
     },
     styles: {
       type: Object,
@@ -29,14 +29,14 @@ export default {
       default: null,
     },
   },
-  emits: ["inputValue"],
+  emits: ['inputValue'],
   computed: {
     model: {
       get() {
         return this.value;
       },
       set(val) {
-        this.$emit("inputValue", val);
+        this.$emit('inputValue', val);
       },
     },
   },
@@ -78,6 +78,12 @@ label {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+input::placeholder {
+    font: sans-serif;
+    font-size: 16px;
+    font-weight: 100;
 }
 
 ::-webkit-input-placeholder {

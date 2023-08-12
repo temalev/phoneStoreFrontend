@@ -106,5 +106,10 @@ input::-webkit-inner-spin-button {
   opacity: 1;
   transition: opacity 0.3s ease;
 }
+input::placeholder {
+    font: sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+}
 input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
 </style>
