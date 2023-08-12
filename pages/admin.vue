@@ -11,7 +11,6 @@
     </div>
 
     <div v-if="api.isAuth" class="container">
-      {{isCreateProduct }}
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
