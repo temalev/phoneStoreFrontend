@@ -6,11 +6,13 @@
         <el-table-column v-slot="{ row }" prop="items" label="Товары">
           <div v-for="item in row.items" :key="item.uuid">{{ item.name }}</div>
         </el-table-column>
-        <el-table-column prop="createdAt" label="Дата заказа" />
-        <el-table-column prop="address" label="Адресс" />
-        <!-- <el-table-column v-slot="{ row }" prop="items" label="Статус">
+        <el-table-column v-slot="{ row }" prop="createdAt" label="Дата заказа">
+          {{ moment(row.createdAt).format("DD.MM.YYYY") }}
+        </el-table-column>
+        <el-table-column prop="deliveryMessage" label="Адресс" />
+        <el-table-column v-slot="{ row }" prop="items" label="Стоимость товаров">
           {{ price(row.items) }}
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
           v-slot="{ row }"
           align="center"
@@ -37,12 +39,18 @@
 </template>
 <script setup>
 import { useApi } from "~/stores/api";
+import moment from "moment";
 
 const api = useApi();
 
 // const price = (items) => {
 //   return items.map(el => )
 // }
+
+const price = (order) => {
+  const cost = order.reduce((prevValue, item) => prevValue + item.price * (item.count || 1), 0);
+  return cost
+}
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
@@ -51,6 +59,7 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .orderList {
+  padding: 20px;
   box-sizing: border-box;
   width: 100%;
   margin-top: 100px;
