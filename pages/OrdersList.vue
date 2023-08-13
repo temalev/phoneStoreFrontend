@@ -2,14 +2,14 @@
   <div class="orderList">
     <client-only>
       <el-table :data="api.newOrders" style="width: 100%" scrollable>
-        <el-table-column prop="fullName" label="ФИО" />
+        <el-table-column sortable prop="fullName" label="ФИО" />
         <el-table-column v-slot="{ row }" prop="items" label="Товары">
           <div v-for="item in row.items" :key="item.uuid">{{ item.name }}</div>
         </el-table-column>
-        <el-table-column v-slot="{ row }" prop="createdAt" label="Дата заказа">
+        <el-table-column sortable v-slot="{ row }" prop="createdAt" label="Дата заказа">
           {{ moment(row.createdAt).format("DD.MM.YYYY") }}
         </el-table-column>
-        <el-table-column prop="deliveryMessage" label="Адресс" />
+        <el-table-column prop="deliveryMessage" label="Адрес" />
         <el-table-column v-slot="{ row }" prop="items" label="Стоимость товаров">
           {{ price(row.items) }}
         </el-table-column>

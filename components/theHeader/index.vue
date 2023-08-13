@@ -37,7 +37,9 @@
 
     <div v-if="api.isAuth" class="leftContainerAdmin">
       <NuxtIcon name="plus" style="color: black; font-size: 20px" />
-      <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+      <NuxtLink to="/OrdersList">
+        <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+      </NuxtLink>
       <NuxtLink to="/admin">
         <NuxtIcon name="user" filled style="color: black; font-size: 22px" />
       </NuxtLink>
@@ -106,10 +108,10 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, watch } from 'vue';
-import { useDetermininingWidth } from '~/stores/determiningWidth';
-import { useCategories } from '~/stores/categories';
-import { useApi } from '~/stores/api';
+import { ref, watch } from "vue";
+import { useDetermininingWidth } from "~/stores/determiningWidth";
+import { useCategories } from "~/stores/categories";
+import { useApi } from "~/stores/api";
 
 const isShopBag = ref(false);
 const isMenu = ref(false);
@@ -120,7 +122,7 @@ const api = useApi();
 const getProduct = (link) => {
   isMenu.value = false;
   const uuidSelectCategory = categories.categories.find(
-    (el) => el.link === link,
+    (el) => el.link === link
   )?.uuid;
   if (uuidSelectCategory) {
     api.getProducts(uuidSelectCategory);
@@ -129,8 +131,8 @@ const getProduct = (link) => {
 
 watch(isMenu, (newVal, oldVal) => {
   if (newVal) {
-    document.body.style.overflow = 'hidden';
-  } else document.body.style.overflow = 'visible';
+    document.body.style.overflow = "hidden";
+  } else document.body.style.overflow = "visible";
 });
 
 const logout = () => {
@@ -139,9 +141,9 @@ const logout = () => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  const currentCategory = window.location.href.split('/').at(-1);
+  const currentCategory = window.location.href.split("/").at(-1);
   const uuidCurrentCategory = categories.categories.find(
-    (el) => el.link === currentCategory,
+    (el) => el.link === currentCategory
   )?.uuid;
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
