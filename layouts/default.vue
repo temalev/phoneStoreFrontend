@@ -85,6 +85,7 @@ useHead({
 }
 
 .main-admin {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
