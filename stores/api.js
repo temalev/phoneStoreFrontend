@@ -99,6 +99,9 @@ export const useApi = defineStore('api', {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
         method: 'PUT',
         credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+        },
         body: JSON.stringify({ status }),
       });
       this.getOrders();
