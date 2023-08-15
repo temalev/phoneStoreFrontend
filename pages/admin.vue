@@ -139,7 +139,6 @@ h3 {
 
 .statictic {
   background-color: #f3f3f3;
-  width: 100%;
   height: 200px;
   padding: 20px;
   display: flex;
@@ -155,7 +154,7 @@ h3 {
 .statistic-indicator {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .indicator-title {
@@ -180,6 +179,8 @@ h3 {
   flex-direction: column;
   gap: 22px;
   padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ordersContainer {
