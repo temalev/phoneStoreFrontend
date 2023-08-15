@@ -38,6 +38,18 @@
   .pr-#{$i} {
     padding-right: $i * 4px !important;
   }
+
+  .gap-#{$i} {
+    gap: $i * 4px !important;
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
 }
 
 ::v-deep {

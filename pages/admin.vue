@@ -11,6 +11,19 @@
     </div>
 
     <div v-if="api.isAuth" class="container">
+      <div class="statictic">
+        <div class="statistic-indicator">
+          <span class="indicator-title">Общее количество заказов</span>
+          <div class="d-flex align-center gap-2">
+            <span class="indicator-value">{{ api.newOrders.length }}</span>
+            <span style="color: green">+{{ ordersPerWeek }}</span>
+          </div>
+        </div>
+        <div class="statistic-indicator">
+          <span class="indicator-title">На сумму</span>
+          <span class="indicator-value">{{ ru }} ₽</span>
+        </div>
+      </div>
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
@@ -47,13 +60,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
+import moment from 'moment';
 
 const api = useApi();
 
 const determiningWidth = useDetermininingWidth();
+
+const ordersPerWeek = computed(() => {
+  const curDate = new Date();
+  const sevenDaysAgo = new Date(curDate);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  const ordersWeek = api.newOrders.filter(
+    (el) => new Date(el.createdAt) >= sevenDaysAgo
+      && new Date(el.createdAt) <= curDate,
+  ).length;
+  return ordersWeek;
+});
+
+// eslint-disable-next-line no-return-assign
+
+const ru = computed(() => {
+  const statisticCost = api.newOrders.reduce(
+    (prevValue, item) => (prevValue += item.costs.cost),
+    0,
+  );
+  return new Intl.NumberFormat('ru').format(statisticCost);
+});
 
 const isCreateProduct = ref(false);
 
@@ -80,6 +115,36 @@ h3 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+}
+
+.statictic {
+  background-color: #f3f3f3;
+  width: 100%;
+  height: 200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-wrap: 0;
+  max-width: 600px;
+  border-radius: 4px;
+}
+
+.statistic-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.indicator-title {
+  font-size: 13px;
+}
+
+.indicator-value {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 28px;
 }
 
 .authContainer {

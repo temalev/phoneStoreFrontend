@@ -51,7 +51,7 @@
   </div>
 
   <div v-else class="mainHeader">
-    <div class="wrapper" style="justify-content: flex-start">
+    <div class="wrapper" style="justify-content: space-between; align-items: center;">
       <div
         class="btnMenu"
         @click="isMenu = !isMenu"
@@ -61,6 +61,7 @@
             : 'url(/icons/burgerClose.svg)',
         }"
       />
+      <!-- <NuxtIcon name="add" filled style="font-size: 26px" /> -->
     </div>
 
     <div class="wrapper" style="justify-content: center">
@@ -301,6 +302,7 @@ a {
   background-repeat: no-repeat;
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
 }
 
 .admin {
