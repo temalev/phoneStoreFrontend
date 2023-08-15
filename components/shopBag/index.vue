@@ -16,7 +16,7 @@
             <div class="allCost">
               <span class="name">Итого</span>
               <span class="allPrice"
-                >{{ new Intl.NumberFormat('ru').format(api.orders.totalCost) }}
+                >{{ new Intl.NumberFormat("ru").format(api.orders.totalCost) }}
                 <strong>₽</strong></span
               >
             </div>
@@ -39,22 +39,30 @@
               <div class="radioContainer">
                 <h3>Получение товара</h3>
                 <div class="radioVariants">
-                  <div class="variant" v-for="radio in radioVariants" :key="radio.id">
+                  <div
+                    class="variant"
+                    v-for="radio in radioVariants"
+                    :key="radio.id"
+                  >
                     <div class="rowVariant">
-                      <CustomRadio
+                      <!-- <CustomRadio
                         :label="radio.name"
                         :id="radio.id"
                         :checked="currentSel === radio.id"
                         @change="onChangeRadio"
-                      />
-                      <div class="icoQuestion">
-                        <div class="annotation">
-                          {{ radio.info }}
-                        </div>
-                      </div>
+                      /> -->
+                      <el-radio v-model="currentSel" :label="radio.id">{{
+                        radio.name
+                      }}</el-radio>
+                      <el-tooltip :content="radio.info" placement="top">
+                        <div class="icoQuestion"></div>
+                      </el-tooltip>
                     </div>
                     <CustomTextarea
-                      v-if="currentSel > 1 && currentSel === radio.id"
+                      v-if="
+                        (currentSel === 2 || currentSel === 3) &&
+                        currentSel === radio.id
+                      "
                       label="Адрес доставки"
                       @inputValue="(val) => (userData.address = val)"
                     />
@@ -63,12 +71,16 @@
               </div>
             </div>
           </div>
-          <span v-if="isInvalidData" class="message">Проверьте правильность заполнения полей</span>
+          <span v-if="isInvalidData" class="message"
+            >Проверьте правильность заполнения полей</span
+          >
           <div class="bottom">
             <CustomButton @click="onCreateOrder" :name="'Оформить заказ'" />
             <p class="policy">
               Нажимая «оформить заказ», вы соглашаетесь с
-              <a href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf" class="policyLink"
+              <a
+                href="https://841301.selcdn.ru/rkTech/rkTechPolicy.pdf"
+                class="policyLink"
                 >политикой обработки персональных данных.</a
               >
             </p>
@@ -108,21 +120,27 @@ const isEmptyShopBag = ref(true);
 
 const radioVariants = ref([
   {
-    name: 'Самовывоз',
+    name: 'Самовывоз из офиса г. Москва',
     id: 1,
     info: 'Самовывоз - бесплатно. Офис №335 (3 этаж) по адресу: улица Барклая, 8.',
   },
   {
-    name: 'Доставка по Москве',
+    name: 'Самовывоз из магазина г. Рязань',
+    id: 4,
+    info: 'Самовывоз - бесплатно. Рязань, ул. Кольцова, дом 1',
+  },
+  {
+    name: 'Доставка по Москве внутри МКАД',
     id: 2,
     info: 'Курьерская доставка в Москве - бесплатно/490р',
   },
   {
-    name: 'Доставка по России',
+    name: 'Дотсавка СДЭК в регионы',
     id: 3,
     info: 'Доставка по России - 490 рублей. Надежно упакуем и отправим в день заказа транспортной компанией «Сдэк».',
   },
 ]);
+
 
 const closeShopBag = () => {
   emit('closeShopBag');
@@ -144,7 +162,9 @@ watch(orders.value, (newVal, oldVal) => {
 // eslint-disable-next-line max-len
 const getPriceByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.price;
 // eslint-disable-next-line max-len
-const getTagByProduct = (product, selectedOptionIds) => product.options.map((opt) => opt.items.find((item) => selectedOptionIds.includes(item.id)).name);
+const getTagByProduct = (product, selectedOptionIds) => product.options.map(
+  (opt) => opt.items.find((item) => selectedOptionIds.includes(item.id)).name,
+);
 
 // eslint-disable-next-line max-len
 const getImgByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.images;
@@ -157,7 +177,9 @@ const onCreateOrder = () => {
       ? getPriceByProduct(item.product, item.options)
       : item.product.price,
     name: item.product.name,
-    tags: item.product.variants.length ? getTagByProduct(item.product, item.options) : null,
+    tags: item.product.variants.length
+      ? getTagByProduct(item.product, item.options)
+      : null,
     // eslint-disable-next-line max-len
     images: item.product.variants.length
       ? getImgByProduct(item.product, item.options)
@@ -367,18 +389,20 @@ h2 {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   opacity: 0.2;
   cursor: pointer;
   transition: 0.2s;
-  &:hover {
-    opacity: 1;
-    .annotation {
-      opacity: 1;
-      display: block;
-    }
-  }
+  flex-shrink: 0;
+  box-sizing: border-box;
+  // &:hover {
+  //   opacity: 1;
+  //   .annotation {
+  //     opacity: 1;
+  //     display: block;
+  //   }
+  // }
 }
 .annotation {
   position: absolute;
@@ -481,5 +505,21 @@ h2 {
 .v-leave-to {
   position: absolute;
   opacity: 0;
+}
+
+::v-deep {
+
+  .el-radio {
+    margin-right: 0;
+  }
+  .el-radio__input.is-checked {
+    span.el-radio__inner {
+      background-color: #1e1e1e;
+      border-color: #000;
+    }
+    &+.el-radio__label {
+      color: #000 !important;
+    }
+  }
 }
 </style>

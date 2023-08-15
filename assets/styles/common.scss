@@ -39,3 +39,9 @@
     padding-right: $i * 4px !important;
   }
 }
+
+::v-deep {
+  .el-popper {
+    width: 200px !important;
+  }
+}
