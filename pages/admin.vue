@@ -12,9 +12,6 @@
 
     <div v-if="api.isAuth" class="container">
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
-      <NuxtLink to="/OrdersList">
-        <CustomButton name="Все заказы (тестовый режим)" />
-      </NuxtLink>
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
       </CustomModal>

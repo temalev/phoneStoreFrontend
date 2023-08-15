@@ -82,6 +82,9 @@
         <NuxtLink to="/admin">
           <div class="admin" />
         </NuxtLink>
+        <NuxtLink to="/OrdersList">
+          <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+        </NuxtLink>
         <NuxtLink to="/" @click="logout">
           <div class="logout" />
         </NuxtLink>
