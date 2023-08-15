@@ -13,15 +13,27 @@
     <div v-if="api.isAuth" class="container">
       <div class="statictic">
         <div class="statistic-indicator">
-          <span class="indicator-title">Общее количество заказов</span>
+          <span class="indicator-title"
+            >Общее количество заказов
+            <el-tooltip content="Прирост за неделю" placement="top">
+              <NuxtIcon name="question" style="color: rgb(49, 49, 49); font-size: 16px" />
+            </el-tooltip>
+          </span>
           <div class="d-flex align-center gap-2">
             <span class="indicator-value">{{ api.newOrders.length }}</span>
-            <span style="color: green">+{{ ordersPerWeek }}</span>
+            <span style="color: #67c23a; font-size: 13px"
+              >+{{ ordersPerWeek.length }}</span
+            >
           </div>
         </div>
         <div class="statistic-indicator">
           <span class="indicator-title">На сумму</span>
-          <span class="indicator-value">{{ ru }} ₽</span>
+          <div class="d-flex align-center gap-2">
+            <span class="indicator-value">{{ ru }} ₽</span>
+            <span style="color: #67c23a; font-size: 13px"
+              >+{{ new Intl.NumberFormat("ru").format(weeklyIncome) }} ₽</span
+            >
+          </div>
         </div>
       </div>
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
@@ -60,10 +72,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useDetermininingWidth } from '~/stores/determiningWidth';
-import { useApi } from '~/stores/api';
-import moment from 'moment';
+import { ref, computed } from "vue";
+import { useDetermininingWidth } from "~/stores/determiningWidth";
+import { useApi } from "~/stores/api";
+import moment from "moment";
 
 const api = useApi();
 
@@ -74,25 +86,33 @@ const ordersPerWeek = computed(() => {
   const sevenDaysAgo = new Date(curDate);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
   const ordersWeek = api.newOrders.filter(
-    (el) => new Date(el.createdAt) >= sevenDaysAgo
-      && new Date(el.createdAt) <= curDate,
-  ).length;
+    (el) =>
+      new Date(el.createdAt) >= sevenDaysAgo &&
+      new Date(el.createdAt) <= curDate
+  );
   return ordersWeek;
 });
+
+const weeklyIncome = computed(() =>
+  ordersPerWeek.value.reduce(
+    (prevValue, item) => (prevValue += item.costs.cost),
+    0
+  )
+);
 
 // eslint-disable-next-line no-return-assign
 
 const ru = computed(() => {
   const statisticCost = api.newOrders.reduce(
     (prevValue, item) => (prevValue += item.costs.cost),
-    0,
+    0
   );
-  return new Intl.NumberFormat('ru').format(statisticCost);
+  return new Intl.NumberFormat("ru").format(statisticCost);
 });
 
 const isCreateProduct = ref(false);
 
-const adminData = ref({ login: '', password: '' });
+const adminData = ref({ login: "", password: "" });
 
 const login = () => {
   api.login(adminData.value);
