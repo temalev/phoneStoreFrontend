@@ -14,7 +14,7 @@ const onCookie = () => {
   localStorage.setItem('cookie', 'true');
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .cookieContainer {
   position: fixed;
   bottom: 0;

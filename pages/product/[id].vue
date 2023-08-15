@@ -69,7 +69,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .mainProducts {
   display: flex;
   justify-content: center;

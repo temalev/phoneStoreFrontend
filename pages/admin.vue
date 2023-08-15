@@ -73,7 +73,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 h3 {
   font-size: 25px;
 }

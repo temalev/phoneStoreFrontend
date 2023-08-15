@@ -86,7 +86,7 @@ const date = computed(() => {
 // eslint-disable-next-line no-undef
 onMounted(() => {});
 </script>
-<style scoped>
+<style scoped lang="scss">
 .order {
   position: relative;
   display: flex;

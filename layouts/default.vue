@@ -75,7 +75,7 @@ useHead({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .main {
   position: relative;
   display: flex;

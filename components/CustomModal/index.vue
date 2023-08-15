@@ -18,7 +18,7 @@ import { ref, computed } from "vue";
 
 const emits = defineEmits(["close"]);
 </script>
-<style scoped>
+<style scoped lang="scss">
 .modal-background {
   position: fixed;
   top: 0;
