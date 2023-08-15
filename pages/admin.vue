@@ -139,7 +139,6 @@ h3 {
 
 .statictic {
   background-color: #f3f3f3;
-  height: 200px;
   padding: 20px;
   display: flex;
   flex-direction: column;
