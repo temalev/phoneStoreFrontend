@@ -323,6 +323,7 @@ a {
 .wrapper {
   display: flex;
   flex: 1;
+  width: 100%;
 }
 
 .menuModal {
