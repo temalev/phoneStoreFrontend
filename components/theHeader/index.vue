@@ -1,5 +1,5 @@
 <template>
-  <div v-if="determiningWidth.isDesktop" class="mainHeader">
+  <div class="mainHeader">
     <NuxtLink to="/">
       <div class="logo" />
     </NuxtLink>
@@ -50,7 +50,7 @@
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
 
-  <div v-else class="mainHeader">
+  <div class="mainHeader_mobile">
     <div class="wrapper" style="justify-content: space-between; align-items: center;">
       <div
         class="btnMenu"
@@ -169,8 +169,27 @@ onMounted(() => {
   box-shadow: 0 0 10px #868686;
   box-sizing: border-box;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1300px) {
+    display: none;
     padding: 0 20px;
+  }
+}
+
+.mainHeader_mobile {
+  position: fixed;
+  z-index: 6;
+  top: 0;
+  background-color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  height: 70px;
+  width: 100%;
+  box-shadow: 0 0 10px #868686;
+  box-sizing: border-box;
+  padding: 0 20px;
+  @media (max-width: 1300px) {
+    display: flex;
   }
 }
 
