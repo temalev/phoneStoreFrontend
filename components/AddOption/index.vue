@@ -48,7 +48,7 @@ const addOpt = () => {
   options.value.items.push(Obj);
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .optionName {
   font-weight: 300;
 }

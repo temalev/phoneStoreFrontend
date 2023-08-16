@@ -99,6 +99,9 @@ export const useApi = defineStore('api', {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
         method: 'PUT',
         credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+        },
         body: JSON.stringify({ status }),
       });
       this.getOrders();
@@ -116,6 +119,9 @@ export const useApi = defineStore('api', {
       const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
         method: 'PUT',
         credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+        },
         body: JSON.stringify(product),
       });
       const data = await res.json();
@@ -152,7 +158,7 @@ export const useApi = defineStore('api', {
         method: 'POST',
         credentials: 'include',
         body: file,
-        headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
+        // headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
       });
       const data = res.json();
       return data;

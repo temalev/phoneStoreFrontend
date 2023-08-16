@@ -37,7 +37,7 @@ export default {
 // eslint-disable-next-line no-unused-vars
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .mainCustomInput {
   display: flex;
   flex-direction: column;

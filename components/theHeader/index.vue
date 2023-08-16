@@ -1,5 +1,5 @@
 <template>
-  <div v-if="determiningWidth.isDesktop" class="mainHeader">
+  <div class="mainHeader">
     <NuxtLink to="/">
       <div class="logo" />
     </NuxtLink>
@@ -37,7 +37,9 @@
 
     <div v-if="api.isAuth" class="leftContainerAdmin">
       <NuxtIcon name="plus" style="color: black; font-size: 20px" />
-      <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+      <NuxtLink to="/OrdersList">
+        <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+      </NuxtLink>
       <NuxtLink to="/admin">
         <NuxtIcon name="user" filled style="color: black; font-size: 22px" />
       </NuxtLink>
@@ -48,21 +50,22 @@
     <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
   </div>
 
-  <div v-else class="mainHeader">
-    <div class="wrapper" style="justify-content: flex-start">
+  <div class="mainHeader_mobile">
+    <div
+      class="wrapper"
+      style="justify-content: space-between; align-items: center"
+    >
       <div
         class="btnMenu"
-        @click="isMenu = !isMenu"
-        :style="{
-          backgroundImage: !isMenu
-            ? 'url(/icons/burger.svg)'
-            : 'url(/icons/burgerClose.svg)',
-        }"
-      />
+        :class="isToLeft ? 'active' : ''"
+        @click="isToLeft = !isToLeft, onMenu()"
+      >
+      <span></span>
+        </div>
     </div>
 
     <div class="wrapper" style="justify-content: center">
-      <NuxtLink @click="isMenu = false" to="/">
+      <NuxtLink @click="isToLeft = false, onMenu()" to="/">
         <div class="logo" />
       </NuxtLink>
     </div>
@@ -80,13 +83,16 @@
         <NuxtLink to="/admin">
           <div class="admin" />
         </NuxtLink>
+        <NuxtLink to="/OrdersList">
+          <NuxtIcon name="doc" style="color: black; font-size: 20px" />
+        </NuxtLink>
         <NuxtLink to="/" @click="logout">
           <div class="logout" />
         </NuxtLink>
       </div>
     </div>
     <Teleport v-if="isMenu" to="body">
-      <div class="menuModal">
+      <div class="menuModal" :class="isToLeft ? 'toRight' : 'toLeft'">
         <nav class="menuModalLinks">
           <NuxtLink
             v-for="link in categories.categories"
@@ -113,12 +119,27 @@ import { useApi } from '~/stores/api';
 
 const isShopBag = ref(false);
 const isMenu = ref(false);
+const isToLeft = ref(false);
 const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
 const api = useApi();
 
+
+const onMenu = () => {
+  if (!isToLeft.value) {
+    isToLeft.value = false;
+    setTimeout(() => {
+      isMenu.value = false;
+    }, 200);
+  } else {
+    isToLeft.value = true;
+    isMenu.value = true;
+  }
+};
+
 const getProduct = (link) => {
-  isMenu.value = false;
+  isToLeft.value = false;
+  onMenu();
   const uuidSelectCategory = categories.categories.find(
     (el) => el.link === link,
   )?.uuid;
@@ -132,6 +153,7 @@ watch(isMenu, (newVal, oldVal) => {
     document.body.style.overflow = 'hidden';
   } else document.body.style.overflow = 'visible';
 });
+
 
 const logout = () => {
   api.logout();
@@ -163,8 +185,27 @@ onMounted(() => {
   box-shadow: 0 0 10px #868686;
   box-sizing: border-box;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1300px) {
+    display: none;
     padding: 0 20px;
+  }
+}
+
+.mainHeader_mobile {
+  position: fixed;
+  z-index: 6;
+  top: 0;
+  background-color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  height: 70px;
+  width: 100%;
+  box-shadow: 0 0 10px #868686;
+  box-sizing: border-box;
+  padding: 0 20px;
+  @media (max-width: 1300px) {
+    display: flex;
   }
 }
 
@@ -291,12 +332,60 @@ a {
 }
 
 .btnMenu {
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+  display: flex;
+  position: relative;
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
+  background-color: #333;
+  border-radius: 12px;
+  box-sizing: border-box;
+  & span {
+  height: 2px;
+  width: 20px;
+  transform: scale(1);
+  background-color: #eee;
+  border-radius: 10px;
+
+  }
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    background-color: #eee;
+    transition: all .3s ease 0s;
+    border-radius: 10px;
+  }
+
+  &::before {
+    top: 14px;
+  }
+
+  &::after {
+    bottom: 14px;
+  }
+
+  &.active span {
+   transform: scale(0);
+  }
+
+  &.active::before {
+    width: 15px;
+   top: 50%;
+   transform: rotate(-45deg) translate(0, 0%);
+  }
+
+  &.active::after {
+    width: 15px;
+   top: 50%;
+   transform: rotate(45deg) translate(0, 0%);
+  }
 }
+
 
 .admin {
   background-image: url(/icons/user.svg);
@@ -321,17 +410,54 @@ a {
 .wrapper {
   display: flex;
   flex: 1;
+  width: 100%;
 }
 
 .menuModal {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;
   padding-top: 70px;
   z-index: 5;
 }
+
+.toRight {
+  animation: left-to-rigth 0.2s ease-in;
+}
+
+.toLeft {
+  animation: rigth-to-left 0.2s ease-in-out;
+}
+
+@keyframes left-to-rigth {
+  0% {
+    left: -1000px;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes rigth-to-left {
+  0% {
+    left: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: -1000px;
+    opacity: 0;
+  }
+}
+
 .menuModalLinks {
   display: flex;
   flex-direction: column;

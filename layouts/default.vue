@@ -75,7 +75,7 @@ useHead({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .main {
   position: relative;
   display: flex;
@@ -85,6 +85,7 @@ useHead({
 }
 
 .main-admin {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;

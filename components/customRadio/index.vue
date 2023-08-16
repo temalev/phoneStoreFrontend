@@ -44,6 +44,7 @@ const fun = () => {
   gap: 10px;
   align-items: center;
   cursor: pointer;
+  box-sizing: border-box;
 
   &::before {
     content: '';
@@ -53,6 +54,8 @@ const fun = () => {
     border: 1px solid #2c2c2c;
     border-radius: 50%;
     position: relative;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
   &::after {
     content: '';
@@ -66,6 +69,7 @@ const fun = () => {
     border-radius: 50%;
     opacity: 0;
     transition: 0.2s;
+    box-sizing: border-box;
   }
 }
 </style>
