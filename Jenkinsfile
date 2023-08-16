@@ -10,9 +10,10 @@ pipeline {
   }
   
   post {
-     success { 
+     success {
+        def shortCommit = sh(returnStdout: true, script: "git log -n 1 ")
         withCredentials([string(credentialsId: 'botSecret', variable: 'TOKEN'), string(credentialsId: 'chatId', variable: 'CHAT_ID')]) {
-        sh ("""curl -s -X POST https://api.telegram.org/bot$TOKEN/sendMessage -d chat_id=$CHAT_ID -d parse_mode=markdown -d text='Ура! Новая сборка фронта!✅\n\nРепозиторий: ${env.JOB_NAME}\nВетка: ${env.GIT_BRANCH}'""")
+        sh ("""curl -s -X POST https://api.telegram.org/bot$TOKEN/sendMessage -d chat_id=$CHAT_ID -d parse_mode=markdown -d text='Ура! Новая сборка фронта!✅\n\nРепозиторий: ${env.JOB_NAME}\nВетка: ${env.GIT_BRANCH}\nКоммит: ${shortCommit}'""")
         }
      }
 
