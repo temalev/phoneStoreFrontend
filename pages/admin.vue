@@ -41,7 +41,7 @@
         <CreateProduct />
       </CustomModal>
 
-      <h3>Новые заказы</h3>
+      <h3>Новые заказы:</h3>
       <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
         <div
           v-for="order in api.newOrders"
@@ -56,7 +56,7 @@
       </div>
     </div>
     <div v-if="api.newOrders && api.isAuth" class="container">
-      <h3>В работе</h3>
+      <h3>В работе:</h3>
       <div class="ordersContainer">
         <div
           v-for="order in api.newOrders"
