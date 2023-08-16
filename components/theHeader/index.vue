@@ -51,21 +51,21 @@
   </div>
 
   <div class="mainHeader_mobile">
-    <div class="wrapper" style="justify-content: space-between; align-items: center;">
+    <div
+      class="wrapper"
+      style="justify-content: space-between; align-items: center"
+    >
       <div
         class="btnMenu"
-        @click="isMenu = !isMenu"
-        :style="{
-          backgroundImage: !isMenu
-            ? 'url(/icons/burger.svg)'
-            : 'url(/icons/burgerClose.svg)',
-        }"
-      />
-      <!-- <NuxtIcon name="add" filled style="font-size: 26px" /> -->
+        :class="isToLeft ? 'active' : ''"
+        @click="isToLeft = !isToLeft, onMenu()"
+      >
+      <span></span>
+        </div>
     </div>
 
     <div class="wrapper" style="justify-content: center">
-      <NuxtLink @click="isMenu = false" to="/">
+      <NuxtLink @click="isToLeft = false, onMenu()" to="/">
         <div class="logo" />
       </NuxtLink>
     </div>
@@ -92,7 +92,7 @@
       </div>
     </div>
     <Teleport v-if="isMenu" to="body">
-      <div class="menuModal">
+      <div class="menuModal" :class="isToLeft ? 'toRight' : 'toLeft'">
         <nav class="menuModalLinks">
           <NuxtLink
             v-for="link in categories.categories"
@@ -112,21 +112,36 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, watch } from "vue";
-import { useDetermininingWidth } from "~/stores/determiningWidth";
-import { useCategories } from "~/stores/categories";
-import { useApi } from "~/stores/api";
+import { ref, watch } from 'vue';
+import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useCategories } from '~/stores/categories';
+import { useApi } from '~/stores/api';
 
 const isShopBag = ref(false);
 const isMenu = ref(false);
+const isToLeft = ref(false);
 const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
 const api = useApi();
 
+
+const onMenu = () => {
+  if (!isToLeft.value) {
+    isToLeft.value = false;
+    setTimeout(() => {
+      isMenu.value = false;
+    }, 200);
+  } else {
+    isToLeft.value = true;
+    isMenu.value = true;
+  }
+};
+
 const getProduct = (link) => {
-  isMenu.value = false;
+  isToLeft.value = false;
+  onMenu();
   const uuidSelectCategory = categories.categories.find(
-    (el) => el.link === link
+    (el) => el.link === link,
   )?.uuid;
   if (uuidSelectCategory) {
     api.getProducts(uuidSelectCategory);
@@ -135,9 +150,10 @@ const getProduct = (link) => {
 
 watch(isMenu, (newVal, oldVal) => {
   if (newVal) {
-    document.body.style.overflow = "hidden";
-  } else document.body.style.overflow = "visible";
+    document.body.style.overflow = 'hidden';
+  } else document.body.style.overflow = 'visible';
 });
+
 
 const logout = () => {
   api.logout();
@@ -145,9 +161,9 @@ const logout = () => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  const currentCategory = window.location.href.split("/").at(-1);
+  const currentCategory = window.location.href.split('/').at(-1);
   const uuidCurrentCategory = categories.categories.find(
-    (el) => el.link === currentCategory
+    (el) => el.link === currentCategory,
   )?.uuid;
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
@@ -316,13 +332,60 @@ a {
 }
 
 .btnMenu {
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+  display: flex;
+  position: relative;
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
   flex-shrink: 0;
+  background-color: #333;
+  border-radius: 12px;
+  box-sizing: border-box;
+  & span {
+  height: 2px;
+  width: 20px;
+  transform: scale(1);
+  background-color: #eee;
+  border-radius: 10px;
+
+  }
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    background-color: #eee;
+    transition: all .3s ease 0s;
+    border-radius: 10px;
+  }
+
+  &::before {
+    top: 14px;
+  }
+
+  &::after {
+    bottom: 14px;
+  }
+
+  &.active span {
+   transform: scale(0);
+  }
+
+  &.active::before {
+    width: 15px;
+   top: 50%;
+   transform: rotate(-45deg) translate(0, 0%);
+  }
+
+  &.active::after {
+    width: 15px;
+   top: 50%;
+   transform: rotate(45deg) translate(0, 0%);
+  }
 }
+
 
 .admin {
   background-image: url(/icons/user.svg);
@@ -353,12 +416,48 @@ a {
 .menuModal {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;
   padding-top: 70px;
   z-index: 5;
 }
+
+.toRight {
+  animation: left-to-rigth 0.2s ease-in;
+}
+
+.toLeft {
+  animation: rigth-to-left 0.2s ease-in-out;
+}
+
+@keyframes left-to-rigth {
+  0% {
+    left: -1000px;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes rigth-to-left {
+  0% {
+    left: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: -1000px;
+    opacity: 0;
+  }
+}
+
 .menuModalLinks {
   display: flex;
   flex-direction: column;

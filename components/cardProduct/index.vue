@@ -50,7 +50,7 @@
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
       <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
-      <CustomButton v-if="api.isAuth" @click="onSaveProductData" :name="'Сохранить'" />
+      <CustomButton v-if="api.isAuth" :isLoading="isLoading" @click="onSaveProductData" :name="'Сохранить'" />
     </div>
   </div>
 </template>
@@ -76,6 +76,7 @@ const selectedColor = ref(null);
 const selectedOptions = ref([]);
 const editedName = ref(null);
 const editedDescription = ref(null);
+const isLoading = ref(false);
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
@@ -154,6 +155,7 @@ const isColorOpt = (options) => (optionId) => {
 };
 
 const onSaveProductData = () => {
+  isLoading.value = true;
   const { variants, options } = props.product;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
@@ -172,6 +174,7 @@ const onSaveProductData = () => {
     description: editedDescription.value || props.product.description,
   };
   api.updateProduct(props.product.uuid, updatedProductData);
+  isLoading.value = false;
 };
 
 const onDeleteProduct = () => {
