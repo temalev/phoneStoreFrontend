@@ -20,8 +20,12 @@
     >
       +
     </button> -->
-  <button v-else class="customButton">
-    <span v-if="type === 'plus'">+</span> <span v-else>{{ name }}</span>
+  <button v-else class="customButton" :style="{backgroundColor: bColor}">
+    <span v-if="type === 'plus'">+</span> 
+    <div v-else class="d-flex align-center gap-3">
+      <NuxtIcon v-if="type === 'accept'" name="accept" style="color: black; font-size: 20px" />
+      <span> {{ name }}</span>
+    </div>
   </button>
 </template>
 <script setup>
@@ -29,12 +33,15 @@ const props = defineProps({
   name: String,
   type: String,
   isLoading: Boolean,
+  bColor: {
+    type: String,
+    default: '#2c2c2c',
+  }
 });
 </script>
 <style scoped lang="scss">
 .customButton {
   height: 40px;
-  background-color: #2c2c2c;
   color: #fff;
   border-radius: 10px;
   border: 1px solid #242424;
