@@ -50,7 +50,7 @@
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
       <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
-      <CustomButton v-if="api.isAuth" :isLoading="isLoading" @click="onSaveProductData" :name="'Сохранить'" />
+      <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c' " :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
     </div>
   </div>
 </template>
@@ -77,6 +77,7 @@ const selectedOptions = ref([]);
 const editedName = ref(null);
 const editedDescription = ref(null);
 const isLoading = ref(false);
+const isSaved = ref(false);
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
@@ -154,7 +155,7 @@ const isColorOpt = (options) => (optionId) => {
   return colorOption.items.some((el) => el.id === optionId);
 };
 
-const onSaveProductData = () => {
+const onSaveProductData = async () => {
   isLoading.value = true;
   const { variants, options } = props.product;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
@@ -173,8 +174,18 @@ const onSaveProductData = () => {
     price: newPrice,
     description: editedDescription.value || props.product.description,
   };
-  api.updateProduct(props.product.uuid, updatedProductData);
-  isLoading.value = false;
+
+  try {
+    const res = await api.updateProduct(props.product.uuid, updatedProductData);
+    isSaved.value = true;
+    setTimeout(() => {
+      isSaved.value = false;
+    }, 3000);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const onDeleteProduct = () => {
