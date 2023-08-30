@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-background"         @click="emits('close')">
+  <div class="modal-background"  @click.self="emits('close')">
     <div class="modal">
       <img
         src="/icons/close.svg"
