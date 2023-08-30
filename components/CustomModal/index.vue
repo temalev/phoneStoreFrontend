@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-background">
+  <div class="modal-background"         @click="emits('close')">
     <div class="modal">
       <img
         src="/icons/close.svg"
@@ -28,7 +28,7 @@ const emits = defineEmits(["close"]);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 99;
 
 }
 .modal {
@@ -52,6 +52,10 @@ const emits = defineEmits(["close"]);
   top: 12px;
   right: 12px;
   cursor: pointer;
+  z-index: 9999;
+  @media (min-width: 850px) {
+    display: none;
+  }
 }
 
 .nuxt-icon svg {
