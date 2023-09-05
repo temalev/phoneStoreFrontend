@@ -16,6 +16,7 @@ export const useApi = defineStore('api', {
     isCookie: true,
     isInfoModal: false,
     statistics: [],
+    allPromocodes: [],
   }),
 
   actions: {
@@ -54,6 +55,58 @@ export const useApi = defineStore('api', {
       }
       const json = await res.json();
       return 0;
+    },
+
+    async getAllPromocode(name) {
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode/all`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        // получаем тело ответа
+        this.allPromocodes = await res.json();
+      }
+    },
+
+    async createPromocode(data) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode`,
+        {
+          method: 'post',
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers,
+        },
+      );
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        const json = await res.json();
+        return json;
+      }
+    },
+
+    async editPromocode(uuid, data) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode/${uuid}`,
+        {
+          method: 'put',
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers,
+        },
+      ).catch(console.log);
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        const json = await res.json();
+        return json;
+      }
     },
 
     async login(adminData) {

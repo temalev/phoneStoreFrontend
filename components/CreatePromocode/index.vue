@@ -19,7 +19,7 @@
             (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
           "
           :parser="(value) => value.replace(/\$\s?|( *)/g, '')"
-          v-model="formLabelAlign.count"
+          v-model="formLabelAlign.quantity"
         />
       </el-form-item>
       <el-form-item label="Сумма скидки">
@@ -28,7 +28,7 @@
             (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
           "
           :parser="(value) => value.replace(/\$\s?|( *)/g, '')"
-          v-model="formLabelAlign.price"
+          v-model="formLabelAlign.discount"
         />
       </el-form-item>
       <el-form-item>
@@ -39,15 +39,26 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { useApi } from '~/stores/api';
+
+const api = useApi();
 
 const formLabelAlign = ref({
   name: null,
-  region: null,
-  type: null,
   date: null,
-  price: null,
-  count: null,
+  discount: null,
+  quantity: null,
 });
+
+const onSubmit = () => {
+  formLabelAlign.value = {
+    name: formLabelAlign.value.name,
+    date: formLabelAlign.value.date,
+    discount: Number(formLabelAlign.value.discount),
+    quantity: Number(formLabelAlign.value.quantity) || null,
+  };
+  api.createPromocode(formLabelAlign.value);
+};
 </script>
 <style scoped lang="scss">
 .createPromocode {

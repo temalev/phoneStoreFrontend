@@ -105,8 +105,7 @@
                 }}</span>
               </div>
               <div v-else class="d-flex-column">
-                <h3>Промокод - {{ aprovedPromocode.discount }}</h3>
-                <span>{{ aprovedPromocode.name }}</span>
+                <h3>Промокод {{ aprovedPromocode.name }} на {{ aprovedPromocode.discount }} <strong>₽</strong> применен </h3>
               </div>
             </div>
           </div>

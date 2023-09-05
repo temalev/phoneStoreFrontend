@@ -41,6 +41,9 @@
       </div>
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomButton @click="isCreatePromocode = true" name="Создать промокод" />
+      <NuxtLink to="/PromocodesList">
+      <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
+    </NuxtLink>
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
       </CustomModal>
@@ -126,6 +129,7 @@ const login = () => {
 onMounted(() => {
   api.getOrders();
   api.getStatistics();
+  api.getAllPromocode();
 });
 </script>
 
