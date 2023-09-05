@@ -16,6 +16,7 @@ export const useApi = defineStore('api', {
     isCookie: true,
     isInfoModal: false,
     statistics: [],
+    allPromocodes: [],
   }),
 
   actions: {
@@ -36,7 +37,76 @@ export const useApi = defineStore('api', {
         this.isAuth = false;
         localStorage.removeItem('isAuth');
         return null;
-      } return res;
+      }
+      return res;
+    },
+
+    async getPromocode(name) {
+      const res = await fetch(
+        `${this.config.public.URL}/api/v1/promocode?name=${name}`,
+        {
+          method: 'GET',
+        },
+      );
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        // получаем тело ответа
+        const json = await res.json();
+        return json;
+      }
+      const json = await res.json();
+      return 0;
+    },
+
+    async getAllPromocode(name) {
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode/all`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        // получаем тело ответа
+        this.allPromocodes = await res.json();
+      }
+    },
+
+    async createPromocode(data) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode`,
+        {
+          method: 'post',
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers,
+        },
+      );
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        const json = await res.json();
+        return json;
+      }
+    },
+
+    async editPromocode(uuid, data) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/promocode/${uuid}`,
+        {
+          method: 'put',
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers,
+        },
+      ).catch(console.log);
+      if (res.ok) { // если HTTP-статус в диапазоне 200-299
+        const json = await res.json();
+        return json;
+      }
     },
 
     async login(adminData) {
@@ -70,10 +140,13 @@ export const useApi = defineStore('api', {
     },
 
     async getOrders() {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order`, {
-        method: 'GET',
-        credentials: 'include',
-      });
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/order`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
       if (res) {
         const data = await res.json();
         this.newOrders = data;
@@ -83,10 +156,13 @@ export const useApi = defineStore('api', {
       return false;
     },
     async getStatistics() {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/statistics`, {
-        method: 'GET',
-        credentials: 'include',
-      });
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/order/statistics`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
       if (res) {
         const data = await res.json();
         this.statistics = data;
@@ -96,34 +172,43 @@ export const useApi = defineStore('api', {
     },
 
     async upgradeOrderStatus(uuid, status) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/order/${uuid}`,
+        {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({ status }),
         },
-        body: JSON.stringify({ status }),
-      });
+      );
       this.getOrders();
     },
 
     async deleteOrder(uuid) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/order/${uuid}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/order/${uuid}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+        },
+      );
       this.getOrders();
     },
 
     async updateProduct(uuid, product) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/product/${uuid}`,
+        {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(product),
         },
-        body: JSON.stringify(product),
-      });
+      );
       const data = await res.json();
       this.aprovedOrders = data;
       return data;
@@ -133,21 +218,27 @@ export const useApi = defineStore('api', {
       const headers = {
         'Content-Type': 'application/json',
       };
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product`, {
-        method: 'POST',
-        credentials: 'include',
-        headers,
-        body: JSON.stringify(productData),
-      });
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/product`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers,
+          body: JSON.stringify(productData),
+        },
+      );
       const data = await res.json();
       return data;
     },
 
     async deleteProduct(uuid) {
-      const res = await this.fetchWithAuth(`${this.config.public.URL}/api/v1/product/${uuid}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/product/${uuid}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+        },
+      );
       const data = await res.json();
       return data;
     },
@@ -203,7 +294,7 @@ export const useApi = defineStore('api', {
           el.product.variants.forEach(({ optionsIds }, idx) => {
             const isContains = optionsIds.every((optionId) => el.options.includes(optionId));
             if (isContains) {
-            // eslint-disable-next-line prefer-destructuring
+              // eslint-disable-next-line prefer-destructuring
               cost += el.product.variants[idx].optionsInfo.price;
             }
           });
@@ -218,9 +309,12 @@ export const useApi = defineStore('api', {
     },
 
     async getProducts(uuid) {
-      const res = await fetch(`${this.config.public.URL}/api/v1/product?categoryUUID=${uuid}`, {
-        method: 'GET',
-      });
+      const res = await fetch(
+        `${this.config.public.URL}/api/v1/product?categoryUUID=${uuid}`,
+        {
+          method: 'GET',
+        },
+      );
       const data = await res.json();
       this.products = data;
       return data;

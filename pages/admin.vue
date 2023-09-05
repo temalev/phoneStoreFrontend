@@ -16,7 +16,10 @@
           <span class="indicator-title"
             >Общее количество заказов
             <el-tooltip content="Прирост за неделю" placement="top">
-              <NuxtIcon name="question" style="color: rgb(49, 49, 49); font-size: 16px" />
+              <NuxtIcon
+                name="question"
+                style="color: rgb(49, 49, 49); font-size: 16px"
+              />
             </el-tooltip>
           </span>
           <div class="d-flex align-center gap-2">
@@ -37,8 +40,15 @@
         </div>
       </div>
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
+      <CustomButton @click="isCreatePromocode = true" name="Создать промокод" />
+      <NuxtLink to="/PromocodesList">
+      <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
+    </NuxtLink>
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
+      </CustomModal>
+      <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false">
+        <CreatePromocode />
       </CustomModal>
 
       <h3>Новые заказы</h3>
@@ -71,10 +81,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useDetermininingWidth } from "~/stores/determiningWidth";
-import { useApi } from "~/stores/api";
-import moment from "moment";
+import { ref, computed } from 'vue';
+import { useDetermininingWidth } from '~/stores/determiningWidth';
+import { useApi } from '~/stores/api';
+import moment from 'moment';
 
 const api = useApi();
 
@@ -85,33 +95,31 @@ const ordersPerWeek = computed(() => {
   const sevenDaysAgo = new Date(curDate);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
   const ordersWeek = api.newOrders.filter(
-    (el) =>
-      new Date(el.createdAt) >= sevenDaysAgo &&
-      new Date(el.createdAt) <= curDate
+    (el) => new Date(el.createdAt) >= sevenDaysAgo
+      && new Date(el.createdAt) <= curDate,
   );
   return ordersWeek;
 });
 
-const weeklyIncome = computed(() =>
-  ordersPerWeek.value.reduce(
-    (prevValue, item) => (prevValue += item.costs.cost),
-    0
-  )
-);
+const weeklyIncome = computed(() => ordersPerWeek.value.reduce(
+  (prevValue, item) => (prevValue += item.costs.cost),
+  0,
+));
 
 // eslint-disable-next-line no-return-assign
 
 const ru = computed(() => {
   const statisticCost = api.newOrders.reduce(
     (prevValue, item) => (prevValue += item.costs.cost),
-    0
+    0,
   );
-  return new Intl.NumberFormat("ru").format(statisticCost);
+  return new Intl.NumberFormat('ru').format(statisticCost);
 });
 
 const isCreateProduct = ref(false);
+const isCreatePromocode = ref(false);
 
-const adminData = ref({ login: "", password: "" });
+const adminData = ref({ login: '', password: '' });
 
 const login = () => {
   api.login(adminData.value);
@@ -121,6 +129,7 @@ const login = () => {
 onMounted(() => {
   api.getOrders();
   api.getStatistics();
+  api.getAllPromocode();
 });
 </script>
 

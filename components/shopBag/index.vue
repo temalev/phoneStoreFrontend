@@ -15,10 +15,28 @@
             <ShopBagOrders />
             <div class="allCost">
               <span class="name">Итого</span>
-              <span class="allPrice"
-                >{{ new Intl.NumberFormat("ru").format(api.orders.totalCost) }}
-                <strong>₽</strong></span
-              >
+              <div class="allPrice">
+                <span
+                  :style="{
+                    textDecoration: aprovedPromocode?.discount
+                      ? 'line-through'
+                      : '',
+                  }"
+                  class="price"
+                  >{{
+                    new Intl.NumberFormat("ru").format(api.orders.totalCost)
+                  }}</span
+                >
+                <strong class="pl-1">₽</strong>
+                <div v-if="aprovedPromocode?.discount" class="discount">
+                  {{
+                    new Intl.NumberFormat("ru").format(
+                      api.orders.totalCost - aprovedPromocode?.discount
+                    )
+                  }}
+                  <strong>₽</strong>
+                </div>
+              </div>
             </div>
           </div>
           <div class="orderContainer">
@@ -69,6 +87,26 @@
                   </div>
                 </div>
               </div>
+              <div v-if="!aprovedPromocode" class="d-flex-column">
+                <div class="d-flex align-flex-end gap-4">
+                  <Input
+                    label="Промокод"
+                    placeholder="SALE"
+                    @inputValue="(val) => (promocodeName = val)"
+                  />
+                  <CustomButton
+                    style="width: 188px"
+                    @click="checkPromocode"
+                    name="Пересчитать"
+                  />
+                </div>
+                <span class="warning" v-if="noPromocode">{{
+                  noPromocode
+                }}</span>
+              </div>
+              <div v-else class="d-flex-column">
+                <h3>Промокод {{ aprovedPromocode.name }} на {{ aprovedPromocode.discount }} <strong>₽</strong> применен </h3>
+              </div>
             </div>
           </div>
           <span v-if="isInvalidData" class="message"
@@ -117,6 +155,9 @@ const currentSel = ref(1);
 const isInvalidData = ref(false);
 const isApprovedOrder = ref(false);
 const isEmptyShopBag = ref(true);
+const promocodeName = ref(null);
+const aprovedPromocode = ref(null);
+const noPromocode = ref(null);
 
 const radioVariants = ref([
   {
@@ -140,7 +181,6 @@ const radioVariants = ref([
     info: 'Доставка по России - 490 рублей. Надежно упакуем и отправим в день заказа транспортной компанией «Сдэк».',
   },
 ]);
-
 
 const closeShopBag = () => {
   emit('closeShopBag');
@@ -169,13 +209,33 @@ const getTagByProduct = (product, selectedOptionIds) => product.options.map(
 // eslint-disable-next-line max-len
 const getImgByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.images;
 
+const checkPromocode = async () => {
+  if (promocodeName.value) {
+    const res = await api.getPromocode(promocodeName.value);
+    if (res !== 0) {
+      aprovedPromocode.value = res;
+      noPromocode.value = null;
+    } else {
+      noPromocode.value = 'К сожалению, такого промокода не существует';
+      setTimeout(() => {
+        noPromocode.value = null;
+      }, 3000);
+    }
+  }
+};
+
 const onCreateOrder = () => {
   const items = api.orders.map((item) => ({
     productUUID: item.product.uuid,
     // eslint-disable-next-line max-len
     price: item.product.variants.length
-      ? getPriceByProduct(item.product, item.options)
-      : item.product.price,
+      ? aprovedPromocode.value?.discount
+        ? getPriceByProduct(item.product, item.options)
+          - aprovedPromocode.value.discount
+        : getPriceByProduct(item.product, item.options)
+      : aprovedPromocode.value?.discount
+        ? item.product.price - aprovedPromocode.value.discount
+        : item.product.price,
     name: item.product.name,
     tags: item.product.variants.length
       ? getTagByProduct(item.product, item.options)
@@ -351,6 +411,11 @@ h2 {
   width: 100%;
 }
 
+.warning {
+  font-size: 13px;
+  color: red;
+}
+
 .inputsContainer {
   display: flex;
   flex-direction: column;
@@ -508,7 +573,6 @@ h2 {
 }
 
 ::v-deep {
-
   .el-radio {
     margin-right: 0;
   }
@@ -517,7 +581,7 @@ h2 {
       background-color: #1e1e1e;
       border-color: #000;
     }
-    &+.el-radio__label {
+    & + .el-radio__label {
       color: #000 !important;
     }
   }

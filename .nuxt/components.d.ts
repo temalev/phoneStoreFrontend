@@ -3,6 +3,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     'AddOption': typeof import("../components/AddOption/index.vue")['default']
     'CreateProduct': typeof import("../components/CreateProduct/index.vue")['default']
+    'CreatePromocode': typeof import("../components/CreatePromocode/index.vue")['default']
     'CustomModal': typeof import("../components/CustomModal/index.vue")['default']
     'DropList': typeof import("../components/DropList/index.vue")['default']
     'DropZone': typeof import("../components/DropZone/index.vue")['default']
@@ -442,6 +443,7 @@ declare module '@vue/runtime-core' {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'LazyAddOption': typeof import("../components/AddOption/index.vue")['default']
     'LazyCreateProduct': typeof import("../components/CreateProduct/index.vue")['default']
+    'LazyCreatePromocode': typeof import("../components/CreatePromocode/index.vue")['default']
     'LazyCustomModal': typeof import("../components/CustomModal/index.vue")['default']
     'LazyDropList': typeof import("../components/DropList/index.vue")['default']
     'LazyDropZone': typeof import("../components/DropZone/index.vue")['default']
@@ -884,6 +886,7 @@ declare module '@vue/runtime-core' {
 
 export const AddOption: typeof import("../components/AddOption/index.vue")['default']
 export const CreateProduct: typeof import("../components/CreateProduct/index.vue")['default']
+export const CreatePromocode: typeof import("../components/CreatePromocode/index.vue")['default']
 export const CustomModal: typeof import("../components/CustomModal/index.vue")['default']
 export const DropList: typeof import("../components/DropList/index.vue")['default']
 export const DropZone: typeof import("../components/DropZone/index.vue")['default']
@@ -1323,6 +1326,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const LazyAddOption: typeof import("../components/AddOption/index.vue")['default']
 export const LazyCreateProduct: typeof import("../components/CreateProduct/index.vue")['default']
+export const LazyCreatePromocode: typeof import("../components/CreatePromocode/index.vue")['default']
 export const LazyCustomModal: typeof import("../components/CustomModal/index.vue")['default']
 export const LazyDropList: typeof import("../components/DropList/index.vue")['default']
 export const LazyDropZone: typeof import("../components/DropZone/index.vue")['default']
