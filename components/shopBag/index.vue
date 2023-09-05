@@ -91,13 +91,12 @@
                 <div class="d-flex align-flex-end gap-4">
                   <Input
                     label="Промокод"
-                    placeholder="SALE"
                     @inputValue="(val) => (promocodeName = val)"
                   />
                   <CustomButton
                     style="width: 188px"
                     @click="checkPromocode"
-                    name="Пересчитать"
+                    name="Применить"
                   />
                 </div>
                 <span class="warning" v-if="noPromocode">{{

@@ -53,8 +53,6 @@ const editPromocode = (promocode) => {
     api.getAllPromocode();
     loading.value = false;
   }, 1000);
-
-
 }
 
 // eslint-disable-next-line no-undef
