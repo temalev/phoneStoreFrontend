@@ -47,8 +47,8 @@
       <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
         <CreateProduct />
       </CustomModal>
-      <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false">
-        <CreatePromocode />
+      <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false" >
+        <CreatePromocode @close="isCreatePromocode = false" />
       </CustomModal>
 
       <h3>Новые заказы</h3>

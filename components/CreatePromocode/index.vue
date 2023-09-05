@@ -1,5 +1,8 @@
 <template>
   <div class="createPromocode">
+    <Transition>
+    <el-alert v-if="success" class="mb-4" title="success alert" type="success" effect="dark" />
+  </Transition>
     <h2>Создание промокода</h2>
     <el-form label-position="top" :model="formLabelAlign" className="mt-12">
       <el-form-item label="Промокод">
@@ -34,6 +37,7 @@
       <el-form-item>
       <el-button type="primary" @click="onSubmit">Создать промокод</el-button>
     </el-form-item>
+
     </el-form>
   </div>
 </template>
@@ -42,6 +46,9 @@ import { ref } from 'vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
+const emit = defineEmits(['close']);
+
+const success = ref(false);
 
 const formLabelAlign = ref({
   name: null,
@@ -50,14 +57,20 @@ const formLabelAlign = ref({
   quantity: null,
 });
 
-const onSubmit = () => {
+const onSubmit = async () => {
   formLabelAlign.value = {
     name: formLabelAlign.value.name,
     date: formLabelAlign.value.date,
     discount: Number(formLabelAlign.value.discount),
     quantity: Number(formLabelAlign.value.quantity) || null,
   };
-  api.createPromocode(formLabelAlign.value);
+  const res = await api.createPromocode(formLabelAlign.value);
+  if (res) {
+    success.value = true;
+    setTimeout(() => {
+      success.value = false;
+    }, 3000);
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -69,5 +82,15 @@ const onSubmit = () => {
   .el-picker__popper .el-popper {
     z-index: 9999999999999999 !important;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
