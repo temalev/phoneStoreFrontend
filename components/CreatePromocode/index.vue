@@ -60,7 +60,7 @@ const formLabelAlign = ref({
 const onSubmit = async () => {
   formLabelAlign.value = {
     name: formLabelAlign.value.name,
-    date: formLabelAlign.value.date,
+    existsUp: formLabelAlign.value.date,
     discount: Number(formLabelAlign.value.discount),
     quantity: Number(formLabelAlign.value.quantity) || null,
   };

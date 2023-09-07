@@ -23,6 +23,22 @@
           {{ row.discount }}
         </el-table-column>
         <el-table-column
+          sortable
+          v-slot="{ row }"
+          prop="items"
+          label="Количество"
+        >
+          {{ quantity(row.quantity)}}
+        </el-table-column>
+        <el-table-column
+          sortable
+          v-slot="{ row }"
+          prop="items"
+          label="Дата деактивации"
+        >
+          {{  existsUp(row?.existsUp) }}
+        </el-table-column>
+        <el-table-column
           v-slot="{ row }"
           align="center"
           prop="status"
@@ -65,6 +81,14 @@ import moment from 'moment';
 const api = useApi();
 
 const loading = ref(false);
+
+const quantity = (quantity) => {
+  return !quantity ? '∞' : quantity
+}
+
+const existsUp = (existsUp) => {
+  return existsUp ? moment(existsUp).format('DD.MM.YYYY') : 'Не указана'
+}
 
 const editPromocode = (promocode, action) => {
   loading.value = true;
