@@ -4,7 +4,6 @@
       v-for="card in props.categories.categories"
       :key="card"
       :to="card.link"
-      @click="getProduct(card.link)"
     >
       <div class="productLink">
         <div class="header">{{ card.name }}</div>
@@ -25,11 +24,6 @@ const props = defineProps({
     default: () => {},
   },
 });
-
-const getProduct = (link) => {
-  const uuidSelectCategory = props.categories.categories.find((el) => el.link === link)?.uuid;
-  api.getProducts(uuidSelectCategory);
-};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {});

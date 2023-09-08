@@ -140,12 +140,6 @@ const onMenu = () => {
 const getProduct = (link) => {
   isToLeft.value = false;
   onMenu();
-  const uuidSelectCategory = categories.categories.find(
-    (el) => el.link === link,
-  )?.uuid;
-  if (uuidSelectCategory) {
-    api.getProducts(uuidSelectCategory);
-  }
 };
 
 watch(isMenu, (newVal, oldVal) => {
@@ -154,21 +148,11 @@ watch(isMenu, (newVal, oldVal) => {
   } else document.body.style.overflow = 'visible';
 });
 
-
 const logout = () => {
   api.logout();
 };
 
-// eslint-disable-next-line no-undef
-onMounted(() => {
-  const currentCategory = window.location.href.split('/').at(-1);
-  const uuidCurrentCategory = categories.categories.find(
-    (el) => el.link === currentCategory,
-  )?.uuid;
-  if (uuidCurrentCategory) {
-    api.getProducts(uuidCurrentCategory);
-  }
-});
+
 </script>
 
 <style scoped lang="scss">
