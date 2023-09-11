@@ -9,6 +9,9 @@
     <div class="orderItemsContainer">
       <CardOrderItemOrder v-for="order in data?.items" :key="order.uuid" :order="order" />
     </div>
+    <div v-if="data?.promoCode" class="deliveryMesg">
+      Промокод - <b>{{ data?.promoCode.name }}</b>
+    </div>
     <h5 class="delivery">{{ deliveryVariants.find(el => el.id === data?.delivery).name }}</h5>
 
     <div class="deliveryMesg">
