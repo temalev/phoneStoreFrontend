@@ -249,7 +249,7 @@ const onCreateOrder = () => {
   const ordersData = {
     fullName: userData.value.name,
     phoneNumber: userData.value.tel,
-    promoCodeUUID: aprovedPromocode.value.uuid,
+    promoCodeUUID: aprovedPromocode.value?.uuid || null,
     items,
     communicationMethod: 0,
     delivery: currentSel.value,
