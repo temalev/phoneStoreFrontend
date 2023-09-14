@@ -5,7 +5,7 @@
         src="/icons/close.svg"
         width="28"
         height="28"
-        alt=""
+        alt="close"
         class="ico"
         @click="emits('close')"
       />
