@@ -7,7 +7,7 @@
     >
       <div class="productLink">
         <div class="header">{{ card.name }}</div>
-        <img class="img" :src="card.img" />
+        <img class="img" :src="card.img" :alt="card.name" />
       </div>
     </NuxtLink>
   </div>

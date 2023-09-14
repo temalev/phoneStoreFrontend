@@ -1,7 +1,7 @@
 <template>
   <div class="mainCardProduct">
     <div class="mainCardContainer">
-      <img class="imgProduct" :src="baseImg" alt="" />
+      <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
       <div class="infoContainer">
         <div class="header">
           <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
