@@ -15,8 +15,9 @@
             <span v-if="!api.isAuth && priceFrmt(oldPrice)" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
+            <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300;">Cкоро в наличии</span>
             <span
-              v-if="!api.isAuth"
+              v-if="!api.isAuth && price"
               class="price"
               :style="{ color: priceFrmt(oldPrice) ? 'red' : '' }"
               >{{ priceFrmt(price) }} <strong>₽</strong>

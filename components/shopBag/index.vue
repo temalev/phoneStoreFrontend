@@ -40,7 +40,8 @@
             </div>
           </div>
           <div class="orderContainer">
-            <h3>Оформить заказ</h3>
+            <h3 v-if="api.orders.totalCost === 0">Оформить предзаказ</h3>
+            <h3 v-else>Оформить заказ</h3>
             <div class="body">
               <div class="inputsContainer">
                 <Input
