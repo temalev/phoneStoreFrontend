@@ -55,7 +55,7 @@ h1 {
   justify-content: center;
   position: relative;
   margin-top: 70px;
-  background-image: url(/images/mainPageBackground.jpeg);
+  background-image: url(/images/mainPageBackground.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

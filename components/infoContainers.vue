@@ -58,7 +58,7 @@
           </div>
           <div
             class="imgBackground__rightContainer"
-            style="background-image: url(/images/delivery.jpg); width: 350px"
+            style="background-image: url(/images/delivery.webp); width: 350px"
           />
         </div>
       </div>
@@ -97,7 +97,7 @@
 }
 
 .container-service {
-  background-image: url(/images/rk_service.png);
+  background-image: url(/images/rk_service.webp);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
