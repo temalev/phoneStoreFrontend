@@ -58,7 +58,7 @@
           </div>
           <div
             class="imgBackground__rightContainer"
-            style="background-image: url(/images/delivery.jpg); width: 350px"
+            style="background-image: url(/images/delivery.webp); width: 350px"
           />
         </div>
       </div>
@@ -97,7 +97,7 @@
 }
 
 .container-service {
-  background-image: url(/images/rk_service.png);
+  background-image: url(/images/rk_service.webp);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -172,7 +172,7 @@
   background-color: #f9f9fb;
   // box-shadow: 0 0 10px #d4d4d4;
   box-sizing: border-box;
-  background-image: url(/images/tradein.jpg);
+  background-image: url(/images/tradein.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -181,7 +181,7 @@
   cursor: pointer;
   border-radius: 22px;
   @media (max-width: 900px) {
-    background-image: url(/images/tradein_mobile.jpg);
+    background-image: url(/images/tradein_mobile.webp);
     min-width: 280px;
     height: 380px;
     padding: 24px;
@@ -196,14 +196,14 @@
   // box-shadow: 0 0 10px #d4d4d4;
   border-radius: 22px;
   box-sizing: border-box;
-  background-image: url(/images/oldTech.jpg);
+  background-image: url(/images/oldTech.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   cursor: pointer;
   @media (max-width: 900px) {
-    background-image: url(/images/oldTech_mobile.jpg);
+    background-image: url(/images/oldTech_mobile.webp);
     min-width: 280px;
     width: auto;
     height: 220px;
@@ -241,7 +241,7 @@
 }
 
 .img {
-  background-image: url("../images/credit.jpeg");
+  background-image: url("../images/credit.webp");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -294,7 +294,7 @@
 }
 
 .imgBackground__leftContainer {
-  background-image: url(/images/applecare.jpeg);
+  background-image: url(/images/applecare.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -309,7 +309,7 @@
 }
 
 .imgBackground__rightContainer {
-  background-image: url(/images/pay.jpg);
+  background-image: url(/images/pay.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -322,7 +322,7 @@
 
 .cost {
   position: relative;
-  background-image: url(/images/cost.jpeg);
+  background-image: url(/images/cost.webp);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
