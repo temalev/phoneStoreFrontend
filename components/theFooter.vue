@@ -33,7 +33,7 @@
 
     <div class="linksContainer">
       <div class="rowLinks">
-        <span class="tel"><a href="tel:+79801062064">+7 (980) 106-20-64</a></span>
+        <span class="tel"><a href="tel:+79801062064">+7 (915) 602-28-96</a></span>
         <div class="social">
           <a href="https://t.me/RK_TECH01" class="telegramIco" />
           <a href="https://wa.me/79801062064" class="whatsappIco" />
