@@ -159,10 +159,10 @@ const isColorOpt = (options) => (optionId) => {
 const onSaveProductData = async () => {
   isLoading.value = true;
   const { variants, options } = props.product;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+  // const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
-    const isCandidate = notColorOptions.every((id) => optionsIds.includes(id));
+    const isCandidate = selectedOptions.value.every((id) => optionsIds.includes(id));
     if (isCandidate) {
       variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
       variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo?.price;
