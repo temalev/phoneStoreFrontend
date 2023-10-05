@@ -214,7 +214,6 @@ const checkPromocode = async () => {
     const res = await api.getPromocode(promocodeName.value);
     if (res !== 0) {
       aprovedPromocode.value = res;
-      console.log(aprovedPromocode.value);
       noPromocode.value = null;
     } else {
       noPromocode.value = 'К сожалению, такого промокода не существует';
@@ -255,6 +254,7 @@ const onCreateOrder = () => {
     communicationMethod: 0,
     delivery: currentSel.value,
     deliveryMessage: userData.value.address,
+    discountAmount: aprovedPromocode.value.discount,
   };
 
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
