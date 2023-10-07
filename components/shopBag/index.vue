@@ -105,7 +105,7 @@
                 }}</span>
               </div>
               <div v-else class="d-flex-column">
-                <h3>Промокод {{ aprovedPromocode.name }} на {{ aprovedPromocode.discount }} <strong>₽</strong> применен </h3>
+                <h3>Промокод {{ aprovedPromocode?.name }} на {{ aprovedPromocode?.discount }} <strong>₽</strong> применен </h3>
               </div>
             </div>
           </div>
@@ -231,10 +231,10 @@ const onCreateOrder = () => {
     price: item.product.variants.length
       ? aprovedPromocode.value?.discount
         ? getPriceByProduct(item.product, item.options)
-          - aprovedPromocode.value.discount
+          - aprovedPromocode.value?.discount
         : getPriceByProduct(item.product, item.options)
       : aprovedPromocode.value?.discount
-        ? item.product.price - aprovedPromocode.value.discount
+        ? item.product.price - aprovedPromocode.value?.discount
         : item.product.price,
     name: item.product.name,
     tags: item.product.variants.length
@@ -254,7 +254,7 @@ const onCreateOrder = () => {
     communicationMethod: 0,
     delivery: currentSel.value,
     deliveryMessage: userData.value.address,
-    discountAmount: aprovedPromocode.value.discount,
+    discountAmount: aprovedPromocode.value?.discount,
   };
 
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
