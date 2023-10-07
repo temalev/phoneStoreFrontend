@@ -20,7 +20,7 @@
           prop="items"
           label="Сумма скидки"
         >
-          {{ row.discount }}
+          {{ row?.discount }}
         </el-table-column>
         <el-table-column
           sortable
