@@ -24,13 +24,15 @@ const toggleActive = () => {
 
 <style scoped lang="scss">
 .dropZone {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border: 1px solid #eee;
   border-radius: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
 
   label {
     background-image: url(/icons/plus.svg);

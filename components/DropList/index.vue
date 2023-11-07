@@ -5,7 +5,7 @@
         <span v-if="!selected.name">Выберите категорию</span>
         {{ selected.name }}</span
       >
-      <NuxtIcon class="ico" name="down" filled />
+      <NuxtIcon class="ico" :style="{transform: activeList ? 'rotate(180deg)' : ''}" name="down" filled />
     </div>
     <div class="listContainer" :style="{ display: activeList ? 'flex' : '' }">
       <div
@@ -86,6 +86,7 @@ const onActive = (uuid, name) => {
   position: absolute;
   flex-shrink: 0;
   background-color: #fff;
+  transition: .2s;
 }
 
 .list {

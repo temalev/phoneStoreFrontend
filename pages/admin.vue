@@ -44,7 +44,7 @@
       <NuxtLink to="/PromocodesList">
       <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
     </NuxtLink>
-      <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false">
+      <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false" width="800px" >
         <CreateProduct />
       </CustomModal>
       <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false" >
