@@ -44,20 +44,52 @@
   }
 }
 
+@for $i from 0 through 100 { 
+  .w#{$i} {
+    width: $i * 1% !important;
+  }
+}
+
 .d-flex {
   display: flex;
+}
+
+.d-flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .align-center {
   align-items: center;
 }
 
+.align-flex-start {
+  align-items: flex-start;
+}
+
 .align-flex-end {
   align-items: flex-end;
+}
+
+.el-button {
+  width: 32px !important;
+}
+
+.el-color-picker__trigger {
+  border-radius: 50% !important;
+}
+
+.el-color-picker__color {
+  border-radius: 50% !important;
+}
+
+.el-color-picker__color-inner {
+  border-radius: 50% !important;
 }
 
 ::v-deep {
   .el-popper {
     width: 200px !important;
   }
+
 }

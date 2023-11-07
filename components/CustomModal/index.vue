@@ -1,6 +1,6 @@
 <template>
   <div class="modal-background"  @click.self="emits('close')">
-    <div class="modal">
+    <div class="modal" :style="{width: width}">
       <img
         src="/icons/close.svg"
         width="28"
@@ -15,6 +15,10 @@
 </template>
 <script setup>
 import { ref, computed } from "vue";
+
+const props = defineProps({
+  width: String,
+});
 
 const emits = defineEmits(["close"]);
 </script>
