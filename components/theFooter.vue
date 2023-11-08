@@ -42,9 +42,9 @@
       <span class="tel">
         <a
           target="_blank"
-          href="https://yandex.ru/maps/213/moscow/house/ulitsa_barklaya_8/Z04YcwdiTkYFQFtvfXt1cH1mYg==/?ll=37.502732%2C55.741156&utm_source=main_stripe_big&z=17"
+          href="https://yandex.ru/maps/org/225229871067"
         >
-        Москва, ул. Барклая, дом 8
+        Москва, ул. Багратионовский проезд, 7к2, Бизнес-центр «Рубин»
         </a></span>
       <span class="tel">
         <a
