@@ -28,7 +28,7 @@
     <div class="row">
       <div class="leftContainer">
         <div class="textInfoContainer">
-          <h3 class="header">Оригинальность</h3>
+          <h3 class="header">Оригинальность и гарантия</h3>
           <p class="textInfo">
             Вся техника, представленная в нашем магазине, только новая и
             оригинальная.
