@@ -8,13 +8,13 @@
     </div>
     <div class="flex">
       <div class="container-service"></div>
-      <div class="container-oldTech">
+      <!-- <div class="container-oldTech">
         <div class="container-text">
           <h3 class="header-container">
             Продажа устройств, бывших в употреблении
           </h3>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="container">
