@@ -20,8 +20,8 @@
     >
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">Закрыть</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">
+        <el-button @click="dialogVisible = false">Закрыть</el-button>
+        <el-button type="primary" @click="dialogVisible = false">
           <template #default>
           <a href="https://t.me/RK_TECH01" target="_blank" style="color: #fff"> @RK_Tech_Support</a>
         </template>
