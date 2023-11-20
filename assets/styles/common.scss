@@ -71,9 +71,10 @@
   align-items: flex-end;
 }
 
-.el-button {
-  width: 32px !important;
+.j-c {
+  justify-content: center;
 }
+
 
 .el-color-picker__trigger {
   border-radius: 50% !important;
@@ -85,6 +86,15 @@
 
 .el-color-picker__color-inner {
   border-radius: 50% !important;
+}
+
+.el-dialog__body {
+  padding: 10px 20px !important;
+}
+
+.el-button--primary {
+  background-color: #2c2c2c !important;
+  border-color: #2c2c2c !important;
 }
 
 ::v-deep {

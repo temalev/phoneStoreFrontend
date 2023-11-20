@@ -3,7 +3,7 @@
     <Title>RK-Tech - магазин техники Apple</Title>
   </Head>
   <div class="main-admin">
-    <div class="main" style="overflow: scroll;">
+    <div class="main" style="overflow: scroll">
       <TheHeader :isDesktop="isDesktop" />
       <slot />
       <Transition name="slide-fade">
@@ -12,9 +12,28 @@
       <TheFooter />
     </div>
   </div>
+  <el-dialog v-model="dialogVisible" title="Внимание" width="90%">
+    <span
+      >Уважаемые покупатели! В связи с нестабильным курсом валют и сложностями с
+      поставками цены на товары могут меняться. Вы всегда можете уточнить
+      актуальную стоимость устройств в аккаунте поддержки в Telegram</span
+    >
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Закрыть</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">
+          <template #default>
+          <a href="https://t.me/RK_TECH01" target="_blank" style="color: #fff"> @RK_Tech_Support</a>
+        </template>
+
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script setup>
 import { ref, computed } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
@@ -25,9 +44,15 @@ const head = createHead();
 const determiningWidth = useDetermininingWidth();
 const api = useApi();
 
+const dialogVisible = ref(false);
+
 // eslint-disable-next-line no-undef
-onMounted(() => {
+onMounted(async () => {
   api.getOrders();
+  const notif = await api.getParams('popup_message');
+  if (notif?.value === 'true') {
+    dialogVisible.value = true;
+  } else dialogVisible.value = false;
   if (window.screen.width <= 700) {
     determiningWidth.editDesktop(false);
   } else {

@@ -39,15 +39,30 @@
           </div>
         </div>
       </div>
+      <div class="d-flex align-center gap-2">
+        <el-switch
+          v-model="isNotification"
+          style="margin-left: 24px"
+          inline-prompt
+          :active-icon="Check"
+          :inactive-icon="Close"
+          @change="setNotification"
+        />
+        Уведомление о высокой волативности
+      </div>
       <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomButton @click="isCreatePromocode = true" name="Создать промокод" />
       <NuxtLink to="/PromocodesList">
-      <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
-    </NuxtLink>
-      <CustomModal v-if="isCreateProduct" @close="isCreateProduct = false" width="800px" >
+        <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
+      </NuxtLink>
+      <CustomModal
+        v-if="isCreateProduct"
+        @close="isCreateProduct = false"
+        width="800px"
+      >
         <CreateProduct />
       </CustomModal>
-      <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false" >
+      <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false">
         <CreatePromocode @close="isCreatePromocode = false" />
       </CustomModal>
 
@@ -82,11 +97,14 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { Check, Close } from '@element-plus/icons-vue';
 import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
 import moment from 'moment';
 
 const api = useApi();
+
+const isNotification = ref(false);
 
 const determiningWidth = useDetermininingWidth();
 
@@ -105,6 +123,12 @@ const weeklyIncome = computed(() => ordersPerWeek.value.reduce(
   (prevValue, item) => (prevValue += item.costs.cost),
   0,
 ));
+
+const setNotification = async () => {
+  if (!isNotification.value) {
+    api.setParams('popup_message', { value: 'false' });
+  } else api.setParams('popup_message', { value: 'true' });
+};
 
 // eslint-disable-next-line no-return-assign
 
@@ -126,10 +150,12 @@ const login = () => {
 };
 
 // eslint-disable-next-line no-undef
-onMounted(() => {
+onMounted(async () => {
   api.getOrders();
   api.getStatistics();
   api.getAllPromocode();
+  const notif = await api.getParams('popup_message');
+  isNotification.value = notif?.value === 'true';
 });
 </script>
 

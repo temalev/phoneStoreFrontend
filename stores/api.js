@@ -17,6 +17,7 @@ export const useApi = defineStore('api', {
     isInfoModal: false,
     statistics: [],
     allPromocodes: [],
+    params: null,
   }),
 
   actions: {
@@ -318,6 +319,36 @@ export const useApi = defineStore('api', {
       const data = await res.json();
       this.products = data;
       return data;
+    },
+
+    async getParams(name) {
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/param/${name}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+      const data = await res.json();
+      this.params = data;
+      return data;
+    },
+
+    async setParams(name, data) {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const res = await this.fetchWithAuth(
+        `${this.config.public.URL}/api/v1/param/${name}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(data),
+          credentials: 'include',
+          headers,
+        },
+      );
+      const resp = await res.json();
+      return resp;
     },
   },
 });
