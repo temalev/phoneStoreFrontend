@@ -222,10 +222,6 @@ h3 {
   flex-wrap: wrap;
 }
 
-.wrapper {
-  width: 100%;
-}
-
 .wrapper:empty {
   display: none;
 }
