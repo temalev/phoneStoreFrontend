@@ -96,7 +96,9 @@
   background-color: #2c2c2c !important;
   border-color: #2c2c2c !important;
 }
-
+label {
+  font-size: 16px !important;
+}
 ::v-deep {
   .el-popper {
     width: 200px !important;

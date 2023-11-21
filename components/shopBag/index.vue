@@ -64,22 +64,16 @@
                     :key="radio.id"
                   >
                     <div class="rowVariant">
-                      <!-- <CustomRadio
-                        :label="radio.name"
-                        :id="radio.id"
-                        :checked="currentSel === radio.id"
-                        @change="onChangeRadio"
-                      /> -->
                       <el-radio v-model="currentSel" :label="radio.id">{{
                         radio.name
                       }}</el-radio>
-                      <el-tooltip :content="radio.info" placement="top">
+                      <el-tooltip v-if="radio.info" :content="radio?.info" placement="top">
                         <div class="icoQuestion"></div>
                       </el-tooltip>
                     </div>
                     <CustomTextarea
                       v-if="
-                        (currentSel === 2 || currentSel === 3) &&
+                        (currentSel === 2 || currentSel === 3 || currentSel === 5 || currentSel === 6) &&
                         currentSel === radio.id
                       "
                       label="Адрес доставки"
@@ -174,6 +168,15 @@ const radioVariants = ref([
     name: 'Доставка по Москве внутри МКАД',
     id: 2,
     info: 'Курьерская доставка в Москве - бесплатно/490р',
+  },
+  {
+    name: 'Доставка по Москве за пределы МКАД',
+    id: 5,
+    info: 'Расчитывается индивидуально',
+  },
+  {
+    name: 'Доставка курьером в г. Рязань в пределах города',
+    id: 6,
   },
   {
     name: 'Доставка СДЭК в регионы',
@@ -344,7 +347,7 @@ h2 {
   @media (max-width: 500px) {
     width: 100%;
     border-radius: 0;
-    padding: 30px;
+    padding: 22px;
     padding-top: 50px;
   }
 
@@ -586,6 +589,9 @@ h2 {
     & + .el-radio__label {
       color: #000 !important;
     }
+  }
+  .el-radio__label {
+    text-wrap: wrap;
   }
 }
 </style>

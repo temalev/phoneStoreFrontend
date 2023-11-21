@@ -12,7 +12,7 @@
       <TheFooter />
     </div>
   </div>
-  <el-dialog v-model="dialogVisible" title="Внимание" width="90%">
+  <el-dialog v-model="dialogVisible" title="Внимание" width="90%" style="max-width: 600px;">
     <span
       >Уважаемые покупатели! В связи с нестабильным курсом валют и сложностями с
       поставками цены на товары могут меняться. Вы всегда можете уточнить
@@ -129,4 +129,6 @@ useHead({
   transform: translateY(20px);
   opacity: 0;
 }
+
+
 </style>
