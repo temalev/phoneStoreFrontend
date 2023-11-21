@@ -67,13 +67,20 @@
                       <el-radio v-model="currentSel" :label="radio.id">{{
                         radio.name
                       }}</el-radio>
-                      <el-tooltip v-if="radio.info" :content="radio?.info" placement="top">
+                      <el-tooltip
+                        v-if="radio.info"
+                        :content="radio?.info"
+                        placement="top"
+                      >
                         <div class="icoQuestion"></div>
                       </el-tooltip>
                     </div>
                     <CustomTextarea
                       v-if="
-                        (currentSel === 2 || currentSel === 3 || currentSel === 5 || currentSel === 6) &&
+                        (currentSel === 2 ||
+                          currentSel === 3 ||
+                          currentSel === 5 ||
+                          currentSel === 6) &&
                         currentSel === radio.id
                       "
                       label="Адрес доставки"
@@ -82,6 +89,22 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex-column">
+
+              <h3>Способ оплаты</h3>
+              <el-select
+                v-model="selectedPaymentType"
+                class="mt-2"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in paymentTypes"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </div>
               <div v-if="!aprovedPromocode" class="d-flex-column">
                 <div class="d-flex align-flex-end gap-4">
                   <Input
@@ -99,7 +122,10 @@
                 }}</span>
               </div>
               <div v-else class="d-flex-column">
-                <h3>Промокод {{ aprovedPromocode?.name }} на {{ aprovedPromocode?.discount }} <strong>₽</strong> применен </h3>
+                <h3>
+                  Промокод {{ aprovedPromocode?.name }} на
+                  {{ aprovedPromocode?.discount }} <strong>₽</strong> применен
+                </h3>
               </div>
             </div>
           </div>
@@ -152,6 +178,7 @@ const isEmptyShopBag = ref(true);
 const promocodeName = ref(null);
 const aprovedPromocode = ref(null);
 const noPromocode = ref(null);
+const selectedPaymentType = ref(1);
 
 const radioVariants = ref([
   {
@@ -182,6 +209,21 @@ const radioVariants = ref([
     name: 'Доставка СДЭК в регионы',
     id: 3,
     info: 'Доставка по России - 490 рублей. Надежно упакуем и отправим в день заказа транспортной компанией «Сдэк».',
+  },
+]);
+
+const paymentTypes = ref([
+  {
+    id: 1,
+    name: 'Наличными при получении',
+  },
+  {
+    id: 2,
+    name: 'Оформление рассрочки',
+  },
+  {
+    id: 3,
+    name: 'Безналичный расчет для юридических лиц без НДС',
   },
 ]);
 
@@ -258,6 +300,7 @@ const onCreateOrder = () => {
     delivery: currentSel.value,
     deliveryMessage: userData.value.address,
     discountAmount: aprovedPromocode.value?.discount,
+    paymentTypeId: selectedPaymentType.value,
   };
 
   if (ordersData?.fullName?.length && ordersData?.phoneNumber) {
@@ -314,7 +357,7 @@ h2 {
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
   padding-top: 20px;
   top: 0;
   z-index: 7;
