@@ -14,6 +14,9 @@
     </div>
     <h5 class="delivery">{{ deliveryVariants.find(el => el.id === data?.delivery).name }}</h5>
 
+    <h5 class="delivery">{{ paymentTypes.find(el => el.id === data?.paymentTypeId)?.name }}</h5>
+
+
     <div class="deliveryMesg">
       {{ data?.deliveryMessage }}
     </div>
@@ -68,6 +71,21 @@ const deliveryVariants = ref([
     name: 'Доставка СДЭК в регионы',
     id: 3,
     info: 'Доставка по России - 490 рублей. Надежно упакуем и отправим в день заказа транспортной компанией «Сдэк».',
+  },
+]);
+
+const paymentTypes = ref([
+  {
+    id: 1,
+    name: 'Наличными при получении',
+  },
+  {
+    id: 2,
+    name: 'Оформление рассрочки',
+  },
+  {
+    id: 3,
+    name: 'Безналичный расчет для юридических лиц без НДС',
   },
 ]);
 
