@@ -75,6 +75,11 @@
   justify-content: center;
 }
 
+.capture {
+  font-size: 11px;
+  color: #6c6c6c;
+}
+
 
 .el-color-picker__trigger {
   border-radius: 50% !important;
@@ -102,6 +107,11 @@ label {
 .el-select-dropdown__item.selected {
   color: #2c2c2c !important;
 }
+
+.el-popper {
+  max-width: 300px;
+}
+
 ::v-deep {
   .el-popper {
     width: 200px !important;
