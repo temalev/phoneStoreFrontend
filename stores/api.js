@@ -18,6 +18,7 @@ export const useApi = defineStore('api', {
     statistics: [],
     allPromocodes: [],
     params: null,
+    currentCategory: null,
   }),
 
   actions: {
@@ -310,6 +311,8 @@ export const useApi = defineStore('api', {
     },
 
     async getProducts(uuid) {
+      console.log(this.products[this.currentCategory]);
+      if (!this.products?.[this.currentCategory]) {
       const res = await fetch(
         `${this.config.public.URL}/api/v1/product?categoryUUID=${uuid}`,
         {
@@ -317,8 +320,10 @@ export const useApi = defineStore('api', {
         },
       );
       const data = await res.json();
-      this.products = data;
+      this.products[this.currentCategory] = data;
+      console.log(this.products[this.currentCategory]);
       return data;
+      }
     },
 
     async getParams(name) {

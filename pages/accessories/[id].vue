@@ -3,7 +3,7 @@
     <Title>RK-Tech - {{ currentCategory }}</Title>
   </Head>
   <div v-if="api.products" class="mainProducts">
-    <CardProduct v-for="product in api.products" :key="product.uuid" :product="product" />
+    <CardProduct v-for="product in api.products?.[currentCategory]" :key="product.uuid" :product="product" />
   </div>
   <div v-else class="loader">загрузка</div>
 </template>
@@ -21,6 +21,8 @@ const currentCategory = ref(null);
 onMounted(() => {
   const cat = categories.categories.find((el) => el.categories);
   currentCategory.value = window.location.href.split('/').at(-1);
+  api.currentCategory = currentCategory.value;
+
   const uuidCategory = cat.categories.find(
     (el) => el.link.toLowerCase().includes(currentCategory.value),
   ).uuid;
