@@ -311,7 +311,6 @@ export const useApi = defineStore('api', {
     },
 
     async getProducts(uuid) {
-      if (!this.products?.[this.currentCategory]) {
       const res = await fetch(
         `${this.config.public.URL}/api/v1/product?categoryUUID=${uuid}`,
         {
@@ -321,7 +320,6 @@ export const useApi = defineStore('api', {
       const data = await res.json();
       this.products[this.currentCategory] = data;
       return data;
-      }
     },
 
     async getParams(name) {

@@ -106,6 +106,11 @@ const isLoading = ref(false);
 const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 
+const currentCategory = window.location.href.split('/').at(-1);
+const uuidCurrentCategory = categories.categories.find(
+  (el) => el.link.includes(currentCategory),
+)?.uuid;
+
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
   if (!colorOption) {
@@ -220,15 +225,10 @@ const onSaveProductData = async () => {
   try {
     const res = await api.updateProduct(props.product.uuid, updatedProductData);
     isSaved.value = true;
+    api.getProducts(uuidCurrentCategory);
     setTimeout(() => {
       isSaved.value = false;
     }, 3000);
-
-    const currentCategory = window.location.href.split('/').at(-1);
-    const uuidCurrentCategory = categories.categories.find(
-      (el) => el.link === currentCategory,
-    )?.uuid;
-    api.getProducts(uuidCurrentCategory);
   } catch (e) {
     console.error(e);
   } finally {
@@ -238,10 +238,7 @@ const onSaveProductData = async () => {
 
 const onDeleteProduct = () => {
   api.deleteProduct(props.product.uuid);
-  const currentCategory = window.location.href.split('/').at(-1);
-  const uuidCurrentCategory = categories.categories.find(
-    (el) => el.link === currentCategory,
-  )?.uuid;
+
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
   }
