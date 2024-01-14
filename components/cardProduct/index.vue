@@ -15,7 +15,9 @@
             <span v-if="!api.isAuth && priceFrmt(oldPrice)" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
-            <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300;">Cкоро в наличии</span>
+            <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300"
+              >Cкоро в наличии</span
+            >
             <span
               v-if="!api.isAuth && price"
               class="price"
@@ -30,7 +32,9 @@
             @inputValue="(val) => (editedPrice = val)"
           />
 
-          <p v-if="!api.isAuth" class="description">{{ product?.description }}</p>
+          <p v-if="!api.isAuth" class="description">
+            {{ product?.description }}
+          </p>
           <Input
             v-if="api.isAuth"
             :value="product?.description"
@@ -46,12 +50,33 @@
             @selectedOpt="(id) => selectedOpt(id, idOpt)"
           />
         </div>
+        <div v-if="api.isAuth" class="d-flex align-center gap-2">
+          <el-switch
+            v-model="isPriceDependOnColor"
+            inline-prompt
+            :active-icon="Check"
+            :inactive-icon="Close"
+            @change="setNotification"
+          />
+          <span>Цена зависит от цвета</span>
+        </div>
       </div>
     </div>
     <div class="wrapperButton">
-      <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <CustomButton
+        v-if="!api.isAuth"
+        @click="sendToShopBag"
+        :name="'В корзину'"
+      />
       <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
-      <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c' " :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
+      <CustomButton
+        v-if="api.isAuth"
+        :type="isSaved ? 'accept' : ''"
+        :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
+        :isLoading="isLoading"
+        @click="onSaveProductData"
+        :name="!isSaved ? 'Сохранить' : 'Сохранено'"
+      />
     </div>
   </div>
 </template>
@@ -79,6 +104,18 @@ const editedName = ref(null);
 const editedDescription = ref(null);
 const isLoading = ref(false);
 const isSaved = ref(false);
+const isPriceDependOnColor = ref(false);
+
+const isColorOpt = (options) => (optionId) => {
+  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
+  if (!colorOption) {
+    return true;
+  }
+  if (options.length > 1) {
+    return !colorOption.items.some((el) => el.id === optionId);
+  }
+  return colorOption.items.some((el) => el.id === optionId);
+};
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
@@ -95,14 +132,19 @@ const baseImg = computed(() => {
       });
     return canditate?.optionsInfo?.images?.[0] || props.product?.images?.[0];
   }
-  return props.product?.variants?.[0]?.optionsInfo?.images?.[0] || props.product?.images?.[0];
+  return (
+    props.product?.variants?.[0]?.optionsInfo?.images?.[0]
+    || props.product?.images?.[0]
+  );
 });
 
 const price = computed(() => {
   if (selectedOptions.value.length) {
     // eslint-disable-next-line max-len
     let canditate = null;
-    props.product.variants
+    const { variants, options } = props.product;
+
+    variants
       // eslint-disable-next-line max-len
       .forEach(({ optionsIds }, idx) => {
         const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
@@ -112,8 +154,10 @@ const price = computed(() => {
         }
       });
     return canditate?.optionsInfo?.price || props.product?.price;
-  } return props.product.price;
+  }
+  return props.product.price;
 });
+
 const oldPrice = computed(() => {
   if (selectedOptions.value.length) {
     // eslint-disable-next-line max-len
@@ -142,27 +186,23 @@ const selectedOpt = (id, index) => {
 
 const sendToShopBag = () => {
   // TODO хранить uuid продукта, чтобы проверять актуальность данных, в первую очередь цены
-  const selectedProduct = { product: { ...props.product }, options: [ ...selectedOptions.value ] };
+  const selectedProduct = {
+    product: { ...props.product },
+    options: [...selectedOptions.value],
+  };
   api.orders.push(selectedProduct);
   localStorage.setItem('orders', JSON.stringify(api.orders));
-};
-
-const isColorOpt = (options) => (optionId) => {
-  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
-  if (!colorOption) {
-    return true;
-  }
-  if (options.length > 1) { return !colorOption.items.some((el) => el.id === optionId); }
-  return colorOption.items.some((el) => el.id === optionId);
 };
 
 const onSaveProductData = async () => {
   isLoading.value = true;
   const { variants, options } = props.product;
-  // const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
-    const isCandidate = selectedOptions.value.every((id) => optionsIds.includes(id));
+    const isCandidate = (
+      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+    ).every((id) => optionsIds.includes(id));
     if (isCandidate) {
       variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
       variants[idx].optionsInfo.price = editedPrice.value || variants[idx].optionsInfo?.price;
@@ -174,6 +214,7 @@ const onSaveProductData = async () => {
     variants,
     price: newPrice,
     description: editedDescription.value || props.product.description,
+    priceDependOnColor: isPriceDependOnColor.value,
   };
 
   try {
@@ -182,6 +223,12 @@ const onSaveProductData = async () => {
     setTimeout(() => {
       isSaved.value = false;
     }, 3000);
+
+    const currentCategory = window.location.href.split('/').at(-1);
+    const uuidCurrentCategory = categories.categories.find(
+      (el) => el.link === currentCategory,
+    )?.uuid;
+    api.getProducts(uuidCurrentCategory);
   } catch (e) {
     console.error(e);
   } finally {
@@ -192,14 +239,18 @@ const onSaveProductData = async () => {
 const onDeleteProduct = () => {
   api.deleteProduct(props.product.uuid);
   const currentCategory = window.location.href.split('/').at(-1);
-  const uuidCurrentCategory = categories.categories.find((el) => el.link === currentCategory)?.uuid;
+  const uuidCurrentCategory = categories.categories.find(
+    (el) => el.link === currentCategory,
+  )?.uuid;
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
   }
 };
 
 // eslint-disable-next-line no-undef
-onMounted(() => {});
+onMounted(() => {
+  isPriceDependOnColor.value = props.product.priceDependOnColor;
+});
 </script>
 
 <style scoped lang="scss">
@@ -249,8 +300,8 @@ onMounted(() => {});
 
 .productName {
   font-size: 20px;
-  font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
 }
 
@@ -260,8 +311,8 @@ onMounted(() => {});
 }
 
 .oldPrice {
-  font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 18px;
   font-weight: 300;
   color: #373737;
@@ -269,8 +320,8 @@ onMounted(() => {});
 }
 
 .price {
-  font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 18px;
   font-weight: 300;
   color: #373737;
