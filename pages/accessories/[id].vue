@@ -20,7 +20,7 @@ const currentCategory = ref(null);
 // eslint-disable-next-line no-undef
 onMounted(() => {
   const cat = categories.categories.find((el) => el.categories);
-  currentCategory.value = window.location.href.split('/').at(-1);
+  currentCategory.value = window.location.pathname.split('/').at(-1);
   api.currentCategory = currentCategory.value;
 
   const uuidCategory = cat.categories.find(
