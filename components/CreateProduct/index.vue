@@ -17,7 +17,7 @@
       v-for="item in api.categories"
       :key="item.uuid"
       :label="item.name"
-      :value="item"
+      :value="item.uuid"
     />
   </el-select>
       <Input
