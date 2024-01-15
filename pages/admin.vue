@@ -50,11 +50,13 @@
         />
         Уведомление о высокой волативности
       </div>
-      <CustomButton @click="isCreateProduct = true" name="Создать товар" />
+      <div class="d-flex-column gap-2 width-container">
+        <CustomButton @click="isCreateProduct = true" name="Создать товар" />
       <CustomButton @click="isCreatePromocode = true" name="Создать промокод" />
       <NuxtLink to="/PromocodesList">
         <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
       </NuxtLink>
+      </div>
       <CustomModal
         v-if="isCreateProduct"
         @close="isCreateProduct = false"
@@ -142,6 +144,7 @@ const ru = computed(() => {
 
 const isCreateProduct = ref(false);
 const isCreatePromocode = ref(false);
+const nameCount = ref({});
 
 const adminData = ref({ login: '', password: '' });
 
@@ -156,10 +159,18 @@ onMounted(async () => {
   api.getAllPromocode();
   const notif = await api.getParams('popup_message');
   isNotification.value = notif?.value === 'true';
+
 });
 </script>
 
 <style scoped lang="scss">
+.width-container {
+  @media (max-width: 850px) {
+    width: 100%;
+  }
+  width: 20%;
+}
+
 h3 {
   font-size: 25px;
 }
