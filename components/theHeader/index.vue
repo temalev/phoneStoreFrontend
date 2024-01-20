@@ -26,7 +26,7 @@
 
     <div v-if="!api.isAuth" class="leftContainer">
       <div class="telContainer">
-        <a href="tel:+79156022896">+7 (915) 602-28-96</a>
+        <a href="tel:+79105033237">+7 (910) 503-32-37</a>
       </div>
       <div class="shopBag" @click="isShopBag = true">
         <div v-if="api.orders.length" class="ordersCounter">
