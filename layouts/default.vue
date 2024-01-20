@@ -3,7 +3,7 @@
     <Title>RK-Tech - магазин техники Apple</Title>
   </Head>
   <div class="main-admin">
-    <div class="main" style="overflow: scroll">
+    <div class="main" style="overflow-x: scroll">
       <TheHeader :isDesktop="isDesktop" />
       <slot />
       <Transition name="slide-fade">
@@ -107,6 +107,7 @@ useHead({
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  overflow-x: hidden !important;
 }
 
 .main-admin {

@@ -32,6 +32,7 @@ const categories = ref({
       uuid: '9c4fc64f-6545-4c8b-9745-e900e506082a',
       isName: true,
     },
+    
   ],
 });
 </script>

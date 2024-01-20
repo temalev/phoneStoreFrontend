@@ -3,11 +3,18 @@
     <NuxtLink
       v-for="card in props.categories.categories"
       :key="card"
-      :to="card.link"
+      :to="!isNoLink ? card.link : ''"
     >
-      <div class="productLink">
+      <div class="productLink" :style="{borderRadius: isMessageBlock ? '10px 10px 0 0' : '10px'}">
         <div class="header">{{ card.name }}</div>
         <img class="img" :src="card.img" :alt="card.name" />
+      </div>
+      <div v-if="isMessageBlock" class="message-block">
+        <p>
+          Мы всегда рады найти для вас нужный товар данного производителя по
+          выгодной цене!<br /> <br>
+          Свяжитесь с нами в мессенджерах, которые указаны внизу страницы.
+        </p>
       </div>
     </NuxtLink>
   </div>
@@ -23,6 +30,14 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  isNoLink: {
+    type: Boolean,
+    default: false,
+  },
+  isMessageBlock: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // eslint-disable-next-line no-undef
@@ -37,10 +52,12 @@ onMounted(() => {});
   scroll-behavior: smooth;
   padding: 20px 10px;
   flex-shrink: 0;
+  width: inherit;
 
   @media (max-width: 500px) {
     scroll-snap-type: x mandatory;
     padding: 20px 100px;
+    width: auto;
   }
   &::-webkit-scrollbar {
     display: none;
@@ -53,7 +70,6 @@ onMounted(() => {});
     padding-top: 40px;
     background-color: #fff;
     box-shadow: 0 0 5px #dadada;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,6 +77,7 @@ onMounted(() => {});
     transition: 0.2s;
     box-sizing: border-box;
     cursor: pointer;
+
     @media (max-width: 500px) {
       scroll-snap-align: center;
     }
@@ -68,6 +85,18 @@ onMounted(() => {});
       box-shadow: 0 0 20px #c4c4c4;
     }
   }
+}
+
+.message-block {
+  // margin-top: 10px;
+  padding: 12px;
+  background-color: #ffffff;
+  border-top: 1px solid #eee;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0px 0px 10px 5px rgb(247, 247, 247);
+  font-size: 11px;
+  color: #353535;
+  // box-shadow: inset 0 5px 10px 5px #dedede;
 }
 
 .header {
