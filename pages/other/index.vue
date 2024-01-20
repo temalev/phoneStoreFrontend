@@ -17,6 +17,14 @@ const categories = ref({
       isName: true,
     },
     {
+      name: 'Samsung',
+      ico: '/icons/iphone.svg',
+      link: '/accessories/case',
+      img: '/images/samsung.webp',
+      uuid: 'e0844263-9fc4-4e72-8e3e-21f94bff72f4',
+      isName: true,
+    },
+    {
       name: 'DJI',
       ico: '/icons/ipad.svg',
       link: '/accessories/cable',
