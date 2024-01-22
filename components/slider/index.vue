@@ -96,6 +96,8 @@ onMounted(() => {});
   box-shadow: 0px 0px 10px 5px rgb(247, 247, 247);
   font-size: 11px;
   color: #353535;
+  width: 300px;
+  box-sizing: border-box;
   // box-shadow: inset 0 5px 10px 5px #dedede;
 }
 
