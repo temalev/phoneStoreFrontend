@@ -101,7 +101,7 @@ export const useCategories = defineStore('categories', {
         ico: '/icons/other.svg',
         style: { height: '55', width: '55' },
         link: '/other',
-        img: '/images/other.jpeg',
+        img: '/images/other.webp',
         uuid: '8aeba603-a913-4577-903d-f7187c5e5abc',
         isName: true,
       },
