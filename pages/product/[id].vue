@@ -1,6 +1,6 @@
 <template>
   <div v-if="api.products" class="mainProducts">
-    <CardProduct v-for="product in api.products?.[currentCategory]" :key="product.uuid" :product="product" />
+    <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
   </div>
   <div v-else class="loader">загрузка</div>
 </template>
