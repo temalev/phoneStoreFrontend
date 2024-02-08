@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     meta: [
       { charset: 'utf-8' },
       { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
-      { name: 'yandex-verification', content: '6b51acfc4a41812d' },
+      { name: 'yandex-verification', content: '001f935542fddf66' },
       {
         hid: 'description',
         name: 'description',
