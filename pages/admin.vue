@@ -100,15 +100,12 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Check, Close } from '@element-plus/icons-vue';
-import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
 import moment from 'moment';
 
 const api = useApi();
 
 const isNotification = ref(false);
-
-const determiningWidth = useDetermininingWidth();
 
 const ordersPerWeek = computed(() => {
   const curDate = new Date();

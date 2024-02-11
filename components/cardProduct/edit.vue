@@ -4,41 +4,27 @@
       <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
       <div class="infoContainer">
         <div class="header">
-          <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
-          <div class="priceRow">
-            <span v-if="!api.isAuth && priceFrmt(oldPrice)" class="oldPrice"
-              >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
-            </span>
-            <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300"
-              >Cкоро в наличии</span
-            >
-            <span
-              v-if="!api.isAuth && price"
-              class="price"
-              :style="{ color: priceFrmt(oldPrice) ? 'red' : '' }"
-              >{{ priceFrmt(price) }} <strong>₽</strong>
-            </span>
-          </div>
-          <p v-if="!api.isAuth" class="description">
-            {{ product?.description }}
-          </p>
+          <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
+          <Input v-if="api.isAuth" :value="price" :key="price" type="number" @inputValue="(val) => (setVariants(val))" />
+          <Input v-if="api.isAuth" :value="product?.description" type="text"
+            @inputValue="(val) => (formData.description = val)" />
         </div>
         <div class="optionsContainer">
-          <Option
-            v-for="(option, idOpt) in product?.options"
-            :key="option?.name"
-            :option="option"
-            @selectedOpt="(id) => selectedOpt(id, idOpt)"
-          />
+          <Option v-for="(option, idOpt) in product?.options" :key="option?.name" :option="option"
+            @selectedOpt="(id) => selectedOpt(id, idOpt)" />
+        </div>
+        <div v-if="api.isAuth" class="d-flex align-center gap-2">
+          <el-switch v-model="isPriceDependOnColor" inline-prompt
+            @change="setNotification" />
+          <span>Цена зависит от цвета</span>
         </div>
       </div>
     </div>
     <div class="wrapperButton">
-      <CustomButton
-        v-if="!api.isAuth"
-        @click="sendToShopBag"
-        :name="'В корзину'"
-      />
+      <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
+      <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
+        :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
     </div>
   </div>
 </template>
@@ -60,18 +46,21 @@ const props = defineProps({
   product: Object,
 });
 
-const selectedColor = ref(null);
 const selectedOptions = ref([]);
-const editedName = ref(null);
-const editedDescription = ref(null);
 const isLoading = ref(false);
 const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
+const setNotification = ref(false);
+const formData = ref({
+  name: props.product.name,
+  description: props.product.description,
+  options: props.product.options,
+  variants: props.product.variants,
+});
 
 const currentCategory = window.location.pathname.split('/').pop();
-const uuidCurrentCategory = categories.categories.find(
-  (el) => el.link.includes(currentCategory),
-)?.uuid;
+const uuidCurrentCategory = categories.categories
+  .find((el) => el.link.includes(currentCategory))?.uuid;
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
@@ -86,12 +75,11 @@ const isColorOpt = (options) => (optionId) => {
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
-    // eslint-disable-next-line max-len
     let canditate = null;
     props.product.variants
-      // eslint-disable-next-line max-len
       .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+        const isContains = optionsIds
+          .every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
           canditate = props.product?.variants[idx];
@@ -107,42 +95,20 @@ const baseImg = computed(() => {
 
 const price = computed(() => {
   if (selectedOptions.value.length) {
-    // eslint-disable-next-line max-len
     let canditate = null;
-    const { variants, options } = props.product;
+    const { variants, options } = formData.value;
 
     variants
-      // eslint-disable-next-line max-len
       .forEach(({ optionsIds }, idx) => {
         const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
-          canditate = props.product?.variants[idx];
+          canditate = formData.value?.variants[idx];
         }
       });
-    return canditate?.optionsInfo?.price || props.product?.price;
+    return canditate?.optionsInfo?.price || formData.value?.price;
   }
-  return props.product.price;
-});
-
-const oldPrice = computed(() => {
-  if (selectedOptions.value.length) {
-    // eslint-disable-next-line max-len
-    let canditate = null;
-    props.product.variants
-      // eslint-disable-next-line max-len
-      .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
-
-        if (isContains) {
-          canditate = props.product?.variants[idx];
-        }
-      });
-    return canditate?.optionsInfo?.oldPrice > canditate?.optionsInfo?.price
-      ? canditate.optionsInfo?.oldPrice
-      : null;
-  }
-  return props.product.oldPrice;
+  return formData.value.price;
 });
 
 const priceFrmt = (val) => (val ? new Intl.NumberFormat('ru').format(val) : null);
@@ -151,14 +117,55 @@ const selectedOpt = (id, index) => {
   selectedOptions.value[index] = id;
 };
 
-const sendToShopBag = () => {
-  // TODO хранить uuid продукта, чтобы проверять актуальность данных, в первую очередь цены
-  const selectedProduct = {
-    product: { ...props.product },
-    options: [...selectedOptions.value],
+const setVariants = (newPrice) => {
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds }, idx) => {
+    const isCandidate = (
+      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+    ).every((id) => optionsIds.includes(id));
+    if (isCandidate) {
+      variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.price = newPrice || variants[idx].optionsInfo?.price;
+    }
+  });
+};
+
+const onSaveProductData = async () => {
+  isLoading.value = true;
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  const newPrice = editedPrice.value || props.product.price;
+  const updatedProductData = {
+    name: formData.value.name || props.product.name,
+    variants: formData.value.variants,
+    price: newPrice,
+    description: formData.value.description || props.product.description,
+    priceDependOnColor: isPriceDependOnColor.value,
   };
-  api.orders.push(selectedProduct);
-  localStorage.setItem('orders', JSON.stringify(api.orders));
+
+  try {
+    const res = await api.updateProduct(props.product.uuid, updatedProductData);
+    isSaved.value = true;
+    api.getProducts(uuidCurrentCategory);
+    setTimeout(() => {
+      isSaved.value = false;
+    }, 3000);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const onDeleteProduct = () => {
+  api.deleteProduct(props.product.uuid);
+
+  if (uuidCurrentCategory) {
+    api.getProducts(uuidCurrentCategory);
+  }
 };
 
 // eslint-disable-next-line no-undef
