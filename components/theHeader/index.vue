@@ -113,14 +113,12 @@
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, watch } from 'vue';
-import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
 
 const isShopBag = ref(false);
 const isMenu = ref(false);
 const isToLeft = ref(false);
-const determiningWidth = useDetermininingWidth();
 const categories = useCategories();
 const api = useApi();
 

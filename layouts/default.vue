@@ -4,7 +4,7 @@
   </Head>
   <div class="main-admin">
     <div class="main" style="overflow-x: scroll">
-      <TheHeader :isDesktop="isDesktop" />
+      <TheHeader/>
       <slot />
       <Transition name="slide-fade">
         <TheCookie v-if="!api.isCookie" />
@@ -35,13 +35,11 @@
 import { ref, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useDetermininingWidth } from '~/stores/determiningWidth';
 import { useApi } from '~/stores/api';
 import { createHead } from 'unhead';
 // Create a global head instance
 const head = createHead();
 
-const determiningWidth = useDetermininingWidth();
 const api = useApi();
 
 const dialogVisible = ref(false);
@@ -53,11 +51,7 @@ onMounted(async () => {
   if (notif?.value === 'true') {
     dialogVisible.value = true;
   } else dialogVisible.value = false;
-  if (window.screen.width <= 700) {
-    determiningWidth.editDesktop(false);
-  } else {
-    determiningWidth.editDesktop(true);
-  }
+
   if (localStorage?.orders) {
     api.orders = JSON.parse(localStorage.orders);
     api.getCategories();
