@@ -3,7 +3,7 @@
     <template v-if="api.isAuth">
       <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
     </template>
-    <template>
+    <template v-else>
       <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
     </template>
   </div>
