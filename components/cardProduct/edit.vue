@@ -56,6 +56,7 @@ const formData = ref({
   description: props.product.description,
   options: props.product.options,
   variants: props.product.variants,
+  price: props.product.price,
 });
 
 const currentCategory = window.location.pathname.split('/').pop();
