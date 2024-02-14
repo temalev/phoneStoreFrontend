@@ -3,7 +3,12 @@
     <Title>RK-Tech - {{ currentCategory }}</Title>
   </Head>
   <div v-if="api.products" class="mainProducts">
-    <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+    <template v-if="api.isAuth">
+      <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+    </template>
+    <template v-else>
+      <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+    </template>
   </div>
   <div v-else class="loader">загрузка</div>
 </template>
