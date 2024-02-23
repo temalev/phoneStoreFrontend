@@ -2,16 +2,17 @@
   <div class="mainCardProduct">
     <div class="mainCardContainer">
       <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+      <div class="info-background">
       <div class="infoContainer">
         <div class="header">
           <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
-          <Input v-if="api.isAuth" :value="price" :key="price" type="number" @inputValue="(val) => (setVariants(val))" />
+          <Input v-if="api.isAuth" :value="price" type="number" @inputValue="setVariants" />
           <Input v-if="api.isAuth" :value="product?.description" type="text"
             @inputValue="(val) => (formData.description = val)" />
         </div>
         <div class="optionsContainer">
           <Option v-for="(option, idOpt) in product?.options" :key="option?.name" :option="option"
-            @selectedOpt="(id) => selectedOpt(id, idOpt)" />
+            @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => editOption = val" />
         </div>
         <div v-if="api.isAuth" class="d-flex align-center gap-2">
           <el-switch v-model="isPriceDependOnColor" inline-prompt
@@ -19,6 +20,16 @@
           <span>Цена зависит от цвета</span>
         </div>
       </div>
+      <div v-if="editOption" class="edit-options">
+          <h3>Редактирование опций</h3>
+          <el-input v-model="editOption.name" type="text" />
+          {{ editOption.name }}
+          <div class="d-flex">
+            <el-button type="primary" @click="editOption = null">Отменить</el-button>
+            <el-button type="success">Сохранить</el-button>
+          </div>
+        </div>
+    </div>
     </div>
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
@@ -46,6 +57,7 @@ const props = defineProps({
   product: Object,
 });
 
+const editOption = ref(null);
 const selectedOptions = ref([]);
 const isLoading = ref(false);
 const isSaved = ref(false);
@@ -218,6 +230,27 @@ onMounted(() => {
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.info-background {
+  position: relative;
+  width: 100%;
+}
+
+.edit-options {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #333;
+  border-radius: 4px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 20px;
 }
 
 .productName {
