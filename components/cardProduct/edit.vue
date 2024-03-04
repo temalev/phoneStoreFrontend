@@ -183,6 +183,7 @@ const onSaveProductData = async () => {
     price: newPrice,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
+    images: formData.value.images
   };
 
   try {
