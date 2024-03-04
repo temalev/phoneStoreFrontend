@@ -183,7 +183,7 @@ const onSaveProductData = async () => {
     price: newPrice,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
-    images: formData.value.images
+    images: formData.value.images,
   };
 
   try {
@@ -232,7 +232,7 @@ const selectedFile = async () => {
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
     ).every((id) => optionsIds.includes(id));
     if (isCandidate) {
-      variants[idx].images[0] = [];
+      variants[idx].optionsInfo.images.push(res.full);
     }
   });
 
