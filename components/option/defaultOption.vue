@@ -1,6 +1,8 @@
 <template>
   <div class="mainColorOption">
-    <h3 class="optionName">{{ option?.name.charAt(0).toUpperCase() + option?.name.slice(1) }}</h3>
+    <h3 class="optionName">{{ option?.name.charAt(0).toUpperCase() + option?.name.slice(1) }} 
+      <el-button class="ml-2" type="primary" :icon="Edit" circle @click="$emit('onEdit', option)" />
+      </h3>
     <div class="itemsContainer">
       <div
         v-for="btn in option.items"
@@ -18,8 +20,11 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
+import {
+  Edit,
+} from '@element-plus/icons-vue'
 
-const emit = defineEmits(['selectedOpt']);
+const emit = defineEmits(['selectedOpt', 'onEdit']);
 
 const props = defineProps({
   option: Object,

@@ -1,7 +1,11 @@
 <template>
   <div class="mainCardProduct">
     <div class="mainCardContainer">
-      <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+      <div class="image-container">
+      <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+      <el-button type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
+      <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
+      </div>
       <div class="info-background">
       <div class="infoContainer">
         <div class="header">
@@ -45,6 +49,9 @@
 import { ref, computed, watch } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
+import {
+  Delete,
+} from '@element-plus/icons-vue';
 
 const categories = useCategories();
 
@@ -69,7 +76,11 @@ const formData = ref({
   options: props.product.options,
   variants: props.product.variants,
   price: props.product.price,
+  images: props.product.images,
 });
+const dropzoneFile = ref({ url: null, file: null });
+const urlFile = ref(null);
+const uploadedImgSrc = ref(null);
 
 const currentCategory = window.location.pathname.split('/').pop();
 const uuidCurrentCategory = categories.categories
@@ -89,20 +100,20 @@ const isColorOpt = (options) => (optionId) => {
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
     let canditate = null;
-    props.product.variants
+    formData.value.variants
       .forEach(({ optionsIds }, idx) => {
         const isContains = optionsIds
           .every((optionId) => selectedOptions.value.includes(optionId));
 
         if (isContains) {
-          canditate = props.product?.variants[idx];
+          canditate = formData.value?.variants[idx];
         }
       });
-    return canditate?.optionsInfo?.images?.[0] || props.product?.images?.[0];
+    return canditate?.optionsInfo?.images?.[0] || formData.value?.images?.[0];
   }
   return (
-    props.product?.variants?.[0]?.optionsInfo?.images?.[0]
-    || props.product?.images?.[0]
+  formData.value?.variants?.[0]?.optionsInfo?.images?.[0]
+    || formData.value?.images?.[0]
   );
 });
 
@@ -145,6 +156,21 @@ const setVariants = (newPrice) => {
   });
 };
 
+const deleteImg = () => {
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds }, idx) => {
+    const isCandidate = (
+      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+    ).every((id) => optionsIds.includes(id));
+    if (isCandidate) {
+      variants[idx].optionsInfo.images = [];
+    }
+  });
+  formData.value.images = [];
+};
+
 const onSaveProductData = async () => {
   isLoading.value = true;
   const { variants, options } = formData.value;
@@ -157,6 +183,7 @@ const onSaveProductData = async () => {
     price: newPrice,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
+    images: formData.value.images,
   };
 
   try {
@@ -179,6 +206,37 @@ const onDeleteProduct = () => {
   if (uuidCurrentCategory) {
     api.getProducts(uuidCurrentCategory);
   }
+};
+
+const drop = (event) => {
+  event.preventDefault();
+  // eslint-disable-next-line prefer-destructuring
+  dropzoneFile.value.url = event.dataTransfer.files[0];
+  // eslint-disable-next-line prefer-destructuring
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+};
+
+const selectedFile = async () => {
+  // eslint-disable-next-line prefer-destructuring
+  dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
+  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+  const formDataImg = new FormData(); // Создаем экземпляр FormData
+  formDataImg.append('file', dropzoneFile.value.url);
+  const res = await api.uploadImg(formDataImg);
+
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds }, idx) => {
+    const isCandidate = (
+      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+    ).every((id) => optionsIds.includes(id));
+    if (isCandidate) {
+      variants[idx].optionsInfo.images.push(res.full);
+    }
+  });
+
+  formData.value.images[0] = res.full;
 };
 
 // eslint-disable-next-line no-undef
@@ -305,5 +363,22 @@ onMounted(() => {
   border-radius: 8px;
   opacity: 0.9;
   cursor: pointer;
+}
+
+.image-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background-color: #eee;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+
+.delete {
+  position: absolute;
+  top: 30px;
+  right: 10px;
 }
 </style>
