@@ -70,14 +70,7 @@ const isLoading = ref(false);
 const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 const setNotification = ref(false);
-const formData = ref({
-  name: props.product.name,
-  description: props.product.description,
-  options: props.product.options,
-  variants: props.product.variants,
-  price: props.product.price,
-  images: props.product.images,
-});
+const formData = ref(JSON.parse(JSON.stringify(props.product)));
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
@@ -143,7 +136,7 @@ const selectedOpt = (id, index) => {
 
 const setVariants = (newPrice) => {
   const { variants, options } = formData.value;
-  const oldVariants = props.product.variants;
+
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
@@ -151,8 +144,7 @@ const setVariants = (newPrice) => {
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
     ).every((id) => optionsIds.includes(id));
     if (isCandidate) {
-      variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price;
-      variants[idx].optionsInfo.price = newPrice || oldVariants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.price = newPrice || variants[idx].optionsInfo?.price;
     }
   });
 };
@@ -174,8 +166,13 @@ const deleteImg = () => {
 
 const onSaveProductData = async () => {
   isLoading.value = true;
-  const { variants, options } = formData.value;
+  const oldVariants = props.product.variants;
+  const { variants, options } = formData.value
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds }, idx) => {
+    variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price;
+  });
 
   const newPrice = editedPrice.value || props.product.price;
   const updatedProductData = {
