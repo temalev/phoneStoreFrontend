@@ -143,6 +143,7 @@ const selectedOpt = (id, index) => {
 
 const setVariants = (newPrice) => {
   const { variants, options } = formData.value;
+  const oldVariants = props.product.variants;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
@@ -150,8 +151,8 @@ const setVariants = (newPrice) => {
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
     ).every((id) => optionsIds.includes(id));
     if (isCandidate) {
-      variants[idx].optionsInfo.oldPrice = variants[idx].optionsInfo?.price;
-      variants[idx].optionsInfo.price = newPrice || variants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.price = newPrice || oldVariants[idx].optionsInfo?.price;
     }
   });
 };
@@ -179,7 +180,7 @@ const onSaveProductData = async () => {
   const newPrice = editedPrice.value || props.product.price;
   const updatedProductData = {
     name: formData.value.name || props.product.name,
-    variants: { ...formData.value.variants, oldPrice: undefined },
+    variants: formData.value.variants,
     price: newPrice,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
