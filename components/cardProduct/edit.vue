@@ -179,7 +179,7 @@ const onSaveProductData = async () => {
   const newPrice = editedPrice.value || props.product.price;
   const updatedProductData = {
     name: formData.value.name || props.product.name,
-    variants: formData.value.variants,
+    variants: { ...formData.value.variants, oldPrice: undefined },
     price: newPrice,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
