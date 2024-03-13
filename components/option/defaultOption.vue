@@ -1,7 +1,7 @@
 <template>
   <div class="mainColorOption">
     <h3 class="optionName">{{ option?.name.charAt(0).toUpperCase() + option?.name.slice(1) }} 
-      <el-button class="ml-2" type="primary" :icon="Edit" circle @click="$emit('onEdit', option)" />
+      <el-button v-if="api.isAuth" class="ml-2" type="primary" :icon="Edit" circle @click="$emit('onEdit', option)" />
       </h3>
     <div class="itemsContainer">
       <div
@@ -22,9 +22,11 @@
 import { ref, computed } from 'vue';
 import {
   Edit,
-} from '@element-plus/icons-vue'
+} from '@element-plus/icons-vue';
+import { useApi } from '~/stores/api';
 
 const emit = defineEmits(['selectedOpt', 'onEdit']);
+const api = useApi();
 
 const props = defineProps({
   option: Object,
