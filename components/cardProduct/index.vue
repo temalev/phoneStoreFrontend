@@ -158,7 +158,7 @@ const sendToShopBag = () => {
     options: [...selectedOptions.value],
   };
   api.orders.push(selectedProduct);
-  localStorage.setItem('orders', JSON.stringify(api.orders));
+  // localStorage.setItem('orders', JSON.stringify(api.orders));
 };
 
 // eslint-disable-next-line no-undef
