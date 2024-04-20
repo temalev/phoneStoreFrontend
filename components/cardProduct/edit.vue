@@ -181,6 +181,7 @@ const onSaveProductData = async () => {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
     price: formData.value.price || props.product.price,
+    priceOld: formData.value.price ? props.product.price : props.product?.priceOld,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
