@@ -69,9 +69,7 @@ const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 
 const currentCategory = window.location.pathname.split('/').pop();
-const uuidCurrentCategory = categories.categories.find(
-  (el) => el.link.includes(currentCategory),
-)?.uuid;
+const uuidCurrentCategory = categories.categories.find((el) => el.link.includes(currentCategory))?.uuid;
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
@@ -141,8 +139,8 @@ const oldPrice = computed(() => {
     return canditate?.optionsInfo?.oldPrice > canditate?.optionsInfo?.price
       ? canditate.optionsInfo?.oldPrice
       : null;
-  }
-  return props.product.oldPrice;
+  } 
+  return props.product.priceOld;
 });
 
 const priceFrmt = (val) => (val ? new Intl.NumberFormat('ru').format(val) : null);
