@@ -56,7 +56,6 @@ import {
 const categories = useCategories();
 
 const api = useApi();
-const editedPrice = ref(null);
 
 const emit = defineEmits(['selectedProducts']);
 // eslint-disable-next-line no-unused-vars
@@ -139,6 +138,10 @@ const setVariants = (newPrice) => {
 
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
+  if (!variants.length) {
+    formData.value.price = newPrice
+  }
+
   variants.forEach(({ optionsIds }, idx) => {
     const isCandidate = (
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
@@ -174,11 +177,10 @@ const onSaveProductData = async () => {
     variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price;
   });
 
-  const newPrice = editedPrice.value || props.product.price;
   const updatedProductData = {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
-    price: newPrice,
+    price: formData.value.price || props.product.price,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
