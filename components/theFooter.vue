@@ -35,7 +35,7 @@
       <div class="rowLinks">
         <span class="tel"><a href="tel:+79105033237">+7 (910) 503-32-37</a></span>
         <div class="social">
-          <a href="https://t.me/RK_TECH01" class="telegramIco" />
+          <a href="https://t.me/Rktech_shop" class="telegramIco" />
           <a href="https://wa.me/79105033237" class="whatsappIco" />
         </div>
       </div>
