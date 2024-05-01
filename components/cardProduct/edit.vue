@@ -3,7 +3,7 @@
     <div class="mainCardContainer">
       <div class="image-container">
       <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
-      <el-button type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
+      <el-button v-if="baseImg" type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
       <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
       </div>
       <div class="info-background">
