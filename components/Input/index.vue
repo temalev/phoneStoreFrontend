@@ -3,11 +3,21 @@
     <label for="">{{ label }}</label>
     <div class="input">
       <input
+        v-if="!textArea"
         class="customInput"
         :type="type"
         :placeholder="placeholder"
         v-model="model"
       />
+      <textarea
+        v-else
+        class="customInput"
+        name=""
+        id=""
+        cols="30"
+        rows="4"
+        v-model="model"
+      ></textarea>
     </div>
   </div>
 </template>
@@ -18,7 +28,11 @@ export default {
     placeholder: String,
     type: {
       type: String,
-      default: 'text',
+      default: "text",
+    },
+    textArea: {
+      type: Boolean,
+      default: false,
     },
     styles: {
       type: Object,
@@ -29,14 +43,14 @@ export default {
       default: null,
     },
   },
-  emits: ['inputValue'],
+  emits: ["inputValue"],
   computed: {
     model: {
       get() {
         return this.value;
       },
       set(val) {
-        this.$emit('inputValue', val);
+        this.$emit("inputValue", val);
       },
     },
   },
@@ -81,9 +95,9 @@ input::-webkit-inner-spin-button {
 }
 
 input::placeholder {
-    font: sans-serif;
-    font-size: 16px;
-    font-weight: 100;
+  font: sans-serif;
+  font-size: 16px;
+  font-weight: 100;
 }
 
 ::-webkit-input-placeholder {
@@ -91,5 +105,8 @@ input::placeholder {
   opacity: 1;
   transition: opacity 0.3s ease;
 }
-input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
+input:focus::-webkit-input-placeholder {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 </style>

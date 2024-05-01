@@ -11,7 +11,7 @@
         <div class="header">
           <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
           <Input v-if="api.isAuth" :value="price" type="number" @inputValue="setVariants" />
-          <Input v-if="api.isAuth" :value="product?.description" type="text"
+          <Input v-if="api.isAuth" textArea :value="product?.description" type="text"
             @inputValue="(val) => (formData.description = val)" />
         </div>
         <div class="optionsContainer">
