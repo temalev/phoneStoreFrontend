@@ -6,7 +6,7 @@
         <div class="header">
           <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
           <div class="priceRow">
-            <span v-if="!api.isAuth && priceFrmt(oldPrice)" class="oldPrice"
+            <span v-if="oldPrice > price" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
             <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300"
