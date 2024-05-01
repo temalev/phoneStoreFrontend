@@ -15,7 +15,7 @@
             <span
               v-if="!api.isAuth && price"
               class="price"
-              :style="{ color: priceFrmt(oldPrice) ? 'red' : '' }"
+              :style="{ color: oldPrice > price ? 'red' : '' }"
               >{{ priceFrmt(price) }} <strong>₽</strong>
             </span>
           </div>
