@@ -4,7 +4,7 @@
       <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
       <div class="infoContainer">
         <div class="header">
-          <h3 v-if="!api.isAuth" class="productName">{{ product.name }}</h3>
+          <h3 class="productName">{{ product.name }}</h3>
           <div class="priceRow">
             <span v-if="oldPrice > price" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
@@ -13,13 +13,13 @@
               >Cкоро в наличии</span
             >
             <span
-              v-if="!api.isAuth && price"
+              v-if="price"
               class="price"
               :style="{ color: oldPrice > price ? 'red' : '' }"
               >{{ priceFrmt(price) }} <strong>₽</strong>
             </span>
           </div>
-          <p v-if="!api.isAuth" class="description">
+          <p class="description">
             {{ product?.description }}
           </p>
         </div>
@@ -35,7 +35,6 @@
     </div>
     <div class="wrapperButton">
       <CustomButton
-        v-if="!api.isAuth"
         @click="sendToShopBag"
         :name="'В корзину'"
       />
