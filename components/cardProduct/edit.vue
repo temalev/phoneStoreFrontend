@@ -2,44 +2,90 @@
   <div class="mainCardProduct">
     <div class="mainCardContainer">
       <div class="image-container">
-      <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
-      <el-button v-if="baseImg" type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
-      <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
+        <img
+          v-if="baseImg"
+          class="imgProduct"
+          :src="baseImg"
+          alt="Изображение продукта"
+        />
+        <el-button
+          v-if="baseImg"
+          type="danger"
+          class="delete"
+          :icon="Delete"
+          circle
+          @click="deleteImg"
+        />
+        <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
       </div>
       <div class="info-background">
-      <div class="infoContainer">
-        <div class="header">
-          <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
-          <Input v-if="api.isAuth" :value="price" type="number" @inputValue="setVariants" />
-          <Input v-if="api.isAuth" textArea :value="product?.description" type="text"
-            @inputValue="(val) => (formData.description = val)" />
+        <div class="infoContainer">
+          <div class="header">
+            <Input
+              :value="product.name"
+              type="text"
+              @inputValue="(val) => (formData.name = val)"
+            />
+            <Input
+              v-if="api.isAuth"
+              :value="price"
+              type="number"
+              @inputValue="setVariants"
+            />
+            <Input
+              v-if="api.isAuth"
+              textArea
+              :value="product?.description"
+              type="text"
+              @inputValue="(val) => (formData.description = val)"
+            />
+          </div>
+          <div class="optionsContainer">
+            <Option
+              v-for="(option, idOpt) in product?.options"
+              :key="option?.name"
+              :option="option"
+              @selectedOpt="(id) => selectedOpt(id, idOpt)"
+              @onEdit="(val) => (editOption = val)"
+            />
+          </div>
+          <div v-if="api.isAuth" class="d-flex align-center gap-2">
+            <el-switch
+              v-model="isPriceDependOnColor"
+              inline-prompt
+              @change="setNotification"
+            />
+            <span>Цена зависит от цвета</span>
+          </div>
         </div>
-        <div class="optionsContainer">
-          <Option v-for="(option, idOpt) in product?.options" :key="option?.name" :option="option"
-            @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => editOption = val" />
-        </div>
-        <div v-if="api.isAuth" class="d-flex align-center gap-2">
-          <el-switch v-model="isPriceDependOnColor" inline-prompt
-            @change="setNotification" />
-          <span>Цена зависит от цвета</span>
-        </div>
-      </div>
-      <div v-if="editOption" class="edit-options">
+        <div v-if="editOption" class="edit-options">
           <h3>Редактирование опций</h3>
           <el-input v-model="editOption.name" type="text" />
           {{ editOption.name }}
           <div class="d-flex">
-            <el-button type="primary" @click="editOption = null">Отменить</el-button>
+            <el-button type="primary" @click="editOption = null"
+              >Отменить</el-button
+            >
             <el-button type="success">Сохранить</el-button>
           </div>
         </div>
-    </div>
+      </div>
     </div>
     <div class="wrapperButton">
-      <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <CustomButton
+        v-if="!api.isAuth"
+        @click="sendToShopBag"
+        :name="'В корзину'"
+      />
       <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
-      <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
-        :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
+      <CustomButton
+        v-if="api.isAuth"
+        :type="isSaved ? 'accept' : ''"
+        :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
+        :isLoading="isLoading"
+        @click="onSaveProductData"
+        :name="!isSaved ? 'Сохранить' : 'Сохранено'"
+      />
     </div>
   </div>
 </template>
@@ -49,9 +95,7 @@
 import { ref, computed, watch } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
-import {
-  Delete,
-} from '@element-plus/icons-vue';
+import { Delete } from '@element-plus/icons-vue';
 
 const categories = useCategories();
 
@@ -75,8 +119,7 @@ const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
 
 const currentCategory = window.location.pathname.split('/').pop();
-const uuidCurrentCategory = categories.categories
-  .find((el) => el.link.includes(currentCategory))?.uuid;
+const uuidCurrentCategory = categories.categories.find((el) => el.link.includes(currentCategory))?.uuid;
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
@@ -92,19 +135,17 @@ const isColorOpt = (options) => (optionId) => {
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
     let canditate = null;
-    formData.value.variants
-      .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds
-          .every((optionId) => selectedOptions.value.includes(optionId));
+    formData.value.variants.forEach(({ optionsIds }, idx) => {
+      const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
-        if (isContains) {
-          canditate = formData.value?.variants[idx];
-        }
-      });
+      if (isContains) {
+        canditate = formData.value?.variants[idx];
+      }
+    });
     return canditate?.optionsInfo?.images?.[0] || formData.value?.images?.[0];
   }
   return (
-  formData.value?.variants?.[0]?.optionsInfo?.images?.[0]
+    formData.value?.variants?.[0]?.optionsInfo?.images?.[0]
     || formData.value?.images?.[0]
   );
 });
@@ -114,14 +155,13 @@ const price = computed(() => {
     let canditate = null;
     const { variants, options } = formData.value;
 
-    variants
-      .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+    variants.forEach(({ optionsIds }, idx) => {
+      const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
 
-        if (isContains) {
-          canditate = formData.value?.variants[idx];
-        }
-      });
+      if (isContains) {
+        canditate = formData.value?.variants[idx];
+      }
+    });
     return canditate?.optionsInfo?.price || formData.value?.price;
   }
   return formData.value.price;
@@ -139,7 +179,7 @@ const setVariants = (newPrice) => {
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   if (!variants.length) {
-    formData.value.price = newPrice
+    formData.value.price = newPrice;
   }
 
   variants.forEach(({ optionsIds }, idx) => {
@@ -170,18 +210,23 @@ const deleteImg = () => {
 const onSaveProductData = async () => {
   isLoading.value = true;
   const oldVariants = props.product.variants;
-  const { variants, options } = formData.value
+  const { variants, options } = formData.value;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
-    variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price;
+    variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price
+      !== oldVariants[idx].optionsInfo?.oldPrice
+      ? oldVariants[idx].optionsInfo?.price
+      : oldVariants[idx].optionsInfo?.oldPrice;
   });
 
   const updatedProductData = {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
     price: formData.value.price || props.product.price,
-    priceOld: formData.value.price ? props.product.price : props.product?.priceOld,
+    priceOld: formData.value.price
+      ? props.product.price
+      : props.product?.priceOld,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
@@ -375,7 +420,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-} 
+}
 
 .delete {
   position: absolute;
