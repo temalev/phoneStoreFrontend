@@ -178,7 +178,7 @@ const setVariants = (newPrice) => {
 
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
-  if (!variants.length) {
+  if (!options.length) {
     formData.value.price = newPrice;
   }
 
@@ -219,7 +219,7 @@ const onSaveProductData = async () => {
       ? oldVariants[idx].optionsInfo?.price
       : oldVariants[idx].optionsInfo?.oldPrice;
   });
-
+  console.log(formData.value.price);
   const updatedProductData = {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
