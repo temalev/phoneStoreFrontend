@@ -39,6 +39,22 @@
               type="text"
               @inputValue="(val) => (formData.description = val)"
             />
+            <!-- <Input
+              v-if="api.isAuth"
+              :value="product?.sortValue"
+              type="text"
+              @inputValue="(val) => (formData.sortValue = val)"
+            /> -->
+            <div class="d-flex mt-2 align-center j-b">
+            <span>Сортировка</span>
+            <el-input-number
+              v-if="api.isAuth"
+              :model-value="product?.sortValue"
+              :min="1"
+              :max="100"
+              @change="(val) => (formData.sortValue = val)"
+            />
+            </div>
           </div>
           <div class="optionsContainer">
             <Option
@@ -92,16 +108,16 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, computed, watch } from 'vue';
-import { useApi } from '~/stores/api';
-import { useCategories } from '~/stores/categories';
-import { Delete } from '@element-plus/icons-vue';
+import { ref, computed, watch } from "vue";
+import { useApi } from "~/stores/api";
+import { useCategories } from "~/stores/categories";
+import { Delete } from "@element-plus/icons-vue";
 
 const categories = useCategories();
 
 const api = useApi();
 
-const emit = defineEmits(['selectedProducts']);
+const emit = defineEmits(["selectedProducts"]);
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: Object,
@@ -118,11 +134,15 @@ const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
 
-const currentCategory = window.location.pathname.split('/').pop();
-const uuidCurrentCategory = categories.categories.find((el) => el.link.includes(currentCategory))?.uuid;
+const currentCategory = window.location.pathname.split("/").pop();
+const uuidCurrentCategory = categories.categories.find((el) =>
+  el.link.includes(currentCategory)
+)?.uuid;
 
 const isColorOpt = (options) => (optionId) => {
-  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
+  const colorOption = options.find((el) =>
+    el.name.toLowerCase().includes("цвет")
+  );
   if (!colorOption) {
     return true;
   }
@@ -136,7 +156,9 @@ const baseImg = computed(() => {
   if (selectedOptions.value.length) {
     let canditate = null;
     formData.value.variants.forEach(({ optionsIds }, idx) => {
-      const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+      const isContains = optionsIds.every((optionId) =>
+        selectedOptions.value.includes(optionId)
+      );
 
       if (isContains) {
         canditate = formData.value?.variants[idx];
@@ -145,8 +167,8 @@ const baseImg = computed(() => {
     return canditate?.optionsInfo?.images?.[0] || formData.value?.images?.[0];
   }
   return (
-    formData.value?.variants?.[0]?.optionsInfo?.images?.[0]
-    || formData.value?.images?.[0]
+    formData.value?.variants?.[0]?.optionsInfo?.images?.[0] ||
+    formData.value?.images?.[0]
   );
 });
 
@@ -156,7 +178,9 @@ const price = computed(() => {
     const { variants, options } = formData.value;
 
     variants.forEach(({ optionsIds }, idx) => {
-      const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+      const isContains = optionsIds.every((optionId) =>
+        selectedOptions.value.includes(optionId)
+      );
 
       if (isContains) {
         canditate = formData.value?.variants[idx];
@@ -167,7 +191,8 @@ const price = computed(() => {
   return formData.value.price;
 });
 
-const priceFrmt = (val) => (val ? new Intl.NumberFormat('ru').format(val) : null);
+const priceFrmt = (val) =>
+  val ? new Intl.NumberFormat("ru").format(val) : null;
 
 const selectedOpt = (id, index) => {
   selectedOptions.value[index] = id;
@@ -187,7 +212,8 @@ const setVariants = (newPrice) => {
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
     ).every((id) => optionsIds.includes(id));
     if (isCandidate) {
-      variants[idx].optionsInfo.price = newPrice || variants[idx].optionsInfo?.price;
+      variants[idx].optionsInfo.price =
+        newPrice || variants[idx].optionsInfo?.price;
     }
   });
 };
@@ -214,10 +240,11 @@ const onSaveProductData = async () => {
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
   variants.forEach(({ optionsIds }, idx) => {
-    variants[idx].optionsInfo.oldPrice = oldVariants[idx].optionsInfo?.price
-      !== oldVariants[idx].optionsInfo?.oldPrice
-      ? oldVariants[idx].optionsInfo?.price
-      : oldVariants[idx].optionsInfo?.oldPrice;
+    variants[idx].optionsInfo.oldPrice =
+      oldVariants[idx].optionsInfo?.price !==
+      oldVariants[idx].optionsInfo?.oldPrice
+        ? oldVariants[idx].optionsInfo?.price
+        : oldVariants[idx].optionsInfo?.oldPrice;
   });
   console.log(formData.value.price);
   const updatedProductData = {
@@ -230,6 +257,7 @@ const onSaveProductData = async () => {
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
+    sortValue: formData.value.sortValue
   };
 
   try {
@@ -264,10 +292,10 @@ const drop = (event) => {
 
 const selectedFile = async () => {
   // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value.url = document.querySelector('.dragZone').files[0];
+  dropzoneFile.value.url = document.querySelector(".dragZone").files[0];
   urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
   const formDataImg = new FormData(); // Создаем экземпляр FormData
-  formDataImg.append('file', dropzoneFile.value.url);
+  formDataImg.append("file", dropzoneFile.value.url);
   const res = await api.uploadImg(formDataImg);
 
   const { variants, options } = formData.value;
