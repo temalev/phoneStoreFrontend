@@ -46,14 +46,14 @@
               @inputValue="(val) => (formData.sortValue = val)"
             /> -->
             <div class="d-flex mt-2 align-center j-b">
-            <span>Сортировка</span>
-            <el-input-number
-              v-if="api.isAuth"
-              :model-value="product?.sortValue"
-              :min="1"
-              :max="100"
-              @change="(val) => (formData.sortValue = val)"
-            />
+              <span>Сортировка</span>
+              <el-input-number
+                v-if="api.isAuth"
+                :model-value="product?.sortValue"
+                :min="1"
+                :max="100"
+                @change="(val) => (formData.sortValue = val)"
+              />
             </div>
           </div>
           <div class="optionsContainer">
@@ -173,22 +173,17 @@ const baseImg = computed(() => {
 });
 
 const price = computed(() => {
+  const { variants, price: defaultPrice } = formData.value;
+
   if (selectedOptions.value.length) {
-    let canditate = null;
-    const { variants, options } = formData.value;
+    const candidate = variants.find(({ optionsIds }) =>
+      optionsIds.every((optionId) => selectedOptions.value.includes(optionId))
+    );
 
-    variants.forEach(({ optionsIds }, idx) => {
-      const isContains = optionsIds.every((optionId) =>
-        selectedOptions.value.includes(optionId)
-      );
-
-      if (isContains) {
-        canditate = formData.value?.variants[idx];
-      }
-    });
-    return canditate?.optionsInfo?.price || formData.value?.price;
+    return candidate?.optionsInfo?.price >= 0 ? candidate?.optionsInfo?.price : defaultPrice;
   }
-  return formData.value.price;
+
+  return defaultPrice;
 });
 
 const priceFrmt = (val) =>
@@ -207,13 +202,13 @@ const setVariants = (newPrice) => {
     formData.value.price = newPrice;
   }
 
-  variants.forEach(({ optionsIds }, idx) => {
+  variants.forEach(({ optionsIds, optionsInfo }, idx) => {
     const isCandidate = (
       props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
     ).every((id) => optionsIds.includes(id));
+
     if (isCandidate) {
-      variants[idx].optionsInfo.price =
-        newPrice || variants[idx].optionsInfo?.price;
+      optionsInfo.price = newPrice;
     }
   });
 };
@@ -239,25 +234,29 @@ const onSaveProductData = async () => {
   const { variants, options } = formData.value;
   const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
-  variants.forEach(({ optionsIds }, idx) => {
-    variants[idx].optionsInfo.oldPrice =
-      oldVariants[idx].optionsInfo?.price !==
-      oldVariants[idx].optionsInfo?.oldPrice
-        ? oldVariants[idx].optionsInfo?.price
-        : oldVariants[idx].optionsInfo?.oldPrice;
+  variants.forEach((variant, idx) => {
+    const oldVariant = oldVariants[idx];
+
+    const currentPrice = oldVariant.optionsInfo?.price;
+    const previousOldPrice = oldVariant.optionsInfo?.oldPrice;
+
+    // eslint-disable-next-line no-param-reassign, max-len
+    variant.optionsInfo.oldPrice =
+      currentPrice !== previousOldPrice ? currentPrice : previousOldPrice;
   });
   console.log(formData.value.price);
   const updatedProductData = {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
-    price: formData.value.price || props.product.price,
+    price:
+      formData.value.price >= 0 ? formData.value.price : props.product.price,
     priceOld: formData.value.price
       ? props.product.price
       : props.product?.priceOld,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
-    sortValue: formData.value.sortValue
+    sortValue: formData.value.sortValue,
   };
 
   try {
