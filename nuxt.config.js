@@ -28,18 +28,12 @@ export default defineNuxtConfig({
         content: 'RK TECH - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.',
       },
       { property: 'og:site_name', content: 'RK TECH' },
+      { property: 'og:title', content: 'RK TECH' },
+      { property: 'og:description', content: 'техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  app: {
-    head: {
-      title: 'RK TECH',
-      meta: [
-        { name: 'description', content: 'техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа.' },
-        { property: 'og:site_name', content: 'RK TECH' },
-      ],
-    },
-  },
+
   runtimeConfig: {
     public: {
       URL: process.env.URL || '',
