@@ -1,6 +1,7 @@
 <!-- eslint-disable max-len -->
 <template>
   <Head>
+    <Title>RK Tech</Title>
     <Meta name="description" content="RK Tech - техника и аксессуары Apple и Dyson в Москве по низким ценам. Гарантия 1 год на всю продукцию. Доставка в Москве в день заказа."/>
   </Head>
   <div class="body">
