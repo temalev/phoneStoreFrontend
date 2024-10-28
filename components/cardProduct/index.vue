@@ -1,5 +1,5 @@
 <template>
-  <div class="mainCardProduct">
+  <article class="mainCardProduct">
     <div class="mainCardContainer">
       <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
       <div class="infoContainer">
@@ -39,7 +39,7 @@
         :name="'В корзину'"
       />
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup>
