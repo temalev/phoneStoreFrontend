@@ -1,62 +1,115 @@
 <template>
   <div v-if="api.products" class="mainProducts">
+    <Head>
+      <Title>{{ currentProduct().title }}</Title>
+    </Head>
     <template v-if="api.isAuth">
-      <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+      <CardProductEdit
+        v-for="product in api.products?.[currentCategory]?.filter(
+          (el) => !el.isDeleted
+        )"
+        :key="product.uuid"
+        :product="product"
+      />
     </template>
     <template v-else>
-      <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+      <CardProduct
+        v-for="product in api.products?.[currentCategory]?.filter(
+          (el) => !el.isDeleted
+        )"
+        :key="product.uuid"
+        :product="product"
+      />
     </template>
   </div>
   <div v-else class="loader">загрузка</div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useApi } from '~/stores/api';
-import { useCategories } from '~/stores/categories';
-import { useHead } from 'unhead';
+import { ref, computed } from "vue";
+import { useApi } from "~/stores/api";
+import { useCategories } from "~/stores/categories";
+import { useHead } from "unhead";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const currentCategory = ref(null);
+
+currentCategory.value = route.params.id;
 const descriptions = ref([
   {
-    category: 'iphone',
-    text: 'Купить Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Чехол и стекло в подарок.',
+    category: "iphone",
+    description:
+      "Купить Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Чехол и стекло в подарок.",
+    title: "Купить Apple Iphone в РК-Тек по выгодной цене",
+    img: "/images/iphone.webp",
   },
   {
-    category: 'ipad',
-    text: 'Купить Apple iPad в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+    category: "ipad",
+    description:
+      "Купить Apple iPad в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
+    title: "Купить Apple iPad в РК-Тек по выгодной цене",
+    img: "/images/ipad.webp",
   },
   {
-    category: 'mac',
-    text: 'Купить Apple Macbook в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Гравировка в подарок.',
+    category: "mac",
+    description:
+      "Купить Apple Macbook в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Гравировка в подарок.",
+    title: "Купить Apple Macbook в РК-Тек по выгодной цене",
+    img: "/images/mac.webp",
   },
   {
-    category: 'watch',
-    text: 'Купить Apple Watch в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+    category: "watch",
+    description:
+      "Купить Apple Watch в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
+    title: "Купить Apple Watch в РК-Тек по выгодной цене",
+    img: "/images/watchCard.webp",
   },
   {
-    category: 'airpods',
-    text: 'Купить Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.',
+    category: "airpods",
+    description:
+      "Купить Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
+    title: "Купить Apple AirPods в РК-Тек по выгодной цене",
+    img: "/images/airpods.webp",
   },
   {
-    category: 'dyson',
-    text: 'Купить Dyson в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.',
+    category: "dyson",
+    description:
+      "Купить Dyson в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
+    title: "Купить Dyson в РК-Тек по выгодной цене",
+    img: "/images/dyson.webp",
   },
   {
-    category: 'ps',
-    text: 'Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.',
+    category: "ps",
+    description:
+      "Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
+    title: "Купить PlayStation в РК-Тек по выгодной цене",
+    img: "/images/ps.webp",
   },
 ]);
 
 // eslint-disable-next-line max-len
-const currentDescription = () => {
-  const current = descriptions.value.find((el) => el.category === currentCategory.value)?.text;
+const currentProduct = () => {
+  const current = descriptions.value.find(
+    (el) => el.category === currentCategory.value
+  );
   return current;
 };
 
 useHead({
   meta: [
-    { name: 'description', content: 'currentDescription' },
+    { property: "og:description", content: currentProduct().description },
+    { property: "og:title", content: currentProduct().title },
+    { property: "og:image", content: currentProduct().img },
+    {
+      hid: "title",
+      name: "title",
+      content: currentProduct().title,
+    },
+    {
+      name: "keywords",
+      content: `${currentCategory.value}, apple, купить, цена, интернет-магазин, каталог, бесплатная доставка, Москва, Рязань, оригинал`,
+    },
   ],
 });
 
@@ -65,10 +118,9 @@ const categories = useCategories();
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  currentCategory.value = window.location.pathname.split('/').pop();
   api.currentCategory = currentCategory.value;
   const uuidCategory = categories.categories.find(
-    (el) => el.link.split('/').pop() === currentCategory.value,
+    (el) => el.link.split("/").pop() === currentCategory.value
   ).uuid;
   api.getProducts(uuidCategory);
 });
