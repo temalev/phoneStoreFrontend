@@ -35,6 +35,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const currentCategory = ref(null);
 
+const path = route.fullPath;
 currentCategory.value = route.params.id;
 const descriptions = ref([
   {
@@ -97,6 +98,12 @@ const currentProduct = () => {
 };
 
 useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: `https://рк-тек.рф${path}`,
+    },
+  ],
   meta: [
     { property: "og:description", content: currentProduct().description },
     { property: "og:title", content: currentProduct().title },
