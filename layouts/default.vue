@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>RK-Tech - магазин техники Apple</Title>
+    <Title>RK Tech - интернет магазин техники и аксессуаров Apple и Dyson</Title>
   </Head>
   <div class="main-admin">
     <div class="main" style="overflow-x: scroll">

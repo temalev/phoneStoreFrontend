@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   plugins: ["~/plugins/uuid.js"],
   app: {
     head: {
-      title: "RK TECH",
+      title: "RK Tech - интернет магазин техники и аксессуаров Apple и Dyson",
       meta: [
         {
           hid: "og:title",
