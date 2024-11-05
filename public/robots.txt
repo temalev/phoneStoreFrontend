@@ -1,5 +1,5 @@
 User-agent: *
 Disallow: 
-Disallow: /lk/
+Disallow: /admin/
 Disallow: /api/
-Sitemap: https://rk-tech.shop/sitemap.xml
+Sitemap: https://рк-тек.рф/sitemap.xml
