@@ -39,6 +39,9 @@ export default defineNuxtConfig({
         { name: "yandex-verification", content: "001f935542fddf66" },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      htmlAttrs: {
+        lang: 'ru',
+      },
     },
   },
 
