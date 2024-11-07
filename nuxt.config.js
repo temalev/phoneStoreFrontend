@@ -37,6 +37,10 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         { name: "mailru-domain", content: "CoFCclY1n4fubWZE" },
         { name: "yandex-verification", content: "001f935542fddf66" },
+        {
+          name: 'google-site-verification',
+          content: '87OfPmhEli0X2U9zoAFLC3xOxwnncBA-z515eRDQ4Rk'
+        }
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
       htmlAttrs: {
