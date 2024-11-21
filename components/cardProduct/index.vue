@@ -1,7 +1,7 @@
 <template>
   <article class="mainCardProduct">
     <div class="mainCardContainer">
-      <img class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+      <img class="imgProduct" :src="baseImg" :alt="product.name" />
       <div class="infoContainer">
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>
