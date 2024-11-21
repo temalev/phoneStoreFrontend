@@ -114,6 +114,11 @@ useHead({
       content: currentProduct().title,
     },
     {
+      hid: "description",
+      name: "description",
+      content: currentProduct().description,
+    },
+    {
       name: "keywords",
       content: `${currentCategory.value}, apple, купить, цена, интернет-магазин, каталог, бесплатная доставка, Москва, Рязань, оригинал`,
     },
