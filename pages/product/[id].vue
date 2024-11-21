@@ -3,6 +3,8 @@
     <Head>
       <Title>{{ currentProduct().title }}</Title>
     </Head>
+    <h1 style="text-transform: capitalize;">{{currentProduct().category}}</h1>
+    <div class="mainProducts-list">
     <template v-if="api.isAuth">
       <CardProductEdit
         v-for="product in api.products?.[currentCategory]?.filter(
@@ -22,7 +24,9 @@
       />
     </template>
   </div>
+  </div>
   <div v-else class="loader">загрузка</div>
+
 </template>
 
 <script setup>
@@ -141,10 +145,23 @@ onMounted(() => {
 <style scoped lang="scss">
 .mainProducts {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 70px;
+  margin-top: 80px;
   padding: 20px;
+
+  & h1 {
+    margin-left: 30px;
+  }
+ 
+  &-list {
+    display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  }
 }
 </style>
