@@ -33,7 +33,10 @@
 
     <div class="linksContainer">
       <div class="rowLinks">
+        <div class="d-flex-column gap-2">
         <span class="tel"><a href="tel:+79105033237">+7 (910) 503-32-37</a></span>
+         <span class="tel"><a href="tel:+79156022896">+7 (915) 602-28-96</a></span>
+         </div>
         <div class="social">
           <a href="https://t.me/Rktech_shop" class="telegramIco" />
           <a href="https://wa.me/79105033237" class="whatsappIco" />
