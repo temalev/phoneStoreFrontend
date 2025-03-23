@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         {
           hid: "og:description",
           property: "og:description",
-          content: "Гарантия 1 год на всю продукцию. Доставка в день заказа.",
+          content: "Магазин оригинальной техники Apple (эпл), Dyson (дайсон) в Москве и Рязани. Гарантия 1 год на всю продукцию. Доставка в день заказа.",
         },
         { hid: "og:site_name", property: "og:site_name", content: "RK TECH" },
         { hid: 'og:image', property: 'og:image', content: '/images/rk.png' },
