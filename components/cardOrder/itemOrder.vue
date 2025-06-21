@@ -5,10 +5,14 @@
       <div class="infoContainer">
         <span class="nameOrder">{{ order.name }}</span>
         <span class="orderOptions">{{ tags }}</span>
+        <span v-if="order.count > 1" class="quantity">Количество: {{ order.count }}</span>
       </div>
     </div>
 
     <div class="rightContainer">
+      <span v-if="order.count > 1" class="pricePerUnit">
+        {{ pricePerUnit }} ₽ × {{ order.count }}
+      </span>
       <span class="priceOrder">{{ price }} <strong>₽</strong> </span>
     </div>
   </div>
@@ -28,6 +32,10 @@ const imageOrder = ref(null);
 const orderPrice = ref(null);
 
 const price = computed(() => new Intl.NumberFormat('ru').format(props.order.price));
+const pricePerUnit = computed(() => {
+  const unitPrice = props.order.price / (props.order.count || 1);
+  return new Intl.NumberFormat('ru').format(unitPrice);
+});
 // eslint-disable-next-line valid-typeof
 const tags = computed(() => props.order?.tags?.join(' '));
 
@@ -58,6 +66,12 @@ onMounted(() => {});
   font-size: 16px;
   font-weight: 300;
   color: #373737;
+  gap: 2px;
+}
+
+.quantity {
+  font-size: 14px;
+  color: #666;
 }
 
 .rightContainer {
@@ -69,6 +83,12 @@ onMounted(() => {});
   font-weight: 300;
   color: #373737;
   flex-shrink: 0;
+  gap: 2px;
+}
+
+.pricePerUnit {
+  font-size: 12px;
+  color: #999;
 }
 
 .icoDelete {
