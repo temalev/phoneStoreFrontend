@@ -290,18 +290,20 @@ export const useApi = defineStore('api', {
     },
 
     getTotalCost() {
-      let cost = null;
-      this.orders.map((el) => {
+      let cost = 0;
+      this.orders.forEach((el) => {
+        const quantity = el.quantity || 1;
         if (el.product.variants.length) {
           el.product.variants.forEach(({ optionsIds }, idx) => {
             const isContains = optionsIds.every((optionId) => el.options.includes(optionId));
             if (isContains) {
               // eslint-disable-next-line prefer-destructuring
-              cost += el.product.variants[idx].optionsInfo.price;
+              cost += el.product.variants[idx].optionsInfo.price * quantity;
             }
           });
-        } else cost += el.product.price;
-        return cost;
+        } else {
+          cost += el.product.price * quantity;
+        }
       });
       this.orders.totalCost = cost;
     },

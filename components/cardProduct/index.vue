@@ -35,9 +35,25 @@
     </div>
     <div class="wrapperButton">
       <CustomButton
+        v-if="!isInCart"
         @click="sendToShopBag"
         :name="'В корзину'"
       />
+      <div v-else class="quantityControls">
+        <CustomButton
+          @click="decreaseQuantity"
+          :name="'-'"
+          :type="'minus'"
+          style="width: 40px; height: 40px; border-radius: 50%;"
+        />
+        <span class="quantity">{{ cartQuantity }}</span>
+        <CustomButton
+          @click="increaseQuantity"
+          :name="'+'"
+          :type="'plus'"
+          style="width: 40px; height: 40px; border-radius: 50%;"
+        />
+      </div>
     </div>
   </article>
 </template>
@@ -68,7 +84,9 @@ const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 
 const currentCategory = window.location.pathname.split('/').pop();
-const uuidCurrentCategory = categories.categories.find((el) => el.link.includes(currentCategory))?.uuid;
+const uuidCurrentCategory = categories.categories.find(
+  (el) => el.link.includes(currentCategory),
+)?.uuid;
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
@@ -80,6 +98,36 @@ const isColorOpt = (options) => (optionId) => {
   }
   return colorOption.items.some((el) => el.id === optionId);
 };
+
+const isInCart = computed(() => api.orders.some((order) => {
+  if (order.product.uuid !== props.product.uuid) {
+    return false;
+  }
+
+  if (props.product.variants && props.product.variants.length > 0) {
+    return order.options.length === selectedOptions.value.length
+      && order.options.every((optionId) => selectedOptions.value.includes(optionId));
+  }
+
+  return true;
+}));
+
+const cartQuantity = computed(() => {
+  const cartItem = api.orders.find((order) => {
+    if (order.product.uuid !== props.product.uuid) {
+      return false;
+    }
+
+    if (props.product.variants && props.product.variants.length > 0) {
+      return order.options.length === selectedOptions.value.length
+        && order.options.every((optionId) => selectedOptions.value.includes(optionId));
+    }
+
+    return true;
+  });
+
+  return cartItem ? (cartItem.quantity || 1) : 1;
+});
 
 const baseImg = computed(() => {
   if (selectedOptions.value.length) {
@@ -138,7 +186,7 @@ const oldPrice = computed(() => {
     return canditate?.optionsInfo?.oldPrice > canditate?.optionsInfo?.price
       ? canditate.optionsInfo?.oldPrice
       : null;
-  } 
+  }
   return props.product.priceOld;
 });
 
@@ -153,9 +201,54 @@ const sendToShopBag = () => {
   const selectedProduct = {
     product: { ...props.product },
     options: [...selectedOptions.value],
+    quantity: 1,
   };
   api.orders.push(selectedProduct);
   // localStorage.setItem('orders', JSON.stringify(api.orders));
+};
+
+const increaseQuantity = () => {
+  const cartItemIndex = api.orders.findIndex((order) => {
+    if (order.product.uuid !== props.product.uuid) {
+      return false;
+    }
+
+    if (props.product.variants && props.product.variants.length > 0) {
+      return order.options.length === selectedOptions.value.length
+        && order.options.every((optionId) => selectedOptions.value.includes(optionId));
+    }
+
+    return true;
+  });
+
+  if (cartItemIndex !== -1) {
+    api.orders[cartItemIndex].quantity = (api.orders[cartItemIndex].quantity || 1) + 1;
+  }
+};
+
+const decreaseQuantity = () => {
+  const cartItemIndex = api.orders.findIndex((order) => {
+    if (order.product.uuid !== props.product.uuid) {
+      return false;
+    }
+
+    if (props.product.variants && props.product.variants.length > 0) {
+      return order.options.length === selectedOptions.value.length
+        && order.options.every((optionId) => selectedOptions.value.includes(optionId));
+    }
+
+    return true;
+  });
+
+  if (cartItemIndex !== -1) {
+    const currentQuantity = api.orders[cartItemIndex].quantity || 1;
+    if (currentQuantity > 1) {
+      api.orders[cartItemIndex].quantity = currentQuantity - 1;
+    } else {
+      // Удаляем товар из корзины если количество становится 0
+      api.orders.splice(cartItemIndex, 1);
+    }
+  }
 };
 
 // eslint-disable-next-line no-undef
@@ -183,6 +276,21 @@ onMounted(() => {
   padding: 30px 20px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.quantity {
+  font-size: 18px;
+  font-weight: 500;
+  min-width: 30px;
+  text-align: center;
 }
 
 .mainCardContainer {
