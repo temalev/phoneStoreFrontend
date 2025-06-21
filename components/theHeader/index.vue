@@ -29,8 +29,8 @@
         <a href="tel:+79156022896">+7 (915) 602-28-96</a>
       </div>
       <div class="shopBag" @click="isShopBag = true">
-        <div v-if="api.orders.length" class="ordersCounter">
-          {{ api.orders.length }}
+        <div v-if="totalItemsInCart > 0" class="ordersCounter">
+          {{ totalItemsInCart }}
         </div>
       </div>
     </div>
@@ -74,8 +74,8 @@
       <div v-if="!api.isAuth" class="leftContainer">
         <a href="tel:+79156022896" class="call" />
         <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
-          <div v-if="api.orders.length" class="ordersCounter">
-            {{ api.orders.length }}
+          <div v-if="totalItemsInCart > 0" class="ordersCounter">
+            {{ totalItemsInCart }}
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
 
@@ -122,6 +122,10 @@ const isToLeft = ref(false);
 const categories = useCategories();
 const api = useApi();
 
+// Вычисляем общее количество товаров в корзине
+const totalItemsInCart = computed(() => 
+  api.orders.reduce((total, order) => total + (order.quantity || 1), 0)
+);
 
 const onMenu = () => {
   if (!isToLeft.value) {

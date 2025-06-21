@@ -5,6 +5,7 @@
       <div class="infoContainer">
         <span class="nameOrder">{{ order.product.name }}</span>
         <span class="orderOptions">{{ getSelectedOptionsNames().join(' ') }}</span>
+        <span v-if="order.quantity > 1" class="quantity">Количество: {{ order.quantity }}</span>
       </div>
     </div>
 
@@ -44,21 +45,22 @@ const img = () => {
 };
 
 const price = () => {
+  let basePrice = 0;
   if (props.order.product.variants.length) {
     props.order.product.variants.forEach(({ optionsIds }, idx) => {
       const isContains = optionsIds.every((optionId) => props.order.options.includes(optionId));
       if (isContains) {
       // eslint-disable-next-line prefer-destructuring
-        orderPrice.value = new Intl.NumberFormat('ru').format(
-          props.order.product.variants[idx].optionsInfo.price,
-        );
+        basePrice = props.order.product.variants[idx].optionsInfo.price;
       }
     });
   } else {
-    orderPrice.value = new Intl.NumberFormat('ru').format(
-      props.order.product.price,
-    );
+    basePrice = props.order.product.price;
   }
+  
+  // Умножаем на количество товара
+  const totalPrice = basePrice * (props.order.quantity || 1);
+  orderPrice.value = new Intl.NumberFormat('ru').format(totalPrice);
 };
 
 const getSelectedOptionsNames = () => props.order.product.options.map(
@@ -66,10 +68,27 @@ const getSelectedOptionsNames = () => props.order.product.options.map(
 );
 
 const deleteOrder = (uuid) => {
-  const index = api.orders.findIndex((el) => el.product.uuid === uuid);
-  api.orders.splice(index, 1);
-  localStorage.setItem('orders', JSON.stringify(api.orders));
-  api.getTotalCost();
+  const index = api.orders.findIndex((el) => {
+    // Проверяем UUID товара
+    if (el.product.uuid !== uuid) {
+      return false;
+    }
+
+    // Если у товара есть варианты, проверяем также выбранные опции
+    if (el.product.variants && el.product.variants.length > 0) {
+      return el.options.length === props.order.options.length
+        && el.options.every((optionId) => props.order.options.includes(optionId));
+    }
+
+    // Если вариантов нет, просто проверяем UUID
+    return true;
+  });
+
+  if (index !== -1) {
+    api.orders.splice(index, 1);
+    localStorage.setItem('orders', JSON.stringify(api.orders));
+    api.getTotalCost();
+  }
 };
 
 // eslint-disable-next-line no-undef
@@ -102,6 +121,12 @@ onMounted(() => {
   font-size: 16px;
   font-weight: 300;
   color: #373737;
+  gap: 2px;
+}
+
+.quantity {
+  font-size: 14px;
+  color: #666;
 }
 
 .rightContainer {
