@@ -4,10 +4,18 @@
       <el-table :data="api.newOrders" style="width: 100%" scrollable>
         <el-table-column sortable prop="fullName" label="ФИО" min-width="200px" />
         <el-table-column v-slot="{ row }" prop="items" label="Товары" min-width="320px">
-          <div v-for="item in row.items" :key="item.uuid">{{ item.name }}</div>
+          <div v-for="item in row.items" :key="item.uuid">
+            {{ item.name }} - {{ item.count || 1 }} шт.
+          </div>
         </el-table-column>
-        <el-table-column sortable v-slot="{ row }" prop="createdAt" label="Дата заказа" width="100px">
-          {{ moment(row.createdAt).format("DD.MM.YYYY") }}
+        <el-table-column
+          sortable
+          v-slot="{ row }"
+          prop="createdAt"
+          label="Дата заказа"
+          width="100px"
+        >
+          {{ moment(row.createdAt).format('DD.MM.YYYY') }}
         </el-table-column>
         <el-table-column prop="deliveryMessage" label="Адрес" min-width="220px" />
         <el-table-column v-slot="{ row }" prop="items" label="Стоимость товаров" min-width="120px">
@@ -38,19 +46,15 @@
   </div>
 </template>
 <script setup>
-import { useApi } from "~/stores/api";
-import moment from "moment";
+import { useApi } from '~/stores/api';
+import moment from 'moment';
 
 const api = useApi();
 
-// const price = (items) => {
-//   return items.map(el => )
-// }
-
-const price = (order) => {
-  const cost = order.reduce((prevValue, item) => prevValue + item.price * (item.count || 1), 0);
-  return cost
-}
+const price = (items) => {
+  const cost = items.reduce((prevValue, item) => prevValue + item.price, 0);
+  return new Intl.NumberFormat('ru').format(cost);
+};
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
