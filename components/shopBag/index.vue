@@ -240,9 +240,9 @@ const options = ref([
 
 const orders = ref(api.orders);
 
-watch(orders.value, (newVal, oldVal) => {
+watch(() => api.orders, (newVal) => {
   isEmptyShopBag.value = !!newVal.length;
-});
+}, { deep: true, immediate: true });
 
 // eslint-disable-next-line max-len
 const getPriceByProduct = (product, selectedOptionIds) => product.variants.find(({ optionsIds }) => optionsIds.every((optionId) => selectedOptionIds.includes(optionId))).optionsInfo.price;
@@ -270,27 +270,36 @@ const checkPromocode = async () => {
 };
 
 const onCreateOrder = () => {
-  const items = api.orders.map((item) => ({
-    productUUID: item.product.uuid,
-    // eslint-disable-next-line max-len
-    price: item.product.variants.length
-      ? aprovedPromocode.value?.discount
-        ? getPriceByProduct(item.product, item.options)
-          - aprovedPromocode.value?.discount
-        : getPriceByProduct(item.product, item.options)
-      : aprovedPromocode.value?.discount
-        ? item.product.price - aprovedPromocode.value?.discount
-        : item.product.price,
-    name: item.product.name,
-    tags: item.product.variants.length
-      ? getTagByProduct(item.product, item.options)
-      : null,
-    // eslint-disable-next-line max-len
-    images: item.product.variants.length
-      ? getImgByProduct(item.product, item.options)
-      : [item.product.images?.[0]],
-    count: 1,
-  }));
+  const items = api.orders.map((item) => {
+    // Вычисляем цену с учетом промокода
+    let price;
+    if (item.product.variants.length) {
+      const basePrice = getPriceByProduct(item.product, item.options);
+      price = aprovedPromocode.value?.discount
+        ? basePrice - (aprovedPromocode.value.discount || 0)
+        : basePrice;
+    } else {
+      const basePrice = item.product.price;
+      price = aprovedPromocode.value?.discount
+        ? basePrice - (aprovedPromocode.value.discount || 0)
+        : basePrice;
+    }
+
+    return {
+      productUUID: item.product.uuid,
+      price,
+      name: item.product.name,
+      tags: item.product.variants.length
+        ? getTagByProduct(item.product, item.options)
+        : null,
+      // eslint-disable-next-line max-len
+      images: item.product.variants.length
+        ? getImgByProduct(item.product, item.options)
+        : [item.product.images?.[0]],
+      count: 1,
+    };
+  });
+
   const ordersData = {
     fullName: userData.value.name,
     phoneNumber: userData.value.tel,
@@ -333,11 +342,9 @@ const onChangeRadio = (val) => {
 // eslint-disable-next-line no-undef
 onMounted(() => {
   if (api.orders.length) {
-    isEmptyShopBag.value = true;
-    // orders.value = JSON.parse(localStorage?.orders);
     document.body.style.overflow = 'hidden';
     api.getTotalCost();
-  } else isEmptyShopBag.value = false;
+  }
 });
 // eslint-disable-next-line no-undef
 onUnmounted(() => {
