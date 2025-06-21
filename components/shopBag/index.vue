@@ -271,23 +271,25 @@ const checkPromocode = async () => {
 
 const onCreateOrder = () => {
   const items = api.orders.map((item) => {
-    // Вычисляем цену с учетом промокода
-    let price;
+    // Вычисляем базовую цену за единицу товара
+    let basePrice;
     if (item.product.variants.length) {
-      const basePrice = getPriceByProduct(item.product, item.options);
-      price = aprovedPromocode.value?.discount
-        ? basePrice - (aprovedPromocode.value.discount || 0)
-        : basePrice;
+      basePrice = getPriceByProduct(item.product, item.options);
     } else {
-      const basePrice = item.product.price;
-      price = aprovedPromocode.value?.discount
-        ? basePrice - (aprovedPromocode.value.discount || 0)
-        : basePrice;
+      basePrice = item.product.price;
     }
+
+    // Применяем промокод к базовой цене
+    const pricePerUnit = aprovedPromocode.value?.discount
+      ? basePrice - (aprovedPromocode.value.discount || 0)
+      : basePrice;
+
+    // Вычисляем общую цену за все количество товара
+    const totalPrice = pricePerUnit * (item.quantity || 1);
 
     return {
       productUUID: item.product.uuid,
-      price,
+      price: totalPrice,
       name: item.product.name,
       tags: item.product.variants.length
         ? getTagByProduct(item.product, item.options)
@@ -296,7 +298,7 @@ const onCreateOrder = () => {
       images: item.product.variants.length
         ? getImgByProduct(item.product, item.options)
         : [item.product.images?.[0]],
-      count: 1,
+      count: item.quantity || 1,
     };
   });
 
