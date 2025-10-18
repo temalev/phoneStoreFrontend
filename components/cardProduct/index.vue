@@ -9,8 +9,8 @@
             <span v-if="oldPrice > price" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
-            <span v-if="price === 0" style="color: #a3a3a3; font-weight: 300"
-              >Cкоро в наличии</span
+            <a v-if="price === 0" href="https://t.me/Rktech_shop" style="font-weight: 300"
+              >Уточнить цену</a
             >
             <span
               v-if="price"
@@ -28,12 +28,14 @@
             v-for="(option, idOpt) in product?.options"
             :key="option?.name"
             :option="option"
+            :variants="product?.variants"
+            :selectedOptions="selectedOptions"
             @selectedOpt="(id) => selectedOpt(id, idOpt)"
           />
         </div>
       </div>
     </div>
-    <div class="wrapperButton">
+    <div v-if="price !== 0" class="wrapperButton">
       <CustomButton
         v-if="!isInCart"
         @click="sendToShopBag"
