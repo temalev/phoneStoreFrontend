@@ -79,6 +79,15 @@ export const useCategories = defineStore('categories', {
         ],
       },
       {
+        name: 'Samsung',
+        ico: '/icons/samsung.svg',
+        style: { width: '80' },
+        link: '/product/samsung',
+        img: '/images/samsung.webp',
+        uuid: 'ccc52d81-7c9c-4619-87ff-6ed7e363fea2',
+        isName: false,
+      },
+      {
         name: 'Dyson',
         ico: '/icons/dyson.svg',
         style: { height: '70', width: '100' },

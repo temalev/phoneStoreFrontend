@@ -78,6 +78,13 @@ const descriptions = ref([
     img: "/images/airpods.webp",
   },
   {
+    category: "samsung",
+    description:
+      "Купить Samsung в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
+    title: "Купить Samsung в РК-Тек по выгодной цене",
+    img: "/images/samsung.webp",
+  },
+  {
     category: "dyson",
     description:
       "Купить Dyson в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
