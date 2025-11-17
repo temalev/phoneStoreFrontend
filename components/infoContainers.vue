@@ -1,23 +1,16 @@
 <template>
   <div class="mainInfoContainers">
-    <div class="container-tradeIn">
+    <div class="container-tradeIn" @click="$emit('openModal', 'TRADE_IN')">
       <div class="container-text">
         <h3 class="header-container">Программа Trade-In</h3>
         <p class="textInfo">И как она работает.</p>
       </div>
     </div>
     <div class="flex">
-      <div class="container-service"></div>
-      <!-- <div class="container-oldTech">
-        <div class="container-text">
-          <h3 class="header-container">
-            Продажа устройств, бывших в употреблении
-          </h3>
-        </div>
-      </div> -->
+      <div class="container-service" @click="$emit('openModal', 'SERVICE')"></div>
     </div>
 
-    <div class="container">
+    <div class="container" @click="$emit('openModal', 'INSTALLMENT')">
       <div class="text">
         <h3 class="gradient">Рассрочка</h3>
         <p class="textInfo">Нажмите, чтобы узнать подробности</p>
@@ -26,7 +19,7 @@
     </div>
 
     <div class="row">
-      <div class="leftContainer">
+      <div class="leftContainer" @click="$emit('openModal', 'ORIGINALITY')">
         <div class="textInfoContainer">
           <h3 class="header">Оригинальность и гарантия</h3>
           <p class="textInfo">
@@ -39,7 +32,7 @@
 
       <div class="rightContainers">
         <div class="rightContainer">
-          <div class="textInfoContainer">
+          <div class="textInfoContainer" @click="$emit('openModal', 'PAYMENT')">
             <h3 class="header">Способы оплаты</h3>
             <p class="textInfo">
               Оплачивайте покупки удобным для вас способом.
@@ -48,9 +41,9 @@
           <div class="imgBackground__rightContainer" />
         </div>
 
-        <div class="rightContainer">
+        <div class="rightContainer"  @click="$emit('openModal', 'DELIVERY')">
           <div class="textInfoContainer">
-            <h3 class="header">Доставка</h3>
+            <h3 class="header">Доставка и самовывоз</h3>
             <p class="textInfo">
               Мы осуществляем курьерскую доставку в Москве и Московской области,
               а также в г. Рязань с помощью собственного штата курьеров.
@@ -64,7 +57,7 @@
       </div>
     </div>
 
-    <div class="cost">
+    <div class="cost" @click="$emit('openModal', 'BEST_PRICE')">
       <div class="textContainer">
         <h3>Гарантия лучшей цены</h3>
         <p class="info">
@@ -146,9 +139,11 @@
   flex: 1;
   height: 400px;
   background-color: #fff;
-  box-shadow: 0 0 10px rgb(212, 212, 212);
+  box-shadow: 0 0 10px rgba(212, 212, 212, 0.588);
   border-radius: 22px;
-
+  &:hover {
+    box-shadow: 0 0 10px rgb(212, 212, 212);
+  }
   @media (max-width: 900px) {
     height: 275px;
     flex: none;
@@ -271,9 +266,12 @@
   width: 100%;
   flex: 1;
   position: relative;
-  box-shadow: 0 0 10px rgb(212, 212, 212);
+  box-shadow: 0 0 10px rgba(212, 212, 212, 0.588);
   border-radius: 22px;
   overflow: hidden;
+  &:hover {
+    box-shadow: 0 0 10px rgb(212, 212, 212);
+  }
 }
 
 .textInfoContainer {
@@ -317,6 +315,7 @@
   width: 275px;
   @media (max-width: 850px) {
     height: auto;
+    width: 100% !important;
   }
 }
 
