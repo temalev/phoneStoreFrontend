@@ -17,13 +17,13 @@
       </div>
       <div class="linksContainer">
         <h3>Информация</h3>
-        <nav class="links" @click="api.isInfoModal = true">
+        <nav class="links">
           <NuxtLink
             v-for="link in info"
             :key="link.name"
             :to="link?.link"
             class="navLinkMobile"
-            @click="getProduct(link?.link)"
+            @click="getProduct(link?.link); api.infoModal = link?.value;"
           >
             {{ link?.name }}
           </NuxtLink>
@@ -87,18 +87,22 @@ const info = ref([
   {
     id: 1,
     name: 'Оригинальность',
+    value: 'ORIGINALITY',
   },
   {
     id: 2,
     name: 'Оплата',
+    value: 'PAYMENT',
   },
   {
     id: 3,
     name: 'Доставка',
+    value: 'DELIVERY',
   },
   {
     id: 3,
     name: 'Гарантия лучшей цены',
+    value: 'BEST_PRICE',
   },
 ]);
 
