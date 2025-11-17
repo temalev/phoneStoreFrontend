@@ -1,10 +1,18 @@
 <template>
   <div class="mainInfoContainers">
+    <!-- <div class="container-tradeIn" @click="$emit('openModal', 'TRADE_IN')">
+      <div class="container-text">
+        <h3 class="header-container">Программа Trade-In</h3>
+        <p class="textInfo">И как она работает.</p>
+      </div>
+    </div> -->
     <div class="container-tradeIn" @click="$emit('openModal', 'TRADE_IN')">
       <div class="container-text">
         <h3 class="header-container">Программа Trade-In</h3>
         <p class="textInfo">И как она работает.</p>
       </div>
+      <div class="left-hand"></div>
+      <div class="right-hand"></div>
     </div>
     <div class="flex">
       <div class="container-service" @click="$emit('openModal', 'SERVICE')"></div>
@@ -167,7 +175,7 @@
   background-color: #f9f9fb;
   // box-shadow: 0 0 10px #d4d4d4;
   box-sizing: border-box;
-  background-image: url(/images/tradein.webp);
+  // background-image: url(/images/tradein.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -175,14 +183,62 @@
   height: 500px;
   cursor: pointer;
   border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+  @media (min-width: 900px) {
+    &:hover {
+    .left-hand {
+      left: 0;
+      filter: drop-shadow(2px 2px 4px #929292);
+    }
+    .right-hand {
+      right: 0;
+      filter: drop-shadow(-2px 2px 4px #929292);
+    }
+  }
+  }
   @media (max-width: 900px) {
     background-image: url(/images/tradein_mobile.webp);
     min-width: 280px;
-    height: 380px;
+    height: 480px;
     padding: 24px;
     width: auto;
     margin: 0 20px;
     box-shadow: 0 0 10px rgb(212 212 212);
+  }
+}
+
+.left-hand {
+  background-image: url(/images/left_hand_tradein.webp);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: -100px;
+  filter: drop-shadow(15px 5px 5px #929292);
+  transition: all 0.3s ease-in-out;
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.right-hand {
+  background-image: url(/images/right_hand_tradein.webp);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: -100px;
+  filter: drop-shadow(-15px 5px 5px #929292);
+  transition: all 0.3s ease-in-out;
+  @media (max-width: 900px) {
+    display: none;
   }
 }
 
@@ -215,6 +271,7 @@
     padding: 0;
   }
 }
+
 
 .text {
   padding: 34px;
