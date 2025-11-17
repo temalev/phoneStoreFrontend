@@ -12,9 +12,12 @@
       </div>
     </div>
     <Slider :categories="categories" />
-    <InfoContainers @click="onInfoModal" />
-    <Teleport v-if="api.isInfoModal" to="body">
-      <InfoModal @close="api.isInfoModal = false" />
+    <InfoContainers @openModal="onOpenModal" />
+    <DeliveryInfoModal v-if="api.infoModal === 'DELIVERY'" @close="api.infoModal = null" />
+    <PaymentInfoModal v-if="api.infoModal === 'PAYMENT'" @close="api.infoModal = null" />
+    <OriginalityInfoModal v-if="api.infoModal === 'ORIGINALITY'" @close="api.infoModal = null" />
+    <Teleport v-if="api.infoModal && api.infoModal !== 'DELIVERY' && api.infoModal !== 'PAYMENT' && api.infoModal !== 'ORIGINALITY'" to="body">
+      <InfoModal @close="api.infoModal = null" />
     </Teleport>
   </div>
 </template>
@@ -29,9 +32,10 @@ const api = useApi();
 const categories = useCategories();
 
 const isInfoModal = ref(false);
+const isDeliveryModal = ref(true);
 
-const onInfoModal = () => {
-  api.isInfoModal = true;
+const onOpenModal = (modal) => {
+  api.infoModal = modal;
 };
 </script>
 

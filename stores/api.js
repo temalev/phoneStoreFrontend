@@ -14,7 +14,7 @@ export const useApi = defineStore('api', {
     newOrders: [],
     aprovedOrders: [],
     isCookie: true,
-    isInfoModal: false,
+    infoModal: null,
     statistics: [],
     allPromocodes: [],
     params: null,
