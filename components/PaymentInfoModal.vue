@@ -1,7 +1,7 @@
 <template>
       <ClientOnly>
     <el-dialog
-      title="Доставка и самовывоз"
+      title="Оплата"
       v-model="isDeliveryModal"
       :fullscreen="isMobile"
       @close="$emit('close')"
