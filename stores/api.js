@@ -229,6 +229,13 @@ export const useApi = defineStore('api', {
           body: JSON.stringify(productData),
         },
       );
+      if (!res) {
+        return null;
+      }
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Ошибка при создании продукта');
+      }
       const data = await res.json();
       return data;
     },
@@ -253,7 +260,7 @@ export const useApi = defineStore('api', {
         body: file,
         // headers: this.config.public.NODE_ENV === 'development' ? { Authorization: `Bearer ${accessToken}` } : null,
       });
-      const data = res.json();
+      const data = await res.json();
       return data;
     },
 
