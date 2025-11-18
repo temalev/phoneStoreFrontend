@@ -1,6 +1,6 @@
 <template>
   <div class="createProduct">
-    <el-steps :active="currentStep" finish-status="success" class="steps">
+    <el-steps :active="currentStep" finish-status="success" class="steps" align-center>
       <el-step title="Основная информация" />
       <el-step title="Загрузка изображений" />
     </el-steps>
@@ -54,9 +54,20 @@
           v-model="productData.price"
         placeholder="Цена"
           :min="0"
-          :precision="2"
-          style="width: 100%"
+          :precision="0"
+          :controls="false"
+          style="width: 100px"
           @change="() => formRef?.clearValidate('price')"
+        />
+      </el-form-item>
+
+      <el-form-item label="Сортировка" prop="sortValue">
+        <el-input-number
+          v-model="productData.sortValue"
+          placeholder="Сортировка"
+          :min="1"
+          :max="100"
+          style="width: 140px"
         />
       </el-form-item>
 
@@ -71,6 +82,7 @@
               <el-input
                 v-model="option.name"
                 placeholder="Название опции (например: объем памяти, цвет)"
+                :disabled="option.type === 'color'"
                 style="flex: 1"
               />
               <el-select
@@ -101,7 +113,7 @@
                     v-if="option.type === 'list'"
                     v-model="item.name"
                     placeholder="Значение (например: 12/256 ГБ)"
-                    @input="item.value = item.name"
+                    @input="item.value = item?.name"
                   />
                   <el-input
                     v-else
@@ -162,7 +174,43 @@
 
     <!-- Шаг 2: Загрузка изображений -->
     <div v-if="currentStep === 1" class="step-content">
-      <div class="variants-container">
+      <!-- Если нет опций, загружаем общее изображение -->
+      <div v-if="variants.length === 0" class="general-image-upload">
+        <h3 class="variants-title">Загрузите общее изображение продукта:</h3>
+        <div class="general-image-container">
+          <div v-if="generalImage" class="general-image-preview">
+            <img :src="generalImage" alt="Preview" />
+            <el-button
+              :icon="Delete"
+              circle
+              type="danger"
+              size="small"
+              @click="removeGeneralImage"
+              class="remove-image-btn"
+            />
+          </div>
+          <div
+            v-else
+            class="general-dropzone-wrapper"
+            @drop.prevent="(e) => handleGeneralDrop(e)"
+            @dragover.prevent
+            @dragenter.prevent
+          >
+            <label for="dropZone-general"></label>
+            <input
+              id="dropZone-general"
+              type="file"
+              name="file"
+              class="dragZone"
+              accept="image/*"
+              @change="handleGeneralFileSelect"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Если есть варианты, загружаем изображения для каждого -->
+      <div v-else class="variants-container">
         <h3 class="variants-title">Загрузите изображения для каждого варианта:</h3>
         <div class="variants-grid">
           <div
@@ -239,9 +287,10 @@
 
 <script setup>
 import { Plus, Delete } from '@element-plus/icons-vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import { useApi } from '~/stores/api';
 import { ElMessage } from 'element-plus';
+import DropZone from '~/components/DropZone/index.vue';
 
 const api = useApi();
 
@@ -251,12 +300,16 @@ const options = ref([]);
 const currentStep = ref(0);
 const variants = ref([]);
 const createdProduct = ref(null);
+const generalImage = ref(null);
+const generalImageUrl = ref(null);
+const generalDropZoneRef = ref(null);
 
 const productData = reactive({
   categoryUUID: null,
   name: '',
   description: '',
   price: null,
+  sortValue: 1,
   images: [],
 });
 
@@ -326,6 +379,15 @@ const removeOptionItem = (optionIndex, itemIndex) => {
 
 const updateOptionType = (optionIndex, newType) => {
   const option = options.value[optionIndex];
+
+  // Если тип меняется на "color", автоматически устанавливаем название "Цвет"
+  if (newType === 'color') {
+    options.value[optionIndex].name = 'Цвет';
+  } else if (newType === 'list' && option.name === 'Цвет') {
+    // Если переключаемся с "color" на "list" и название было "Цвет", сбрасываем название
+    options.value[optionIndex].name = '';
+  }
+
   option.items.forEach((item, index) => {
     options.value[optionIndex].items[index].type = newType;
     if (newType === 'color' && !item.value) {
@@ -392,27 +454,25 @@ const nextStep = async () => {
     formRef.value.clearValidate();
     await formRef.value.validate();
 
-    // Проверяем, что все опции заполнены
-    const hasEmptyOptions = options.value.some((opt) => !opt.name || opt.items.length === 0);
-    if (hasEmptyOptions && options.value.length > 0) {
-      ElMessage.warning('Пожалуйста, заполните все опции или удалите пустые');
-      return;
-    }
+    // Если есть опции, проверяем их заполненность
+    if (options.value.length > 0) {
+      // Проверяем, что все опции заполнены
+      const hasEmptyOptions = options.value.some((opt) => !opt.name || opt.items.length === 0);
+      if (hasEmptyOptions) {
+        ElMessage.warning('Пожалуйста, заполните все опции или удалите пустые');
+        return;
+      }
 
-    // Проверяем, что все элементы опций заполнены
-    const hasEmptyItems = options.value.some((opt) => opt.items.some((item) => !item.name));
-    if (hasEmptyItems) {
-      ElMessage.warning('Пожалуйста, заполните все элементы опций');
-      return;
+      // Проверяем, что все элементы опций заполнены
+      const hasEmptyItems = options.value.some((opt) => opt.items.some((item) => !item.name));
+      if (hasEmptyItems) {
+        ElMessage.warning('Пожалуйста, заполните все элементы опций');
+        return;
+      }
     }
 
     // Генерируем варианты
     generateVariants();
-
-    if (variants.value.length === 0) {
-      ElMessage.warning('Добавьте хотя бы одну опцию с элементами');
-      return;
-    }
 
     currentStep.value = 1;
   } catch (error) {
@@ -455,6 +515,12 @@ const getColorFromVariant = (variant) => {
 const handleFileUpload = async (file, variantIndex) => {
   const variant = variants.value[variantIndex];
 
+  // Проверяем, не загружено ли уже изображение
+  if (variant.image) {
+    ElMessage.warning('Для этого варианта уже загружено изображение. Удалите его перед загрузкой нового.');
+    return;
+  }
+
   // Создаем превью
   variant.image = URL.createObjectURL(file);
   variant.imageFile = file;
@@ -488,8 +554,68 @@ const handleDrop = (event, variantIndex) => {
 const handleFileSelect = (event, variantIndex) => {
   const fileInput = document.querySelector(`#dropZone-${variantIndex}`);
   if (fileInput && fileInput.files && fileInput.files[0]) {
+    // Проверяем, не загружено ли уже изображение для этого варианта
+    const variant = variants.value[variantIndex];
+    if (variant.image) {
+      ElMessage.warning('Для этого варианта уже загружено изображение. Удалите его перед загрузкой нового.');
+      return;
+    }
     handleFileUpload(fileInput.files[0], variantIndex);
   }
+};
+
+const handleGeneralImageUpload = async (file) => {
+  // Создаем превью
+  generalImage.value = URL.createObjectURL(file);
+
+  // Загружаем изображение на сервер
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+  const res = await api.uploadImg(formData);
+  console.log(res);
+  
+    generalImageUrl.value = res.full;
+    ElMessage.success('Изображение успешно загружено');
+  } catch (error) {
+    ElMessage.error('Ошибка при загрузке изображения');
+    // Удаляем превью при ошибке
+    if (generalImage.value) {
+      URL.revokeObjectURL(generalImage.value);
+    }
+    generalImage.value = null;
+  }
+};
+
+const handleGeneralDrop = (event) => {
+  event.preventDefault();
+  const file = event.dataTransfer.files[0];
+  if (file) {
+    if (generalImage.value) {
+      ElMessage.warning('Общее изображение уже загружено. Удалите его перед загрузкой нового.');
+      return;
+    }
+    handleGeneralImageUpload(file);
+  }
+};
+
+const handleGeneralFileSelect = (event) => {
+  const fileInput = event.target;
+  if (fileInput && fileInput.files && fileInput.files[0]) {
+    if (generalImage.value) {
+      ElMessage.warning('Общее изображение уже загружено. Удалите его перед загрузкой нового.');
+      return;
+    }
+    handleGeneralImageUpload(fileInput.files[0]);
+  }
+};
+
+const removeGeneralImage = () => {
+  if (generalImage.value) {
+    URL.revokeObjectURL(generalImage.value);
+  }
+  generalImage.value = null;
+  generalImageUrl.value = null;
 };
 
 const removeVariantImage = (variantIndex) => {
@@ -505,12 +631,15 @@ const removeVariantImage = (variantIndex) => {
 const submitForm = async () => {
   isLoading.value = true;
 
+  console.log(generalImageUrl.value);
+  
+
   try {
     // Подготовка данных для отправки
     const submitData = {
       ...productData,
-      images: [],
-      options: options.value.map((option) => ({
+      images: generalImageUrl.value ? [generalImageUrl.value] : [],
+      options: options.value.length > 0 ? options.value.map((option) => ({
         name: option.name,
         type: option.type,
         items: option.items.map((item) => ({
@@ -519,8 +648,8 @@ const submitForm = async () => {
           name: item.name,
           value: item.value || item.name,
         })),
-      })),
-      variants: variants.value.map((variant) => ({
+      })) : [],
+      variants: variants.value.length > 0 ? variants.value.map((variant) => ({
         id: variant.id,
         optionsIds: variant.optionsIds,
         optionsInfo: {
@@ -529,21 +658,29 @@ const submitForm = async () => {
           oldPrice: variant.optionsInfo.oldPrice,
         },
         isDefault: false,
-      })),
+      })) : [],
     };
 
     const res = await api.createdProduct(submitData);
+
+    if (res) {
   createdProduct.value = res;
+      ElMessage.success('Продукт успешно создан');
 
-    ElMessage.success('Продукт успешно создан');
-
-    // Сброс формы
-    formRef.value.resetFields();
-    options.value = [];
-    variants.value = [];
-    currentStep.value = 0;
+      // Сброс формы
+      if (formRef.value) {
+        formRef.value.resetFields();
+      }
+      options.value = [];
+      variants.value = [];
+      currentStep.value = 0;
+      generalImage.value = null;
+      generalImageUrl.value = null;
+    } else {
+      ElMessage.error('Ошибка при создании продукта');
+    }
   } catch (error) {
-    ElMessage.error('Ошибка при создании продукта');
+    ElMessage.error(error.message || 'Ошибка при создании продукта');
   } finally {
   isLoading.value = false;
   }
@@ -614,8 +751,77 @@ onMounted(() => {
         .option-item {
           display: flex;
           align-items: flex-start;
-          gap: 8px;
+    gap: 8px;
           width: 100%;
+        }
+      }
+    }
+  }
+
+  .general-image-upload {
+    width: 100%;
+
+    .variants-title {
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .general-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+
+      .general-image-preview {
+        position: relative;
+        max-width: 400px;
+        max-height: 400px;
+
+        img {
+          max-width: 100%;
+          max-height: 400px;
+          object-fit: contain;
+          border-radius: 8px;
+        }
+
+        .remove-image-btn {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+        }
+      }
+
+      .general-dropzone-wrapper {
+        width: 200px;
+        height: 200px;
+        border: 1px solid #eee;
+        border-radius: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        label {
+          background-image: url(/icons/plus.svg);
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          width: 60px;
+          height: 60px;
+          opacity: 0.2;
+          cursor: pointer;
+          transition: 0.2s;
+
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+
+        input {
+          display: none;
         }
       }
     }
@@ -705,8 +911,8 @@ onMounted(() => {
           .variant-dropzone {
             width: 100%;
             height: 100%;
-            display: flex;
-            align-items: center;
+  display: flex;
+  align-items: center;
             justify-content: center;
             border: 1px solid #eee;
             border-radius: 8px;
