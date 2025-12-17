@@ -44,58 +44,74 @@ currentCategory.value = route.params.id;
 const descriptions = ref([
   {
     category: "iphone",
+    title: "Купить Apple iPhone в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Чехол и стекло в подарок.",
-    title: "Купить Apple Iphone в РК-Тек по выгодной цене",
+      "Купить оригинальный Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены, гарантия, проверка при получении. Чехол и стекло в подарок.",
+    keywords:
+      "купить iphone, iphone цена, оригинальный iphone, iphone с доставкой, купить iphone в москве, купить iphone в рязани",
     img: "/images/iphone.webp",
   },
   {
     category: "ipad",
+    title: "Купить Apple iPad в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Apple iPad в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
-    title: "Купить Apple iPad в РК-Тек по выгодной цене",
+      "Купить оригинальный Apple iPad в Москве и Рязани с бесплатной доставкой. Актуальные модели, низкие цены, официальная гарантия.",
+    keywords:
+      "купить ipad, ipad цена, оригинальный ipad, ipad с доставкой, купить ipad в москве, купить ipad в рязани",
     img: "/images/ipad.webp",
   },
   {
     category: "mac",
+    title: "Купить Apple MacBook в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Apple Macbook в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия. Гравировка в подарок.",
-    title: "Купить Apple Macbook в РК-Тек по выгодной цене",
+      "Купить оригинальный Apple MacBook в Москве и Рязани с бесплатной доставкой. Гарантия, низкие цены, гравировка в подарок.",
+    keywords:
+      "купить macbook, macbook цена, macbook apple, оригинальный macbook, macbook с доставкой",
     img: "/images/mac.webp",
   },
   {
     category: "watch",
+    title: "Купить Apple Watch в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Apple Watch в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
-    title: "Купить Apple Watch в РК-Тек по выгодной цене",
+      "Купить оригинальные Apple Watch в Москве и Рязани с быстрой доставкой. Все актуальные модели, гарантия.",
+    keywords:
+      "купить apple watch, apple watch цена, оригинальные apple watch, apple watch с доставкой",
     img: "/images/watchCard.webp",
   },
   {
     category: "airpods",
+    title: "Купить Apple AirPods в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены. Оригинальная продукция. В наличии. Гарантия.",
-    title: "Купить Apple AirPods в РК-Тек по выгодной цене",
+      "Купить оригинальные Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены, гарантия.",
+    keywords:
+      "купить airpods, airpods цена, оригинальные airpods, airpods с доставкой",
     img: "/images/airpods.webp",
   },
   {
     category: "samsung",
+    title: "Купить Samsung в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Samsung в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
-    title: "Купить Samsung в РК-Тек по выгодной цене",
+      "Купить оригинальные смартфоны Samsung в Москве и Рязани с бесплатной доставкой. Гарантия, низкие цены.",
+    keywords:
+      "купить samsung, samsung цена, смартфоны samsung, samsung с доставкой",
     img: "/images/samsung.webp",
   },
   {
     category: "dyson",
+    title: "Купить Dyson в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Dyson в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
-    title: "Купить Dyson в РК-Тек по выгодной цене",
+      "Купить оригинальную технику Dyson в Москве и Рязани с бесплатной доставкой. Фены, пылесосы, стайлеры в наличии.",
+    keywords:
+      "купить dyson, dyson цена, техника dyson, dyson с доставкой",
     img: "/images/dyson.webp",
   },
   {
     category: "ps",
+    title: "Купить PlayStation 5 в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Низкие цены. Оригинал. В наличии. Гарантия.",
-    title: "Купить PlayStation в РК-Тек по выгодной цене",
+      "Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+    keywords:
+      "купить playstation 5, ps5 цена, playstation 5 с дисководом, ps5 с доставкой",
     img: "/images/ps.webp",
   },
 ]);
@@ -131,7 +147,7 @@ useHead({
     },
     {
       name: "keywords",
-      content: `${currentCategory.value}, apple, купить, цена, интернет-магазин, каталог, бесплатная доставка, Москва, Рязань, оригинал`,
+      content: `${currentProduct()?.keywords}`,
     },
   ],
 });
