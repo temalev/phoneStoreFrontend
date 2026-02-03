@@ -55,7 +55,7 @@
           target="_blank"
           href="https://yandex.ru/maps/-/CDVKz6YB"
         >
-          Рязань, ул. Кольцова, дом 1
+          Рязань, ул. Кольцова, дом 12
         </a>
       </span>
       <span class="email"
