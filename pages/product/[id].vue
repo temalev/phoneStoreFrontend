@@ -1,5 +1,11 @@
 <template>
-  <div v-if="api.products" class="mainProducts">
+  <div v-if="isLoading" class="mainProducts">
+    <div class="skeleton-title"></div>
+    <div class="mainProducts-list">
+      <CardProductSkeleton v-for="i in 6" :key="i" />
+    </div>
+  </div>
+  <div v-else class="mainProducts">
     <Head>
       <Title>{{ currentProduct().title }}</Title>
     </Head>
@@ -25,7 +31,6 @@
     </template>
   </div>
   </div>
-  <div v-else class="loader">загрузка</div>
 
 </template>
 
@@ -39,6 +44,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const currentCategory = ref(null);
 const updateCounter = ref(0);
+const isLoading = ref(true);
 
 const path = route.fullPath;
 currentCategory.value = route.params.id;
@@ -162,18 +168,26 @@ watch(
   (newProducts) => {
     if (newProducts) {
       updateCounter.value += 1;
+      isLoading.value = false;
     }
   },
   { deep: true },
 );
 
 // eslint-disable-next-line no-undef
-onMounted(() => {
+onMounted(async () => {
   api.currentCategory = currentCategory.value;
   const uuidCategory = categories.categories.find(
     (el) => el.link.split("/").pop() === currentCategory.value
   ).uuid;
-  api.getProducts(uuidCategory);
+  
+  isLoading.value = true;
+  await api.getProducts(uuidCategory);
+  
+  // Проверяем, загружены ли товары после запроса
+  if (api.products?.[currentCategory.value]) {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -190,13 +204,32 @@ onMounted(() => {
   & h1 {
     margin-left: 30px;
   }
- 
+
   &-list {
     display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
   padding: 20px;
+  }
+}
+
+.skeleton-title {
+  height: 40px;
+  width: 200px;
+  margin-left: 30px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 </style>
