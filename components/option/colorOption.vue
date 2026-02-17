@@ -7,6 +7,15 @@
         :key="item.name"
         class="color-wrapper"
       >
+        <el-button
+          v-if="isEditMode"
+          type="danger"
+          :icon="Delete"
+          circle
+          size="small"
+          class="delete-btn"
+          @click.stop="deleteColor(item.id)"
+        />
         <div
           class="color"
           @click="selectedColor(item.id)"
@@ -50,7 +59,7 @@
 <script setup>
 // eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
-import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
+import { ArrowLeft, ArrowRight, Delete } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
@@ -60,7 +69,7 @@ const props = defineProps({
   option: Object,
 });
 
-const emit = defineEmits(['selectedOpt', 'moveColor']);
+const emit = defineEmits(['selectedOpt', 'moveColor', 'deleteColor']);
 
 const selectedItem = ref(props.option.items[0].id);
 
@@ -86,6 +95,10 @@ const moveDown = (index) => {
   }
 };
 
+const deleteColor = (colorId) => {
+  emit('deleteColor', colorId);
+};
+
 // eslint-disable-next-line no-undef
 onMounted(() => {
   emit('selectedOpt', selectedItem.value);
@@ -108,6 +121,15 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 5px;
+}
+
+.delete-btn {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .color {

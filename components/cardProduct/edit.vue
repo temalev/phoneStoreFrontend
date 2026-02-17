@@ -64,6 +64,7 @@
               @selectedOpt="(id) => selectedOpt(id, idOpt)"
               @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
             />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
@@ -214,6 +215,47 @@ const moveColorItem = (optionIndex, { from, to }) => {
   localOptions.value[optionIndex].items = items;
 };
 
+const onDeleteColor = async (optionIndex, colorId) => {
+  try {
+    // Получаем информацию о цвете для отображения в диалоге
+    const colorOption = localOptions.value[optionIndex];
+    const colorItem = colorOption.items.find((item) => item.id === colorId);
+    const colorName = colorItem?.name || 'этот цвет';
+
+    // Показываем диалог подтверждения
+    await ElMessageBox.confirm(
+      `Вы уверены, что хотите удалить цвет "${colorName}"? Все варианты товара с этим цветом также будут удалены.`,
+      'Подтверждение удаления цвета',
+      {
+        confirmButtonText: 'Удалить',
+        cancelButtonText: 'Отмена',
+        type: 'warning',
+      },
+    );
+  } catch (error) {
+    // Пользователь отменил действие
+    return;
+  }
+
+  // Удаляем цвет из опций
+  const colorIndex = localOptions.value[optionIndex].items.findIndex(
+    (item) => item.id === colorId,
+  );
+  if (colorIndex !== -1) {
+    localOptions.value[optionIndex].items.splice(colorIndex, 1);
+  }
+
+  // Удаляем все варианты, содержащие этот цвет
+  formData.value.variants = formData.value.variants.filter(
+    (variant) => !variant.optionsIds.includes(colorId),
+  );
+
+  ElMessage({
+    type: 'success',
+    message: 'Цвет успешно удален',
+  });
+};
+
 const setVariants = (newPrice) => {
   const { variants, options } = formData.value;
 
@@ -236,17 +278,43 @@ const setVariants = (newPrice) => {
 
 const deleteImg = () => {
   const { variants, options } = formData.value;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
+  // Находим опцию цвета
+  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
+
+  if (!colorOption) {
+    // Если нет цветовой опции, удаляем изображения по старой логике
+    const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+    variants.forEach(({ optionsIds }, idx) => {
+      const isCandidate = (
+        props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+      ).every((id) => optionsIds.includes(id));
+      if (isCandidate) {
+        variants[idx].optionsInfo.images = [];
+      }
+    });
+    formData.value.images = [];
+    return;
+  }
+
+  // Получаем индекс опции цвета
+  const colorOptionIndex = options.findIndex((el) => el.name.toLowerCase().includes('цвет'));
+  const selectedColorId = selectedOptions.value[colorOptionIndex];
+
+  // Удаляем изображения только для вариантов с выбранным цветом
   variants.forEach(({ optionsIds }, idx) => {
-    const isCandidate = (
-      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-    ).every((id) => optionsIds.includes(id));
-    if (isCandidate) {
-      variants[idx].optionsInfo.images = [];
+    if (optionsIds.includes(selectedColorId)) {
+      // Проверяем, соответствуют ли остальные опции (кроме цвета)
+      const otherOptionsMatch = selectedOptions.value.every((selectedId, optIdx) => {
+        if (optIdx === colorOptionIndex) return true; // Пропускаем цвет
+        return optionsIds.includes(selectedId);
+      });
+
+      if (otherOptionsMatch) {
+        variants[idx].optionsInfo.images = [];
+      }
     }
   });
-  formData.value.images = [];
 };
 
 const onSaveProductData = async () => {
@@ -519,7 +587,6 @@ onMounted(() => {
   position: relative;
   width: 250px;
   height: 250px;
-  background-color: #eee;
   border-radius: 20px;
   display: flex;
   align-items: center;
