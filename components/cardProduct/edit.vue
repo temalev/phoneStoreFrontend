@@ -64,6 +64,7 @@
               @selectedOpt="(id) => selectedOpt(id, idOpt)"
               @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
             />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
@@ -212,6 +213,47 @@ const moveColorItem = (optionIndex, { from, to }) => {
   
   // Обновляем массив items реактивно
   localOptions.value[optionIndex].items = items;
+};
+
+const onDeleteColor = async (optionIndex, colorId) => {
+  try {
+    // Получаем информацию о цвете для отображения в диалоге
+    const colorOption = localOptions.value[optionIndex];
+    const colorItem = colorOption.items.find((item) => item.id === colorId);
+    const colorName = colorItem?.name || 'этот цвет';
+
+    // Показываем диалог подтверждения
+    await ElMessageBox.confirm(
+      `Вы уверены, что хотите удалить цвет "${colorName}"? Все варианты товара с этим цветом также будут удалены.`,
+      'Подтверждение удаления цвета',
+      {
+        confirmButtonText: 'Удалить',
+        cancelButtonText: 'Отмена',
+        type: 'warning',
+      },
+    );
+  } catch (error) {
+    // Пользователь отменил действие
+    return;
+  }
+
+  // Удаляем цвет из опций
+  const colorIndex = localOptions.value[optionIndex].items.findIndex(
+    (item) => item.id === colorId,
+  );
+  if (colorIndex !== -1) {
+    localOptions.value[optionIndex].items.splice(colorIndex, 1);
+  }
+
+  // Удаляем все варианты, содержащие этот цвет
+  formData.value.variants = formData.value.variants.filter(
+    (variant) => !variant.optionsIds.includes(colorId),
+  );
+
+  ElMessage({
+    type: 'success',
+    message: 'Цвет успешно удален',
+  });
 };
 
 const setVariants = (newPrice) => {

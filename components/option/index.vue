@@ -5,6 +5,7 @@
     @selectedOpt="$emit('selectedOpt', $event)"
     @moveColor="$emit('moveColor', $event)"
     @onEdit="$emit('onEdit', $event)"
+    @deleteColor="$emit('deleteColor', $event)"
   />
 </template>
 <script>
@@ -13,7 +14,7 @@ import DefaultOption from './defaultOption.vue';
 
 export default {
   components: { ColorOption, DefaultOption },
-  emits: ['selectedOpt', 'moveColor', 'onEdit'],
+  emits: ['selectedOpt', 'moveColor', 'onEdit', 'deleteColor'],
   props: {
     option: {
       type: Object,
