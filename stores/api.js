@@ -124,6 +124,7 @@ export const useApi = defineStore('api', {
         this.isAuth = true;
         const data = await res.json();
         localStorage.setItem('jwt1', data.accessToken);
+        localStorage.setItem('isAuth', 'true');
         this.getOrders();
         this.getStatistics();
       }
@@ -138,6 +139,7 @@ export const useApi = defineStore('api', {
         headers,
       });
       localStorage.removeItem('jwt1');
+      localStorage.removeItem('isAuth');
       this.isAuth = false;
     },
 

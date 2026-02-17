@@ -1,6 +1,13 @@
 <template>
   <div class="mainAdmin" :style="{ alignItems: !api.isAuth ? 'center' : '' }">
-    <div v-if="!api.isAuth" class="authContainer">
+    <div v-if="isCheckingAuth" class="authContainer">
+      <el-icon class="is-loading" :size="40">
+        <Loading />
+      </el-icon>
+      <span>Проверка авторизации...</span>
+    </div>
+
+    <div v-else-if="!api.isAuth" class="authContainer">
       <h2>Авторизация</h2>
       <Input @inputValue="(val) => (adminData.login = val)" />
       <Input
@@ -23,7 +30,7 @@
             </el-tooltip>
           </span>
           <div class="d-flex align-center gap-2">
-            <span class="indicator-value">{{ api.newOrders.length }}</span>
+            <span class="indicator-value">{{ api.newOrders?.length || 0 }}</span>
             <span style="color: #67c23a; font-size: 13px"
               >+{{ ordersPerWeek.length }}</span
             >
@@ -69,7 +76,7 @@
       </CustomModal>
 
       <h3>Новые заказы</h3>
-      <div v-if="api.newOrders.length && api.isAuth" class="ordersContainer">
+      <div v-if="api.newOrders?.length && api.isAuth" class="ordersContainer">
         <div
           v-for="order in api.newOrders"
           :key="`order_${order.uuid}`"
@@ -82,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div v-if="api.newOrders && api.isAuth" class="container">
+    <div v-if="api.newOrders?.length && api.isAuth" class="container">
       <h3>В работе</h3>
       <div class="ordersContainer">
         <div
@@ -99,7 +106,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { Check, Close } from '@element-plus/icons-vue';
+import { Check, Close, Loading } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
 import moment from 'moment';
 
@@ -108,6 +115,9 @@ const api = useApi();
 const isNotification = ref(false);
 
 const ordersPerWeek = computed(() => {
+  if (!api.newOrders || !Array.isArray(api.newOrders)) {
+    return [];
+  }
   const curDate = new Date();
   const sevenDaysAgo = new Date(curDate);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -132,6 +142,9 @@ const setNotification = async () => {
 // eslint-disable-next-line no-return-assign
 
 const ru = computed(() => {
+  if (!api.newOrders || !Array.isArray(api.newOrders)) {
+    return 0;
+  }
   const statisticCost = api.newOrders.reduce(
     (prevValue, item) => (prevValue += item.costs.cost),
     0,
@@ -142,21 +155,43 @@ const ru = computed(() => {
 const isCreateProduct = ref(false);
 const isCreatePromocode = ref(false);
 const nameCount = ref({});
+const isCheckingAuth = ref(true);
 
 const adminData = ref({ login: '', password: '' });
 
-const login = () => {
-  api.login(adminData.value);
+const login = async () => {
+  await api.login(adminData.value);
+  
+  if (api.isAuth) {
+    // После успешного входа загружаем дополнительные данные
+    api.getAllPromocode();
+    const notif = await api.getParams('popup_message');
+    isNotification.value = notif?.value === 'true';
+  }
 };
 
 // eslint-disable-next-line no-undef
 onMounted(async () => {
-  api.getOrders();
-  api.getStatistics();
-  api.getAllPromocode();
-  const notif = await api.getParams('popup_message');
-  isNotification.value = notif?.value === 'true';
-
+  // Загружаем категории для компонента CreateProduct
+  api.getCategories();
+  
+  // Проверяем, есть ли сохраненная авторизация
+  const savedAuth = localStorage.getItem('isAuth');
+  const jwt = localStorage.getItem('jwt1');
+  
+  if (savedAuth === 'true' && jwt) {
+    // Пытаемся загрузить данные для проверки авторизации
+    await api.getOrders();
+  }
+  
+  if (api.isAuth) {
+    api.getStatistics();
+    api.getAllPromocode();
+    const notif = await api.getParams('popup_message');
+    isNotification.value = notif?.value === 'true';
+  }
+  
+  isCheckingAuth.value = false;
 });
 </script>
 

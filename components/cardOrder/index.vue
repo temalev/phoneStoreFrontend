@@ -10,9 +10,9 @@
       <CardOrderItemOrder v-for="order in data?.items" :key="order.uuid" :order="order" />
     </div>
     <div v-if="data?.promoCode" class="deliveryMesg">
-      Промокод - <b>{{ data?.promoCode.name }}</b>
+      Промокод - <b>{{ data?.promoCode?.name }}</b>
     </div>
-    <h5 class="delivery">{{ deliveryVariants.find(el => el.id === data?.delivery).name }}</h5>
+    <h5 class="delivery">{{ deliveryVariants.find(el => el.id === data?.delivery)?.name }}</h5>
 
     <h5 class="delivery">{{ paymentTypes.find(el => el.id === data?.paymentTypeId)?.name }}</h5>
 
@@ -113,8 +113,6 @@ const date = computed(() => {
   return formatted;
 });
 
-// eslint-disable-next-line no-undef
-onMounted(() => {});
 </script>
 <style scoped lang="scss">
 .order {

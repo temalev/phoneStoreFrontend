@@ -1,6 +1,12 @@
 <template>
   <div class="createProduct">
-    <el-steps :active="currentStep" finish-status="success" class="steps" align-center>
+    <el-steps
+      :active="currentStep"
+      finish-status="success"
+      process-status="process"
+      class="steps"
+      align-center
+    >
       <el-step title="Основная информация" />
       <el-step title="Загрузка изображений" />
     </el-steps>
@@ -23,9 +29,9 @@
           @change="() => formRef?.clearValidate('categoryUUID')"
         >
     <el-option
-      v-for="item in api.categories"
+      v-for="item in (api.categories || [])"
       :key="item.uuid"
-      :label="item.name"
+      :label="item?.name"
       :value="item.uuid"
     />
   </el-select>
@@ -104,11 +110,11 @@
 
             <div class="option-items">
               <div
-                v-for="(item, itemIndex) in option.items"
-                :key="item.id"
+                v-for="(item, itemIndex) in (option.items || [])"
+                :key="item?.id || itemIndex"
                 class="option-item"
               >
-                <div style="flex: 1">
+                <div v-if="item" style="flex: 1">
                   <el-input
                     v-if="option.type === 'list'"
                     v-model="item.name"
@@ -130,6 +136,7 @@
           </el-input>
                 </div>
                 <el-button
+                  v-if="item"
                   :icon="Delete"
                   circle
                   type="danger"
@@ -280,7 +287,7 @@
     </div>
 
     <span class="confirm" v-if="createdProduct">
-      {{ createdProduct.name }} успешно создан
+      {{ createdProduct?.name }} успешно создан
     </span>
   </div>
 </template>
@@ -383,7 +390,7 @@ const updateOptionType = (optionIndex, newType) => {
   // Если тип меняется на "color", автоматически устанавливаем название "Цвет"
   if (newType === 'color') {
     options.value[optionIndex].name = 'Цвет';
-  } else if (newType === 'list' && option.name === 'Цвет') {
+  } else if (newType === 'list' && option?.name === 'Цвет') {
     // Если переключаемся с "color" на "list" и название было "Цвет", сбрасываем название
     options.value[optionIndex].name = '';
   }

@@ -10,7 +10,7 @@
         v-for="product in api.products?.[currentCategory]?.filter(
           (el) => !el.isDeleted
         )"
-        :key="product.uuid"
+        :key="`${product.uuid}-${updateCounter}`"
         :product="product"
       />
     </template>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { useHead } from "unhead";
@@ -38,6 +38,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const currentCategory = ref(null);
+const updateCounter = ref(0);
 
 const path = route.fullPath;
 currentCategory.value = route.params.id;
@@ -154,6 +155,17 @@ useHead({
 
 const api = useApi();
 const categories = useCategories();
+
+// Отслеживаем изменения в products и обновляем счетчик
+watch(
+  () => api.products?.[currentCategory.value],
+  (newProducts) => {
+    if (newProducts) {
+      updateCounter.value += 1;
+    }
+  },
+  { deep: true },
+);
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
