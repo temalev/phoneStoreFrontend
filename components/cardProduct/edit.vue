@@ -93,7 +93,14 @@
         @click="sendToShopBag"
         :name="'В корзину'"
       />
-      <div v-if="api.isAuth" class="icoDelete" @click="onDeleteProduct"></div>
+      <el-button
+        v-if="api.isAuth"
+        :loading="isDeleting"
+        :disabled="isDeleting"
+        @click="onDeleteProduct"
+      >
+        <div v-if="!isDeleting" class="icoDelete"></div>
+      </el-button>
       <CustomButton
         v-if="api.isAuth"
         :type="isSaved ? 'accept' : ''"
@@ -112,6 +119,7 @@ import { ref, computed, watch } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { Delete } from "@element-plus/icons-vue";
+import { ElMessageBox, ElMessage } from "element-plus";
 
 const categories = useCategories();
 
@@ -126,6 +134,7 @@ const props = defineProps({
 const editOption = ref(null);
 const selectedOptions = ref([]);
 const isLoading = ref(false);
+const isDeleting = ref(false);
 const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 const setNotification = ref(false);
@@ -273,11 +282,43 @@ const onSaveProductData = async () => {
   }
 };
 
-const onDeleteProduct = () => {
-  api.deleteProduct(props.product.uuid);
+const onDeleteProduct = async () => {
+  try {
+    await ElMessageBox.confirm(
+      'Вы уверены, что хотите удалить этот товар?',
+      'Подтверждение удаления',
+      {
+        confirmButtonText: 'Удалить',
+        cancelButtonText: 'Отмена',
+        type: 'warning',
+      },
+    );
+  } catch (error) {
+    // Пользователь отменил действие
+    return;
+  }
 
-  if (uuidCurrentCategory) {
-    api.getProducts(uuidCurrentCategory);
+  isDeleting.value = true;
+
+  try {
+    await api.deleteProduct(props.product.uuid);
+
+    ElMessage({
+      type: 'success',
+      message: 'Товар успешно удален',
+    });
+
+    if (uuidCurrentCategory) {
+      await api.getProducts(uuidCurrentCategory);
+    }
+  } catch (error) {
+    ElMessage({
+      type: 'error',
+      message: 'Ошибка при удалении товара',
+    });
+    console.error(error);
+  } finally {
+    isDeleting.value = false;
   }
 };
 
@@ -423,19 +464,28 @@ onMounted(() => {
   gap: 15px;
 }
 
-.icoDelete {
-  background-image: url(/icons/delete.svg);
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
+.deleteButton {
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid #2c2c2c;
   border-radius: 8px;
   opacity: 0.9;
   cursor: pointer;
+  background-color: white;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icoDelete {
+  background-image: url(/icons/delete.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
 }
 
 .image-container {
