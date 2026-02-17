@@ -278,17 +278,43 @@ const setVariants = (newPrice) => {
 
 const deleteImg = () => {
   const { variants, options } = formData.value;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
+  // Находим опцию цвета
+  const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
+
+  if (!colorOption) {
+    // Если нет цветовой опции, удаляем изображения по старой логике
+    const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+    variants.forEach(({ optionsIds }, idx) => {
+      const isCandidate = (
+        props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+      ).every((id) => optionsIds.includes(id));
+      if (isCandidate) {
+        variants[idx].optionsInfo.images = [];
+      }
+    });
+    formData.value.images = [];
+    return;
+  }
+
+  // Получаем индекс опции цвета
+  const colorOptionIndex = options.findIndex((el) => el.name.toLowerCase().includes('цвет'));
+  const selectedColorId = selectedOptions.value[colorOptionIndex];
+
+  // Удаляем изображения только для вариантов с выбранным цветом
   variants.forEach(({ optionsIds }, idx) => {
-    const isCandidate = (
-      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-    ).every((id) => optionsIds.includes(id));
-    if (isCandidate) {
-      variants[idx].optionsInfo.images = [];
+    if (optionsIds.includes(selectedColorId)) {
+      // Проверяем, соответствуют ли остальные опции (кроме цвета)
+      const otherOptionsMatch = selectedOptions.value.every((selectedId, optIdx) => {
+        if (optIdx === colorOptionIndex) return true; // Пропускаем цвет
+        return optionsIds.includes(selectedId);
+      });
+
+      if (otherOptionsMatch) {
+        variants[idx].optionsInfo.images = [];
+      }
     }
   });
-  formData.value.images = [];
 };
 
 const onSaveProductData = async () => {
@@ -561,7 +587,6 @@ onMounted(() => {
   position: relative;
   width: 250px;
   height: 250px;
-  background-color: #eee;
   border-radius: 20px;
   display: flex;
   align-items: center;
