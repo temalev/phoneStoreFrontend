@@ -58,11 +58,12 @@
           </div>
           <div class="optionsContainer">
             <Option
-              v-for="(option, idOpt) in product?.options"
-              :key="option?.name"
+              v-for="(option, idOpt) in localOptions"
+              :key="`${option?.name}-${idOpt}`"
               :option="option"
               @selectedOpt="(id) => selectedOpt(id, idOpt)"
               @onEdit="(val) => (editOption = val)"
+              @moveColor="(data) => moveColorItem(idOpt, data)"
             />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
@@ -115,7 +116,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { Delete } from "@element-plus/icons-vue";
@@ -139,6 +140,7 @@ const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 const setNotification = ref(false);
 const formData = ref(JSON.parse(JSON.stringify(props.product)));
+const localOptions = ref(JSON.parse(JSON.stringify(props.product.options || [])));
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
@@ -200,6 +202,16 @@ const priceFrmt = (val) =>
 
 const selectedOpt = (id, index) => {
   selectedOptions.value[index] = id;
+};
+
+const moveColorItem = (optionIndex, { from, to }) => {
+  // Создаем копию массива items
+  const items = [...localOptions.value[optionIndex].items];
+  const [movedItem] = items.splice(from, 1);
+  items.splice(to, 0, movedItem);
+  
+  // Обновляем массив items реактивно
+  localOptions.value[optionIndex].items = items;
 };
 
 const setVariants = (newPrice) => {
@@ -266,17 +278,32 @@ const onSaveProductData = async () => {
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
     sortValue: formData.value.sortValue,
+    options: localOptions.value,
   };
 
   try {
     const res = await api.updateProduct(props.product.uuid, updatedProductData);
+    
+    // Обновляем список товаров
+    if (uuidCurrentCategory) {
+      await api.getProducts(uuidCurrentCategory);
+    }
+    
     isSaved.value = true;
-    api.getProducts(uuidCurrentCategory);
+    ElMessage({
+      type: 'success',
+      message: 'Товар успешно обновлен',
+    });
+    
     setTimeout(() => {
       isSaved.value = false;
     }, 3000);
   } catch (e) {
     console.error(e);
+    ElMessage({
+      type: 'error',
+      message: 'Ошибка при сохранении товара',
+    });
   } finally {
     isLoading.value = false;
   }

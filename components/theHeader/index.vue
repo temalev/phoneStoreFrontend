@@ -7,7 +7,7 @@
     <nav class="menu">
       <NuxtLink
         v-for="link in categories.categories"
-        :key="link.name"
+        :key="link?.name"
         :to="link.link"
         class="navLink"
         @click="getProduct(link.link)"
@@ -20,7 +20,7 @@
             height: `${link.style?.height}px`,
           }"
         />
-        <span v-if="link.isName" class="name">{{ link.name }}</span>
+        <span v-if="link.isName" class="name">{{ link?.name }}</span>
       </NuxtLink>
     </nav>
 
@@ -96,12 +96,12 @@
         <nav class="menuModalLinks">
           <NuxtLink
             v-for="link in categories.categories"
-            :key="link.name"
+            :key="link?.name"
             :to="link.link"
             class="navLinkMobile"
             @click="getProduct(link.link)"
           >
-            <span class="navNameMobile">{{ link.name }}</span>
+            <span class="navNameMobile">{{ link?.name }}</span>
           </NuxtLink>
         </nav>
       </div>
