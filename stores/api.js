@@ -248,8 +248,19 @@ export const useApi = defineStore('api', {
           credentials: 'include',
         },
       );
-      const data = await res.json();
-      return data;
+      if (!res) {
+        throw new Error('Не удалось удалить товар');
+      }
+      if (!res.ok) {
+        throw new Error('Ошибка при удалении товара');
+      }
+      // Проверяем, есть ли тело ответа
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        return data;
+      }
+      return { success: true };
     },
 
     async uploadImg(file) {
