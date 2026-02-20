@@ -26,10 +26,18 @@
             </div>
           </div>
           <div class="optionsContainer">
-            <Option v-for="(option, idOpt) in localOptions" :key="`${option?.name}-${idOpt}`" :option="option"
-              @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => (editOption = val)"
+            <Option
+              v-for="(option, idOpt) in localOptions"
+              :key="`${option?.name}-${idOpt}`"
+              :option="option"
+              :show-sync-button="api.isAuth && !isColorOption(option)"
+              :option-index="idOpt"
+              @selectedOpt="(id) => selectedOpt(id, idOpt)"
+              @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
-              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)" />
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
+              @sync="syncPhotosForOption(idOpt)"
+            />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
             <el-switch v-model="isPriceDependOnColor" inline-prompt @change="setNotification" />
@@ -259,6 +267,47 @@ const deleteImg = () => {
       }
     }
   });
+};
+
+const isColorOption = (option) => option?.name?.toLowerCase().includes('цвет');
+
+const syncPhotosForOption = (optionIndex) => {
+  const { variants, options } = formData.value;
+  const option = options?.[optionIndex];
+  if (!option?.items?.length || !variants?.length) return;
+  const colorOptionIndex = options?.findIndex((o) => o?.name?.toLowerCase().includes('цвет'));
+  const firstItemId = option.items[0].id;
+
+  if (colorOptionIndex >= 0 && options[colorOptionIndex]?.items) {
+    options[colorOptionIndex].items.forEach((colorItem) => {
+      const colorId = colorItem.id;
+      const sourceVariant = variants.find((v) => (
+        v.optionsIds[colorOptionIndex] === colorId
+        && v.optionsIds[optionIndex] === firstItemId
+      ));
+      const sourceImages = [...(sourceVariant?.optionsInfo?.images || [])];
+      for (let j = 1; j < option.items.length; j += 1) {
+        const itemId = option.items[j].id;
+        variants.forEach((v) => {
+          if (v.optionsIds[colorOptionIndex] === colorId && v.optionsIds[optionIndex] === itemId) {
+            v.optionsInfo.images = [...sourceImages];
+          }
+        });
+      }
+    });
+  } else {
+    const sourceVariant = variants.find((v) => v.optionsIds[optionIndex] === firstItemId);
+    const sourceImages = [...(sourceVariant?.optionsInfo?.images || [])];
+    for (let j = 1; j < option.items.length; j += 1) {
+      const itemId = option.items[j].id;
+      variants.forEach((v) => {
+        if (v.optionsIds[optionIndex] === itemId) {
+          v.optionsInfo.images = [...sourceImages];
+        }
+      });
+    }
+  }
+  ElMessage({ type: 'success', message: 'Фото синхронизированы' });
 };
 
 const onSaveProductData = async () => {

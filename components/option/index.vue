@@ -1,11 +1,14 @@
 <template>
-  <component 
-    :is="isComponent" 
-    :option="option" 
+  <component
+    :is="isComponent"
+    :option="option"
+    :show-sync-button="showSyncButton"
+    :option-index="optionIndex"
     @selectedOpt="$emit('selectedOpt', $event)"
     @moveColor="$emit('moveColor', $event)"
     @onEdit="$emit('onEdit', $event)"
     @deleteColor="$emit('deleteColor', $event)"
+    @sync="$emit('sync')"
   />
 </template>
 <script>
@@ -14,11 +17,19 @@ import DefaultOption from './defaultOption.vue';
 
 export default {
   components: { ColorOption, DefaultOption },
-  emits: ['selectedOpt', 'moveColor', 'onEdit', 'deleteColor'],
+  emits: ['selectedOpt', 'moveColor', 'onEdit', 'deleteColor', 'sync'],
   props: {
     option: {
       type: Object,
       default: () => {},
+    },
+    showSyncButton: {
+      type: Boolean,
+      default: false,
+    },
+    optionIndex: {
+      type: Number,
+      default: 0,
     },
   },
   computed: {

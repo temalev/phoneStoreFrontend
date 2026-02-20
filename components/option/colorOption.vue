@@ -67,6 +67,8 @@ const api = useApi();
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   option: Object,
+  showSyncButton: { type: Boolean, default: false },
+  optionIndex: { type: Number, default: 0 },
 });
 
 const emit = defineEmits(['selectedOpt', 'moveColor', 'deleteColor']);
