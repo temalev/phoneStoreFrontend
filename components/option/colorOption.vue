@@ -18,6 +18,7 @@
         />
         <div
           class="color"
+          :title="item.name"
           @click="selectedColor(item.id)"
         >
           <div
