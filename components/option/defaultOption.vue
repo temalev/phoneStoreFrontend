@@ -15,21 +15,24 @@
       >
         {{ btn.value }}
       </div>
+      <el-tooltip v-if="showSyncButton" content="Синхронизировать фото" placement="top">
+        <el-button class="btnOption btnOption--sync" :icon="RefreshRight" circle @click="$emit('sync')" />
+      </el-tooltip>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
-import {
-  Edit,
-} from '@element-plus/icons-vue';
+import { ref } from 'vue';
+import { Edit, RefreshRight } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
 
-const emit = defineEmits(['selectedOpt', 'onEdit']);
+const emit = defineEmits(['selectedOpt', 'onEdit', 'sync']);
 const api = useApi();
 
 const props = defineProps({
   option: Object,
+  showSyncButton: { type: Boolean, default: false },
+  optionIndex: { type: Number, default: 0 },
 });
 
 const selectedOpt = ref(props.option.items[0].id);
@@ -70,5 +73,9 @@ onMounted(() => {
   &:hover {
     border: 1px solid #2c2c2c;
   }
+}
+
+.btnOption--sync {
+  flex-shrink: 0;
 }
 </style>
