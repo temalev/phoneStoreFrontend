@@ -2,43 +2,17 @@
   <div class="mainCardProduct">
     <div class="mainCardContainer">
       <div class="image-container">
-        <img
-          v-if="baseImg"
-          class="imgProduct"
-          :src="baseImg"
-          alt="Изображение продукта"
-        />
-        <el-button
-          v-if="baseImg"
-          type="danger"
-          class="delete"
-          :icon="Delete"
-          circle
-          @click="deleteImg"
-        />
+        <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+        <el-button v-if="baseImg" type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
         <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
       </div>
       <div class="info-background">
         <div class="infoContainer">
           <div class="header">
-            <Input
-              :value="product.name"
-              type="text"
-              @inputValue="(val) => (formData.name = val)"
-            />
-            <Input
-              v-if="api.isAuth"
-              :value="price"
-              type="number"
-              @inputValue="setVariants"
-            />
-            <Input
-              v-if="api.isAuth"
-              textArea
-              :value="product?.description"
-              type="text"
-              @inputValue="(val) => (formData.description = val)"
-            />
+            <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
+            <Input v-if="api.isAuth" :value="price" type="number" @inputValue="setVariants" />
+            <Input v-if="api.isAuth" textArea :value="product?.description" type="text"
+              @inputValue="(val) => (formData.description = val)" />
             <!-- <Input
               v-if="api.isAuth"
               :value="product?.sortValue"
@@ -47,32 +21,18 @@
             /> -->
             <div class="d-flex mt-2 align-center j-b">
               <span>Сортировка</span>
-              <el-input-number
-                v-if="api.isAuth"
-                :model-value="product?.sortValue"
-                :min="1"
-                :max="100"
-                @change="(val) => (formData.sortValue = val)"
-              />
+              <el-input-number v-if="api.isAuth" :model-value="product?.sortValue" :min="1" :max="100"
+                @change="(val) => (formData.sortValue = val)" />
             </div>
           </div>
           <div class="optionsContainer">
-            <Option
-              v-for="(option, idOpt) in localOptions"
-              :key="`${option?.name}-${idOpt}`"
-              :option="option"
-              @selectedOpt="(id) => selectedOpt(id, idOpt)"
-              @onEdit="(val) => (editOption = val)"
+            <Option v-for="(option, idOpt) in localOptions" :key="`${option?.name}-${idOpt}`" :option="option"
+              @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
-              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
-            />
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)" />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
-            <el-switch
-              v-model="isPriceDependOnColor"
-              inline-prompt
-              @change="setNotification"
-            />
+            <el-switch v-model="isPriceDependOnColor" inline-prompt @change="setNotification" />
             <span>Цена зависит от цвета</span>
           </div>
         </div>
@@ -81,36 +41,19 @@
           <el-input v-model="editOption.name" type="text" />
           {{ editOption.name }}
           <div class="d-flex">
-            <el-button type="primary" @click="editOption = null"
-              >Отменить</el-button
-            >
+            <el-button type="primary" @click="editOption = null">Отменить</el-button>
             <el-button type="success">Сохранить</el-button>
           </div>
         </div>
       </div>
     </div>
     <div class="wrapperButton">
-      <CustomButton
-        v-if="!api.isAuth"
-        @click="sendToShopBag"
-        :name="'В корзину'"
-      />
-      <el-button
-        v-if="api.isAuth"
-        :loading="isDeleting"
-        :disabled="isDeleting"
-        @click="onDeleteProduct"
-      >
+      <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
+      <el-button v-if="api.isAuth" :loading="isDeleting" :disabled="isDeleting" @click="onDeleteProduct">
         <div v-if="!isDeleting" class="icoDelete"></div>
       </el-button>
-      <CustomButton
-        v-if="api.isAuth"
-        :type="isSaved ? 'accept' : ''"
-        :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
-        :isLoading="isLoading"
-        @click="onSaveProductData"
-        :name="!isSaved ? 'Сохранить' : 'Сохранено'"
-      />
+      <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
+        :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
     </div>
   </div>
 </template>
@@ -210,7 +153,7 @@ const moveColorItem = (optionIndex, { from, to }) => {
   const items = [...localOptions.value[optionIndex].items];
   const [movedItem] = items.splice(from, 1);
   items.splice(to, 0, movedItem);
-  
+
   // Обновляем массив items реактивно
   localOptions.value[optionIndex].items = items;
 };
@@ -351,18 +294,18 @@ const onSaveProductData = async () => {
 
   try {
     const res = await api.updateProduct(props.product.uuid, updatedProductData);
-    
+
     // Обновляем список товаров
     if (uuidCurrentCategory) {
       await api.getProducts(uuidCurrentCategory);
     }
-    
+
     isSaved.value = true;
     ElMessage({
       type: 'success',
       message: 'Товар успешно обновлен',
     });
-    
+
     setTimeout(() => {
       isSaved.value = false;
     }, 3000);
@@ -445,7 +388,6 @@ const selectedFile = async () => {
     }
   });
 
-  formData.value.images[0] = res.full;
 };
 
 // eslint-disable-next-line no-undef
