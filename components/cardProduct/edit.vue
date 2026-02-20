@@ -1,7 +1,7 @@
 <template>
   <div class="mainCardProduct">
     <div class="mainCardContainer">
-      <div class="image-container">
+      <div v-loading="isImageUploading" class="image-container">
         <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
         <el-button v-if="baseImg" type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
         <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
@@ -88,6 +88,7 @@ const localOptions = ref(JSON.parse(JSON.stringify(props.product.options || []))
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
+const isImageUploading = ref(false);
 
 const currentCategory = window.location.pathname.split("/").pop();
 const uuidCurrentCategory = categories.categories.find((el) =>
@@ -369,25 +370,29 @@ const drop = (event) => {
 };
 
 const selectedFile = async () => {
-  // eslint-disable-next-line prefer-destructuring
-  dropzoneFile.value.url = document.querySelector(".dragZone").files[0];
-  urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
-  const formDataImg = new FormData(); // Создаем экземпляр FormData
-  formDataImg.append("file", dropzoneFile.value.url);
-  const res = await api.uploadImg(formDataImg);
+  isImageUploading.value = true;
+  try {
+    // eslint-disable-next-line prefer-destructuring
+    dropzoneFile.value.url = document.querySelector(".dragZone").files[0];
+    urlFile.value = URL.createObjectURL(dropzoneFile.value?.url);
+    const formDataImg = new FormData(); // Создаем экземпляр FormData
+    formDataImg.append("file", dropzoneFile.value.url);
+    const res = await api.uploadImg(formDataImg);
 
-  const { variants, options } = formData.value;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+    const { variants, options } = formData.value;
+    const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
-  variants.forEach(({ optionsIds }, idx) => {
-    const isCandidate = (
-      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-    ).every((id) => optionsIds.includes(id));
-    if (isCandidate) {
-      variants[idx].optionsInfo.images.push(res.full);
-    }
-  });
-
+    variants.forEach(({ optionsIds }, idx) => {
+      const isCandidate = (
+        props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+      ).every((id) => optionsIds.includes(id));
+      if (isCandidate) {
+        variants[idx].optionsInfo.images.push(res.full);
+      }
+    });
+  } finally {
+    isImageUploading.value = false;
+  }
 };
 
 // eslint-disable-next-line no-undef
