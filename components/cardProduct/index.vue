@@ -153,6 +153,10 @@ const baseImg = computed(() => {
 });
 
 const price = computed(() => {
+  if (!props.product.priceDependOnColor) {
+    return props.product.price;
+  }
+
   if (selectedOptions.value.length) {
     // eslint-disable-next-line max-len
     let canditate = null;

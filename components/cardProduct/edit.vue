@@ -26,18 +26,11 @@
             </div>
           </div>
           <div class="optionsContainer">
-            <Option
-              v-for="(option, idOpt) in localOptions"
-              :key="`${option?.name}-${idOpt}`"
-              :option="option"
-              :show-sync-button="api.isAuth && !isColorOption(option)"
-              :option-index="idOpt"
-              @selectedOpt="(id) => selectedOpt(id, idOpt)"
-              @onEdit="(val) => (editOption = val)"
+            <Option v-for="(option, idOpt) in localOptions" :key="`${option?.name}-${idOpt}`" :option="option"
+              :show-sync-button="api.isAuth && !isColorOption(option)" :option-index="idOpt"
+              @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
-              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
-              @sync="syncPhotosForOption(idOpt)"
-            />
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)" @sync="syncPhotosForOption(idOpt)" />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
             <el-switch v-model="isPriceDependOnColor" inline-prompt @change="setNotification" />
@@ -139,6 +132,10 @@ const baseImg = computed(() => {
 const price = computed(() => {
   const { variants, price: defaultPrice } = formData.value;
 
+  if (!isPriceDependOnColor.value) {
+    return defaultPrice;
+  }
+
   if (selectedOptions.value.length) {
     const candidate = variants.find(({ optionsIds }) =>
       optionsIds.every((optionId) => selectedOptions.value.includes(optionId))
@@ -209,18 +206,16 @@ const onDeleteColor = async (optionIndex, colorId) => {
 };
 
 const setVariants = (newPrice) => {
-  const { variants, options } = formData.value;
-
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
-
-  if (!options.length) {
+  if (!isPriceDependOnColor.value) {
     formData.value.price = newPrice;
+    return;
   }
 
-  variants.forEach(({ optionsIds, optionsInfo }, idx) => {
-    const isCandidate = (
-      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-    ).every((id) => optionsIds.includes(id));
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds, optionsInfo }) => {
+    const isCandidate = selectedOptions.value.every((id) => optionsIds.includes(id));
 
     if (isCandidate) {
       optionsInfo.price = newPrice;
