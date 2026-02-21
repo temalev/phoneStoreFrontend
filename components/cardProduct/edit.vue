@@ -132,6 +132,10 @@ const baseImg = computed(() => {
 const price = computed(() => {
   const { variants, price: defaultPrice } = formData.value;
 
+  if (!isPriceDependOnColor.value) {
+    return defaultPrice;
+  }
+
   if (selectedOptions.value.length) {
     const candidate = variants.find(({ optionsIds }) =>
       optionsIds.every((optionId) => selectedOptions.value.includes(optionId))
@@ -202,18 +206,16 @@ const onDeleteColor = async (optionIndex, colorId) => {
 };
 
 const setVariants = (newPrice) => {
-  const { variants, options } = formData.value;
-
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
-
-  if (!options.length) {
+  if (!isPriceDependOnColor.value) {
     formData.value.price = newPrice;
+    return;
   }
 
-  variants.forEach(({ optionsIds, optionsInfo }, idx) => {
-    const isCandidate = (
-      props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-    ).every((id) => optionsIds.includes(id));
+  const { variants, options } = formData.value;
+  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+  variants.forEach(({ optionsIds, optionsInfo }) => {
+    const isCandidate = selectedOptions.value.every((id) => optionsIds.includes(id));
 
     if (isCandidate) {
       optionsInfo.price = newPrice;
