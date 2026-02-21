@@ -47,7 +47,7 @@ label {
   border-radius: 10px;
   outline: none;
   border: 1px solid #ccc;
-  font-size: 18px;
+  font-size: 15px;
   resize: none;
 }
 

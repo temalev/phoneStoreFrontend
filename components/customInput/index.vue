@@ -63,7 +63,7 @@ label {
   border: none;
   outline: none;
   width: 100%;
-  font-size: 18px;
+  font-size: 15px;
   box-sizing: border-box;
 }
 
