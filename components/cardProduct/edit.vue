@@ -424,16 +424,22 @@ const selectedFile = async () => {
     const res = await api.uploadImg(formDataImg);
 
     const { variants, options } = formData.value;
-    const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
-    variants.forEach(({ optionsIds }, idx) => {
-      const isCandidate = (
-        props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
-      ).every((id) => optionsIds.includes(id));
-      if (isCandidate) {
-        variants[idx].optionsInfo.images.push(res.full);
-      }
-    });
+    if (!variants?.length) {
+      if (!formData.value.images) formData.value.images = [];
+      formData.value.images.push(res.full);
+    } else {
+      const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+
+      variants.forEach(({ optionsIds }, idx) => {
+        const isCandidate = (
+          props.product.priceDependOnColor ? selectedOptions.value : notColorOptions
+        ).every((id) => optionsIds.includes(id));
+        if (isCandidate) {
+          variants[idx].optionsInfo.images.push(res.full);
+        }
+      });
+    }
   } finally {
     isImageUploading.value = false;
   }
