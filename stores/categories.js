@@ -90,7 +90,7 @@ export const useCategories = defineStore('categories', {
       {
         name: 'Dyson',
         ico: '/icons/dyson.svg',
-        style: { height: '70', width: '100' },
+        style: { height: '70', width: '90' },
         link: '/product/dyson',
         img: '/images/dyson.webp',
         uuid: 'b735980b-2c69-4450-bfac-69dd7ee60e44',
