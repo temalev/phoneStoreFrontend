@@ -16,7 +16,7 @@
         v-for="product in api.products?.[currentCategory]?.filter(
           (el) => !el.isDeleted
         )"
-        :key="`${product.uuid}-${updateCounter}`"
+        :key="`${product.uuid || product._tempId}-${updateCounter}`"
         :product="product"
       />
     </template>

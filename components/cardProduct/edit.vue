@@ -1,5 +1,5 @@
 <template>
-  <div class="mainCardProduct">
+  <div class="mainCardProduct" :class="{ 'is-new': isNewProduct }">
     <div class="mainCardContainer">
       <div v-loading="isImageUploading" class="image-container">
         <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
@@ -50,11 +50,15 @@
     </div>
     <div class="wrapperButton">
       <CustomButton v-if="!api.isAuth" @click="sendToShopBag" :name="'В корзину'" />
-      <el-button v-if="api.isAuth" :loading="isDeleting" :disabled="isDeleting" @click="onDeleteProduct">
+      <el-button v-if="api.isAuth && !isNewProduct" :loading="isDeleting" :disabled="isDeleting" @click="onDeleteProduct">
         <div v-if="!isDeleting" class="icoDelete"></div>
       </el-button>
+      <el-tooltip v-if="api.isAuth && !isNewProduct" content="Копировать товар" placement="top">
+        <el-button :icon="CopyDocument" @click="copyProduct" />
+      </el-tooltip>
       <CustomButton v-if="api.isAuth" :type="isSaved ? 'accept' : ''" :b-color="isSaved ? '#4CAF50' : '#2c2c2c'"
-        :isLoading="isLoading" @click="onSaveProductData" :name="!isSaved ? 'Сохранить' : 'Сохранено'" />
+        :isLoading="isLoading" @click="onSaveProductData"
+        :name="isSaved ? (isNewProduct ? 'Создан' : 'Сохранено') : (isNewProduct ? 'Создать' : 'Сохранить')" />
     </div>
   </div>
 </template>
@@ -64,7 +68,7 @@
 import { ref, computed } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
-import { Delete } from "@element-plus/icons-vue";
+import { Delete, CopyDocument } from "@element-plus/icons-vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 
 const categories = useCategories();
@@ -95,6 +99,8 @@ const currentCategory = window.location.pathname.split("/").pop();
 const uuidCurrentCategory = categories.categories.find((el) =>
   el.link.includes(currentCategory)
 )?.uuid;
+
+const isNewProduct = computed(() => !props.product.uuid);
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) =>
@@ -305,31 +311,25 @@ const syncPhotosForOption = (optionIndex) => {
   ElMessage({ type: 'success', message: 'Фото синхронизированы' });
 };
 
+const copyProduct = () => {
+  const copy = JSON.parse(JSON.stringify(props.product));
+  delete copy.uuid;
+  copy._tempId = `copy-${Date.now()}`;
+
+  const products = api.products[currentCategory];
+  const idx = products.findIndex((p) => p.uuid === props.product.uuid);
+  products.splice(idx + 1, 0, copy);
+};
+
 const onSaveProductData = async () => {
   isLoading.value = true;
-  const oldVariants = props.product.variants;
+
   const { variants, options } = formData.value;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
 
-  variants.forEach((variant, idx) => {
-    const oldVariant = oldVariants[idx];
-
-    const currentPrice = oldVariant.optionsInfo?.price;
-    const previousOldPrice = oldVariant.optionsInfo?.oldPrice;
-
-    // eslint-disable-next-line no-param-reassign, max-len
-    variant.optionsInfo.oldPrice =
-      currentPrice !== previousOldPrice ? currentPrice : previousOldPrice;
-  });
-  console.log(formData.value.price);
-  const updatedProductData = {
+  const productPayload = {
     name: formData.value.name || props.product.name,
     variants: formData.value.variants,
-    price:
-      formData.value.price >= 0 ? formData.value.price : props.product.price,
-    priceOld: formData.value.price
-      ? props.product.price
-      : props.product?.priceOld,
+    price: formData.value.price >= 0 ? formData.value.price : props.product.price,
     description: formData.value.description || props.product.description,
     priceDependOnColor: isPriceDependOnColor.value,
     images: formData.value.images,
@@ -338,27 +338,52 @@ const onSaveProductData = async () => {
   };
 
   try {
-    const res = await api.updateProduct(props.product.uuid, updatedProductData);
+    if (isNewProduct.value) {
+      const createData = {
+        ...productPayload,
+        categoryUUID: uuidCurrentCategory,
+      };
+      const res = await api.createdProduct(createData);
 
-    // Обновляем список товаров
+      if (res) {
+        const products = api.products[currentCategory];
+        const idx = products.findIndex((p) => p._tempId === props.product._tempId);
+        if (idx !== -1) products.splice(idx, 1, res);
+
+        isSaved.value = true;
+        ElMessage({ type: 'success', message: 'Товар успешно создан' });
+        setTimeout(() => { isSaved.value = false; }, 3000);
+      }
+      return;
+    }
+
+    const oldVariants = props.product.variants;
+    variants.forEach((variant, idx) => {
+      const oldVariant = oldVariants[idx];
+      const currentPrice = oldVariant.optionsInfo?.price;
+      const previousOldPrice = oldVariant.optionsInfo?.oldPrice;
+      // eslint-disable-next-line no-param-reassign
+      variant.optionsInfo.oldPrice =
+        currentPrice !== previousOldPrice ? currentPrice : previousOldPrice;
+    });
+
+    await api.updateProduct(props.product.uuid, {
+      ...productPayload,
+      priceOld: formData.value.price ? props.product.price : props.product?.priceOld,
+    });
+
     if (uuidCurrentCategory) {
       await api.getProducts(uuidCurrentCategory);
     }
 
     isSaved.value = true;
-    ElMessage({
-      type: 'success',
-      message: 'Товар успешно обновлен',
-    });
-
-    setTimeout(() => {
-      isSaved.value = false;
-    }, 3000);
+    ElMessage({ type: 'success', message: 'Товар успешно обновлен' });
+    setTimeout(() => { isSaved.value = false; }, 3000);
   } catch (e) {
     console.error(e);
     ElMessage({
       type: 'error',
-      message: 'Ошибка при сохранении товара',
+      message: isNewProduct.value ? 'Ошибка при создании товара' : 'Ошибка при сохранении товара',
     });
   } finally {
     isLoading.value = false;
@@ -461,6 +486,11 @@ onMounted(() => {
   border: 1px solid #eee;
   box-shadow: 0 0 10px #eee;
   border-radius: 12px;
+
+  &.is-new {
+    border-color: #409eff;
+    box-shadow: 0 0 12px rgba(64, 158, 255, 0.35);
+  }
 }
 
 .wrapperButton {
