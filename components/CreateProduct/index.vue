@@ -88,7 +88,6 @@
               <el-input
                 v-model="option.name"
                 placeholder="Название опции (например: объем памяти, цвет)"
-                :disabled="option.type === 'color'"
                 style="flex: 1"
               />
               <el-select
@@ -299,6 +298,8 @@ import { useApi } from '~/stores/api';
 import { ElMessage } from 'element-plus';
 import DropZone from '~/components/DropZone/index.vue';
 
+const emit = defineEmits(['created']);
+
 const api = useApi();
 
 const formRef = ref(null);
@@ -387,12 +388,8 @@ const removeOptionItem = (optionIndex, itemIndex) => {
 const updateOptionType = (optionIndex, newType) => {
   const option = options.value[optionIndex];
 
-  // Если тип меняется на "color", автоматически устанавливаем название "Цвет"
-  if (newType === 'color') {
+  if (newType === 'color' && !option?.name) {
     options.value[optionIndex].name = 'Цвет';
-  } else if (newType === 'list' && option?.name === 'Цвет') {
-    // Если переключаемся с "color" на "list" и название было "Цвет", сбрасываем название
-    options.value[optionIndex].name = '';
   }
 
   option.items.forEach((item, index) => {
@@ -683,6 +680,7 @@ const submitForm = async () => {
       currentStep.value = 0;
       generalImage.value = null;
       generalImageUrl.value = null;
+      setTimeout(() => emit('created'), 1500);
     } else {
       ElMessage.error('Ошибка при создании продукта');
     }

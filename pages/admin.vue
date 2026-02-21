@@ -64,13 +64,15 @@
         <CustomButton @click="isCreatePromocode = true" name="Все промокоды" />
       </NuxtLink>
       </div>
-      <CustomModal
-        v-if="isCreateProduct"
-        @close="isCreateProduct = false"
-        width="800px"
+      <el-dialog
+        v-model="isCreateProduct"
+        title="Создать товар"
+        width="860px"
+        :close-on-click-modal="false"
+        destroy-on-close
       >
-        <CreateProduct />
-      </CustomModal>
+        <CreateProduct @created="isCreateProduct = false" />
+      </el-dialog>
       <CustomModal v-if="isCreatePromocode" @close="isCreatePromocode = false">
         <CreatePromocode @close="isCreatePromocode = false" />
       </CustomModal>
