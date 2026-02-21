@@ -4,7 +4,7 @@
   </Head>
   <div v-if="api.products" class="mainProducts">
     <template v-if="api.isAuth">
-      <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
+      <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid || product._tempId" :product="product" />
     </template>
     <template v-else>
       <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
