@@ -26,18 +26,11 @@
             </div>
           </div>
           <div class="optionsContainer">
-            <Option
-              v-for="(option, idOpt) in localOptions"
-              :key="`${option?.name}-${idOpt}`"
-              :option="option"
-              :show-sync-button="api.isAuth && !isColorOption(option)"
-              :option-index="idOpt"
-              @selectedOpt="(id) => selectedOpt(id, idOpt)"
-              @onEdit="(val) => (editOption = val)"
+            <Option v-for="(option, idOpt) in localOptions" :key="`${option?.name}-${idOpt}`" :option="option"
+              :show-sync-button="api.isAuth && !isColorOption(option)" :option-index="idOpt"
+              @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
-              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
-              @sync="syncPhotosForOption(idOpt)"
-            />
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)" @sync="syncPhotosForOption(idOpt)" />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
             <el-switch v-model="isPriceDependOnColor" inline-prompt @change="setNotification" />
