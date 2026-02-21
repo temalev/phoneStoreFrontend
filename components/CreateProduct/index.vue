@@ -298,6 +298,8 @@ import { useApi } from '~/stores/api';
 import { ElMessage } from 'element-plus';
 import DropZone from '~/components/DropZone/index.vue';
 
+const emit = defineEmits(['created']);
+
 const api = useApi();
 
 const formRef = ref(null);
@@ -678,6 +680,7 @@ const submitForm = async () => {
       currentStep.value = 0;
       generalImage.value = null;
       generalImageUrl.value = null;
+      setTimeout(() => emit('created'), 1500);
     } else {
       ElMessage.error('Ошибка при создании продукта');
     }
