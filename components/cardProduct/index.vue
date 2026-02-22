@@ -6,7 +6,7 @@
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>
           <div class="priceRow">
-            <span v-if="oldPrice > price" class="oldPrice"
+            <span v-if="oldPrice > price && price !== 0" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
             <a v-if="price === 0" href="https://t.me/Rktech_shop" style="font-weight: 300"
@@ -333,6 +333,7 @@ onMounted(() => {
 .priceRow {
   display: flex;
   gap: 12px;
+  margin-top: 8px;
 }
 
 .oldPrice {
@@ -353,7 +354,9 @@ onMounted(() => {
 }
 
 .description {
-  padding-top: 6px;
+  padding-top: 8px;
+  font-weight: 300;
+  line-height: 1.3;
 }
 
 .optionsContainer {
