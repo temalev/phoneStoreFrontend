@@ -21,18 +21,18 @@
             {{ product?.description }}
           </p>
         </div>
-        <div class="optionsContainer" @click.stop>
-          <Option
-            v-for="(option, idOpt) in product?.options"
-            :key="option?.name"
-            :option="option"
-            :variants="product?.variants"
-            :selectedOptions="selectedOptions"
-            @selectedOpt="(id) => selectedOpt(id, idOpt)"
-          />
-        </div>
       </div>
     </NuxtLink>
+    <div class="optionsContainer">
+      <Option
+        v-for="(option, idOpt) in product?.options"
+        :key="option?.name"
+        :option="option"
+        :variants="product?.variants"
+        :selectedOptions="selectedOptions"
+        @selectedOpt="(id) => selectedOpt(id, idOpt)"
+      />
+    </div>
     <div v-if="price !== 0" class="wrapperButton">
       <CustomButton
         v-if="!isInCart"
@@ -366,6 +366,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 0 20px 10px;
 }
 
 .icoDelete {
