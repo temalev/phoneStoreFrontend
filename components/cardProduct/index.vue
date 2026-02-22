@@ -268,7 +268,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   width: 330px;
   border: 1px solid #eee;
   box-shadow: 0 0 10px #eee;
