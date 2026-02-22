@@ -68,12 +68,14 @@
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { Delete, CopyDocument } from "@element-plus/icons-vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 
 const categories = useCategories();
+const route = useRoute();
 
 const api = useApi();
 
@@ -97,7 +99,7 @@ const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
 const isImageUploading = ref(false);
 
-const currentCategory = window.location.pathname.split("/").pop();
+const currentCategory = route.path.split("/").pop();
 const uuidCurrentCategory = categories.categories.find((el) =>
   el.link.includes(currentCategory)
 )?.uuid;

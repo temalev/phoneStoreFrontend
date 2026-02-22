@@ -63,10 +63,12 @@
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
 
 const categories = useCategories();
+const route = useRoute();
 
 const api = useApi();
 const editedPrice = ref(null);
@@ -85,7 +87,7 @@ const isLoading = ref(false);
 const isSaved = ref(false);
 const isPriceDependOnColor = ref(false);
 
-const currentCategory = window.location.pathname.split('/').pop();
+const currentCategory = route.path.split('/').pop();
 const uuidCurrentCategory = categories.categories.find(
   (el) => el.link.includes(currentCategory),
 )?.uuid;

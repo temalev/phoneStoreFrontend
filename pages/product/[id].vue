@@ -6,14 +6,11 @@
     </div>
   </div>
   <div v-else class="mainProducts">
-    <Head>
-      <Title>{{ currentProduct().title }}</Title>
-    </Head>
     <h1 style="text-transform: capitalize;">{{currentProduct().category}}</h1>
     <div class="mainProducts-list">
     <template v-if="api.isAuth">
       <CardProductEdit
-        v-for="product in api.products?.[currentCategory]?.filter(
+        v-for="product in (api.products?.[currentCategory] ?? products)?.filter(
           (el) => !el.isDeleted
         )"
         :key="`${product.uuid || product._tempId}-${updateCounter}`"
@@ -22,7 +19,7 @@
     </template>
     <template v-else>
       <CardProduct
-        v-for="product in api.products?.[currentCategory]?.filter(
+        v-for="product in (api.products?.[currentCategory] ?? products)?.filter(
           (el) => !el.isDeleted
         )"
         :key="product.uuid"
@@ -35,19 +32,21 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { useHead } from "unhead";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const currentCategory = ref(null);
+const config = useRuntimeConfig();
+
+const currentCategory = ref(route.params.id);
 const updateCounter = ref(0);
-const isLoading = ref(true);
 
 const path = route.fullPath;
-currentCategory.value = route.params.id;
+const apiBase = config.public.URL;
+
 const descriptions = ref([
   {
     category: "iphone",
@@ -132,63 +131,50 @@ const currentProduct = () => {
 };
 
 useHead({
-  link: [
-    {
-      rel: "canonical",
-      href: `https://рк-тек.рф${path}`,
-    },
-  ],
+  title: currentProduct().title,
+  link: [{ rel: 'canonical', href: `https://рк-тек.рф${path}` }],
   meta: [
-    { property: "og:description", content: currentProduct().description },
-    { property: "og:title", content: currentProduct().title },
-    { property: "og:image", content: currentProduct().img },
-    {
-      hid: "title",
-      name: "title",
-      content: currentProduct().title,
-    },
-    {
-      hid: "description",
-      name: "description",
-      content: currentProduct().description,
-    },
-    {
-      name: "keywords",
-      content: `${currentProduct()?.keywords}`,
-    },
+    { name: 'description', content: currentProduct().description },
+    { name: 'keywords', content: currentProduct().keywords },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: currentProduct().title },
+    { property: 'og:description', content: currentProduct().description },
+    { property: 'og:image', content: currentProduct().img },
+    { property: 'og:url', content: `https://рк-тек.рф${path}` },
+    { property: 'og:site_name', content: 'РК-Тек' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: currentProduct().title },
+    { name: 'twitter:description', content: currentProduct().description },
+    { name: 'twitter:image', content: currentProduct().img },
   ],
 });
 
 const api = useApi();
 const categories = useCategories();
 
-// Отслеживаем изменения в products и обновляем счетчик
+const uuidCategory = categories.categories.find(
+  (el) => el.link.split("/").pop() === currentCategory.value
+)?.uuid;
+
+const { data: products, pending: isLoading } = await useAsyncData(
+  `products-${currentCategory.value}`,
+  () => $fetch(`${apiBase}/api/v1/product?categoryUUID=${uuidCategory}`),
+);
+
+// Синхронизируем в store — работает и на сервере, и на клиенте (payload кэш)
+api.currentCategory = currentCategory.value;
+if (products.value) {
+  api.products[currentCategory.value] = products.value;
+}
+
+// Обновляем счётчик при изменении товаров (для режима редактирования)
 watch(
   () => api.products?.[currentCategory.value],
   (newProducts) => {
-    if (newProducts) {
-      updateCounter.value += 1;
-      isLoading.value = false;
-    }
+    if (newProducts) updateCounter.value += 1;
   },
   { deep: true },
 );
-
-// eslint-disable-next-line no-undef
-onMounted(async () => {
-  api.currentCategory = currentCategory.value;
-  const uuidCategory = categories.categories.find(
-    (el) => el.link.split("/").pop() === currentCategory.value
-  ).uuid;
-  
-  isLoading.value = true;
-  await api.getProducts(uuidCategory);
-  
-  // Проверяем, загружены ли товары после запроса
-  if (api.products?.[currentCategory.value]) {
-    isLoading.value = false;
-  }
-});
 </script>
 
 <style scoped lang="scss">
