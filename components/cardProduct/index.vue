@@ -19,7 +19,7 @@
               >{{ priceFrmt(price) }} <strong>₽</strong>
             </span>
           </div>
-          <p class="description">
+          <p v-if="product?.description" class="description">
             {{ product?.description }}
           </p>
         </div>
