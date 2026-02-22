@@ -35,7 +35,6 @@
 import { ref, watch } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
-import { useHead } from "unhead";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
