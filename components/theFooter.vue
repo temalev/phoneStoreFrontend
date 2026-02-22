@@ -143,9 +143,12 @@ const getProduct = (link) => {
   gap: 8px;
 }
 .navLinkMobile {
-  font-size: 16px;
-  color: #fff;
+  font-size: 15px;
+  color: #eee;
   cursor: pointer;
+  &:hover {
+    color: #fff;
+  }
 }
 
 .linksContainer {
