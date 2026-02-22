@@ -30,7 +30,9 @@
               :show-sync-button="api.isAuth && !isColorOption(option)" :option-index="idOpt"
               @selectedOpt="(id) => selectedOpt(id, idOpt)" @onEdit="(val) => (editOption = val)"
               @moveColor="(data) => moveColorItem(idOpt, data)"
-              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)" @sync="syncPhotosForOption(idOpt)" />
+              @deleteColor="(colorId) => onDeleteColor(idOpt, colorId)"
+              @addColor="(data) => onAddColor(idOpt, data)"
+              @sync="syncPhotosForOption(idOpt)" />
           </div>
           <div v-if="api.isAuth" class="d-flex align-center gap-2">
             <el-switch v-model="isPriceDependOnColor" inline-prompt @change="setNotification" />
@@ -211,6 +213,39 @@ const onDeleteColor = async (optionIndex, colorId) => {
   });
 };
 
+const onAddColor = (optionIndex, { name, value }) => {
+  const newId = Date.now() + Math.random();
+  const newItem = { id: newId, name, value };
+
+  localOptions.value[optionIndex].items.push(newItem);
+
+  const { variants } = formData.value;
+  const existingColorIds = localOptions.value[optionIndex].items
+    .filter((item) => item.id !== newId)
+    .map((item) => item.id);
+
+  if (!existingColorIds.length || !variants?.length) {
+    if (!formData.value.variants) formData.value.variants = [];
+    formData.value.variants.push({
+      optionsIds: [newId],
+      optionsInfo: { price: formData.value.price || 0, images: [], oldPrice: 0 },
+    });
+    return;
+  }
+
+  const referenceColorId = existingColorIds[0];
+  const newVariants = variants
+    .filter((v) => v.optionsIds[optionIndex] === referenceColorId)
+    .map((v) => ({
+      optionsIds: v.optionsIds.map((id, idx) => (idx === optionIndex ? newId : id)),
+      optionsInfo: { price: formData.value.price || 0, images: [], oldPrice: 0 },
+    }));
+
+  formData.value.variants.push(...newVariants);
+
+  ElMessage({ type: 'success', message: `Цвет «${name}» добавлен` });
+};
+
 const setVariants = (newPrice) => {
   if (!isPriceDependOnColor.value) {
     formData.value.price = newPrice;
@@ -357,9 +392,10 @@ const onSaveProductData = async () => {
       return;
     }
 
-    const oldVariants = props.product.variants;
+    const oldVariants = props.product.variants || [];
     variants.forEach((variant, idx) => {
       const oldVariant = oldVariants[idx];
+      if (!oldVariant) return;
       const currentPrice = oldVariant.optionsInfo?.price;
       const previousOldPrice = oldVariant.optionsInfo?.oldPrice;
       // eslint-disable-next-line no-param-reassign
