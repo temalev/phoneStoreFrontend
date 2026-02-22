@@ -2,57 +2,45 @@
   <div class="mainColorOption">
     <h3 class="optionName">{{ option.name.charAt(0).toUpperCase() + option.name.slice(1) }}</h3>
     <div class="colorContainer">
-      <div
-        v-for="(item, index) in option?.items"
-        :key="item.name"
-        class="color-wrapper"
+      <draggable
+        v-model="option.items"
+        item-key="id"
+        :disabled="!isEditMode"
+        class="drag-list"
+        ghost-class="drag-ghost"
+        chosen-class="drag-chosen"
+        animation="200"
       >
-        <el-button
-          v-if="isEditMode"
-          type="danger"
-          :icon="Delete"
-          circle
-          size="small"
-          class="delete-btn"
-          @click.stop="deleteColor(item.id)"
-        />
-        <div
-          class="color"
-          :title="item.name"
-          @click="selectedColor(item.id)"
-        >
-          <div
-            class="colorDot"
-            :style="{
-              borderColor: item.id === selected ? item.value : '#fff',
-            }"
-          >
+        <template #item="{ element: item }">
+          <div class="color-wrapper">
+            <el-button
+              v-if="isEditMode"
+              type="danger"
+              :icon="Delete"
+              circle
+              size="small"
+              class="delete-btn"
+              @click.stop="deleteColor(item.id)"
+            />
             <div
-              class="selectedColorDot"
-              :style="{
-                borderColor: item.value,
-                backgroundColor: item.value,
-              }"
-            ></div>
+              class="color"
+              :class="{ 'drag-handle': isEditMode }"
+              :title="item.name"
+              @click="selectedColor(item.id)"
+            >
+              <div
+                class="colorDot"
+                :style="{ borderColor: item.id === selected ? item.value : '#fff' }"
+              >
+                <div
+                  class="selectedColorDot"
+                  :style="{ borderColor: item.value, backgroundColor: item.value }"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div v-if="isEditMode" class="color-controls">
-          <el-button
-            v-if="index > 0"
-            :icon="ArrowLeft"
-            circle
-            size="small"
-            @click.stop="moveUp(index)"
-          />
-          <el-button
-            v-if="index < option.items.length - 1"
-            :icon="ArrowRight"
-            circle
-            size="small"
-            @click.stop="moveDown(index)"
-          />
-        </div>
-      </div>
+        </template>
+      </draggable>
 
       <el-tooltip v-if="isEditMode" content="Добавить цвет" placement="top">
         <el-button :icon="Plus" circle size="small" class="add-btn" @click.stop="isAdding = true" />
@@ -92,7 +80,8 @@
 <script setup>
 // eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
-import { ArrowLeft, ArrowRight, Delete, Plus, Check, Close } from '@element-plus/icons-vue';
+import draggable from 'vuedraggable';
+import { Delete, Plus } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
 
 const api = useApi();
@@ -119,18 +108,6 @@ const selected = computed(() => (!selectedItem.value ? props.option.items[0].id 
 const selectedColor = (id) => {
   selectedItem.value = id;
   emit('selectedOpt', selectedItem.value);
-};
-
-const moveUp = (index) => {
-  if (index > 0) {
-    emit('moveColor', { from: index, to: index - 1 });
-  }
-};
-
-const moveDown = (index) => {
-  if (index < props.option.items.length - 1) {
-    emit('moveColor', { from: index, to: index + 1 });
-  }
 };
 
 const deleteColor = (colorId) => {
@@ -186,16 +163,10 @@ onMounted(() => {
 
 .color {
   cursor: pointer;
-}
 
-.color-controls {
-  display: flex;
-  gap: 4px;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  
-  &:hover {
-    opacity: 1;
+  &.drag-handle {
+    cursor: grab;
+    &:active { cursor: grabbing; }
   }
 }
 
@@ -205,6 +176,23 @@ onMounted(() => {
   gap: 15px;
   margin-left: 5px;
   align-items: center;
+}
+
+.drag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.drag-ghost {
+  opacity: 0.3;
+}
+
+.drag-chosen {
+  .colorDot {
+    box-shadow: 0 0 0 2px #409eff;
+  }
 }
 
 .add-btn {

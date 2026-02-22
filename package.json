@@ -28,15 +28,16 @@
     "@pinia/nuxt": "^0.4.6",
     "@typescript-eslint/parser": "^5.48.2",
     "@unhead/ssr": "^1.1.23",
+    "@vueuse/head": "^2.0.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.0.29",
-    "@vueuse/head": "^2.0.0",
     "prettier": "^2.8.3",
     "typescript": "^4.9.4",
     "unhead": "^1.1.23",
-    "vue-uuid": "^3.0.0"
+    "vue-uuid": "^3.0.0",
+    "vuedraggable": "^4.1.0"
   },
   "overrides": {
     "vue": "latest"
