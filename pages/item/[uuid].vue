@@ -126,7 +126,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
-import { useHead } from 'unhead';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -266,59 +265,98 @@ const decreaseQty = () => {
 };
 
 const pageUrl = `https://рк-тек.рф/item/${uuid}`;
-const productName = product.value?.name || 'AirPods 4';
+const productName = product.value?.name || '';
 const productDescription = product.value?.description || '';
-const ogImage = product.value?.variants?.[0]?.optionsInfo?.images?.[0] || '/images/airpods.webp';
+const categoryName = product.value?.category?.name || '';
+const ogImage = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
+  || product.value?.images?.[0]
+  || '/images/mainPageBackground.webp';
+
 const minPrice = product.value?.variants?.length
   ? Math.min(...product.value.variants.map((v) => v.optionsInfo?.price || 0).filter(Boolean))
   : product.value?.price || 0;
 
+const priceStr = minPrice ? `— цена ${formatPrice(minPrice)} ₽ ` : '';
+const pageTitle = `Купить ${productName} ${priceStr}в Москве и Рязани | РК-Тек`;
+const pageDescription = `Купить ${productName} в Москве и Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`;
+
+const keywords = [
+  `купить ${productName.toLowerCase()}`,
+  `${productName.toLowerCase()} цена`,
+  `${productName.toLowerCase()} москва`,
+  `${productName.toLowerCase()} рязань`,
+  `${productName.toLowerCase()} купить`,
+  `${productName.toLowerCase()} оригинал`,
+  categoryName ? `купить ${categoryName.toLowerCase()} москва` : '',
+].filter(Boolean).join(', ');
+
+const brandMap = {
+  iPhone: 'Apple',
+  iPad: 'Apple',
+  Mac: 'Apple',
+  Watch: 'Apple',
+  AirPods: 'Apple',
+  Samsung: 'Samsung',
+  Dyson: 'Dyson',
+  'PlayStation 5': 'Sony',
+};
+const brandName = brandMap[categoryName] || categoryName || 'РК-Тек';
+
+const allImages = product.value?.variants
+  ?.map((v) => v.optionsInfo?.images?.[0])
+  .filter(Boolean) || [];
+
+const offers = product.value?.variants?.length
+  ? product.value.variants.map((v) => ({
+    '@type': 'Offer',
+    priceCurrency: 'RUB',
+    price: v.optionsInfo?.price || 0,
+    availability: v.optionsInfo?.price
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/PreOrder',
+    seller: { '@type': 'Organization', name: 'РК-Тек' },
+    url: pageUrl,
+  }))
+  : [{
+    '@type': 'Offer',
+    priceCurrency: 'RUB',
+    price: product.value?.price || 0,
+    availability: 'https://schema.org/InStock',
+    seller: { '@type': 'Organization', name: 'РК-Тек' },
+    url: pageUrl,
+  }];
+
+// eslint-disable-next-line no-undef
 useHead({
-  title: `Купить ${productName} — цена ${minPrice ? formatPrice(minPrice) + ' ₽' : ''} в Москве и Рязани | РК-Тек`,
+  title: pageTitle,
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: `Купить ${productName} в Москве и Рязани с доставкой. ${productDescription} Оригинал, гарантия 1 год, низкие цены.`,
-    },
-    {
-      name: 'keywords',
-      content: `купить ${productName.toLowerCase()}, ${productName.toLowerCase()} цена, ${productName.toLowerCase()} москва, ${productName.toLowerCase()} рязань, airpods 4 купить, airpods 4 с шумоподавлением, airpods 4 без шумоподавления, оригинальные airpods`,
-    },
+    { name: 'description', content: pageDescription },
+    { name: 'keywords', content: keywords },
     { property: 'og:type', content: 'product' },
     { property: 'og:title', content: `Купить ${productName} — РК-Тек` },
-    {
-      property: 'og:description',
-      content: `${productDescription} Оригинал, гарантия 1 год. Доставка по Москве и Рязани.`,
-    },
+    { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: `Купить ${productName} — РК-Тек` },
-    { name: 'twitter:description', content: productDescription },
+    { name: 'twitter:description', content: pageDescription },
     { name: 'twitter:image', content: ogImage },
   ],
   script: [
     {
       type: 'application/ld+json',
+      // eslint-disable-next-line no-undef
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: productName,
         description: productDescription,
-        image: product.value?.variants?.map((v) => v.optionsInfo?.images?.[0]).filter(Boolean) || [],
-        brand: { '@type': 'Brand', name: 'Apple' },
-        category: product.value?.category?.name || 'AirPods',
-        offers: product.value?.variants?.map((v) => ({
-          '@type': 'Offer',
-          priceCurrency: 'RUB',
-          price: v.optionsInfo?.price || 0,
-          availability: 'https://schema.org/InStock',
-          seller: { '@type': 'Organization', name: 'РК-Тек' },
-          url: pageUrl,
-        })) || [],
+        image: allImages,
+        brand: { '@type': 'Brand', name: brandName },
+        category: categoryName,
+        offers,
       }),
     },
   ],
