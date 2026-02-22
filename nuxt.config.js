@@ -22,18 +22,6 @@ export default defineNuxtConfig({
     head: {
       title: "RK Tech - интернет магазин техники и аксессуаров Apple и Dyson",
       meta: [
-        {
-          hid: "og:title",
-          property: "og:title",
-          content: "RK TECH - техника и аксессуары Apple и Dyson",
-        },
-        {
-          hid: "og:description",
-          property: "og:description",
-          content: "Магазин оригинальной техники Apple (эпл), Dyson (дайсон) в Москве и Рязани. Гарантия 1 год на всю продукцию. Доставка в день заказа.",
-        },
-        { hid: "og:site_name", property: "og:site_name", content: "RK TECH" },
-        { hid: 'og:image', property: 'og:image', content: '/images/rk.png' },
         { charset: "utf-8" },
         { name: "mailru-domain", content: "CoFCclY1n4fubWZE" },
         { name: "yandex-verification", content: "001f935542fddf66" },
