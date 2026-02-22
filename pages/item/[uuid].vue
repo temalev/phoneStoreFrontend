@@ -134,10 +134,14 @@ const uuid = route.params.uuid;
 const config = useRuntimeConfig();
 const api = useApi();
 
-const { data: product, pending } = await useAsyncData(
+const { data: product, pending, error: productError } = await useAsyncData(
   `product-${uuid}`,
   () => $fetch(`${config.public.URL}/api/v1/product/${uuid}`),
 );
+
+if (import.meta.server && productError.value) {
+  console.error(`[item/${uuid}] API error:`, productError.value, '| URL:', `${config.public.URL}/api/v1/product/${uuid}`);
+}
 
 const selectedOptions = ref([]);
 
