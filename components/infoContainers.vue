@@ -331,10 +331,14 @@
   }
 }
 
+.textInfo {
+  margin-top: 8px;
+  color: #000000b9;
+}
+
 .textInfoContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
   font-family: Helvetica, Arial, sans-serif;
   width: 280px;
   z-index: 2;
