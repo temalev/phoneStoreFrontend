@@ -25,10 +25,14 @@
       <div class="productPage__info">
         <nav class="productPage__breadcrumb" aria-label="Хлебные крошки">
           <NuxtLink to="/">Главная</NuxtLink>
-          <span>/</span>
-          <NuxtLink v-if="product.category" :to="`/product/${product.category.name.toLowerCase()}`">
-            {{ product.category.name }}
-          </NuxtLink>
+          <template v-if="breadcrumbMiddle">
+            <span>/</span>
+            <NuxtLink :to="breadcrumbMiddle.to">{{ breadcrumbMiddle.label }}</NuxtLink>
+          </template>
+          <template v-if="breadcrumbCategory">
+            <span>/</span>
+            <NuxtLink :to="breadcrumbCategory.to">{{ breadcrumbCategory.label }}</NuxtLink>
+          </template>
           <span>/</span>
           <span>{{ product.name }}</span>
         </nav>
@@ -126,12 +130,14 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
+import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const uuid = route.params.uuid;
 const config = useRuntimeConfig();
 const api = useApi();
+const categories = useCategories();
 
 const apiBase = config.public.URL;
 
@@ -141,9 +147,44 @@ const { data: product, pending, error: productError } = await useAsyncData(
 );
 
 if (import.meta.server && productError.value) {
-  console.error(`[item/${uuid}] API error:`, productError.value, '| URL:', `${apiBase}/api/v1/product/${uuid}`);
+  // eslint-disable-next-line no-console
+  console.error(`[${uuid}] API error:`, productError.value);
 }
 
+// --- Хлебные крошки ---
+// Разворачиваем все категории включая вложенные (аксессуары)
+const allCategories = [
+  ...categories.categories,
+  ...categories.categories.flatMap((c) => c.categories || []),
+];
+
+const accessoriesCat = categories.categories.find((c) => c.link === '/accessories');
+const productCategory = allCategories.find(
+  (c) => c.uuid === product.value?.category?.uuid,
+);
+
+let breadcrumbMiddle = null;
+let breadcrumbCategory = null;
+
+if (productCategory) {
+  const isAccessorySub = accessoriesCat?.categories?.some(
+    (c) => c.uuid === productCategory.uuid,
+  );
+
+  if (isAccessorySub) {
+    breadcrumbMiddle = { label: 'Аксессуары', to: '/accessories' };
+    breadcrumbCategory = { label: productCategory.name, to: productCategory.link };
+  } else {
+    breadcrumbCategory = { label: productCategory.name, to: productCategory.link };
+  }
+} else if (product.value?.category?.name) {
+  // Неизвестная категория (суббренд «Другое»)
+  const catName = product.value.category.name;
+  breadcrumbMiddle = { label: 'Другое', to: '/other' };
+  breadcrumbCategory = { label: catName, to: `/other/${catName.toLowerCase()}` };
+}
+
+// --- Опции ---
 const selectedOptions = ref([]);
 
 const getDefaultOptions = () => {
@@ -169,21 +210,19 @@ const selectOption = (id, index) => {
 
 const currentVariant = computed(() => {
   if (!product.value?.variants?.length) return null;
-  if (!selectedOptions.value.length) return product.value.variants.find((v) => v.isDefault) || product.value.variants[0];
-
+  if (!selectedOptions.value.length) {
+    return product.value.variants.find((v) => v.isDefault) || product.value.variants[0];
+  }
   return product.value.variants.find(({ optionsIds }) =>
     optionsIds.every((optId) => selectedOptions.value.includes(optId)),
   ) || product.value.variants[0];
 });
 
-const currentImage = computed(() => {
-  return (
-    currentVariant.value?.optionsInfo?.images?.[0] ||
-    product.value?.variants?.[0]?.optionsInfo?.images?.[0] ||
-    product.value?.images?.[0] ||
-    '/images/placeholder.webp'
-  );
-});
+const currentImage = computed(() =>
+  currentVariant.value?.optionsInfo?.images?.[0]
+  || product.value?.variants?.[0]?.optionsInfo?.images?.[0]
+  || product.value?.images?.[0]
+  || '/images/placeholder.webp');
 
 const currentPrice = computed(() => {
   if (!product.value?.priceDependOnColor) return product.value?.price ?? 0;
@@ -256,15 +295,13 @@ const decreaseQty = () => {
   });
   if (idx !== -1) {
     const qty = api.orders[idx].quantity || 1;
-    if (qty > 1) {
-      api.orders[idx].quantity = qty - 1;
-    } else {
-      api.orders.splice(idx, 1);
-    }
+    if (qty > 1) api.orders[idx].quantity = qty - 1;
+    else api.orders.splice(idx, 1);
   }
 };
 
-const pageUrl = `https://рк-тек.рф/item/${uuid}`;
+// --- SEO ---
+const pageUrl = `https://рк-тек.рф/${uuid}`;
 const productName = product.value?.name || '';
 const productDescription = product.value?.description || '';
 const categoryName = product.value?.category?.name || '';
@@ -286,7 +323,6 @@ const keywords = [
   `${productName.toLowerCase()} москва`,
   `${productName.toLowerCase()} рязань`,
   `${productName.toLowerCase()} купить`,
-  `${productName.toLowerCase()} оригинал`,
   categoryName ? `купить ${categoryName.toLowerCase()} москва` : '',
 ].filter(Boolean).join(', ');
 
@@ -326,7 +362,6 @@ const offers = product.value?.variants?.length
     url: pageUrl,
   }];
 
-// eslint-disable-next-line no-undef
 useHead({
   title: pageTitle,
   link: [{ rel: 'canonical', href: pageUrl }],
@@ -347,7 +382,6 @@ useHead({
   script: [
     {
       type: 'application/ld+json',
-      // eslint-disable-next-line no-undef
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Product',
@@ -387,14 +421,8 @@ useHead({
   position: sticky;
   top: 100px;
 
-  @media (max-width: 900px) {
-    width: 340px;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    position: static;
-  }
+  @media (max-width: 900px) { width: 340px; }
+  @media (max-width: 768px) { width: 100%; position: static; }
 }
 
 .productPage__img {
@@ -404,13 +432,8 @@ useHead({
   border-radius: 20px;
   background-color: #f9f9f9;
 
-  @media (max-width: 900px) {
-    height: 340px;
-  }
-
-  @media (max-width: 768px) {
-    height: 300px;
-  }
+  @media (max-width: 900px) { height: 340px; }
+  @media (max-width: 768px) { height: 300px; }
 }
 
 .productPage__info {
@@ -444,9 +467,7 @@ useHead({
   color: #1a1a1a;
   letter-spacing: -0.5px;
 
-  @media (max-width: 768px) {
-    font-size: 26px;
-  }
+  @media (max-width: 768px) { font-size: 26px; }
 }
 
 .productPage__priceRow {
@@ -468,9 +489,7 @@ useHead({
   font-weight: 500;
   color: #1a1a1a;
 
-  &--discount {
-    color: #e53935;
-  }
+  &--discount { color: #e53935; }
 }
 
 .productPage__priceLink {
@@ -503,7 +522,6 @@ useHead({
   gap: 18px;
 }
 
-
 .productPage__actions {
   display: flex;
   gap: 14px;
@@ -512,9 +530,11 @@ useHead({
 }
 
 .productPage__buyBtn {
-  flex: 1;
-  min-width: 180px;
-  padding: 16px 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 0 32px;
   background: #2c2c2c;
   color: #fff;
   border: none;
@@ -522,6 +542,7 @@ useHead({
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
   transition: background 0.2s, transform 0.1s;
 
   &:hover { background: #1a1a1a; }
@@ -529,12 +550,13 @@ useHead({
 }
 
 .productPage__qtyControls {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 18px;
   background: #f5f5f5;
   border-radius: 14px;
-  padding: 10px 20px;
+  height: 52px;
+  padding: 0 20px;
 }
 
 .productPage__qtyBtn {
@@ -562,16 +584,18 @@ useHead({
 }
 
 .productPage__telegramBtn {
-  flex: 1;
-  min-width: 180px;
-  padding: 16px 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 52px;
   border: 1.5px solid #d0d0d0;
   border-radius: 14px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   color: #2c2c2c;
   text-decoration: none;
-  text-align: center;
+  white-space: nowrap;
   transition: border-color 0.2s;
 
   &:hover { border-color: #2c2c2c; }
@@ -603,14 +627,11 @@ useHead({
   font-weight: 600;
 }
 
-/* Skeleton */
 .productPage__skeleton {
   display: flex;
   gap: 50px;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  @media (max-width: 768px) { flex-direction: column; }
 }
 
 .skeleton-img {
@@ -622,10 +643,7 @@ useHead({
   animation: shimmer 1.5s infinite;
   flex-shrink: 0;
 
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 300px;
-  }
+  @media (max-width: 768px) { width: 100%; height: 300px; }
 }
 
 .skeleton-info {

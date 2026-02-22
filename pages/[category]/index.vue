@@ -40,11 +40,11 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const config = useRuntimeConfig();
 
-const currentCategory = ref(route.params.id);
+const currentCategory = ref(route.params.category);
 const updateCounter = ref(0);
 
-const path = route.fullPath;
 const apiBase = config.public.URL;
+const pageUrl = `https://рк-тек.рф/${currentCategory.value}`;
 
 const descriptions = ref([
   {
@@ -122,16 +122,11 @@ const descriptions = ref([
 ]);
 
 // eslint-disable-next-line max-len
-const currentProduct = () => {
-  const current = descriptions.value.find(
-    (el) => el.category === currentCategory.value
-  );
-  return current;
-};
+const currentProduct = () => descriptions.value.find((el) => el.category === currentCategory.value);
 
 useHead({
   title: currentProduct().title,
-  link: [{ rel: 'canonical', href: `https://рк-тек.рф${path}` }],
+  link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: currentProduct().description },
     { name: 'keywords', content: currentProduct().keywords },
@@ -139,7 +134,7 @@ useHead({
     { property: 'og:title', content: currentProduct().title },
     { property: 'og:description', content: currentProduct().description },
     { property: 'og:image', content: currentProduct().img },
-    { property: 'og:url', content: `https://рк-тек.рф${path}` },
+    { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: currentProduct().title },
@@ -160,13 +155,11 @@ const { data: products, pending: isLoading } = await useAsyncData(
   () => $fetch(`${apiBase}/api/v1/product?categoryUUID=${uuidCategory}`),
 );
 
-// Синхронизируем в store — работает и на сервере, и на клиенте (payload кэш)
 api.currentCategory = currentCategory.value;
 if (products.value) {
   api.products[currentCategory.value] = products.value;
 }
 
-// Обновляем счётчик при изменении товаров (для режима редактирования)
 watch(
   () => api.products?.[currentCategory.value],
   (newProducts) => {
