@@ -24,14 +24,14 @@
           <div
             class="colorDot"
             :style="{
-              backgroundColor: item.value,
+              borderColor: item.id === selected ? item.value : '#fff',
             }"
           >
             <div
-              v-if="selected === item.id"
               class="selectedColorDot"
               :style="{
                 borderColor: item.value,
+                backgroundColor: item.value,
               }"
             ></div>
           </div>
@@ -163,24 +163,28 @@ onMounted(() => {
 
 .colorDot {
   position: relative;
+  transition: 0.2s;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  transition: 0.2s;
-  &:hover {
-    box-shadow: 0 0 2px currentColor;
-  }
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 2px solid #eee;
+
 }
 
 .selectedColorDot {
-  position: absolute;
-  top: -3.8px;
-  left: -3.8px;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 2px solid black;
   padding: 3px;
+  flex-shrink: 0;
+  &:hover {
+    box-shadow: 0 0 2px currentColor;
+  }
 }
 
 .labelColor {
