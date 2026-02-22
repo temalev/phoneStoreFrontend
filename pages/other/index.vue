@@ -6,6 +6,30 @@
 <script setup>
 import { ref } from 'vue';
 
+const pageUrl = 'https://рк-тек.рф/other';
+const pageTitle = 'Другие бренды — Marshall, DJI, Xiaomi, JBL | РК-Тек';
+const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Москве. Свяжитесь с нами для подбора нужного товара по выгодной цене.';
+const ogImage = '/images/other.webp';
+
+useHead({
+  title: pageTitle,
+  link: [{ rel: 'canonical', href: pageUrl }],
+  meta: [
+    { name: 'description', content: pageDescription },
+    { name: 'keywords', content: 'marshall купить москва, dji купить, xiaomi купить москва, jbl купить, dreame купить, яндекс станция купить' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: pageTitle },
+    { property: 'og:description', content: pageDescription },
+    { property: 'og:image', content: ogImage },
+    { property: 'og:url', content: pageUrl },
+    { property: 'og:site_name', content: 'РК-Тек' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: pageTitle },
+    { name: 'twitter:description', content: pageDescription },
+    { name: 'twitter:image', content: ogImage },
+  ],
+});
+
 const categories = ref({
   categories: [
     {
