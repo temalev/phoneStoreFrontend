@@ -163,22 +163,21 @@ onMounted(() => {
 
 .colorDot {
   position: relative;
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background-color: #eee;
   transition: 0.2s;
   &:hover {
-    box-shadow: 0 0 5px #9e9e9e;
+    box-shadow: 0 0 2px currentColor;
   }
 }
 
 .selectedColorDot {
   position: absolute;
-  top: -5px;
-  left: -5px;
-  width: 25px;
-  height: 25px;
+  top: -3.8px;
+  left: -3.8px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 2px solid black;
   padding: 3px;
