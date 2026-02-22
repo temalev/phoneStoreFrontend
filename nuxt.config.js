@@ -46,4 +46,15 @@ export default defineNuxtConfig({
   svgo: {
     autoImportPath: "./assets/icons/",
   },
+
+  hooks: {
+    'pages:extend'(pages) {
+      // Ограничиваем маршрут [uuid] только UUID-форматом
+      // чтобы он не конфликтовал с [category]
+      const uuidPage = pages.find((p) => p.name === 'uuid');
+      if (uuidPage) {
+        uuidPage.path = '/:uuid([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})';
+      }
+    },
+  },
 });

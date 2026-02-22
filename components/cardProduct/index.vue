@@ -1,6 +1,6 @@
 <template>
   <article class="mainCardProduct">
-    <div class="mainCardContainer">
+    <NuxtLink :to="`/${product.uuid}`" class="mainCardContainer">
       <img class="imgProduct" :src="baseImg" :alt="product.name" />
       <div class="infoContainer">
         <div class="header">
@@ -9,9 +9,7 @@
             <span v-if="oldPrice > price && price !== 0" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
-            <a v-if="price === 0" href="https://t.me/Rktech_shop" style="font-weight: 300"
-              >Уточнить цену</a
-            >
+            <span v-if="price === 0" style="font-weight: 300; color: #0071e3;">Уточнить цену</span>
             <span
               v-if="price"
               class="price"
@@ -23,7 +21,7 @@
             {{ product?.description }}
           </p>
         </div>
-        <div class="optionsContainer">
+        <div class="optionsContainer" @click.stop>
           <Option
             v-for="(option, idOpt) in product?.options"
             :key="option?.name"
@@ -34,7 +32,7 @@
           />
         </div>
       </div>
-    </div>
+    </NuxtLink>
     <div v-if="price !== 0" class="wrapperButton">
       <CustomButton
         v-if="!isInCart"
@@ -307,6 +305,9 @@ onMounted(() => {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .imgProduct {
