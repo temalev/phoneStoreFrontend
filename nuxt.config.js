@@ -47,6 +47,22 @@ export default defineNuxtConfig({
     autoImportPath: "./assets/icons/",
   },
 
+  routeRules: {
+    // Редиректы со старых URL /product/* → новые
+    '/product/iphone': { redirect: { to: '/iphone', statusCode: 301 } },
+    '/product/ipad': { redirect: { to: '/ipad', statusCode: 301 } },
+    '/product/mac': { redirect: { to: '/mac', statusCode: 301 } },
+    '/product/watch': { redirect: { to: '/watch', statusCode: 301 } },
+    '/product/airpods': { redirect: { to: '/airpods', statusCode: 301 } },
+    '/product/samsung': { redirect: { to: '/samsung', statusCode: 301 } },
+    '/product/dyson': { redirect: { to: '/dyson', statusCode: 301 } },
+    '/product/ps': { redirect: { to: '/ps', statusCode: 301 } },
+    '/product/accessories': { redirect: { to: '/accessories', statusCode: 301 } },
+    '/product/other': { redirect: { to: '/other', statusCode: 301 } },
+    // Редиректы со старых URL /item/:uuid → /:uuid
+    '/item/**': { redirect: { to: '/**', statusCode: 301 } },
+  },
+
   hooks: {
     'pages:extend'(pages) {
       // Ограничиваем маршрут [uuid] только UUID-форматом
