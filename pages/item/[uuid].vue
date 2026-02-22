@@ -134,8 +134,7 @@ const uuid = route.params.uuid;
 const config = useRuntimeConfig();
 const api = useApi();
 
-const requestURL = useRequestURL();
-const apiBase = config.public.URL || `${requestURL.protocol}//${requestURL.host}`;
+const apiBase = config.public.URL;
 
 const { data: product, pending, error: productError } = await useAsyncData(
   `product-${uuid}`,
