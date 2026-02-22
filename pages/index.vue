@@ -19,8 +19,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { useHead } from 'unhead';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~~/stores/api';
 
@@ -32,6 +30,7 @@ const pageTitle = 'RK Tech — интернет-магазин техники Ap
 const pageDescription = 'RK Tech — техника и аксессуары Apple и Dyson в Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год. Доставка по Москве в день заказа.';
 const ogImage = '/images/mainPageBackground.webp';
 
+// eslint-disable-next-line no-undef
 useHead({
   title: pageTitle,
   link: [{ rel: 'canonical', href: pageUrl }],
