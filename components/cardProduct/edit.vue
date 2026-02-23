@@ -67,7 +67,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
@@ -94,6 +94,11 @@ const isPriceDependOnColor = ref(false);
 const setNotification = ref(false);
 const formData = ref(JSON.parse(JSON.stringify(props.product)));
 const localOptions = ref(JSON.parse(JSON.stringify(props.product.options || [])));
+
+watch(() => props.product, (newProduct) => {
+  formData.value = JSON.parse(JSON.stringify(newProduct));
+  localOptions.value = JSON.parse(JSON.stringify(newProduct.options || []));
+}, { deep: true });
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
@@ -140,21 +145,30 @@ const baseImg = computed(() => {
 });
 
 const price = computed(() => {
-  const { variants, price: defaultPrice } = formData.value;
+  const { variants, price: defaultPrice, options } = formData.value;
 
-  if (!isPriceDependOnColor.value) {
-    return defaultPrice;
-  }
+  if (!variants?.length) return defaultPrice;
 
-  if (selectedOptions.value.length) {
+  const colorOptionIndex = options?.findIndex(isColorOption) ?? -1;
+  const hasAnySelection = selectedOptions.value.some(Boolean);
+  if (!hasAnySelection) return defaultPrice;
+
+  if (isPriceDependOnColor.value) {
+    // Цена за конкретный вариант (цвет + опция) — полное совпадение
     const candidate = variants.find(({ optionsIds }) =>
-      optionsIds.every((optionId) => selectedOptions.value.includes(optionId))
+      selectedOptions.value.every((selectedId, idx) => !selectedId || optionsIds[idx] === selectedId)
     );
-
-    return candidate?.optionsInfo?.price >= 0 ? candidate?.optionsInfo?.price : defaultPrice;
+    return candidate?.optionsInfo?.price >= 0 ? candidate.optionsInfo.price : defaultPrice;
   }
 
-  return defaultPrice;
+  // Цена за опцию без учёта цвета — находим первый подходящий вариант
+  const candidate = variants.find(({ optionsIds }) =>
+    selectedOptions.value.every((selectedId, idx) => {
+      if (idx === colorOptionIndex) return true;
+      return !selectedId || optionsIds[idx] === selectedId;
+    })
+  );
+  return candidate?.optionsInfo?.price >= 0 ? candidate.optionsInfo.price : defaultPrice;
 });
 
 const priceFrmt = (val) =>
@@ -249,21 +263,43 @@ const onAddColor = (optionIndex, { name, value }) => {
 };
 
 const setVariants = (newPrice) => {
-  if (!isPriceDependOnColor.value) {
+  const { variants, options } = formData.value;
+
+  if (!variants?.length) {
     formData.value.price = newPrice;
     return;
   }
 
-  const { variants, options } = formData.value;
-  const notColorOptions = selectedOptions.value.filter(isColorOpt(options));
+  const colorOptionIndex = options?.findIndex(isColorOption) ?? -1;
+  const hasAnySelection = selectedOptions.value.some(Boolean);
 
-  variants.forEach(({ optionsIds, optionsInfo }) => {
-    const isCandidate = selectedOptions.value.every((id) => optionsIds.includes(id));
+  if (!hasAnySelection) {
+    formData.value.price = newPrice;
+    return;
+  }
 
-    if (isCandidate) {
-      optionsInfo.price = newPrice;
-    }
-  });
+  if (isPriceDependOnColor.value) {
+    // Обновляем только конкретный вариант (цвет + опция)
+    variants.forEach(({ optionsIds, optionsInfo }) => {
+      const isCandidate = selectedOptions.value.every(
+        (selectedId, idx) => !selectedId || optionsIds[idx] === selectedId,
+      );
+      if (isCandidate) {
+        optionsInfo.price = newPrice;
+      }
+    });
+  } else {
+    // Обновляем все цвета с данной опцией
+    variants.forEach(({ optionsIds, optionsInfo }) => {
+      const isCandidate = selectedOptions.value.every((selectedId, idx) => {
+        if (idx === colorOptionIndex) return true;
+        return !selectedId || optionsIds[idx] === selectedId;
+      });
+      if (isCandidate) {
+        optionsInfo.price = newPrice;
+      }
+    });
+  }
 };
 
 const deleteImg = () => {
@@ -405,13 +441,17 @@ const onSaveProductData = async () => {
         currentPrice !== previousOldPrice ? currentPrice : previousOldPrice;
     });
 
-    await api.updateProduct(props.product.uuid, {
+    const updatedProduct = await api.updateProduct(props.product.uuid, {
       ...productPayload,
       priceOld: formData.value.price ? props.product.price : props.product?.priceOld,
     });
 
-    if (uuidCurrentCategory) {
-      await api.getProducts(uuidCurrentCategory);
+    if (updatedProduct && api.products[currentCategory]) {
+      const products = api.products[currentCategory];
+      const idx = products.findIndex((p) => p.uuid === props.product.uuid);
+      if (idx !== -1) {
+        products.splice(idx, 1, updatedProduct);
+      }
     }
 
     isSaved.value = true;

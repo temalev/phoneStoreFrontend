@@ -13,7 +13,7 @@
         v-for="product in (api.products?.[currentCategory] ?? products)?.filter(
           (el) => !el.isDeleted
         )"
-        :key="`${product.uuid || product._tempId}-${updateCounter}`"
+        :key="product.uuid || product._tempId"
         :product="product"
       />
     </template>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { useRoute } from "vue-router";
@@ -41,7 +41,6 @@ const route = useRoute();
 const config = useRuntimeConfig();
 
 const currentCategory = ref(route.params.category);
-const updateCounter = ref(0);
 
 const apiBase = config.public.URL;
 const pageUrl = `https://рк-тек.рф/${currentCategory.value}`;
@@ -160,13 +159,6 @@ if (products.value) {
   api.products[currentCategory.value] = products.value;
 }
 
-watch(
-  () => api.products?.[currentCategory.value],
-  (newProducts) => {
-    if (newProducts) updateCounter.value += 1;
-  },
-  { deep: true },
-);
 </script>
 
 <style scoped lang="scss">
