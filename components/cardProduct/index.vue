@@ -153,47 +153,59 @@ const baseImg = computed(() => {
 });
 
 const price = computed(() => {
-  if (!props.product.priceDependOnColor) {
-    return props.product.price;
+  const { variants, options, price: defaultPrice, priceDependOnColor } = props.product;
+
+  if (!variants?.length) return defaultPrice;
+
+  const colorOptionIndex = options?.findIndex((el) => el.name.toLowerCase().includes('цвет')) ?? -1;
+  const hasAnySelection = selectedOptions.value.some(Boolean);
+  if (!hasAnySelection) return defaultPrice;
+
+  if (priceDependOnColor) {
+    // Цена за конкретный вариант (цвет + опция)
+    const candidate = variants.find(({ optionsIds }) =>
+      selectedOptions.value.every((selectedId, idx) => !selectedId || optionsIds[idx] === selectedId)
+    );
+    return candidate?.optionsInfo?.price ?? defaultPrice;
   }
 
-  if (selectedOptions.value.length) {
-    // eslint-disable-next-line max-len
-    let canditate = null;
-    const { variants, options } = props.product;
-
-    variants
-      // eslint-disable-next-line max-len
-      .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
-
-        if (isContains) {
-          canditate = props.product?.variants[idx];
-        }
-      });
-    return canditate?.optionsInfo?.price || props.product?.price;
-  }
-  return props.product.price;
+  // Цена за опцию без учёта цвета
+  const candidate = variants.find(({ optionsIds }) =>
+    selectedOptions.value.every((selectedId, idx) => {
+      if (idx === colorOptionIndex) return true;
+      return !selectedId || optionsIds[idx] === selectedId;
+    })
+  );
+  return candidate?.optionsInfo?.price ?? defaultPrice;
 });
 
 const oldPrice = computed(() => {
-  if (selectedOptions.value.length) {
-    // eslint-disable-next-line max-len
-    let canditate = null;
-    props.product.variants
-      // eslint-disable-next-line max-len
-      .forEach(({ optionsIds }, idx) => {
-        const isContains = optionsIds.every((optionId) => selectedOptions.value.includes(optionId));
+  const { variants, options, priceDependOnColor } = props.product;
 
-        if (isContains) {
-          canditate = props.product?.variants[idx];
-        }
-      });
-    return canditate?.optionsInfo?.oldPrice > canditate?.optionsInfo?.price
-      ? canditate.optionsInfo?.oldPrice
-      : null;
+  if (!variants?.length) return props.product.priceOld;
+
+  const colorOptionIndex = options?.findIndex((el) => el.name.toLowerCase().includes('цвет')) ?? -1;
+  const hasAnySelection = selectedOptions.value.some(Boolean);
+  if (!hasAnySelection) return props.product.priceOld;
+
+  let candidate;
+
+  if (priceDependOnColor) {
+    candidate = variants.find(({ optionsIds }) =>
+      selectedOptions.value.every((selectedId, idx) => !selectedId || optionsIds[idx] === selectedId)
+    );
+  } else {
+    candidate = variants.find(({ optionsIds }) =>
+      selectedOptions.value.every((selectedId, idx) => {
+        if (idx === colorOptionIndex) return true;
+        return !selectedId || optionsIds[idx] === selectedId;
+      })
+    );
   }
-  return props.product.priceOld;
+
+  return candidate?.optionsInfo?.oldPrice > candidate?.optionsInfo?.price
+    ? candidate.optionsInfo.oldPrice
+    : props.product.priceOld;
 });
 
 const priceFrmt = (val) => (val ? new Intl.NumberFormat('ru').format(val) : null);
