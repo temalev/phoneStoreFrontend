@@ -67,7 +67,7 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
@@ -95,10 +95,6 @@ const setNotification = ref(false);
 const formData = ref(JSON.parse(JSON.stringify(props.product)));
 const localOptions = ref(JSON.parse(JSON.stringify(props.product.options || [])));
 
-watch(() => props.product, (newProduct) => {
-  formData.value = JSON.parse(JSON.stringify(newProduct));
-  localOptions.value = JSON.parse(JSON.stringify(newProduct.options || []));
-}, { deep: true });
 const dropzoneFile = ref({ url: null, file: null });
 const urlFile = ref(null);
 const uploadedImgSrc = ref(null);
@@ -446,12 +442,9 @@ const onSaveProductData = async () => {
       priceOld: formData.value.price ? props.product.price : props.product?.priceOld,
     });
 
-    if (updatedProduct && api.products[currentCategory]) {
-      const products = api.products[currentCategory];
-      const idx = products.findIndex((p) => p.uuid === props.product.uuid);
-      if (idx !== -1) {
-        products.splice(idx, 1, updatedProduct);
-      }
+    if (updatedProduct) {
+      formData.value = JSON.parse(JSON.stringify(updatedProduct));
+      localOptions.value = JSON.parse(JSON.stringify(updatedProduct.options || []));
     }
 
     isSaved.value = true;

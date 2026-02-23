@@ -17,7 +17,7 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  plugins: ["~/plugins/uuid.js"],
+  plugins: ["~/plugins/uuid.js", "~/plugins/scroll-to-top.client.ts"],
   app: {
     head: {
       title: "RK Tech - интернет магазин техники и аксессуаров Apple и Dyson",

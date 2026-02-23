@@ -12,7 +12,8 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/router").default> &
   InjectionType<typeof import("../element-plus-teleports.plugin").default> &
   InjectionType<typeof import("../element-plus-injection.plugin").default> &
-  InjectionType<typeof import("../../plugins/uuid").default>
+  InjectionType<typeof import("../../plugins/uuid").default> &
+  InjectionType<typeof import("../../plugins/scroll-to-top.client").default>
 
 declare module '#app' {
   interface NuxtApp extends NuxtAppInjections { }
