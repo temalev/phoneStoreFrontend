@@ -60,6 +60,8 @@ onMounted(() => {});
     scroll-snap-type: x mandatory;
     padding: 20px 100px;
     width: auto;
+    justify-content: flex-start;
+  flex-wrap: nowrap;
   }
   &::-webkit-scrollbar {
     display: none;
