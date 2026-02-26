@@ -106,7 +106,7 @@ export const useCategories = defineStore('categories', {
         isName: false,
       },
       {
-        name: 'canon',
+        name: 'Canon',
         ico: '/icons/camera.svg',
         style: { height: '55', width: '55' },
         link: '/canon',
@@ -116,10 +116,10 @@ export const useCategories = defineStore('categories', {
         isHiddenForHeader: true
       },
       {
-        name: 'whoop',
+        name: 'Whoop',
         ico: '/icons/whoop.svg',
         style: { height: '55', width: '55' },
-        link: '/canon',
+        link: '/whoop',
         img: '/images/whoop.webp',
         uuid: 'd53d2d22-5d38-4651-8da2-1076f06d6511',
         isName: true,

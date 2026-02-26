@@ -33,7 +33,7 @@ useHead({
 const categories = ref({
   categories: [
     {
-      name: 'canon',
+      name: 'Canon',
       ico: '/icons/iphone.svg',
       link: 'canon',
       img: '/images/camera.webp',
@@ -42,7 +42,7 @@ const categories = ref({
       isHiddenForHeader: true
     },
     {
-      name: 'whoop',
+      name: 'Whoop',
       ico: '/icons/whoop.svg',
       link: 'whoop',
       img: '/images/whoop.webp',

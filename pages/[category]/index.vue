@@ -134,7 +134,7 @@ const descriptions = ref([
       "Купить Whoop в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
     keywords:
       "купить Whoop, Whoop цена, Whoop, Whoop с доставкой",
-    img: "/images/camera.webp",
+    img: "/images/whoop.webp",
   },
 ]);
 
