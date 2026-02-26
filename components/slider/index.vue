@@ -47,6 +47,8 @@ onMounted(() => {});
 <style scoped lang="scss">
 .mainSliderContainer {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 30px;
   overflow: scroll;
   scroll-behavior: smooth;
