@@ -33,12 +33,13 @@ useHead({
 const categories = ref({
   categories: [
     {
-      name: 'Canon',
+      name: 'canon',
       ico: '/icons/iphone.svg',
-      link: 'c568e1fd-4206-422d-aa73-a8e448fe5690',
+      link: 'canon',
       img: '/images/camera.webp',
       uuid: 'c568e1fd-4206-422d-aa73-a8e448fe5690',
       isName: true,
+      isHiddenForHeader: true
     },
     {
       name: 'Marshall',

@@ -5,23 +5,16 @@
     </NuxtLink>
 
     <nav class="menu">
-      <NuxtLink
-        v-for="link in categories.categories"
-        :key="link?.name"
-        :to="link.link"
-        class="navLink"
-        @click="getProduct(link.link)"
-      >
-        <div
-          class="ico"
-          :style="{
+      <template v-for="link in categories.categories" :key="link?.name">
+        <NuxtLink v-if="!link?.isHiddenForHeader" :to="link.link" class="navLink" @click="getProduct(link.link)">
+          <div class="ico" :style="{
             backgroundImage: `url(${link.ico})`,
             width: `${link.style?.width}px`,
             height: `${link.style?.height}px`,
-          }"
-        />
-        <span v-if="link.isName" class="name">{{ link?.name }}</span>
-      </NuxtLink>
+          }" />
+          <span v-if="link.isName" class="name">{{ link?.name }}</span>
+        </NuxtLink>
+      </template>
     </nav>
 
     <div v-if="!api.isAuth" class="leftContainer">
@@ -51,17 +44,10 @@
   </div>
 
   <div class="mainHeader_mobile">
-    <div
-      class="wrapper"
-      style="justify-content: space-between; align-items: center"
-    >
-      <div
-        class="btnMenu"
-        :class="isToLeft ? 'active' : ''"
-        @click="isToLeft = !isToLeft, onMenu()"
-      >
-      <span></span>
-        </div>
+    <div class="wrapper" style="justify-content: space-between; align-items: center">
+      <div class="btnMenu" :class="isToLeft ? 'active' : ''" @click="isToLeft = !isToLeft, onMenu()">
+        <span></span>
+      </div>
     </div>
 
     <div class="wrapper" style="justify-content: center">
@@ -94,15 +80,12 @@
     <Teleport v-if="isMenu" to="body">
       <div class="menuModal" :class="isToLeft ? 'toRight' : 'toLeft'">
         <nav class="menuModalLinks">
-          <NuxtLink
-            v-for="link in categories.categories"
-            :key="link?.name"
-            :to="link.link"
-            class="navLinkMobile"
-            @click="getProduct(link.link)"
-          >
-            <span class="navNameMobile">{{ link?.name }}</span>
-          </NuxtLink>
+          <template v-for="link in categories.categories" :key="link?.name">
+            <NuxtLink v-if="!link?.isHiddenForHeader"
+              :to="link.link" class="navLinkMobile" @click="getProduct(link.link)">
+              <span class="navNameMobile">{{ link?.name }}</span>
+            </NuxtLink>
+          </template>
         </nav>
       </div>
     </Teleport>
@@ -123,7 +106,7 @@ const categories = useCategories();
 const api = useApi();
 
 // Вычисляем общее количество товаров в корзине
-const totalItemsInCart = computed(() => 
+const totalItemsInCart = computed(() =>
   api.orders.reduce((total, order) => total + (order.quantity || 1), 0)
 );
 
@@ -190,6 +173,7 @@ const logout = () => {
   box-shadow: 0 0 10px #868686;
   box-sizing: border-box;
   padding: 0 20px;
+
   @media (max-width: 1300px) {
     display: flex;
   }
@@ -329,15 +313,18 @@ a {
   background-color: #333;
   border-radius: 12px;
   box-sizing: border-box;
+
   & span {
-  height: 2px;
-  width: 20px;
-  transform: scale(1);
-  background-color: #eee;
-  border-radius: 10px;
+    height: 2px;
+    width: 20px;
+    transform: scale(1);
+    background-color: #eee;
+    border-radius: 10px;
 
   }
-  &::before, &::after {
+
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     height: 2px;
@@ -356,19 +343,19 @@ a {
   }
 
   &.active span {
-   transform: scale(0);
+    transform: scale(0);
   }
 
   &.active::before {
     width: 15px;
-   top: 50%;
-   transform: rotate(-45deg) translate(0, 0%);
+    top: 50%;
+    transform: rotate(-45deg) translate(0, 0%);
   }
 
   &.active::after {
     width: 15px;
-   top: 50%;
-   transform: rotate(45deg) translate(0, 0%);
+    top: 50%;
+    transform: rotate(45deg) translate(0, 0%);
   }
 }
 
@@ -423,9 +410,11 @@ a {
     left: -1000px;
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     left: 0;
   }
@@ -435,9 +424,11 @@ a {
   0% {
     left: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     left: -1000px;
     opacity: 0;
