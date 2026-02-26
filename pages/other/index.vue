@@ -42,6 +42,15 @@ const categories = ref({
       isHiddenForHeader: true
     },
     {
+      name: 'whoop',
+      ico: '/icons/whoop.svg',
+      link: 'whoop',
+      img: '/images/whoop.webp',
+      uuid: 'd53d2d22-5d38-4651-8da2-1076f06d6511',
+      isName: true,
+      isHiddenForHeader: true
+    },
+    {
       name: 'Marshall',
       ico: '/icons/iphone.svg',
       link: '',

@@ -122,9 +122,18 @@ const descriptions = ref([
     category: "canon",
     title: "Купить Canon в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Canon с дисководом в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+      "Купить Canon в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
     keywords:
-      "купить Canon, ps5 цена, Canon, Canon с доставкой",
+      "купить Canon, Canon цена, Canon, Canon с доставкой",
+    img: "/images/camera.webp",
+  },
+  {
+    category: "whoop",
+    title: "Купить Whoop в Москве и Рязани — цены | РК-Тек",
+    description:
+      "Купить Whoop в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+    keywords:
+      "купить Whoop, Whoop цена, Whoop, Whoop с доставкой",
     img: "/images/camera.webp",
   },
 ]);
