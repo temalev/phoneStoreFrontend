@@ -116,6 +116,16 @@ export const useCategories = defineStore('categories', {
         isHiddenForHeader: true
       },
       {
+        name: 'whoop',
+        ico: '/icons/whoop.svg',
+        style: { height: '55', width: '55' },
+        link: '/canon',
+        img: '/images/whoop.webp',
+        uuid: 'd53d2d22-5d38-4651-8da2-1076f06d6511',
+        isName: true,
+        isHiddenForHeader: true
+      },
+      {
         name: 'Другое',
         ico: '/icons/other.svg',
         style: { height: '55', width: '55' },
