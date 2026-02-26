@@ -118,6 +118,15 @@ const descriptions = ref([
       "купить playstation 5, ps5 цена, playstation 5 с дисководом, ps5 с доставкой",
     img: "/images/ps.webp",
   },
+  {
+    category: "canon",
+    title: "Купить Canon в Москве и Рязани — цены | РК-Тек",
+    description:
+      "Купить Canon с дисководом в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+    keywords:
+      "купить Canon, ps5 цена, Canon, Canon с доставкой",
+    img: "/images/camera.webp",
+  },
 ]);
 
 // eslint-disable-next-line max-len
