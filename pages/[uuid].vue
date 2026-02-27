@@ -45,7 +45,7 @@
           </span>
           <a
             v-if="currentPrice === 0"
-            href="https://t.me/Rktech_shop"
+            href="https://t.me/rk_tech_support"
             class="productPage__priceLink"
             target="_blank"
             rel="noopener noreferrer"
@@ -90,7 +90,7 @@
             </div>
           </template>
           <a
-            href="https://t.me/Rktech_shop"
+            href="https://t.me/rk_tech_support"
             class="productPage__telegramBtn"
             target="_blank"
             rel="noopener noreferrer"
@@ -225,14 +225,16 @@ const currentImage = computed(() =>
   || '/images/placeholder.webp');
 
 const currentPrice = computed(() => {
-  if (!product.value?.priceDependOnColor) return product.value?.price ?? 0;
-  return currentVariant.value?.optionsInfo?.price ?? product.value?.price ?? 0;
+  const variantPrice = currentVariant.value?.optionsInfo?.price;
+  if (variantPrice) return variantPrice;
+  return product.value?.price ?? 0;
 });
 
 const currentOldPrice = computed(() => {
   const oldP = currentVariant.value?.optionsInfo?.oldPrice;
   const newP = currentVariant.value?.optionsInfo?.price;
   if (oldP && newP && oldP > newP) return oldP;
+  if (product.value?.priceOld && product.value.priceOld > currentPrice.value) return product.value.priceOld;
   return null;
 });
 

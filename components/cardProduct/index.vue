@@ -9,7 +9,7 @@
             <span v-if="oldPrice > price && price !== 0" class="oldPrice"
               >{{ priceFrmt(oldPrice) }} <strong>₽</strong>
             </span>
-            <span v-if="price === 0" style="font-weight: 300; color: #0071e3;">Уточнить цену</span>
+            <span v-if="price === 0" @click="openTelegram" style="font-weight: 300; color: #0071e3;" class="link">Уточнить цену</span>
             <span
               v-if="price"
               class="price"
@@ -90,6 +90,9 @@ const uuidCurrentCategory = categories.categories.find(
   (el) => el.link.includes(currentCategory),
 )?.uuid;
 
+const openTelegram = () => {
+  window.open('https://t.me/rk_tech_support', '_blank');
+};
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) => el.name.toLowerCase().includes('цвет'));
   if (!colorOption) {
@@ -293,6 +296,7 @@ onMounted(() => {
   padding: 30px 20px;
   width: 100%;
   box-sizing: border-box;
+  margin-top: auto;
 }
 
 .quantityControls {
