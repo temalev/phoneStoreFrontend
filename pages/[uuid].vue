@@ -45,7 +45,7 @@
           </span>
           <a
             v-if="currentPrice === 0"
-            href="https://t.me/Rktech_shop"
+            href="https://t.me/rk_tech_support"
             class="productPage__priceLink"
             target="_blank"
             rel="noopener noreferrer"
@@ -90,7 +90,7 @@
             </div>
           </template>
           <a
-            href="https://t.me/Rktech_shop"
+            href="https://t.me/rk_tech_support"
             class="productPage__telegramBtn"
             target="_blank"
             rel="noopener noreferrer"
