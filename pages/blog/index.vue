@@ -44,7 +44,8 @@ useHead({
   title: 'Блог — РК Тек',
   link: [{ rel: 'canonical', href: 'https://рк-тек.рф/blog' }],
   meta: [
-    { name: 'description', content: 'Блог РК Тек — советы по выбору iPhone, обзоры Apple Watch, AirPods и Dyson, инструкции и сравнения техники.' },
+    { name: 'description', content: 'Блог РК Тек — советы по выбору iPhone, инструкции и интересные факты о технике Apple и Dyson. Статьи для покупателей из Рязани и Москвы.' },
+    { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: 'Блог — РК Тек' },
     { property: 'og:description', content: 'Советы по выбору техники, обзоры новинок и полезные инструкции от РК Тек.' },
     { property: 'og:type', content: 'website' },
@@ -57,6 +58,37 @@ useHead({
     { name: 'twitter:title', content: 'Блог — РК Тек' },
     { name: 'twitter:description', content: 'Советы по выбору техники, обзоры новинок и полезные инструкции от РК Тек.' },
     { name: 'twitter:image', content: blogOgImage },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Blog',
+            name: 'Блог РК Тек',
+            description: 'Советы по выбору техники Apple и Dyson, инструкции и интересные факты.',
+            url: 'https://рк-тек.рф/blog',
+            publisher: { '@type': 'Organization', name: 'РК Тек', url: 'https://рк-тек.рф' }, // eslint-disable-line max-len
+            blogPost: blog.posts.map((p) => ({
+              '@type': 'BlogPosting',
+              headline: p.title,
+              url: `https://рк-тек.рф/blog/${p.slug}`,
+              datePublished: p.date,
+              description: p.excerpt,
+            })),
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Главная', item: 'https://рк-тек.рф' }, // eslint-disable-line max-len
+              { '@type': 'ListItem', position: 2, name: 'Блог', item: 'https://рк-тек.рф/blog' }, // eslint-disable-line max-len
+            ],
+          },
+        ],
+      }),
+    },
   ],
 });
 </script>

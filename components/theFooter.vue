@@ -29,6 +29,18 @@
           </NuxtLink>
         </nav>
       </div>
+      <div class="linksContainer">
+        <h3>Блог</h3>
+        <nav class="links">
+          <NuxtLink to="/blog" class="navLinkMobile">Все статьи</NuxtLink>
+          <!-- eslint-disable-next-line max-len -->
+          <NuxtLink to="/blog/kakoy-macbook-vybrat-v-2026" class="navLinkMobile">Выбор MacBook</NuxtLink>
+          <!-- eslint-disable-next-line max-len -->
+          <NuxtLink to="/blog/rezhim-modema-iphone-nastroyka" class="navLinkMobile">Режим модема</NuxtLink>
+          <!-- eslint-disable-next-line max-len -->
+          <NuxtLink to="/blog/hard-reset-iphone-ipad" class="navLinkMobile">Hard Reset iPhone</NuxtLink>
+        </nav>
+      </div>
     </div>
 
     <div class="linksContainer">
@@ -47,8 +59,9 @@
           target="_blank"
           href="https://yandex.ru/maps/org/225229871067"
         >
-        Москва, ул. Багратионовский проезд, 7к2, Бизнес-центр «Рубин»
+        Москва, Багратионовский проезд, 7к2
         </a></span>
+        <!-- eslint-disable-next-line max-len -->
         <span style="max-width: 500px;" class="capture">Внимание! Самовывоз из офиса в Москве осуществляется только по предварительному заказу после подтверждения менеджером наличия и актуальной стоимости товаров.</span>
       <span class="tel">
         <a

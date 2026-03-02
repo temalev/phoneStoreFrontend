@@ -116,9 +116,9 @@ const categories = useCategories();
 const blog = useBlog();
 
 const pageUrl = 'https://рк-тек.рф';
-const pageTitle = 'РК Тек — интернет-магазин техники Apple и Dyson в Москве';
-const pageDescription = 'РК Тек — техника и аксессуары Apple и Dyson в Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год. Доставка по Москве в день заказа.';
-const ogImage = '/images/mainPageBackground.webp';
+const pageTitle = 'РК Тек — интернет-магазин техники Apple и Dyson в Рязани и Москве';
+const pageDescription = 'РК Тек — техника Apple и Dyson в Рязани и Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год. Доставка по Рязани и Москве в день заказа.';
+const ogImage = `${pageUrl}/images/mainPageBackground.webp`;
 
 // eslint-disable-next-line no-undef
 useHead({
@@ -126,11 +126,14 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'купить iPhone Москва, купить iPad, Apple Watch купить, AirPods купить, Dyson купить, Mac купить, интернет магазин Apple Москва, RK Tech' },
+    { name: 'keywords', content: 'купить iPhone Рязань, купить iPhone Москва, купить iPad Рязань, Apple Watch купить Рязань, AirPods купить, Dyson купить Рязань, Mac купить, интернет магазин Apple Рязань, RK Tech Рязань' },
     { property: 'og:type', content: 'website' },
+    { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },
     { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -143,31 +146,60 @@ useHead({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'Store',
-        name: 'РК Тек',
-        url: pageUrl,
-        description: pageDescription,
-        logo: `${pageUrl}/icons/logo.svg`,
-        image: `${pageUrl}${ogImage}`,
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Москва',
-          addressCountry: 'RU',
-        },
-        contactPoint: {
-          '@type': 'ContactPoint',
-          contactType: 'customer support',
-          url: 'https://t.me/Rktech_shop',
-        },
-        hasOfferCatalog: {
-          '@type': 'OfferCatalog',
-          name: 'Техника Apple и Dyson',
-          itemListElement: categories.categories.map((cat) => ({
+        '@graph': [
+          {
+            '@type': ['Store', 'LocalBusiness'],
+            '@id': `${pageUrl}/#ryazan`,
+            name: 'РК Тек — Рязань',
+            url: pageUrl,
+            description: pageDescription,
+            logo: `${pageUrl}/icons/logo.svg`,
+            image: ogImage,
+            telephone: ['+79105033237', '+79156022896'],
+            email: 'info@рк-тек.рф',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'ул. Кольцова, дом 12',
+              addressLocality: 'Рязань',
+              addressCountry: 'RU',
+            },
+            sameAs: [
+              'https://t.me/Rktech_shop',
+              'https://wa.me/79105033237',
+              'https://yandex.ru/maps/-/CDVKz6YB',
+            ],
+          },
+          {
+            '@type': ['Store', 'LocalBusiness'],
+            '@id': `${pageUrl}/#moscow`,
+            name: 'РК Тек — Москва',
+            url: pageUrl,
+            description: pageDescription,
+            logo: `${pageUrl}/icons/logo.svg`,
+            image: ogImage,
+            telephone: ['+79105033237', '+79156022896'],
+            email: 'info@рк-тек.рф',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Багратионовский проезд, 7к2',
+              addressLocality: 'Москва',
+              addressCountry: 'RU',
+            },
+            sameAs: [
+              'https://t.me/Rktech_shop',
+              'https://yandex.ru/maps/org/225229871067',
+            ],
+          },
+          {
             '@type': 'OfferCatalog',
-            name: cat.name,
-            url: `${pageUrl}${cat.link}`,
-          })),
-        },
+            name: 'Техника Apple и Dyson',
+            itemListElement: categories.categories.map((cat) => ({
+              '@type': 'OfferCatalog',
+              name: cat.name,
+              url: `${pageUrl}${cat.link}`,
+            })),
+          },
+        ],
       }),
     },
   ],
