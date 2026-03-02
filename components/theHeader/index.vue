@@ -15,6 +15,9 @@
           <span v-if="link.isName" class="name">{{ link?.name }}</span>
         </NuxtLink>
       </template>
+      <NuxtLink to="/blog" class="navLink navLink--blog">
+        <span class="name">Блог</span>
+      </NuxtLink>
     </nav>
 
     <div v-if="!api.isAuth" class="leftContainer">
@@ -86,6 +89,9 @@
               <span class="navNameMobile">{{ link?.name }}</span>
             </NuxtLink>
           </template>
+          <NuxtLink to="/blog" class="navLinkMobile" @click="isToLeft = false, onMenu()">
+            <span class="navNameMobile">Блог</span>
+          </NuxtLink>
         </nav>
       </div>
     </Teleport>

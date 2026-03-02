@@ -307,9 +307,11 @@ const pageUrl = `https://рк-тек.рф/${uuid}`;
 const productName = product.value?.name || '';
 const productDescription = product.value?.description || '';
 const categoryName = product.value?.category?.name || '';
-const ogImage = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
+const siteUrl = 'https://рк-тек.рф';
+const ogImageRaw = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
   || product.value?.images?.[0]
-  || '/images/mainPageBackground.webp';
+  || `${siteUrl}/images/mainPageBackground.webp`;
+const ogImage = ogImageRaw.startsWith('http') ? ogImageRaw : `${siteUrl}${ogImageRaw}`;
 
 const minPrice = product.value?.variants?.length
   ? Math.min(...product.value.variants.map((v) => v.optionsInfo?.price || 0).filter(Boolean))
@@ -371,9 +373,12 @@ useHead({
     { name: 'description', content: pageDescription },
     { name: 'keywords', content: keywords },
     { property: 'og:type', content: 'product' },
+    { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: `Купить ${productName} — РК-Тек` },
     { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -386,13 +391,48 @@ useHead({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'Product',
-        name: productName,
-        description: productDescription,
-        image: allImages,
-        brand: { '@type': 'Brand', name: brandName },
-        category: categoryName,
-        offers,
+        '@graph': [
+          {
+            '@type': 'Product',
+            name: productName,
+            description: productDescription,
+            image: allImages,
+            brand: { '@type': 'Brand', name: brandName },
+            category: categoryName,
+            offers,
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Главная',
+                item: siteUrl,
+              },
+              ...(breadcrumbMiddle ? [{
+                '@type': 'ListItem',
+                position: 2,
+                // eslint-disable-next-line max-len
+                name: breadcrumbMiddle.label,
+                item: `${siteUrl}${breadcrumbMiddle.to}`,
+              }] : []),
+              ...(breadcrumbCategory ? [{
+                '@type': 'ListItem',
+                position: breadcrumbMiddle ? 3 : 2,
+                // eslint-disable-next-line max-len
+                name: breadcrumbCategory.label,
+                item: `${siteUrl}${breadcrumbCategory.to}`,
+              }] : []),
+              {
+                '@type': 'ListItem',
+                position: (breadcrumbMiddle ? 3 : 2) + (breadcrumbCategory ? 1 : 0),
+                name: productName,
+                item: pageUrl,
+              },
+            ],
+          },
+        ],
       }),
     },
   ],

@@ -1,32 +1,69 @@
+<!-- eslint-disable max-len -->
 <template>
-  <div class="accessories">
+  <div class="other-page">
+    <div class="other-page__header">
+      <nav class="other-page__breadcrumbs" aria-label="Хлебные крошки">
+        <NuxtLink to="/" class="other-page__crumb">Главная</NuxtLink>
+        <span class="other-page__sep">/</span>
+        <span class="other-page__crumb other-page__crumb--current">Другие бренды</span>
+      </nav>
+      <h1 class="other-page__title">Marshall, Xiaomi, DJI, JBL в Рязани и Москве</h1>
+      <p class="other-page__desc">Техника других брендов: Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL. Подберём нужный товар по выгодной цене с доставкой по Рязани и Москве.</p>
+    </div>
     <Slider :categories="categories" is-message-block />
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
 
-const pageUrl = 'https://рк-тек.рф/other';
-const pageTitle = 'Другие бренды — Marshall, DJI, Xiaomi, JBL | РК-Тек';
-const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Москве. Свяжитесь с нами для подбора нужного товара по выгодной цене.';
-const ogImage = '/images/other.webp';
+const siteUrl = 'https://рк-тек.рф';
+const pageUrl = `${siteUrl}/other`;
+const pageTitle = 'Другие бренды — Marshall, DJI, Xiaomi, JBL в Рязани | РК-Тек';
+const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Рязани и Москве. Подберём нужный товар по выгодной цене с доставкой.';
+const ogImage = `${siteUrl}/images/other.webp`;
 
 useHead({
   title: pageTitle,
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'marshall купить москва, dji купить, xiaomi купить москва, jbl купить, dreame купить, яндекс станция купить' },
+    { name: 'keywords', content: 'marshall купить рязань, dji купить рязань, xiaomi купить рязань, jbl купить, dreame купить, яндекс станция купить рязань' },
     { property: 'og:type', content: 'website' },
+    { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },
     { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: pageTitle },
     { name: 'twitter:description', content: pageDescription },
     { name: 'twitter:image', content: ogImage },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Главная',
+            item: siteUrl,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Другие бренды',
+            item: pageUrl,
+          },
+        ],
+      }),
+    },
   ],
 });
 
@@ -39,7 +76,7 @@ const categories = ref({
       img: '/images/camera.webp',
       uuid: 'c568e1fd-4206-422d-aa73-a8e448fe5690',
       isName: true,
-      isHiddenForHeader: true
+      isHiddenForHeader: true,
     },
     {
       name: 'Whoop',
@@ -48,7 +85,7 @@ const categories = ref({
       img: '/images/whoop.webp',
       uuid: 'd53d2d22-5d38-4651-8da2-1076f06d6511',
       isName: true,
-      isHiddenForHeader: true
+      isHiddenForHeader: true,
     },
     {
       name: 'Marshall',
@@ -110,7 +147,7 @@ const categories = ref({
 });
 </script>
 <style scoped lang="scss">
-.accessories {
+.other-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,9 +155,55 @@ const categories = ref({
   margin-top: 100px;
   width: 100%;
   padding: 0 20px;
+  box-sizing: border-box;
   @media (max-width: 500px) {
     align-items: stretch;
     padding: 0;
+  }
+
+  &__header {
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 20px 24px;
+    box-sizing: border-box;
+  }
+
+  &__breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  &__crumb {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    &:hover { color: #333; }
+    &--current { color: #333; }
+  }
+
+  &__sep {
+    font-size: 13px;
+    color: #bbb;
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d1d1d;
+    margin: 0 0 10px;
+    line-height: 1.3;
+    @media (max-width: 600px) { font-size: 22px; }
+  }
+
+  &__desc {
+    font-size: 15px;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 700px;
   }
 }
 </style>
