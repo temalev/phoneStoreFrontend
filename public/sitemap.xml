@@ -124,6 +124,14 @@
     <priority>0.5</priority>
   </url>
 
+  <!-- Служебные страницы -->
+  <url>
+    <loc>https://рк-тек.рф/contacts</loc>
+    <lastmod>2026-03-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Блог -->
   <url>
     <loc>https://рк-тек.рф/blog</loc>

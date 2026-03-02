@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     prerender: {
       routes: [
         '/blog',
+        '/contacts',
         ...blogPosts.map((p) => `/blog/${p.slug}`),
       ],
     },

@@ -163,6 +163,14 @@ useHead({
               addressLocality: 'Рязань',
               addressCountry: 'RU',
             },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '5.0',
+              ratingCount: '100',
+              reviewCount: '77',
+              bestRating: '5',
+              worstRating: '1',
+            },
             sameAs: [
               'https://t.me/Rktech_shop',
               'https://wa.me/79105033237',
@@ -184,6 +192,14 @@ useHead({
               streetAddress: 'Багратионовский проезд, 7к2',
               addressLocality: 'Москва',
               addressCountry: 'RU',
+            },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '5.0',
+              ratingCount: '100',
+              reviewCount: '77',
+              bestRating: '5',
+              worstRating: '1',
             },
             sameAs: [
               'https://t.me/Rktech_shop',
