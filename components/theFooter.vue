@@ -18,6 +18,7 @@
       <div class="linksContainer">
         <h3>Информация</h3>
         <nav class="links">
+          <NuxtLink to="/contacts" class="navLinkMobile">Контакты</NuxtLink>
           <NuxtLink
             v-for="link in info"
             :key="link.name"
