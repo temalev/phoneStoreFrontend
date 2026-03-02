@@ -78,7 +78,11 @@ const formatDate = (dateStr) => {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
-const pageUrl = computed(() => `https://рк-тек.рф/blog/${route.params.slug}`);
+const siteUrl = 'https://рк-тек.рф';
+const defaultOgImage = `${siteUrl}/images/mainPageBackground.webp`;
+
+const pageUrl = computed(() => `${siteUrl}/blog/${route.params.slug}`);
+const ogImage = computed(() => post.value?.image ? `${siteUrl}${post.value.image}` : defaultOgImage);
 
 useHead(() => ({
   title: post.value ? `${post.value.title} — РК Тек` : 'Статья не найдена — РК Тек',
@@ -90,6 +94,14 @@ useHead(() => ({
         { property: 'og:description', content: post.value.excerpt },
         { property: 'og:type', content: 'article' },
         { property: 'og:url', content: pageUrl.value },
+        { property: 'og:image', content: ogImage.value },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:site_name', content: 'РК Тек' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: post.value.title },
+        { name: 'twitter:description', content: post.value.excerpt },
+        { name: 'twitter:image', content: ogImage.value },
         { property: 'article:published_time', content: post.value.date },
       ]
     : [],
@@ -102,12 +114,13 @@ useHead(() => ({
             '@type': 'BlogPosting',
             headline: post.value.title,
             description: post.value.excerpt,
+            image: ogImage.value,
             datePublished: post.value.date,
             url: pageUrl.value,
             publisher: {
               '@type': 'Organization',
               name: 'РК Тек',
-              url: 'https://рк-тек.рф',
+              url: siteUrl,
             },
           }),
         },
