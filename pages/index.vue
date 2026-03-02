@@ -9,6 +9,21 @@
     </div>
     <Slider :categories="categories" />
     <InfoContainers @openModal="onOpenModal" />
+    <div class="blog-section">
+      <div class="blog-section__header">
+        <div class="blog-section__titles">
+          <h2 class="blog-section__title">Блог</h2>
+          <p class="blog-section__subtitle">Советы по выбору, обзоры и инструкции — всё, что нужно знать о технике Apple и Dyson</p>
+        </div>
+        <NuxtLink to="/blog" class="blog-section__all-link">
+          Все статьи
+          <span class="material-symbols-rounded">arrow_forward</span>
+        </NuxtLink>
+      </div>
+      <div class="blog-section__grid">
+        <BlogCard v-for="post in blog.latestPosts" :key="post.id" :post="post" />
+      </div>
+    </div>
     <div class="reviews-section">
       <div class="reviews-header">
         <h2 class="reviews-title">Отзывы покупателей</h2>
@@ -94,9 +109,11 @@
 <script setup>
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~~/stores/api';
+import { useBlog } from '~/stores/blog';
 
 const api = useApi();
 const categories = useCategories();
+const blog = useBlog();
 
 const pageUrl = 'https://рк-тек.рф';
 const pageTitle = 'РК Тек — интернет-магазин техники Apple и Dyson в Москве';
@@ -205,6 +222,87 @@ h1 {
   gap: 12px;
   justify-content: center;
   margin-top: -45px;
+}
+
+.blog-section {
+  margin: 0 80px;
+
+  @media (max-width: 850px) {
+    margin: 0 16px;
+  }
+}
+
+.blog-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.blog-section__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blog-section__title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+
+  @media (max-width: 850px) {
+    font-size: 24px;
+  }
+}
+
+.blog-section__subtitle {
+  font-size: 15px;
+  color: #6b6b6b;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 540px;
+}
+
+.blog-section__all-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0071e3;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: gap 0.2s;
+
+  &:hover {
+    gap: 10px;
+  }
+
+  .material-symbols-rounded {
+    font-size: 18px;
+  }
+}
+
+.blog-section__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .reviews-section {
