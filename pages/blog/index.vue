@@ -38,6 +38,8 @@ const activeCategory = ref('all');
 
 const filteredPosts = computed(() => blog.getPostsByCategory(activeCategory.value));
 
+const blogOgImage = 'https://рк-тек.рф/images/mainPageBackground.webp';
+
 useHead({
   title: 'Блог — РК Тек',
   link: [{ rel: 'canonical', href: 'https://рк-тек.рф/blog' }],
@@ -47,6 +49,14 @@ useHead({
     { property: 'og:description', content: 'Советы по выбору техники, обзоры новинок и полезные инструкции от РК Тек.' },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://рк-тек.рф/blog' },
+    { property: 'og:image', content: blogOgImage },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    { property: 'og:site_name', content: 'РК Тек' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Блог — РК Тек' },
+    { name: 'twitter:description', content: 'Советы по выбору техники, обзоры новинок и полезные инструкции от РК Тек.' },
+    { name: 'twitter:image', content: blogOgImage },
   ],
 });
 </script>
