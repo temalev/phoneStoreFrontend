@@ -1,6 +1,16 @@
+import { blogPosts } from './data/blogPosts';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // eslint-disable-next-line no-undef
 export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      routes: [
+        '/blog',
+        ...blogPosts.map((p) => `/blog/${p.slug}`),
+      ],
+    },
+  },
   ssr: true,
   mode: "universal",
   css: ["~/assets/styles/main.css", "~/assets/styles/common.scss"],
