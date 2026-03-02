@@ -59,7 +59,7 @@
         </a>
       </span>
       <span class="email"
-        >info@rk-tech.shop -
+        >info@рк-тек.рф -
         <span> По вопросам сотрудничества, идеям по улучшению и жалобам. </span></span
       >
       <div class="oferta">
