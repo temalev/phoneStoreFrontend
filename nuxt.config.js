@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   plugins: ["~/plugins/uuid.js", "~/plugins/scroll-to-top.client.ts"],
   app: {
     head: {
-      title: "RK Tech - интернет магазин техники и аксессуаров Apple и Dyson",
+      title: "РК Тек - интернет магазин техники и аксессуаров Apple и Dyson",
       meta: [
         { charset: "utf-8" },
         { name: "mailru-domain", content: "CoFCclY1n4fubWZE" },
@@ -30,7 +30,10 @@ export default defineNuxtConfig({
           content: '87OfPmhEli0X2U9zoAFLC3xOxwnncBA-z515eRDQ4Rk'
         }
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" },
+      ],
       htmlAttrs: {
         lang: 'ru',
       },

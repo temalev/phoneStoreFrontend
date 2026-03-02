@@ -73,7 +73,7 @@
           по самой выгодной цене.
         </p>
       </div>
-      <CustomButton class="btn" name="Как это работает?" />
+      <el-button class="btn" type="primary">Как это работает?</el-button>
 
       <!-- <img class="cost" src="/images/cost.jpeg" alt="" /> -->
     </div>
@@ -88,7 +88,6 @@
   flex-direction: column;
   gap: 20px;
   margin: 20px 80px;
-  height: 100%;
   @media (max-width: 850px) {
     flex-direction: column;
     height: 100%;
@@ -418,11 +417,11 @@
 .btn {
   position: absolute;
   right: 50px;
-  top: 220px;
-  width: 300px;
+  bottom: 50px;
+  width: fit-content;
   @media (max-width: 850px) {
     position: static;
-    width: 250px;
+    width: fit-content;
   }
 }
 </style>
