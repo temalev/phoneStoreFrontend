@@ -26,10 +26,13 @@
       </div>
 
       <div class="post-layout">
-        <NuxtLink to="/blog" class="post-back">
-          <span class="material-symbols-rounded">arrow_back</span>
-          Все статьи
-        </NuxtLink>
+        <nav class="post-breadcrumbs" aria-label="Хлебные крошки">
+          <NuxtLink to="/" class="post-breadcrumbs__item">Главная</NuxtLink>
+          <span class="post-breadcrumbs__sep">/</span>
+          <NuxtLink to="/blog" class="post-breadcrumbs__item">Блог</NuxtLink>
+          <span class="post-breadcrumbs__sep">/</span>
+          <span class="post-breadcrumbs__item post-breadcrumbs__item--current">{{ post.title }}</span>
+        </nav>
 
         <article class="post-body">
           <p class="post-excerpt">{{ post.excerpt }}</p>
@@ -90,6 +93,7 @@ useHead(() => ({
   meta: post.value
     ? [
         { name: 'description', content: post.value.excerpt },
+        { property: 'og:locale', content: 'ru_RU' },
         { property: 'og:title', content: post.value.title },
         { property: 'og:description', content: post.value.excerpt },
         { property: 'og:type', content: 'article' },
@@ -111,17 +115,34 @@ useHead(() => ({
           type: 'application/ld+json',
           innerHTML: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.value.title,
-            description: post.value.excerpt,
-            image: ogImage.value,
-            datePublished: post.value.date,
-            url: pageUrl.value,
-            publisher: {
-              '@type': 'Organization',
-              name: 'РК Тек',
-              url: siteUrl,
-            },
+            '@graph': [
+              {
+                '@type': 'BlogPosting',
+                headline: post.value.title,
+                description: post.value.excerpt,
+                image: ogImage.value,
+                datePublished: post.value.date,
+                url: pageUrl.value,
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'РК Тек',
+                  url: siteUrl,
+                },
+                author: {
+                  '@type': 'Organization',
+                  name: 'РК Тек',
+                  url: siteUrl,
+                },
+              },
+              {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'Главная', item: siteUrl },
+                  { '@type': 'ListItem', position: 2, name: 'Блог', item: `${siteUrl}/blog` },
+                  { '@type': 'ListItem', position: 3, name: post.value.title, item: pageUrl.value },
+                ],
+              },
+            ],
           }),
         },
       ]
@@ -262,25 +283,40 @@ useHead(() => ({
   }
 }
 
-.post-back {
+.post-breadcrumbs {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b6b6b;
+  font-size: 13px;
+}
+
+.post-breadcrumbs__item {
+  color: #aeaeb2;
   text-decoration: none;
-  width: fit-content;
-  transition: color 0.2s, gap 0.2s;
+  transition: color 0.2s;
+  white-space: nowrap;
 
   &:hover {
     color: #1a1a1a;
-    gap: 2px;
   }
 
-  .material-symbols-rounded {
-    font-size: 18px;
+  &--current {
+    color: #6b6b6b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    white-space: nowrap;
+
+    @media (max-width: 600px) {
+      max-width: 200px;
+    }
   }
+}
+
+.post-breadcrumbs__sep {
+  color: #d1d1d6;
+  font-size: 12px;
 }
 
 .post-body {
