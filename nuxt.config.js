@@ -13,21 +13,8 @@ export default defineNuxtConfig({
     },
   },
   ssr: true,
-  mode: "universal",
   css: ["~/assets/styles/main.css", "~/assets/styles/common.scss"],
   modules: ["@pinia/nuxt", "nuxt-icons", "@element-plus/nuxt"],
-  buildModules: [
-    // Simple usage
-    "@nuxtjs/moment",
-
-    // With options
-    [
-      "@nuxtjs/moment",
-      {
-        /* module options */
-      },
-    ],
-  ],
   plugins: ["~/plugins/uuid.js", "~/plugins/scroll-to-top.client.ts"],
   app: {
     head: {
@@ -43,7 +30,6 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" },
       ],
       htmlAttrs: {
         lang: 'ru',
