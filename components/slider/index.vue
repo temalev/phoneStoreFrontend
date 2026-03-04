@@ -7,7 +7,11 @@
     >
       <div class="productLink" :style="{borderRadius: isMessageBlock ? '10px 10px 0 0' : '10px'}">
         <div class="header">{{ card.name }}</div>
-        <img class="img" :src="card.img" :alt="card.name" />
+        <img
+          class="img"
+          :src="card.img"
+          :alt="`Изображение категории ${card.name}`"
+        />
       </div>
       <div v-if="isMessageBlock" class="message-block">
         <p>

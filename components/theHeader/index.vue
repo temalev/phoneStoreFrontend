@@ -1,6 +1,6 @@
 <template>
   <div class="mainHeader">
-    <NuxtLink to="/">
+    <NuxtLink to="/" aria-label="Перейти на главную страницу">
       <div class="logo" />
     </NuxtLink>
 
@@ -54,7 +54,11 @@
     </div>
 
     <div class="wrapper" style="justify-content: center">
-      <NuxtLink @click="isToLeft = false, onMenu()" to="/">
+      <NuxtLink
+        to="/"
+        aria-label="Перейти на главную страницу"
+        @click="isToLeft = false, onMenu()"
+      >
         <div class="logo" />
       </NuxtLink>
     </div>

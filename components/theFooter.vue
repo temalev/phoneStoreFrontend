@@ -51,8 +51,20 @@
          <span class="tel"><a href="tel:+79156022896">+7 (915) 602-28-96</a></span>
          </div>
         <div class="social">
-          <a href="https://t.me/Rktech_shop" class="telegramIco" />
-          <a href="https://wa.me/79105033237" class="whatsappIco" />
+          <a
+            href="https://t.me/Rktech_shop"
+            class="telegramIco"
+            aria-label="Открыть чат в Telegram"
+          >
+            <span class="sr-only">Открыть чат в Telegram</span>
+          </a>
+          <a
+            href="https://wa.me/79105033237"
+            class="whatsappIco"
+            aria-label="Открыть чат в WhatsApp"
+          >
+            <span class="sr-only">Открыть чат в WhatsApp</span>
+          </a>
         </div>
       </div>
       <span class="tel">
