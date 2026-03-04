@@ -19,15 +19,15 @@
         <h3>Информация</h3>
         <nav class="links">
           <NuxtLink to="/contacts" class="navLinkMobile">Контакты</NuxtLink>
-          <NuxtLink
+          <button
             v-for="link in info"
             :key="link.name"
-            :to="link?.link"
             class="navLinkMobile"
-            @click="getProduct(link?.link); api.infoModal = link?.value;"
+            type="button"
+            @click="api.infoModal = link?.value;"
           >
             {{ link?.name }}
-          </NuxtLink>
+          </button>
         </nav>
       </div>
       <div class="linksContainer">
@@ -171,6 +171,11 @@ const getProduct = (link) => {
   font-size: 15px;
   color: #eee;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+
   &:hover {
     color: #fff;
   }
