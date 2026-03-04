@@ -21,6 +21,22 @@
       <h1 class="category-title">{{ currentProduct().title.split('—')[0].trim() }}</h1>
       <p class="category-desc">{{ currentProduct().description }}</p>
     </div>
+
+    <section v-if="currentCategory === 'iphone'" class="category-local">
+      <h2 class="category-local__title">Купить iPhone в Рязани</h2>
+      <!-- eslint-disable-next-line max-len -->
+      <p class="category-local__text">
+        В магазине «РК Тек» вы можете купить оригинальный Apple iPhone в Рязани с быстрой доставкой по городу
+        и самовывозом с пункта выдачи по адресу: Рязань, ул. Кольцова, дом 12. Поможем выбрать модель,
+        перенесём данные и настроим устройство под вас.
+      </p>
+      <!-- eslint-disable-next-line max-len -->
+      <ul class="category-local__list">
+        <li>актуальные модели iPhone в наличии в Рязани;</li>
+        <li>честные цены и гарантия магазина;</li>
+        <li>доставка по Рязани в день заказа.</li>
+      </ul>
+    </section>
     <div class="mainProducts-list">
     <template v-if="api.isAuth">
       <CardProductEdit
@@ -182,6 +198,26 @@ useHead({
         ],
       }),
     },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: 'РК Тек',
+        url: siteUrl,
+        telephone: '+7-915-602-28-96',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Рязань',
+          streetAddress: 'ул. Кольцова, дом 12',
+          addressCountry: 'RU',
+        },
+        areaServed: {
+          '@type': 'City',
+          name: 'Рязань',
+        },
+      }),
+    },
   ],
   meta: [
     { name: 'description', content: currentProduct().description },
@@ -299,6 +335,38 @@ if (products.value) {
   margin: 0;
   line-height: 1.5;
   max-width: 600px;
+}
+
+.category-local {
+  margin: 12px 30px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e5e5e5;
+
+  @media (max-width: 850px) {
+    margin: 12px 16px 0;
+  }
+}
+
+.category-local__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #1a1a1a;
+}
+
+.category-local__text {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #4a4a4a;
+  line-height: 1.5;
+}
+
+.category-local__list {
+  margin: 0 0 4px 18px;
+  padding: 0;
+  font-size: 14px;
+  color: #4a4a4a;
+  line-height: 1.5;
 }
 
 $skeleton-gradient: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);

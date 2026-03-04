@@ -13,24 +13,23 @@ export default defineNuxtConfig({
     },
   },
   ssr: true,
-  css: ["~/assets/styles/main.css", "~/assets/styles/common.scss"],
-  modules: ["@pinia/nuxt", "nuxt-icons", "@element-plus/nuxt"],
-  plugins: ["~/plugins/uuid.js", "~/plugins/scroll-to-top.client.ts"],
+  css: ['~/assets/styles/main.css', '~/assets/styles/common.scss', '~/assets/styles/material-symbols.css'],
+  modules: ['@pinia/nuxt', 'nuxt-icons', '@element-plus/nuxt'],
+  plugins: ['~/plugins/uuid.js', '~/plugins/scroll-to-top.client.ts'],
   app: {
     head: {
-      title: "РК Тек - интернет магазин техники и аксессуаров Apple и Dyson",
+      title: 'РК Тек - интернет магазин техники и аксессуаров Apple и Dyson',
       meta: [
-        { charset: "utf-8" },
-        { name: "mailru-domain", content: "CoFCclY1n4fubWZE" },
-        { name: "yandex-verification", content: "001f935542fddf66" },
+        { charset: 'utf-8' },
+        { name: 'mailru-domain', content: 'CoFCclY1n4fubWZE' },
+        { name: 'yandex-verification', content: '001f935542fddf66' },
         {
           name: 'google-site-verification',
-          content: '87OfPmhEli0X2U9zoAFLC3xOxwnncBA-z515eRDQ4Rk'
-        }
+          content: '87OfPmhEli0X2U9zoAFLC3xOxwnncBA-z515eRDQ4Rk',
+        },
       ],
       link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ],
       htmlAttrs: {
         lang: 'ru',
@@ -40,12 +39,12 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      URL: process.env.URL || "",
-      NODE_ENV: process.env.NODE_ENV || "production",
+      URL: process.env.URL || '',
+      NODE_ENV: process.env.NODE_ENV || 'production',
     },
   },
   svgo: {
-    autoImportPath: "./assets/icons/",
+    autoImportPath: './assets/icons/',
   },
 
   routeRules: {
@@ -65,7 +64,7 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    'pages:extend'(pages) {
+    'pages:extend': (pages) => {
       // Ограничиваем маршрут [uuid] только UUID-форматом
       // чтобы он не конфликтовал с [category]
       const uuidPage = pages.find((p) => p.name === 'uuid');
