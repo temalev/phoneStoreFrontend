@@ -8,7 +8,7 @@
     </div> -->
     <div class="container-tradeIn" @click="$emit('openModal', 'TRADE_IN')">
       <div class="container-text">
-        <h3 class="header-container">Программа Trade-In</h3>
+        <h2 class="header-container">Программа Trade-In</h2>
         <p class="textInfo">И как она работает.</p>
       </div>
       <div class="left-hand"></div>
@@ -20,7 +20,7 @@
 
     <div class="container" @click="$emit('openModal', 'INSTALLMENT')">
       <div class="text">
-        <h3 class="gradient">Рассрочка</h3>
+        <h2 class="gradient">Рассрочка</h2>
         <p class="textInfo">Нажмите, чтобы узнать подробности</p>
       </div>
       <div class="img" />
@@ -29,7 +29,7 @@
     <div class="row">
       <div class="leftContainer" @click="$emit('openModal', 'ORIGINALITY')">
         <div class="textInfoContainer">
-          <h3 class="header">Оригинальность и гарантия</h3>
+          <h2 class="header">Оригинальность и гарантия</h2>
           <p class="textInfo">
             Вся техника, представленная в нашем магазине, только новая и
             оригинальная.
@@ -41,7 +41,7 @@
       <div class="rightContainers">
         <div class="rightContainer">
           <div class="textInfoContainer" @click="$emit('openModal', 'PAYMENT')">
-            <h3 class="header">Способы оплаты</h3>
+            <h2 class="header">Способы оплаты</h2>
             <p class="textInfo">
               Оплачивайте покупки удобным для вас способом.
             </p>
@@ -51,7 +51,7 @@
 
         <div class="rightContainer"  @click="$emit('openModal', 'DELIVERY')">
           <div class="textInfoContainer">
-            <h3 class="header">Доставка и самовывоз</h3>
+            <h2 class="header">Доставка и самовывоз</h2>
             <p class="textInfo">
               Мы осуществляем курьерскую доставку в Москве и Московской области,
               а также в г. Рязань с помощью собственного штата курьеров.
@@ -67,7 +67,7 @@
 
     <div class="cost" @click="$emit('openModal', 'BEST_PRICE')">
       <div class="textContainer">
-        <h3>Гарантия лучшей цены</h3>
+        <h2>Гарантия лучшей цены</h2>
         <p class="info">
           «Гарантия лучшей цены» дает вам уверенность в том, что делаете покупку
           по самой выгодной цене.
@@ -264,15 +264,6 @@
 }
 
 .container-text {
-  padding: 32px;
-  @media (max-width: 900px) {
-    font-size: 16px;
-    padding: 0;
-  }
-}
-
-
-.text {
   padding: 34px;
   @media (max-width: 900px) {
     font-size: 16px;
