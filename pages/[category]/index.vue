@@ -65,7 +65,7 @@ const descriptions = ref([
     category: "iphone",
     title: "Купить Apple iPhone в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оригинальный Apple iPhone в Москве и Рязани с бесплатной доставкой. Низкие цены, гарантия, проверка при получении. Чехол и стекло в подарок.",
+      "Купить оригинальный Apple iPhone в Москве и Рязани с быстрой доставкой. Низкие цены, гарантия, проверка при получении. Чехол и стекло в подарок.",
     keywords:
       "купить iphone, iphone цена, оригинальный iphone, iphone с доставкой, купить iphone в москве, купить iphone в рязани",
     img: "/images/iphone.webp",
@@ -74,7 +74,7 @@ const descriptions = ref([
     category: "ipad",
     title: "Купить Apple iPad в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оригинальный Apple iPad в Москве и Рязани с бесплатной доставкой. Актуальные модели, низкие цены, официальная гарантия.",
+      "Купить оригинальный Apple iPad в Москве и Рязани с быстрой доставкой. Актуальные модели, низкие цены, официальная гарантия.",
     keywords:
       "купить ipad, ipad цена, оригинальный ipad, ipad с доставкой, купить ipad в москве, купить ipad в рязани",
     img: "/images/ipad.webp",
@@ -83,7 +83,7 @@ const descriptions = ref([
     category: "mac",
     title: "Купить Apple MacBook в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оригинальный Apple MacBook в Москве и Рязани с бесплатной доставкой. Гарантия, низкие цены, гравировка в подарок.",
+      "Купить оригинальный Apple MacBook в Москве и Рязани с быстрой доставкой. Гарантия, низкие цены, гравировка в подарок.",
     keywords:
       "купить macbook, macbook цена, macbook apple, оригинальный macbook, macbook с доставкой",
     img: "/images/mac.webp",
@@ -110,7 +110,7 @@ const descriptions = ref([
     category: "samsung",
     title: "Купить Samsung в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оригинальные смартфоны Samsung в Москве и Рязани с бесплатной доставкой. Гарантия, низкие цены.",
+      "Купить оригинальные смартфоны Samsung в Москве и Рязани с быстрой доставкой. Гарантия, низкие цены.",
     keywords:
       "купить samsung, samsung цена, смартфоны samsung, samsung с доставкой",
     img: "/images/samsung.webp",
@@ -119,7 +119,7 @@ const descriptions = ref([
     category: "dyson",
     title: "Купить Dyson в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оригинальную технику Dyson в Москве и Рязани с бесплатной доставкой. Фены, пылесосы, стайлеры в наличии.",
+      "Купить оригинальную технику Dyson в Москве и Рязани с быстрой доставкой. Фены, пылесосы, стайлеры в наличии.",
     keywords:
       "купить dyson, dyson цена, техника dyson, dyson с доставкой",
     img: "/images/dyson.webp",
@@ -128,7 +128,7 @@ const descriptions = ref([
     category: "ps",
     title: "Купить PlayStation 5 в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить PlayStation 5 с дисководом в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+      "Купить PlayStation 5 с дисководом в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
     keywords:
       "купить playstation 5, ps5 цена, playstation 5 с дисководом, ps5 с доставкой",
     img: "/images/ps.webp",
@@ -137,7 +137,7 @@ const descriptions = ref([
     category: "canon",
     title: "Купить Canon в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Canon в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+      "Купить Canon в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
     keywords:
       "купить Canon, Canon цена, Canon, Canon с доставкой",
     img: "/images/camera.webp",
@@ -146,7 +146,7 @@ const descriptions = ref([
     category: "whoop",
     title: "Купить Whoop в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить Whoop в Москве и Рязани с бесплатной доставкой. Оригинал, гарантия, в наличии.",
+      "Купить Whoop в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
     keywords:
       "купить Whoop, Whoop цена, Whoop, Whoop с доставкой",
     img: "/images/whoop.webp",

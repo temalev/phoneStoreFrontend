@@ -50,7 +50,7 @@
             </div>
             <div class="reviews-point__content">
               <span class="reviews-point__title">Подарки при покупке</span>
-              <span class="reviews-point__desc">Чехол, защитное стекло, адаптер — дарим при каждом заказе</span>
+              <span class="reviews-point__desc">Чехол, защитное стекло — дарим при каждом заказе</span>
             </div>
           </li>
           <li class="reviews-point">

@@ -63,7 +63,7 @@
         Москва, Багратионовский проезд, 7к2
         </a></span>
         <!-- eslint-disable-next-line max-len -->
-        <span style="max-width: 500px;" class="capture">Внимание! Самовывоз из офиса в Москве осуществляется только по предварительному заказу после подтверждения менеджером наличия и актуальной стоимости товаров.</span>
+        <span class="capture">Внимание! Самовывоз из офиса в Москве осуществляется только по предварительному заказу после подтверждения менеджером наличия и актуальной стоимости товаров.</span>
       <span class="tel">
         <a
           target="_blank"
@@ -140,15 +140,26 @@ const getProduct = (link) => {
   padding: 50px;
   box-sizing: border-box;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+    padding: 30px 20px;
   }
 }
 
 .navContainer {
   display: flex;
   gap: 50px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 .links {
@@ -174,6 +185,11 @@ const getProduct = (link) => {
   display: flex;
   align-items: center;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 }
 
 .tel {
@@ -181,6 +197,10 @@ const getProduct = (link) => {
   font-size: 20px;
   a {
     color: #fff;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 17px;
   }
 }
 
@@ -201,6 +221,11 @@ const getProduct = (link) => {
   color: #ffffff63;
   font-size: 13px;
   font-weight: 300;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    align-items: flex-start;
+  }
 }
 
 .telegramIco {
@@ -228,6 +253,17 @@ const getProduct = (link) => {
   span {
     font-weight: 300;
     font-size: 15px;
+  }
+}
+
+.capture {
+  max-width: 500px;
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.4;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 }
 </style>
