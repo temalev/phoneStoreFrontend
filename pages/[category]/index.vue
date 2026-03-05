@@ -22,21 +22,6 @@
       <p class="category-desc">{{ currentProduct().description }}</p>
     </div>
 
-    <section v-if="currentCategory === 'iphone'" class="category-local">
-      <h2 class="category-local__title">Купить iPhone в Рязани</h2>
-      <!-- eslint-disable-next-line max-len -->
-      <p class="category-local__text">
-        В магазине «РК Тек» вы можете купить оригинальный Apple iPhone в Рязани с быстрой доставкой по городу
-        и самовывозом с пункта выдачи по адресу: Рязань, ул. Кольцова, дом 12. Поможем выбрать модель,
-        перенесём данные и настроим устройство под вас.
-      </p>
-      <!-- eslint-disable-next-line max-len -->
-      <ul class="category-local__list">
-        <li>актуальные модели iPhone в наличии в Рязани;</li>
-        <li>честные цены и гарантия магазина;</li>
-        <li>доставка по Рязани в день заказа.</li>
-      </ul>
-    </section>
     <div class="mainProducts-list">
     <template v-if="api.isAuth">
       <CardProductEdit
