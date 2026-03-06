@@ -3,7 +3,6 @@ import { defineEventHandler, setResponseHeader } from 'h3';
 type YandexCategory = {
   uuid: string;
   name: string;
-  slug?: string;
   /** UUID родительской категории (для иерархии в фиде) */
   parentId?: string | null;
   parent_id?: string | null;
@@ -26,8 +25,6 @@ type YandexProduct = {
   images?: string[];
   variants?: YandexProductVariant[];
   isDeleted?: boolean;
-  /** Для фида используем categorySlug или categoryUUID — приводим к числовому id */
-  categorySlug?: string;
   categoryUUID?: string;
 };
 
@@ -90,12 +87,9 @@ export default defineEventHandler(async (event) => {
     if (!sortedCategories.includes(c)) sortedCategories.push(c);
   });
 
-  const slugToNumericId = new Map<string, number>();
   const uuidToNumericId = new Map<string, number>();
   sortedCategories.forEach((c, i) => {
-    const numericId = i + 1;
-    if (c.slug) slugToNumericId.set(c.slug, numericId);
-    uuidToNumericId.set(c.uuid, numericId);
+    uuidToNumericId.set(c.uuid, i + 1);
   });
 
   const categoriesXml = sortedCategories
@@ -111,10 +105,6 @@ export default defineEventHandler(async (event) => {
     .join('');
 
   const getCategoryNumericId = (p: YandexProduct): number | null => {
-    if (p.categorySlug) {
-      const id = slugToNumericId.get(p.categorySlug);
-      if (id != null) return id;
-    }
     if (p.categoryUUID) {
       const id = uuidToNumericId.get(p.categoryUUID);
       if (id != null) return id;
