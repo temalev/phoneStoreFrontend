@@ -18,8 +18,10 @@
           {{ categoryName }}
         </span>
       </nav>
-      <h1 class="category-title">{{ currentProduct().title.split('—')[0].trim() }}</h1>
-      <p class="category-desc">{{ currentProduct().description }}</p>
+      <h1 class="category-title">
+        {{ currentProduct()?.title?.split('—')[0]?.trim() ?? categoryName }}
+      </h1>
+      <p class="category-desc">{{ currentProduct()?.description ?? '' }}</p>
     </div>
 
     <div class="mainProducts-list">
@@ -99,7 +101,7 @@ const descriptions = ref([
     img: "/images/watchCard.webp",
   },
   {
-    category: "airpods",
+    category: "airPods",
     title: "Купить Apple AirPods в Москве и Рязани — цены | РК-Тек",
     description:
       "Купить оригинальные Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены, гарантия.",
@@ -126,7 +128,7 @@ const descriptions = ref([
     img: "/images/dyson.webp",
   },
   {
-    category: "ps",
+    category: "ps5",
     title: "Купить PlayStation 5 в Москве и Рязани — цены | РК-Тек",
     description:
       "Купить PlayStation 5 с дисководом в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
@@ -135,12 +137,12 @@ const descriptions = ref([
     img: "/images/ps.webp",
   },
   {
-    category: "canon",
-    title: "Купить Canon в Москве и Рязани — цены | РК-Тек",
+    category: "rec",
+    title: "Съемка — оборудование в Москве и Рязани | РК-Тек",
     description:
-      "Купить Canon в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
+      "Купить оборудование для съемки в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
     keywords:
-      "купить Canon, Canon цена, Canon, Canon с доставкой",
+      "купить оборудование для съемки, съемка, камера, Canon с доставкой",
     img: "/images/camera.webp",
   },
   {
@@ -152,13 +154,22 @@ const descriptions = ref([
       "купить Whoop, Whoop цена, Whoop, Whoop с доставкой",
     img: "/images/whoop.webp",
   },
+  {
+    category: "others",
+    title: "Другое — товары в Москве и Рязани | РК-Тек",
+    description:
+      "Купить товары других брендов в Москве и Рязани с быстрой доставкой. Оригинал, гарантия.",
+    keywords:
+      "купить техника, другие бренды, доставка Москва Рязань",
+    img: "/images/other.webp",
+  },
 ]);
 
 // eslint-disable-next-line max-len
 const currentProduct = () => descriptions.value.find((el) => el.category === currentCategory.value);
 
 useHead({
-  title: currentProduct().title,
+  title: currentProduct()?.title ?? '',
   link: [{ rel: 'canonical', href: pageUrl }],
   script: [
     {
@@ -177,7 +188,7 @@ useHead({
             '@type': 'ListItem',
             position: 2,
             // eslint-disable-next-line max-len
-            name: currentProduct().title.split('—')[0].trim(),
+            name: currentProduct()?.title?.split('—')[0]?.trim() ?? currentCategory.value,
             item: pageUrl,
           },
         ],
@@ -205,21 +216,21 @@ useHead({
     },
   ],
   meta: [
-    { name: 'description', content: currentProduct().description },
-    { name: 'keywords', content: currentProduct().keywords },
+    { name: 'description', content: currentProduct()?.description ?? '' },
+    { name: 'keywords', content: currentProduct()?.keywords ?? '' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
-    { property: 'og:title', content: currentProduct().title },
-    { property: 'og:description', content: currentProduct().description },
-    { property: 'og:image', content: `${siteUrl}${currentProduct().img}` },
+    { property: 'og:title', content: currentProduct()?.title ?? '' },
+    { property: 'og:description', content: currentProduct()?.description ?? '' },
+    { property: 'og:image', content: `${siteUrl}${currentProduct()?.img ?? ''}` },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: currentProduct().title },
-    { name: 'twitter:description', content: currentProduct().description },
-    { name: 'twitter:image', content: `${siteUrl}${currentProduct().img}` },
+    { name: 'twitter:title', content: currentProduct()?.title ?? '' },
+    { name: 'twitter:description', content: currentProduct()?.description ?? '' },
+    { name: 'twitter:image', content: `${siteUrl}${currentProduct()?.img ?? ''}` },
   ],
 });
 
@@ -231,13 +242,9 @@ const categoryName = computed(() => {
   return found?.name ?? currentCategory.value;
 });
 
-const uuidCategory = categories.categories.find(
-  (el) => el.link.split('/').pop() === currentCategory.value,
-)?.uuid;
-
 const { data: products, pending: isLoading } = await useAsyncData(
   `products-${currentCategory.value}`,
-  () => $fetch(`${apiBase}/api/v1/product?categoryUUID=${uuidCategory}`),
+  () => $fetch(`${apiBase}/api/v1/product?categorySlug=${currentCategory.value}`),
 );
 
 api.currentCategory = currentCategory.value;
