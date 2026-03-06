@@ -101,7 +101,7 @@ const descriptions = ref([
     img: "/images/watchCard.webp",
   },
   {
-    category: "airPods",
+    category: "airpods",
     title: "Купить Apple AirPods в Москве и Рязани — цены | РК-Тек",
     description:
       "Купить оригинальные Apple AirPods в Москве и Рязани с быстрой доставкой. Низкие цены, гарантия.",
@@ -128,7 +128,7 @@ const descriptions = ref([
     img: "/images/dyson.webp",
   },
   {
-    category: "ps5",
+    category: "ps",
     title: "Купить PlayStation 5 в Москве и Рязани — цены | РК-Тек",
     description:
       "Купить PlayStation 5 с дисководом в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
@@ -137,12 +137,12 @@ const descriptions = ref([
     img: "/images/ps.webp",
   },
   {
-    category: "rec",
-    title: "Съемка — оборудование в Москве и Рязани | РК-Тек",
+    category: "canon",
+    title: "Купить Canon в Москве и Рязани — цены | РК-Тек",
     description:
-      "Купить оборудование для съемки в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
+      "Купить Canon в Москве и Рязани с быстрой доставкой. Оригинал, гарантия, в наличии.",
     keywords:
-      "купить оборудование для съемки, съемка, камера, Canon с доставкой",
+      "купить Canon, Canon цена, Canon, Canon с доставкой",
     img: "/images/camera.webp",
   },
   {
@@ -155,7 +155,7 @@ const descriptions = ref([
     img: "/images/whoop.webp",
   },
   {
-    category: "others",
+    category: "other",
     title: "Другое — товары в Москве и Рязани | РК-Тек",
     description:
       "Купить товары других брендов в Москве и Рязани с быстрой доставкой. Оригинал, гарантия.",
@@ -242,9 +242,13 @@ const categoryName = computed(() => {
   return found?.name ?? currentCategory.value;
 });
 
+const uuidCategory = categories.categories.find(
+  (el) => el.link.split('/').pop() === currentCategory.value,
+)?.uuid;
+
 const { data: products, pending: isLoading } = await useAsyncData(
   `products-${currentCategory.value}`,
-  () => $fetch(`${apiBase}/api/v1/product?categorySlug=${currentCategory.value}`),
+  () => $fetch(`${apiBase}/api/v1/product?categoryUUID=${uuidCategory}`),
 );
 
 api.currentCategory = currentCategory.value;
