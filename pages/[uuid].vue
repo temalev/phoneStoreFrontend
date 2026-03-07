@@ -16,7 +16,7 @@
         <img
           class="productPage__img"
           :src="currentImage"
-          :alt="`${product.name} — купить в РК-Тек`"
+          :alt="`${displayName} — купить в РК-Тек`"
           width="560"
           height="560"
         />
@@ -34,10 +34,10 @@
             <NuxtLink :to="breadcrumbCategory.to">{{ breadcrumbCategory.label }}</NuxtLink>
           </template>
           <span>/</span>
-          <span>{{ product.name }}</span>
+          <span>{{ displayName }}</span>
         </nav>
 
-        <h1 class="productPage__name">{{ product.name }}</h1>
+        <h1 class="productPage__name">{{ displayName }}</h1>
 
         <div class="productPage__priceRow">
           <span v-if="currentOldPrice" class="productPage__oldPrice">
@@ -208,6 +208,22 @@ const selectOption = (id, index) => {
   selectedOptions.value[index] = id;
 };
 
+/** Название: name + выбранные опции (например «AirPods 4 — С шумоподавлением») */
+const displayName = computed(() => {
+  const name = product.value?.name || '';
+  if (!product.value?.options?.length || !selectedOptions.value.length) return name;
+  const parts = product.value.options
+    .map((option, idx) => {
+      const selectedId = selectedOptions.value[idx];
+      if (selectedId == null) return null;
+      const item = option.items?.find((i) => i.id === selectedId);
+      return item?.name ?? item?.value ?? null;
+    })
+    .filter(Boolean);
+  if (!parts.length) return name;
+  return `${name} — ${parts.join(' ')}`;
+});
+
 const currentVariant = computed(() => {
   if (!product.value?.variants?.length) return null;
   if (!selectedOptions.value.length) {
@@ -304,7 +320,6 @@ const decreaseQty = () => {
 
 // --- SEO ---
 const pageUrl = `https://рк-тек.рф/${slug}`;
-const productName = product.value?.name || '';
 const productDescription = product.value?.description || '';
 const categoryName = product.value?.category?.name || '';
 const siteUrl = 'https://рк-тек.рф';
@@ -318,17 +333,17 @@ const minPrice = product.value?.variants?.length
   : product.value?.price || 0;
 
 const priceStr = minPrice ? `— цена ${formatPrice(minPrice)} ₽ ` : '';
-const pageTitle = `Купить ${productName} ${priceStr}в Москве и Рязани | РК-Тек`;
-const pageDescription = `Купить ${productName} в Москве и Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`;
+const pageTitle = computed(() => `Купить ${displayName.value} ${priceStr}в Москве и Рязани | РК-Тек`);
+const pageDescription = computed(() => `Купить ${displayName.value} в Москве и Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`);
 
-const keywords = [
-  `купить ${productName.toLowerCase()}`,
-  `${productName.toLowerCase()} цена`,
-  `${productName.toLowerCase()} москва`,
-  `${productName.toLowerCase()} рязань`,
-  `${productName.toLowerCase()} купить`,
+const keywords = computed(() => [
+  `купить ${displayName.value.toLowerCase()}`,
+  `${displayName.value.toLowerCase()} цена`,
+  `${displayName.value.toLowerCase()} москва`,
+  `${displayName.value.toLowerCase()} рязань`,
+  `${displayName.value.toLowerCase()} купить`,
   categoryName ? `купить ${categoryName.toLowerCase()} москва` : '',
-].filter(Boolean).join(', ');
+].filter(Boolean).join(', '));
 
 const brandMap = {
   iPhone: 'Apple',
@@ -374,7 +389,7 @@ useHead({
     { name: 'keywords', content: keywords },
     { property: 'og:type', content: 'product' },
     { property: 'og:locale', content: 'ru_RU' },
-    { property: 'og:title', content: `Купить ${productName} — РК-Тек` },
+    { property: 'og:title', content: computed(() => `Купить ${displayName.value} — РК-Тек`) },
     { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
     { property: 'og:image:width', content: '1200' },
@@ -382,19 +397,19 @@ useHead({
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: `Купить ${productName} — РК-Тек` },
+    { name: 'twitter:title', content: computed(() => `Купить ${displayName.value} — РК-Тек`) },
     { name: 'twitter:description', content: pageDescription },
     { name: 'twitter:image', content: ogImage },
   ],
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
+      innerHTML: computed(() => JSON.stringify({
         '@context': 'https://schema.org',
         '@graph': [
           {
             '@type': 'Product',
-            name: productName,
+            name: displayName.value,
             description: productDescription,
             image: allImages,
             brand: { '@type': 'Brand', name: brandName },
@@ -427,13 +442,13 @@ useHead({
               {
                 '@type': 'ListItem',
                 position: (breadcrumbMiddle ? 3 : 2) + (breadcrumbCategory ? 1 : 0),
-                name: productName,
+                name: displayName.value,
                 item: pageUrl,
               },
             ],
           },
         ],
-      }),
+      })),
     },
   ],
 });
