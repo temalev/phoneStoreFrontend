@@ -1,6 +1,6 @@
 <template>
   <article class="mainCardProduct">
-    <NuxtLink :to="`/${product.uuid}`" class="mainCardContainer">
+    <NuxtLink :to="`/${product.slug || product.uuid}`" class="mainCardContainer">
       <img class="imgProduct" :src="baseImg" :alt="product.name" />
       <div class="infoContainer">
         <div class="header">
@@ -286,6 +286,7 @@ onMounted(() => {
   width: 330px;
   border: 1px solid #eee;
   border-radius: 12px;
+
   &:hover {
     box-shadow: 0 0 10px #eee;
   }
