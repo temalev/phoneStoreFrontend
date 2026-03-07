@@ -134,7 +134,7 @@ import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const uuid = route.params.uuid;
+const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
 const config = useRuntimeConfig();
 const api = useApi();
 const categories = useCategories();
@@ -142,13 +142,13 @@ const categories = useCategories();
 const apiBase = config.public.URL;
 
 const { data: product, pending, error: productError } = await useAsyncData(
-  `product-${uuid}`,
-  () => $fetch(`${apiBase}/api/v1/product/${uuid}`),
+  `product-${slug}`,
+  () => $fetch(`${apiBase}/api/v1/product/${slug}`),
 );
 
 if (import.meta.server && productError.value) {
   // eslint-disable-next-line no-console
-  console.error(`[${uuid}] API error:`, productError.value);
+  console.error(`[${slug}] API error:`, productError.value);
 }
 
 // --- Хлебные крошки ---
@@ -303,7 +303,7 @@ const decreaseQty = () => {
 };
 
 // --- SEO ---
-const pageUrl = `https://рк-тек.рф/${uuid}`;
+const pageUrl = `https://рк-тек.рф/${slug}`;
 const productName = product.value?.name || '';
 const productDescription = product.value?.description || '';
 const categoryName = product.value?.category?.name || '';
@@ -444,6 +444,10 @@ useHead({
   max-width: 1100px;
   margin: 90px auto 60px;
   padding: 0 20px;
+
+  @media (min-width: 851px) {
+    margin-top: 120px;
+  }
 }
 
 .productPage__content {

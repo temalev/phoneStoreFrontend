@@ -65,11 +65,11 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend': (pages) => {
-      // Ограничиваем маршрут [uuid] только UUID-форматом
-      // чтобы он не конфликтовал с [category]
-      const uuidPage = pages.find((p) => p.name === 'uuid');
-      if (uuidPage) {
-        uuidPage.path = '/:uuid([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})';
+      // Категории только по известным сегментам, остальное — товар по slug
+      const categoryPage = pages.find((p) => p.path === '/:category');
+      if (categoryPage) {
+        const categorySlugs = 'iphone|ipad|mac|watch|airpods|accessories|samsung|dyson|ps|canon|whoop|other';
+        categoryPage.path = `/:category(${categorySlugs})`;
       }
     },
   },

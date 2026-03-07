@@ -20,6 +20,7 @@ type YandexProductVariant = {
 type YandexProduct = {
   uuid: string;
   name: string;
+  slug?: string;
   description?: string;
   price?: number;
   images?: string[];
@@ -130,7 +131,7 @@ export default defineEventHandler(async (event) => {
           : `${SITE_URL}${rawPicture}`
         : '';
 
-      const url = `${SITE_URL}/${p.uuid}`;
+      const url = `${SITE_URL}/${p.slug || p.uuid}`;
       const categoryId = getCategoryNumericId(p);
 
       return `<offer id="${escapeXml(p.uuid)}" available="true">
