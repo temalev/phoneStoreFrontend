@@ -77,7 +77,7 @@ onMounted(() => {});
     overflow: hidden;
     padding-top: 40px;
     background-color: #fff;
-    box-shadow: 0 0 5px #dadada;
+    border: 1px solid #eee;
     display: flex;
     flex-direction: column;
     align-items: center;
