@@ -46,6 +46,12 @@ const dialogVisible = ref(false);
 
 // eslint-disable-next-line no-undef
 onMounted(async () => {
+  const { isFromSearch, searchQuery, searchEngine } = useSearchReferrer();
+  if (isFromSearch) {
+    // eslint-disable-next-line no-console
+    console.log('[Поиск]', { поисковик: searchEngine, запрос: searchQuery || '(нет в referrer)' });
+  }
+
   api.getOrders();
   const notif = await api.getParams('popup_message');
   if (notif?.value === 'true') {
