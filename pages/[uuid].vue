@@ -83,10 +83,15 @@
             >
               В корзину
             </button>
-            <div v-else class="productPage__qtyControls">
-              <button class="productPage__qtyBtn" @click="decreaseQty">−</button>
-              <span class="productPage__qty">{{ cartQty }}</span>
-              <button class="productPage__qtyBtn" @click="increaseQty">+</button>
+            <div v-else class="productPage__cartRow">
+              <div class="productPage__qtyControls">
+                <button class="productPage__qtyBtn" @click="decreaseQty">−</button>
+                <span class="productPage__qty">{{ cartQty }}</span>
+                <button class="productPage__qtyBtn" @click="increaseQty">+</button>
+              </div>
+              <button class="productPage__openCartBtn" @click="api.isCartOpen = true">
+                В корзине →
+              </button>
             </div>
           </template>
           <a
@@ -610,6 +615,22 @@ useHead({
   &:active { transform: scale(0.98); }
 }
 
+.productPage__cartRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+
+    .productPage__openCartBtn {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 .productPage__qtyControls {
   display: inline-flex;
   align-items: center;
@@ -642,6 +663,26 @@ useHead({
   font-weight: 500;
   min-width: 24px;
   text-align: center;
+}
+
+.productPage__openCartBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 0 32px;
+  border-radius: 14px;
+  border: none;
+  background: #2c2c2c;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.1s;
+
+  &:hover { background: #1a1a1a; }
+  &:active { transform: scale(0.98); }
 }
 
 .productPage__telegramBtn {
