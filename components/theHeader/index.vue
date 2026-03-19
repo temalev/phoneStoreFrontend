@@ -24,7 +24,7 @@
       <div class="telContainer">
         <a href="tel:+79156022896">+7 (915) 602-28-96</a>
       </div>
-      <div class="shopBag" @click="isShopBag = true">
+      <div class="shopBag" @click="api.isCartOpen = true">
         <div v-if="totalItemsInCart > 0" class="ordersCounter">
           {{ totalItemsInCart }}
         </div>
@@ -43,7 +43,7 @@
         <NuxtIcon name="logout" filled style="color: black; font-size: 20px" />
       </NuxtLink>
     </div>
-    <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
+    <ShopBag v-if="api.isCartOpen" @closeShopBag="api.isCartOpen = false" />
   </div>
 
   <div class="mainHeader_mobile">
@@ -66,7 +66,7 @@
     <div class="wrapper" style="justify-content: flex-end">
       <div v-if="!api.isAuth" class="leftContainer">
         <a href="tel:+79156022896" class="call" />
-        <div class="shopBag" @click="(isShopBag = true), (isMenu = false)">
+        <div class="shopBag" @click="api.isCartOpen = true; isMenu = false">
           <div v-if="totalItemsInCart > 0" class="ordersCounter">
             {{ totalItemsInCart }}
           </div>
@@ -99,7 +99,7 @@
         </nav>
       </div>
     </Teleport>
-    <ShopBag v-if="isShopBag" @closeShopBag="isShopBag = false" />
+    <ShopBag v-if="api.isCartOpen" @closeShopBag="api.isCartOpen = false" />
   </div>
 </template>
 
@@ -109,7 +109,6 @@ import { ref, watch, computed } from 'vue';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
 
-const isShopBag = ref(false);
 const isMenu = ref(false);
 const isToLeft = ref(false);
 const categories = useCategories();
