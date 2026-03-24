@@ -29,7 +29,6 @@
               <span class="material-symbols-rounded contacts-card__icon">call</span>
               <div class="contacts-card__phones">
                 <a href="tel:+79105033237" class="contacts-card__link">+7 (910) 503-32-37</a>
-                <a href="tel:+79156022896" class="contacts-card__link">+7 (915) 602-28-96</a>
               </div>
             </li>
             <li class="contacts-card__item">
@@ -45,6 +44,10 @@
             <a href="https://wa.me/79105033237" target="_blank" rel="noopener" class="contacts-card__social contacts-card__social--wa">
               <span class="contacts-card__social-ico contacts-card__social-ico--wa" />
               WhatsApp
+            </a>
+            <a href="https://max.ru/u/f9LHodD0cOK_iHS0MiYJ__OpgmQLWYCT56oHzFk16n3_xjIBH0GuGM9m-N0" target="_blank" rel="noopener" class="contacts-card__social contacts-card__social--max">
+              <span class="contacts-card__social-ico contacts-card__social-ico--max" />
+              MAX
             </a>
           </div>
           <a href="https://yandex.ru/maps/-/CDVKz6YB" target="_blank" rel="noopener" class="contacts-card__map-btn">
@@ -68,7 +71,6 @@
               <span class="material-symbols-rounded contacts-card__icon">call</span>
               <div class="contacts-card__phones">
                 <a href="tel:+79105033237" class="contacts-card__link">+7 (910) 503-32-37</a>
-                <a href="tel:+79156022896" class="contacts-card__link">+7 (915) 602-28-96</a>
               </div>
             </li>
             <li class="contacts-card__item">
@@ -84,6 +86,10 @@
             <a href="https://t.me/Rktech_shop" target="_blank" rel="noopener" class="contacts-card__social contacts-card__social--tg">
               <span class="contacts-card__social-ico contacts-card__social-ico--tg" />
               Telegram
+            </a>
+            <a href="https://max.ru/u/f9LHodD0cOK_iHS0MiYJ__OpgmQLWYCT56oHzFk16n3_xjIBH0GuGM9m-N0" target="_blank" rel="noopener" class="contacts-card__social contacts-card__social--max">
+              <span class="contacts-card__social-ico contacts-card__social-ico--max" />
+              MAX
             </a>
           </div>
           <a href="https://yandex.ru/maps/org/225229871067" target="_blank" rel="noopener" class="contacts-card__map-btn">
@@ -103,7 +109,7 @@
 const siteUrl = 'https://рк-тек.рф';
 const pageUrl = `${siteUrl}/contacts`;
 const pageTitle = 'Контакты — РК Тек в Рязани и Москве';
-const pageDescription = 'Контакты магазина РК Тек: Рязань, ул. Кольцова, 12 и Москва, Багратионовский проезд, 7к2. Телефоны: +7 (910) 503-32-37, +7 (915) 602-28-96. Telegram, WhatsApp.';
+const pageDescription = 'Контакты магазина РК Тек: Рязань, ул. Кольцова, 12 и Москва, Багратионовский проезд, 7к2. Телефоны: +7 (910) 503-32-37. Telegram, WhatsApp, MAX.';
 const ogImage = `${siteUrl}/images/mainPageBackground.webp`;
 
 // eslint-disable-next-line no-undef
@@ -144,7 +150,7 @@ useHead({
             '@type': ['Store', 'LocalBusiness'],
             name: 'РК Тек — Рязань',
             url: siteUrl,
-            telephone: ['+79105033237', '+79156022896'],
+            telephone: ['+79105033237'],
             email: 'info@рк-тек.рф',
             address: {
               '@type': 'PostalAddress',
@@ -163,6 +169,7 @@ useHead({
             sameAs: [
               'https://t.me/Rktech_shop',
               'https://wa.me/79105033237',
+              'https://max.ru/u/f9LHodD0cOK_iHS0MiYJ__OpgmQLWYCT56oHzFk16n3_xjIBH0GuGM9m-N0',
               'https://yandex.ru/maps/-/CDVKz6YB',
             ],
           },
@@ -170,7 +177,7 @@ useHead({
             '@type': ['Store', 'LocalBusiness'],
             name: 'РК Тек — Москва',
             url: siteUrl,
-            telephone: ['+79105033237', '+79156022896'],
+            telephone: ['+79105033237'],
             email: 'info@рк-тек.рф',
             address: {
               '@type': 'PostalAddress',
@@ -180,6 +187,7 @@ useHead({
             },
             sameAs: [
               'https://t.me/Rktech_shop',
+              'https://max.ru/u/f9LHodD0cOK_iHS0MiYJ__OpgmQLWYCT56oHzFk16n3_xjIBH0GuGM9m-N0',
               'https://yandex.ru/maps/org/225229871067',
             ],
           },
@@ -425,6 +433,7 @@ useHead({
     &:hover { opacity: 0.8; }
     &--tg { background: #e8f5fe; color: #29a8eb; }
     &--wa { background: #e6faf0; color: #1da851; }
+    &--max { background: #f3f4f6; color: #3b3b3b; }
   }
 
   &__social-ico {
@@ -437,6 +446,7 @@ useHead({
 
     &--tg { background-image: url(/icons/telegram.svg); }
     &--wa { background-image: url(/icons/whatsapp.svg); }
+    &--max { background-image: url(/icons/MAX.svg); }
   }
 
   &__map-btn {

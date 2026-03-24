@@ -48,7 +48,6 @@
       <div class="rowLinks">
         <div class="d-flex-column gap-2">
         <span class="tel"><a href="tel:+79105033237">+7 (910) 503-32-37</a></span>
-         <span class="tel"><a href="tel:+79156022896">+7 (915) 602-28-96</a></span>
          </div>
         <div class="social">
           <a
@@ -64,6 +63,13 @@
             aria-label="Открыть чат в WhatsApp"
           >
             <span class="sr-only">Открыть чат в WhatsApp</span>
+          </a>
+          <a
+            href="https://max.ru/u/f9LHodD0cOK_iHS0MiYJ__OpgmQLWYCT56oHzFk16n3_xjIBH0GuGM9m-N0"
+            class="maxIco"
+            aria-label="Открыть MAX"
+          >
+            <span class="sr-only">Открыть MAX</span>
           </a>
         </div>
       </div>
@@ -257,6 +263,16 @@ const getProduct = (link) => {
 
 .whatsappIco {
   background-image: url(/icons/whatsapp.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+
+.maxIco {
+  background-image: url(/icons/MAX.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

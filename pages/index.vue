@@ -155,7 +155,7 @@ useHead({
             description: pageDescription,
             logo: `${pageUrl}/icons/logo.svg`,
             image: ogImage,
-            telephone: ['+79105033237', '+79156022896'],
+            telephone: ['+79105033237'],
             email: 'info@рк-тек.рф',
             address: {
               '@type': 'PostalAddress',
@@ -185,7 +185,7 @@ useHead({
             description: pageDescription,
             logo: `${pageUrl}/icons/logo.svg`,
             image: ogImage,
-            telephone: ['+79105033237', '+79156022896'],
+            telephone: ['+79105033237'],
             email: 'info@рк-тек.рф',
             address: {
               '@type': 'PostalAddress',
