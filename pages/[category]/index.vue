@@ -201,7 +201,7 @@ useHead({
         '@type': 'LocalBusiness',
         name: 'РК Тек',
         url: siteUrl,
-        telephone: '+7-915-602-28-96',
+        telephone: '+7-910-503-32-37',
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Рязань',
