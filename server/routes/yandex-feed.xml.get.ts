@@ -29,7 +29,7 @@ type YandexProduct = {
   categoryUUID?: string;
 };
 
-const SITE_URL = 'https://рк-тек.рф';
+const SITE_URL = 'https://xn----jtbnc0ao.xn--p1ai';
 
 /** Маппинг UUID категории → { id, url, name } для collections */
 const CATEGORY_COLLECTIONS: Record<string, { id: string; url: string; name: string }> = {

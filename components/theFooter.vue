@@ -2,10 +2,10 @@
   <div class="mainFooter">
     <div class="navContainer">
       <div class="linksContainer">
-        <h3>Навигация</h3>
-        <nav class="links">
+        <h3>Каталог</h3>
+        <nav class="links" aria-label="Категории товаров">
           <NuxtLink
-            v-for="link in categories.categories"
+            v-for="link in mainCategories"
             :key="link.name"
             :to="link.link"
             class="navLinkMobile"
@@ -15,9 +15,32 @@
           </NuxtLink>
         </nav>
       </div>
+
       <div class="linksContainer">
-        <h3>Информация</h3>
-        <nav class="links">
+        <h3>Аксессуары и бренды</h3>
+        <nav class="links" aria-label="Подкатегории и бренды">
+          <NuxtLink
+            v-for="link in accessoriesSubs"
+            :key="link.link"
+            :to="link.link"
+            class="navLinkMobile"
+          >
+            {{ link.name }}
+          </NuxtLink>
+          <NuxtLink
+            v-for="link in otherBrands"
+            :key="link.link"
+            :to="link.link"
+            class="navLinkMobile"
+          >
+            {{ link.name }}
+          </NuxtLink>
+        </nav>
+      </div>
+
+      <div class="linksContainer">
+        <h3>Покупателям</h3>
+        <nav class="links" aria-label="Информация для покупателей">
           <NuxtLink to="/contacts" class="navLinkMobile">Контакты</NuxtLink>
           <button
             v-for="link in info"
@@ -30,16 +53,19 @@
           </button>
         </nav>
       </div>
+
       <div class="linksContainer">
         <h3>Блог</h3>
-        <nav class="links">
+        <nav class="links" aria-label="Статьи блога">
           <NuxtLink to="/blog" class="navLinkMobile">Все статьи</NuxtLink>
-          <!-- eslint-disable-next-line max-len -->
-          <NuxtLink to="/blog/kakoy-macbook-vybrat-v-2026" class="navLinkMobile">Выбор MacBook</NuxtLink>
-          <!-- eslint-disable-next-line max-len -->
-          <NuxtLink to="/blog/rezhim-modema-iphone-nastroyka" class="navLinkMobile">Режим модема</NuxtLink>
-          <!-- eslint-disable-next-line max-len -->
-          <NuxtLink to="/blog/hard-reset-iphone-ipad" class="navLinkMobile">Hard Reset iPhone</NuxtLink>
+          <NuxtLink
+            v-for="post in latestPosts"
+            :key="post.slug"
+            :to="`/blog/${post.slug}`"
+            class="navLinkMobile"
+          >
+            {{ post.title }}
+          </NuxtLink>
         </nav>
       </div>
     </div>
@@ -109,9 +135,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
+import { blogPosts } from '~/data/blogPosts';
 
 const categories = useCategories();
 const api = useApi();
@@ -133,11 +160,30 @@ const info = ref([
     value: 'DELIVERY',
   },
   {
-    id: 3,
+    id: 4,
     name: 'Гарантия лучшей цены',
     value: 'BEST_PRICE',
   },
 ]);
+
+const mainCategories = computed(() => categories.categories);
+
+const accessoriesSubs = computed(() => {
+  const accessories = categories.categories.find((c) => c.link === '/accessories');
+  return accessories?.categories ?? [];
+});
+
+const otherBrands = ref([
+  { name: 'Marshall', link: '/other/marshall' },
+  { name: 'DJI', link: '/other/dji' },
+  { name: 'Xiaomi', link: '/other/xiaomi' },
+  { name: 'JBL', link: '/other/jbl' },
+  { name: 'Dreame', link: '/other/dreame' },
+]);
+
+const latestPosts = computed(() => [...blogPosts]
+  .sort((a, b) => new Date(b.date) - new Date(a.date))
+  .slice(0, 4));
 
 const getProduct = (link) => {
   const uuidSelectCategory = categories.categories.find((el) => el.link === link)?.uuid;
@@ -149,7 +195,8 @@ const getProduct = (link) => {
 <style scoped lang="scss">
 .mainFooter {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  gap: 40px;
   width: 100%;
   background-color: #2c2c2c;
   box-shadow: inset 0 20px 30px rgb(34, 34, 34);
@@ -158,26 +205,44 @@ const getProduct = (link) => {
   padding: 50px;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1100px) {
     flex-direction: column;
     gap: 30px;
+  }
+
+  @media (max-width: 768px) {
     padding: 30px 20px;
   }
 }
 
 .navContainer {
-  display: flex;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 40px;
+  flex: 1;
+  min-width: 0;
 
-  @media (max-width: 768px) {
-    flex-wrap: wrap;
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
 
   @media (max-width: 480px) {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 20px;
   }
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #fff;
 }
 
 .links {
@@ -186,13 +251,16 @@ const getProduct = (link) => {
   gap: 8px;
 }
 .navLinkMobile {
-  font-size: 15px;
-  color: #eee;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #bdbdbd;
   cursor: pointer;
   background: none;
   border: none;
   padding: 0;
   text-align: left;
+  text-decoration: none;
+  transition: color 0.15s;
 
   &:hover {
     color: #fff;

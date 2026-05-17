@@ -137,6 +137,7 @@ import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -324,10 +325,10 @@ const decreaseQty = () => {
 };
 
 // --- SEO ---
-const pageUrl = `https://рк-тек.рф/${slug}`;
+const pageUrl = `${SITE_URL}/${slug}`;
 const productDescription = product.value?.description || '';
 const categoryName = product.value?.category?.name || '';
-const siteUrl = 'https://рк-тек.рф';
+const siteUrl = SITE_URL;
 const ogImageRaw = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
   || product.value?.images?.[0]
   || `${siteUrl}/images/mainPageBackground.webp`;
@@ -340,15 +341,6 @@ const minPrice = product.value?.variants?.length
 const priceStr = minPrice ? `— цена ${formatPrice(minPrice)} ₽ ` : '';
 const pageTitle = computed(() => `Купить ${displayName.value} ${priceStr}в Москве и Рязани | РК-Тек`);
 const pageDescription = computed(() => `Купить ${displayName.value} в Москве и Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`);
-
-const keywords = computed(() => [
-  `купить ${displayName.value.toLowerCase()}`,
-  `${displayName.value.toLowerCase()} цена`,
-  `${displayName.value.toLowerCase()} москва`,
-  `${displayName.value.toLowerCase()} рязань`,
-  `${displayName.value.toLowerCase()} купить`,
-  categoryName ? `купить ${categoryName.toLowerCase()} москва` : '',
-].filter(Boolean).join(', '));
 
 const brandMap = {
   iPhone: 'Apple',
@@ -391,7 +383,6 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: keywords },
     { property: 'og:type', content: 'product' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: computed(() => `Купить ${displayName.value} — РК-Тек`) },

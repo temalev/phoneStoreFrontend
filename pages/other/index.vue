@@ -15,8 +15,9 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
-const siteUrl = 'https://рк-тек.рф';
+const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/other`;
 const pageTitle = 'Другие бренды — Marshall, DJI, Xiaomi, JBL в Рязани | РК-Тек';
 const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Рязани и Москве. Подберём нужный товар по выгодной цене с доставкой.';
@@ -27,7 +28,6 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'marshall купить рязань, dji купить рязань, xiaomi купить рязань, jbl купить, dreame купить, яндекс станция купить рязань' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },

@@ -63,6 +63,7 @@
 
 <script setup>
 import { useBlog } from '~/stores/blog';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const route = useRoute();
 const blog = useBlog();
@@ -81,7 +82,7 @@ const formatDate = (dateStr) => {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
-const siteUrl = 'https://рк-тек.рф';
+const siteUrl = SITE_URL;
 const defaultOgImage = `${siteUrl}/images/mainPageBackground.webp`;
 
 const pageUrl = computed(() => `${siteUrl}/blog/${route.params.slug}`);

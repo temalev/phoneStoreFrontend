@@ -110,12 +110,13 @@
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~~/stores/api';
 import { useBlog } from '~/stores/blog';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const api = useApi();
 const categories = useCategories();
 const blog = useBlog();
 
-const pageUrl = 'https://рк-тек.рф';
+const pageUrl = SITE_URL;
 const pageTitle = 'РК Тек — интернет-магазин техники Apple и Dyson в Рязани и Москве';
 const pageDescription = 'РК Тек — техника Apple и Dyson в Рязани и Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год. Доставка по Рязани и Москве в день заказа.';
 const ogImage = `${pageUrl}/images/mainPageBackground.webp`;
@@ -126,7 +127,6 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'купить iPhone Рязань, купить iPhone Москва, купить iPad Рязань, Apple Watch купить Рязань, AirPods купить, Dyson купить Рязань, Mac купить, интернет магазин Apple Рязань, RK Tech Рязань' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },

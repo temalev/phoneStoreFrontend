@@ -32,24 +32,26 @@
 
 <script setup>
 import { useBlog } from '~/stores/blog';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const blog = useBlog();
 const activeCategory = ref('all');
 
 const filteredPosts = computed(() => blog.getPostsByCategory(activeCategory.value));
 
-const blogOgImage = 'https://рк-тек.рф/images/mainPageBackground.webp';
+const blogUrl = `${SITE_URL}/blog`;
+const blogOgImage = `${SITE_URL}/images/mainPageBackground.webp`;
 
 useHead({
   title: 'Блог — РК Тек',
-  link: [{ rel: 'canonical', href: 'https://рк-тек.рф/blog' }],
+  link: [{ rel: 'canonical', href: blogUrl }],
   meta: [
     { name: 'description', content: 'Блог РК Тек — советы по выбору iPhone, инструкции и интересные факты о технике Apple и Dyson. Статьи для покупателей из Рязани и Москвы.' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: 'Блог — РК Тек' },
     { property: 'og:description', content: 'Советы по выбору техники, обзоры новинок и полезные инструкции от РК Тек.' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://рк-тек.рф/blog' },
+    { property: 'og:url', content: blogUrl },
     { property: 'og:image', content: blogOgImage },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
@@ -69,12 +71,12 @@ useHead({
             '@type': 'Blog',
             name: 'Блог РК Тек',
             description: 'Советы по выбору техники Apple и Dyson, инструкции и интересные факты.',
-            url: 'https://рк-тек.рф/blog',
-            publisher: { '@type': 'Organization', name: 'РК Тек', url: 'https://рк-тек.рф' }, // eslint-disable-line max-len
+            url: blogUrl,
+            publisher: { '@type': 'Organization', name: 'РК Тек', url: SITE_URL },
             blogPost: blog.posts.map((p) => ({
               '@type': 'BlogPosting',
               headline: p.title,
-              url: `https://рк-тек.рф/blog/${p.slug}`,
+              url: `${blogUrl}/${p.slug}`,
               datePublished: p.date,
               description: p.excerpt,
             })),
@@ -82,8 +84,10 @@ useHead({
           {
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Главная', item: 'https://рк-тек.рф' }, // eslint-disable-line max-len
-              { '@type': 'ListItem', position: 2, name: 'Блог', item: 'https://рк-тек.рф/blog' }, // eslint-disable-line max-len
+              // eslint-disable-next-line object-curly-newline
+              { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE_URL },
+              // eslint-disable-next-line object-curly-newline
+              { '@type': 'ListItem', position: 2, name: 'Блог', item: blogUrl },
             ],
           },
         ],

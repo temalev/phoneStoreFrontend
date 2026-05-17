@@ -1,5 +1,19 @@
 User-agent: *
-Disallow: 
-Disallow: /admin/
+Disallow: /admin
+Disallow: /OrdersList
+Disallow: /PromocodesList
 Disallow: /api/
-Sitemap: https://рк-тек.рф/sitemap.xml
+Disallow: /*?utm_
+Disallow: /*?from=
+Disallow: /*?ref=
+Disallow: /*?gclid=
+Disallow: /*?yclid=
+
+User-agent: Yandex
+Disallow: /admin
+Disallow: /OrdersList
+Disallow: /PromocodesList
+Disallow: /api/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&from&ref&gclid&yclid
+
+Sitemap: https://xn----jtbnc0ao.xn--p1ai/sitemap.xml
