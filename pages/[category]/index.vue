@@ -53,6 +53,7 @@ import { ref, computed } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { useRoute } from "vue-router";
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -60,7 +61,7 @@ const config = useRuntimeConfig();
 const currentCategory = ref(route.params.category);
 
 const apiBase = config.public.URL;
-const siteUrl = 'https://рк-тек.рф';
+const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/${currentCategory.value}`;
 
 const descriptions = ref([
@@ -217,7 +218,6 @@ useHead({
   ],
   meta: [
     { name: 'description', content: currentProduct()?.description ?? '' },
-    { name: 'keywords', content: currentProduct()?.keywords ?? '' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: currentProduct()?.title ?? '' },

@@ -106,7 +106,9 @@
 </template>
 
 <script setup>
-const siteUrl = 'https://рк-тек.рф';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
+
+const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/contacts`;
 const pageTitle = 'Контакты — РК Тек в Рязани и Москве';
 const pageDescription = 'Контакты магазина РК Тек: Рязань, ул. Кольцова, 12 и Москва, Багратионовский проезд, 7к2. Телефоны: +7 (910) 503-32-37. Telegram, WhatsApp, MAX.';
@@ -118,7 +120,6 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'рк тек контакты, рк тек рязань адрес, рк тек москва адрес, телефон рк тек, магазин apple рязань контакты' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },

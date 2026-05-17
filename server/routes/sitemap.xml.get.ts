@@ -7,7 +7,7 @@ type SitemapProduct = {
   updatedAt?: string;
 };
 
-const SITE_URL = 'https://рк-тек.рф';
+const SITE_URL = 'https://xn----jtbnc0ao.xn--p1ai';
 
 const escapeXml = (unsafe: unknown): string => {
   if (unsafe === null || unsafe === undefined) return '';

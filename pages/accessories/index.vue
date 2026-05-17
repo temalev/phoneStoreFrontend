@@ -15,8 +15,9 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
-const siteUrl = 'https://рк-тек.рф';
+const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/accessories`;
 const pageTitle = 'Аксессуары для Apple — купить в Рязани и Москве | РК-Тек';
 const pageDescription = 'Аксессуары для iPhone, iPad и MacBook в Рязани и Москве. Чехлы, кабели для зарядки, клавиатуры и мыши. Быстрая доставка, гарантия качества.';
@@ -27,7 +28,6 @@ useHead({
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: pageDescription },
-    { name: 'keywords', content: 'аксессуары для iphone рязань, аксессуары для ipad, кабели apple рязань, чехлы iphone купить рязань, клавиатуры для mac, мыши apple' },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ru_RU' },
     { property: 'og:title', content: pageTitle },

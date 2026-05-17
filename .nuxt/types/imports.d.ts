@@ -298,6 +298,8 @@ declare global {
   const ElMessage: typeof import('element-plus')['ElMessage']
   const ElMessageBox: typeof import('element-plus')['ElMessageBox']
   const ElNotification: typeof import('element-plus')['ElNotification']
+  const SITE_URL: typeof import('../../composables/useSiteUrl')['SITE_URL']
+  const SITE_URL_DISPLAY: typeof import('../../composables/useSiteUrl')['SITE_URL_DISPLAY']
   const abortNavigation: typeof import('../../node_modules/nuxt/dist/app')['abortNavigation']
   const addRouteMiddleware: typeof import('../../node_modules/nuxt/dist/app')['addRouteMiddleware']
   const clearError: typeof import('../../node_modules/nuxt/dist/app')['clearError']
@@ -390,6 +392,7 @@ declare global {
   const useRouter: typeof import('../../node_modules/nuxt/dist/app')['useRouter']
   const useRuntimeConfig: typeof import('../../node_modules/nuxt/dist/app')['useRuntimeConfig']
   const useSearchReferrer: typeof import('../../composables/useSearchReferrer')['useSearchReferrer']
+  const useSiteUrl: typeof import('../../composables/useSiteUrl')['useSiteUrl']
   const useSlots: typeof import('vue')['useSlots']
   const useState: typeof import('../../node_modules/nuxt/dist/app')['useState']
   const useTransitionState: typeof import('vue')['useTransitionState']
@@ -703,6 +706,8 @@ declare module 'vue' {
     readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
     readonly ElMessageBox: UnwrapRef<typeof import('element-plus')['ElMessageBox']>
     readonly ElNotification: UnwrapRef<typeof import('element-plus')['ElNotification']>
+    readonly SITE_URL: UnwrapRef<typeof import('../../composables/useSiteUrl')['SITE_URL']>
+    readonly SITE_URL_DISPLAY: UnwrapRef<typeof import('../../composables/useSiteUrl')['SITE_URL_DISPLAY']>
     readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['abortNavigation']>
     readonly addRouteMiddleware: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['addRouteMiddleware']>
     readonly clearError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['clearError']>
@@ -795,6 +800,7 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRouter']>
     readonly useRuntimeConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRuntimeConfig']>
     readonly useSearchReferrer: UnwrapRef<typeof import('../../composables/useSearchReferrer')['useSearchReferrer']>
+    readonly useSiteUrl: UnwrapRef<typeof import('../../composables/useSiteUrl')['useSiteUrl']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useState']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>

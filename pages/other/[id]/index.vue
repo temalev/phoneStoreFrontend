@@ -9,6 +9,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
+import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const route = useRoute();
 const api = useApi();
@@ -56,14 +57,13 @@ const desc = otherDescriptions[currentCategory.value] || {
   img: '/images/other.webp',
 };
 
-const pageUrl = `https://рк-тек.рф/other/${currentCategory.value}`;
+const pageUrl = `${SITE_URL}/other/${currentCategory.value}`;
 
 useHead({
   title: desc.title,
   link: [{ rel: 'canonical', href: pageUrl }],
   meta: [
     { name: 'description', content: desc.description },
-    { name: 'keywords', content: desc.keywords },
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: desc.title },
     { property: 'og:description', content: desc.description },
