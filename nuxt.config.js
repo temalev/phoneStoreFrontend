@@ -30,6 +30,13 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        {
+          rel: 'preload',
+          as: 'font',
+          type: 'font/woff2',
+          href: '/fonts/material-symbols-rounded-400.subset.woff2',
+          crossorigin: 'anonymous',
+        },
       ],
       htmlAttrs: {
         lang: 'ru',

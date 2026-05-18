@@ -2,7 +2,7 @@
   font-family: 'Material Symbols Rounded';
   font-style: normal;
   font-weight: 400;
-  src: url('../fonts/material-symbols-rounded-400.ttf') format('truetype');
+  src: url('/fonts/material-symbols-rounded-400.subset.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -18,5 +18,7 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
-

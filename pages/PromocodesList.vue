@@ -76,18 +76,19 @@
 <script setup>
 import { useApi } from '~/stores/api';
 import { ref } from 'vue';
-import moment from 'moment';
 
 const api = useApi();
 
 const loading = ref(false);
+
+const dateFormatter = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
 const quantity = (quantity) => {
   return !quantity ? '∞' : quantity
 }
 
 const existsUp = (existsUp) => {
-  return existsUp ? moment(existsUp).format('DD.MM.YYYY') : 'Не указана'
+  return existsUp ? dateFormatter.format(new Date(existsUp)) : 'Не указана'
 }
 
 const editPromocode = (promocode, action) => {

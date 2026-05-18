@@ -15,7 +15,7 @@
           label="Дата заказа"
           width="100px"
         >
-          {{ moment(row.createdAt).format('DD.MM.YYYY') }}
+          {{ formatDate(row.createdAt) }}
         </el-table-column>
         <el-table-column prop="deliveryMessage" label="Адрес" min-width="220px" />
         <el-table-column v-slot="{ row }" prop="items" label="Стоимость товаров" min-width="120px">
@@ -47,9 +47,11 @@
 </template>
 <script setup>
 import { useApi } from '~/stores/api';
-import moment from 'moment';
 
 const api = useApi();
+
+const dateFormatter = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const formatDate = (date) => dateFormatter.format(new Date(date));
 
 const price = (items) => {
   const cost = items.reduce((prevValue, item) => prevValue + item.price, 0);

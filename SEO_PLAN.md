@@ -189,26 +189,76 @@ Core Web Vitals — фактор ранжирования Google (Page Experienc
 - CLS < 0.1 (после п. 1.3 должно стать ОК).
 - INP < 200 ms.
 
-### 3.2. Шрифты
-- `material-symbols` — тяжёлый CSS-шрифт. Перейти на subset (только используемые глифы) или на SVG-иконки.
-- Все веб-шрифты с `font-display: swap`.
-- `<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>` если используется Google Fonts.
+### 3.2. Шрифты ✅ DONE (2026-05-18)
+- ✅ `material-symbols` — **subset 14 нужных глифов** (`arrow_forward, article, bolt, call, info, location_on, mail, map, phone_iphone, redeem, schedule, search_off, sell, support_agent`).
+  - Был: TTF, **1.18 МБ**, ~3000 глифов.
+  - Стал: WOFF2, **3.5 КБ**. **-99.7%**.
+  - Получен через Google Fonts CSS API с параметром `icon_names=...`. Self-hosted в [public/fonts/](public/fonts/).
+- ✅ Добавлен `font-feature-settings: 'liga'` в CSS — критично для корректной работы ligatures (превращение слова `arrow_forward` в иконку). В старом CSS этого не было.
+- ✅ Все веб-шрифты с `font-display: swap` — было до правок.
+- ✅ `<link rel="preload" as="font" type="font/woff2" crossorigin>` для иконочного шрифта добавлен в [nuxt.config.js](nuxt.config.js#L33) — браузер качает шрифт параллельно с HTML, нет FOIT/FOUT.
+- Google Fonts не используется (всё self-hosted) — `preconnect` к `fonts.googleapis.com` не нужен.
+
+**Проверено в prod-сборке** (`npm run build` + preview):
+- CSS path: `/_nuxt/entry.*.css` → `url(../fonts/material-symbols-rounded-400.subset.woff2)` → `/fonts/...`
+- Preload в HTML: `<link rel="preload" ... href="/fonts/material-symbols-rounded-400.subset.woff2">`
+- URL совпадают → preload работает, шрифт загружается один раз.
 
 ### 3.3. Изображения
 - Все ключевые изображения — WebP/AVIF, есть.
 - Добавить `srcset` для `<img>` с разными `w` (480, 768, 1200) — мобильный трафик ~70% в РФ.
 - Опционально подключить `@nuxt/image` для автоматики.
 
-### 3.4. JS-бандл
-- Проверить, не тянет ли клиент весь Element Plus. При необходимости — `components: { resolveIcon: false }` или ручной импорт.
-- Lazy-load компонентов модалок: `defineAsyncComponent`.
-- Не делать `useAsyncData` в `[uuid].vue` без `lazy: true` если SSR-блокировка не нужна (но сейчас она нужна для SEO).
+### 3.4. JS-бандл ✅ DONE (частично, 2026-05-18)
+**Аудит выявил:**
+- `moment.js` — **60 КБ**, использовался ТОЛЬКО в админских страницах для `format('DD.MM.YYYY')` (3 файла) + 1 файл с мёртвым импортом.
+- `assets/icons/rk.svg` — **92 КБ**, NuxtIcon-ассет, **никем не используется** (`<NuxtIcon name="rk" />` нет в коде). Логотип в хедере грузится из `/icons/rk.png` (public/).
+- Element Plus tree-shake-ается корректно — `el-table` (80 КБ), `el-switch` (17 КБ) грузятся только при заходе на админ-страницы.
+- Все админ-роуты (`admin.js` 140 КБ, `OrdersList`, `PromocodesList`) уже lazy-load через Nuxt-роутинг.
 
-### 3.5. HTTP-заголовки кеширования
-На стороне Nginx/CDN:
-- `Cache-Control: public, max-age=31536000, immutable` для `/_nuxt/`, `/images/`, `/icons/`.
-- `Cache-Control: public, max-age=300, s-maxage=3600` для `/sitemap.xml`.
-- HSTS, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`.
+**Сделано:**
+- ✅ Удалён `moment` + `@nuxtjs/moment` из [package.json](package.json), заменён на нативный `Intl.DateTimeFormat`:
+  - [pages/PromocodesList.vue](pages/PromocodesList.vue)
+  - [pages/OrdersList.vue](pages/OrdersList.vue)
+  - [pages/admin.vue](pages/admin.vue) — был только мёртвый импорт.
+- ✅ Удалён неиспользуемый `assets/icons/rk.svg` (92 КБ).
+
+**Измеренный эффект (build + preview):**
+| Страница | JS до | JS после | Экономия |
+|---|---|---|---|
+| Главная `/` | ~593 КБ | **502.7 КБ** | −90 КБ (−15%) |
+| Админ-страницы | + 60 КБ moment | (нет moment) | −60 КБ |
+
+**Не сделано (требует крупных правок):**
+- `blogPosts.js` (55 КБ) — содержит full HTML всех 7 статей блога, грузится на каждой странице через footer-store. Можно разделить мета/контент, но это сложнее. Отдельная итерация.
+- Lazy-load модалок через `defineAsyncComponent` — модалки уже под `v-if`, грузятся при открытии. Дополнительная оптимизация низкого приоритета.
+- `useAsyncData` в `[uuid].vue` — SSR-блокировка нужна для SEO (контент должен быть в HTML), не трогаем.
+
+### 3.5. HTTP-заголовки кеширования ✅ DONE (2026-05-18)
+Применено на VPS, файл `/etc/nginx/sites-enabled/default` + snippets в `/etc/nginx/snippets/`.
+
+**Cache-Control:**
+| URL | Cache-Control | Зачем |
+|---|---|---|
+| HTML `/`, `/*` | `public, max-age=300` | 5 мин — свежесть данных корзины/цен |
+| `/_nuxt/*` (хешированные имена) | `public, max-age=31536000, immutable` | 1 год, безопасно — хэш в имени |
+| `/fonts/*` | `public, max-age=31536000, immutable` | 1 год, шрифт почти не меняется |
+| `/images/*`, `/icons/*` | `public, max-age=2592000` | 30 дней (имена не хешированные) |
+| `/favicon.*`, `/robots.txt` | `public, max-age=2592000` | 30 дней |
+| `/sitemap.xml` | `public, max-age=300, s-maxage=3600` | 5 мин у клиента / 1 час у CDN |
+
+**Security headers** (через `/etc/nginx/snippets/security-headers.conf`):
+- `Strict-Transport-Security: max-age=31536000` (1 год; без `includeSubDomains` для безопасной поэтапной раскатки)
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `X-Frame-Options: SAMEORIGIN`
+
+**Применено на server-блоки:**
+- ✅ `xn----jtbnc0ao.xn--p1ai` (= `рк-тек.рф`) — прод
+- ✅ `alpha.xn----jtbnc0ao.xn--p1ai` — альфа
+- ⚠️ `rk-tech.shop` и `alpha.rk-tech.shop` — конфиг применён, но **SSL-сертификат истёк в апреле 2024**, домены недоступны по HTTPS. Это до-эта-сессионная проблема — нужно либо обновить Let's Encrypt через `certbot renew`, либо удалить эти server-блоки из конфига.
+
+**Бэкап старого конфига:** `/etc/nginx/backups/default.bak-20260518-220459`.
 
 ---
 
@@ -345,7 +395,7 @@ if (!product.value || productError.value) {
 **Спринт 3 (1-2 недели):**
 - [ ] 2.3. Расширение карточки товара (характеристики, отзывы, похожие)
 - [ ] 2.2. FAQPage schema
-- [ ] 3.1–3.4. Core Web Vitals
+- [~] 3.1–3.5. Core Web Vitals — 3.2 (шрифты) ✅, 3.4 (JS-бандл) ✅, 3.5 (HTTP-заголовки) ✅ (2026-05-18); 3.1 (Lighthouse), 3.3 (srcset/AVIF) — открыты
 - [ ] 5.1–5.2. Локальное SEO
 
 **Постоянная работа:**
