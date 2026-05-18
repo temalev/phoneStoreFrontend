@@ -110,7 +110,6 @@
 import { ref, computed } from 'vue';
 import { Check, Close, Loading } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
-import moment from 'moment';
 
 const api = useApi();
 
