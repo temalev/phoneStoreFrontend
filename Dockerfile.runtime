@@ -1,0 +1,17 @@
+# Тонкий runtime-образ для деплоя.
+# Используется в Makefile (make deploy / deploy-alpha).
+#
+# Идея: nuxt build выполняется ЛОКАЛЬНО, нативно для вашего CPU
+# (на M-Mac — arm64, быстро). В этот образ копируется только
+# готовый `.output/`, поэтому шаг RUN отсутствует и QEMU-эмуляция
+# не нужна. `--platform linux/amd64` тянет amd64-вариант базового
+# образа за пару секунд.
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY .output ./.output
+
+EXPOSE 3000
+
+CMD ["node", ".output/server/index.mjs"]
