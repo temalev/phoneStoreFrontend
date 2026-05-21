@@ -157,6 +157,15 @@ if (import.meta.server && productError.value) {
   console.error(`[${slug}] API error:`, productError.value);
 }
 
+if (productError.value || !product.value) {
+  // eslint-disable-next-line no-undef
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Not Found',
+    fatal: true,
+  });
+}
+
 // --- Хлебные крошки ---
 // Разворачиваем все категории включая вложенные (аксессуары)
 const allCategories = [

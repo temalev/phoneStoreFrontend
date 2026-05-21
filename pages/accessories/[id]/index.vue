@@ -22,6 +22,16 @@ const categories = useCategories();
 
 const currentCategory = ref(route.params.id);
 
+const validAccessories = ['case', 'cable', 'mouse'];
+if (!validAccessories.includes(currentCategory.value)) {
+  // eslint-disable-next-line no-undef
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Not Found',
+    fatal: true,
+  });
+}
+
 const accessoryDescriptions = {
   case: {
     title: 'Аксессуары для iPhone — купить в Москве | РК-Тек',
