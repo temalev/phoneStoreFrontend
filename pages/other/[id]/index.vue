@@ -22,7 +22,7 @@ if (!validBrands.includes(currentCategory.value)) {
   // eslint-disable-next-line no-undef
   throw createError({
     statusCode: 404,
-    statusMessage: 'Бренд не найден',
+    statusMessage: 'Not Found',
     fatal: true,
   });
 }

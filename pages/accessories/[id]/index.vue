@@ -27,7 +27,7 @@ if (!validAccessories.includes(currentCategory.value)) {
   // eslint-disable-next-line no-undef
   throw createError({
     statusCode: 404,
-    statusMessage: 'Раздел аксессуаров не найден',
+    statusMessage: 'Not Found',
     fatal: true,
   });
 }

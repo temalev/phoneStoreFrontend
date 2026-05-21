@@ -161,7 +161,7 @@ if (productError.value || !product.value) {
   // eslint-disable-next-line no-undef
   throw createError({
     statusCode: 404,
-    statusMessage: 'Товар не найден',
+    statusMessage: 'Not Found',
     fatal: true,
   });
 }

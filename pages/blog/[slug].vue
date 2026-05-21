@@ -74,7 +74,7 @@ if (!post.value) {
   // eslint-disable-next-line no-undef
   throw createError({
     statusCode: 404,
-    statusMessage: 'Статья не найдена',
+    statusMessage: 'Not Found',
     fatal: true,
   });
 }
