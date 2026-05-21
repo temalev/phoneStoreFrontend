@@ -17,6 +17,16 @@ const categories = useCategories();
 
 const currentCategory = ref(route.params.id);
 
+const validBrands = ['marshall', 'dji', 'xiaomi', 'jbl', 'dreame'];
+if (!validBrands.includes(currentCategory.value)) {
+  // eslint-disable-next-line no-undef
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Бренд не найден',
+    fatal: true,
+  });
+}
+
 const otherDescriptions = {
   marshall: {
     title: 'Купить Marshall в Москве — колонки и наушники | РК-Тек',

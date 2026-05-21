@@ -70,6 +70,15 @@ const blog = useBlog();
 
 const post = computed(() => blog.getPostBySlug(route.params.slug));
 
+if (!post.value) {
+  // eslint-disable-next-line no-undef
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Статья не найдена',
+    fatal: true,
+  });
+}
+
 const relatedPosts = computed(() => {
   if (!post.value) return [];
   return blog.posts
