@@ -132,6 +132,22 @@ export default defineEventHandler(async (event) => {
     return null;
   };
 
+  /**
+   * Description обязателен для Яндекса. Если в API его нет — генерируем
+   * осмысленный fallback из имени и категории, иначе Яндекс отвергает оффер
+   * «не указан description».
+   */
+  const buildDescription = (p: YandexProduct): string => {
+    const raw = (p.description || '').trim();
+    if (raw.length >= 30) return raw;
+    const categoryName = p.categoryUUID
+      ? CATEGORY_COLLECTIONS[p.categoryUUID]?.name?.replace(/ в интернет-магазине РК-Тек$/, '') || ''
+      : '';
+    const namePart = p.name || categoryName || 'товар';
+    const fallback = `Купить ${namePart} в Москве и Рязани с доставкой. Оригинал, гарантия 1 год, низкие цены, проверка при получении.`;
+    return raw ? `${raw} ${fallback}` : fallback;
+  };
+
   const offersXml = validProducts
     .map((p) => {
       const basePrice =
@@ -154,6 +170,7 @@ export default defineEventHandler(async (event) => {
       const categoryId = getCategoryNumericId(p);
 
       const collection = p.categoryUUID ? CATEGORY_COLLECTIONS[p.categoryUUID] : null;
+      const description = buildDescription(p);
 
       return `<offer id="${escapeXml(p.uuid)}" available="true">
   <url>${escapeXml(url)}</url>
@@ -162,7 +179,7 @@ export default defineEventHandler(async (event) => {
   ${categoryId != null ? `<categoryId>${categoryId}</categoryId>` : ''}
   ${picture ? `<picture>${escapeXml(picture)}</picture>` : ''}
   <name>${escapeXml(p.name)}</name>
-  <description>${escapeXml(p.description || '')}</description>
+  <description>${escapeXml(description)}</description>
   ${collection ? `<collectionId>${escapeXml(collection.id)}</collectionId>` : ''}
 </offer>`;
     })
