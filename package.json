@@ -9,7 +9,8 @@
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lint": "npm lint:js && npm lint:prettier",
-    "lintfix": "prettier --write --list-different . && npm lint:js --fix"
+    "lintfix": "prettier --write --list-different . && npm lint:js --fix",
+    "metrika": "node .claude/skills/yandex-metrika/metrika.mjs"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.5",
