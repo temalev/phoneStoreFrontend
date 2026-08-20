@@ -2,6 +2,11 @@
 <template>
   <div class="blog-page">
     <div class="blog-hero">
+      <nav class="blog-breadcrumbs" aria-label="Хлебные крошки">
+        <NuxtLink to="/" class="blog-breadcrumbs__item">Главная</NuxtLink>
+        <span class="blog-breadcrumbs__sep">/</span>
+        <span class="blog-breadcrumbs__item blog-breadcrumbs__item--current">Блог</span>
+      </nav>
       <h1 class="blog-hero__title">Блог РК Тек</h1>
       <p class="blog-hero__subtitle">Советы по выбору техники, обзоры новинок и полезные инструкции</p>
     </div>
@@ -121,6 +126,35 @@ useHead({
     padding: 60px 20px 32px;
     margin-top: 60px;
   }
+}
+
+.blog-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.blog-breadcrumbs__item {
+  color: #aeaeb2;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    color: #1a1a1a;
+  }
+
+  &--current {
+    color: #6b6b6b;
+  }
+}
+
+.blog-breadcrumbs__sep {
+  color: #d1d1d6;
+  font-size: 12px;
 }
 
 .blog-hero__title {

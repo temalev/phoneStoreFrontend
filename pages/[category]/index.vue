@@ -64,6 +64,13 @@ const apiBase = config.public.URL;
 const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/${currentCategory.value}`;
 
+const categories = useCategories();
+
+const categoryName = computed(() => {
+  const found = categories.categories.find((c) => c.link === `/${currentCategory.value}`);
+  return found?.name ?? currentCategory.value;
+});
+
 const descriptions = ref([
   {
     category: "iphone",
@@ -188,8 +195,7 @@ useHead({
           {
             '@type': 'ListItem',
             position: 2,
-            // eslint-disable-next-line max-len
-            name: currentProduct()?.title?.split('—')[0]?.trim() ?? currentCategory.value,
+            name: categoryName.value,
             item: pageUrl,
           },
         ],
@@ -235,12 +241,6 @@ useHead({
 });
 
 const api = useApi();
-const categories = useCategories();
-
-const categoryName = computed(() => {
-  const found = categories.categories.find((c) => c.link === `/${currentCategory.value}`);
-  return found?.name ?? currentCategory.value;
-});
 
 const uuidCategory = categories.categories.find(
   (el) => el.link.split('/').pop() === currentCategory.value,

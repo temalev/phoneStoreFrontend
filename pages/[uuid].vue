@@ -178,6 +178,13 @@ const productCategory = allCategories.find(
   (c) => c.uuid === product.value?.category?.uuid,
 );
 
+// Существующие подстраницы /other — только на них можно вести крошкой,
+// остальные слаги отдают 404 (см. pages/other/[id]/index.vue и sitemap)
+const OTHER_BRAND_SLUGS = ['marshall', 'dji', 'xiaomi', 'jbl', 'dreame'];
+
+// Имя крошки для /other должно совпадать с видимой крошкой на самой странице
+const crumbLabel = (link, name) => (link === '/other' ? 'Другие бренды' : name);
+
 let breadcrumbMiddle = null;
 let breadcrumbCategory = null;
 
@@ -188,15 +195,19 @@ if (productCategory) {
 
   if (isAccessorySub) {
     breadcrumbMiddle = { label: 'Аксессуары', to: '/accessories' };
-    breadcrumbCategory = { label: productCategory.name, to: productCategory.link };
-  } else {
-    breadcrumbCategory = { label: productCategory.name, to: productCategory.link };
   }
+  breadcrumbCategory = {
+    label: crumbLabel(productCategory.link, productCategory.name),
+    to: productCategory.link,
+  };
 } else if (product.value?.category?.name) {
-  // Неизвестная категория (суббренд «Другое»)
+  // Неизвестная категория (суббренд «Другие бренды»)
   const catName = product.value.category.name;
-  breadcrumbMiddle = { label: 'Другое', to: '/other' };
-  breadcrumbCategory = { label: catName, to: `/other/${catName.toLowerCase()}` };
+  const brandSlug = catName.toLowerCase();
+  breadcrumbMiddle = { label: 'Другие бренды', to: '/other' };
+  if (OTHER_BRAND_SLUGS.includes(brandSlug)) {
+    breadcrumbCategory = { label: catName, to: `/other/${brandSlug}` };
+  }
 }
 
 // --- Опции ---

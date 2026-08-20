@@ -264,17 +264,26 @@ Core Web Vitals — фактор ранжирования Google (Page Experienc
 
 ## 4. Структура сайта и индексация
 
-### 4.1. Корректная обработка 404
-Файл: [pages/[uuid].vue:128](pages/[uuid].vue#L128) — при `productError` показывается «Товар не найден», но статус-код может быть 200 → Google добавит в индекс пустую страницу.
+### 4.1. Корректная обработка 404 ✅ DONE (2026-05-21)
+Файлы:
+- [pages/[uuid].vue](pages/[uuid].vue) — товар не найден
+- [pages/blog/[slug].vue](pages/blog/[slug].vue) — статья не найдена
+- [pages/accessories/[id]/index.vue](pages/accessories/[id]/index.vue) — раздел ∉ {case, cable, mouse}
+- [pages/other/[id]/index.vue](pages/other/[id]/index.vue) — бренд ∉ {marshall, dji, xiaomi, jbl, dreame}
 
-Что сделать:
+Все 4 страницы теперь делают:
 ```js
-if (!product.value || productError.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Товар не найден' });
-}
+throw createError({ statusCode: 404, statusMessage: 'Not Found', fatal: true });
 ```
 
-Это даст реальный 404, страница не попадёт в индекс, есть fallback на `error.vue`.
+**Важно:** `statusMessage` должен быть ASCII — кириллица ломает Node http layer (`ERR_INVALID_CHAR`), что роняет SSR с 504. UI-текст пользователю даёт [error.vue](error.vue) (там и так есть `robots: noindex, nofollow`).
+
+Проверено на проде (`https://xn----jtbnc0ao.xn--p1ai`):
+- `/no-such-product` → `HTTP 404 Not Found` ✅
+- `/blog/no-such-article` → `HTTP 404` ✅
+- `/other/unknown-brand` → `HTTP 404` ✅
+- `/accessories/unknown` → `HTTP 404` ✅
+- Реальные `/iphone`, `/` → `HTTP 200` ✅
 
 ### 4.2. Хлебные крошки на всех страницах
 Сейчас крошки есть на товаре, категории, блоге. Добавить на:

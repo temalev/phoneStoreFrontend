@@ -1,4 +1,15 @@
 <template>
+  <div class="accessoryCategory">
+    <nav class="accessoryCategory__breadcrumbs" aria-label="Хлебные крошки">
+      <NuxtLink to="/" class="accessoryCategory__crumb">Главная</NuxtLink>
+      <span class="accessoryCategory__sep">/</span>
+      <NuxtLink to="/accessories" class="accessoryCategory__crumb">Аксессуары</NuxtLink>
+      <span class="accessoryCategory__sep">/</span>
+      <span class="accessoryCategory__crumb accessoryCategory__crumb--current">
+        {{ desc.crumb }}
+      </span>
+    </nav>
+  </div>
   <div v-if="api.products" class="mainProducts">
     <template v-if="api.isAuth">
       <CardProductEdit v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid || product._tempId" :product="product" />
@@ -34,18 +45,21 @@ if (!validAccessories.includes(currentCategory.value)) {
 
 const accessoryDescriptions = {
   case: {
+    crumb: 'Аксессуары для iPhone',
     title: 'Аксессуары для iPhone — купить в Москве | РК-Тек',
     description: 'Чехлы, защитные стёкла и аксессуары для iPhone в Москве. Быстрая доставка, гарантия качества.',
     keywords: 'аксессуары для iphone, чехлы iphone, защитное стекло iphone, купить москва',
     img: '/images/case.webp',
   },
   cable: {
+    crumb: 'Адаптеры питания и кабели для зарядки',
     title: 'Кабели и адаптеры питания Apple — купить в Москве | РК-Тек',
     description: 'Оригинальные кабели и адаптеры питания Apple в Москве. Быстрая доставка, гарантия.',
     keywords: 'кабель apple, адаптер питания apple, зарядка iphone, купить кабель москва',
     img: '/images/cable.webp',
   },
   mouse: {
+    crumb: 'Клавиатуры и мыши',
     title: 'Клавиатуры и мыши Apple — купить в Москве | РК-Тек',
     description: 'Оригинальные клавиатуры и мыши Apple в Москве. Magic Mouse, Magic Keyboard с доставкой.',
     keywords: 'magic mouse купить, magic keyboard купить, клавиатура apple, мышь apple москва',
@@ -54,6 +68,7 @@ const accessoryDescriptions = {
 };
 
 const desc = accessoryDescriptions[currentCategory.value] || {
+  crumb: 'Аксессуары',
   title: `Аксессуары ${currentCategory.value} — РК-Тек`,
   description: 'Аксессуары для Apple в Москве. Быстрая доставка, гарантия качества.',
   keywords: 'аксессуары apple, купить москва',
@@ -78,6 +93,35 @@ useHead({
     { name: 'twitter:description', content: desc.description },
     { name: 'twitter:image', content: desc.img },
   ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Главная',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Аксессуары',
+            item: `${SITE_URL}/accessories`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: desc.crumb,
+            item: pageUrl,
+          },
+        ],
+      }),
+    },
+  ],
 });
 
 onMounted(() => {
@@ -91,12 +135,39 @@ onMounted(() => {
 });
 </script>
 <style scoped lang="scss">
+.accessoryCategory {
+  max-width: 1100px;
+  margin: 90px auto 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  &__breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__crumb {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    &:hover { color: #333; }
+    &--current { color: #333; }
+  }
+
+  &__sep {
+    font-size: 13px;
+    color: #bbb;
+  }
+}
+
 .mainProducts {
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 70px;
+  margin-top: 20px;
   padding: 20px;
 }
 </style>

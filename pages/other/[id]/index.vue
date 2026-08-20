@@ -1,4 +1,13 @@
 <template>
+  <div class="otherCategory">
+    <nav class="otherCategory__breadcrumbs" aria-label="Хлебные крошки">
+      <NuxtLink to="/" class="otherCategory__crumb">Главная</NuxtLink>
+      <span class="otherCategory__sep">/</span>
+      <NuxtLink to="/other" class="otherCategory__crumb">Другие бренды</NuxtLink>
+      <span class="otherCategory__sep">/</span>
+      <span class="otherCategory__crumb otherCategory__crumb--current">{{ desc.crumb }}</span>
+    </nav>
+  </div>
   <div v-if="api.products" class="mainProducts">
     <CardProduct v-for="product in api.products?.[currentCategory]?.filter(el => !el.isDeleted)" :key="product.uuid" :product="product" />
   </div>
@@ -29,30 +38,35 @@ if (!validBrands.includes(currentCategory.value)) {
 
 const otherDescriptions = {
   marshall: {
+    crumb: 'Marshall',
     title: 'Купить Marshall в Москве — колонки и наушники | РК-Тек',
     description: 'Колонки и наушники Marshall в Москве. Подберём нужную модель по выгодной цене. Быстрая доставка.',
     keywords: 'marshall купить москва, колонки marshall, наушники marshall',
     img: '/images/marshall.webp',
   },
   dji: {
+    crumb: 'DJI',
     title: 'Купить DJI в Москве — дроны и стабилизаторы | РК-Тек',
     description: 'Дроны и стабилизаторы DJI в Москве. Подберём нужную модель по выгодной цене. Быстрая доставка.',
     keywords: 'dji купить москва, дрон dji, стабилизатор dji',
     img: '/images/dji.webp',
   },
   xiaomi: {
+    crumb: 'Xiaomi',
     title: 'Купить Xiaomi в Москве — техника и гаджеты | РК-Тек',
     description: 'Техника и гаджеты Xiaomi в Москве по выгодным ценам. Быстрая доставка, гарантия.',
     keywords: 'xiaomi купить москва, техника xiaomi, гаджеты xiaomi',
     img: '/images/xiaomi.webp',
   },
   jbl: {
+    crumb: 'JBL',
     title: 'Купить JBL в Москве — колонки и наушники | РК-Тек',
     description: 'Колонки и наушники JBL в Москве по выгодным ценам. Быстрая доставка, гарантия.',
     keywords: 'jbl купить москва, колонки jbl, наушники jbl',
     img: '/images/jbl.webp',
   },
   dreame: {
+    crumb: 'Dreame',
     title: 'Купить Dreame в Москве — пылесосы и уход за волосами | РК-Тек',
     description: 'Пылесосы и приборы для укладки волос Dreame в Москве. Быстрая доставка, гарантия.',
     keywords: 'dreame купить москва, пылесос dreame, фен dreame',
@@ -61,6 +75,7 @@ const otherDescriptions = {
 };
 
 const desc = otherDescriptions[currentCategory.value] || {
+  crumb: currentCategory.value,
   title: `Купить ${currentCategory.value} в Москве | РК-Тек`,
   description: 'Техника и гаджеты в Москве по выгодным ценам. Быстрая доставка, гарантия.',
   keywords: `${currentCategory.value} купить москва`,
@@ -85,6 +100,35 @@ useHead({
     { name: 'twitter:description', content: desc.description },
     { name: 'twitter:image', content: desc.img },
   ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Главная',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Другие бренды',
+            item: `${SITE_URL}/other`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: desc.crumb,
+            item: pageUrl,
+          },
+        ],
+      }),
+    },
+  ],
 });
 
 onMounted(() => {
@@ -98,12 +142,39 @@ onMounted(() => {
 });
 </script>
 <style scoped lang="scss">
+.otherCategory {
+  max-width: 1100px;
+  margin: 90px auto 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  &__breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__crumb {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    &:hover { color: #333; }
+    &--current { color: #333; }
+  }
+
+  &__sep {
+    font-size: 13px;
+    color: #bbb;
+  }
+}
+
 .mainProducts {
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 70px;
+  margin-top: 20px;
   padding: 20px;
 }
 </style>

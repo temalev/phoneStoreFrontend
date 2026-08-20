@@ -1,0 +1,2204 @@
+{
+  "version": 1,
+  "taken_at": "2026-06-02T07:17:29.186Z",
+  "host": "https://рк-тек.рф/",
+  "host_id": "https:xn----jtbnc0ao.xn--p1ai:443",
+  "period": "свежее окно Вебмастера",
+  "counter": "92637429",
+  "summary": {
+    "sqi": 80,
+    "issues_count": 1,
+    "raw_problems": {
+      "RECOMMENDATION": 1
+    }
+  },
+  "diagnostics": [
+    {
+      "id": "CONNECT_FAILED",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_SITEMAP_MODIFICATIONS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "VIDEOHOST_OFFER_FAILED",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DISALLOWED_IN_ROBOTS",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_SITEMAPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "SLOW_AVG_RESPONSE_TIME",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "BIG_FAVICON_ABSENT",
+      "severity": "RECOMMENDATION",
+      "state": "PRESENT",
+      "last_state_update": "2026-06-01T20:27:54.571+03:00"
+    },
+    {
+      "id": "SSL_CERTIFICATE_ERROR",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "ERROR_IN_ROBOTS_TXT",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "MAIN_PAGE_ERROR",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_ROBOTS_TXT",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "ERRORS_IN_SITEMAPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "FAVICON_PROBLEM",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DOCUMENTS_MISSING_TITLE",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DUPLICATE_CONTENT_ATTRS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "SOFT_404",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": "2026-02-22T00:14:30.133+03:00"
+    },
+    {
+      "id": "TOO_MANY_DOMAINS_ON_SEARCH",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER_BINDING",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DNS_ERROR",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "URL_ALERT_5XX",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DUPLICATE_PAGES",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DOCUMENTS_MISSING_DESCRIPTION",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NOT_MOBILE_FRIENDLY",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": "2026-05-10T05:38:28.000+03:00"
+    },
+    {
+      "id": "MAIN_MIRROR_IS_NOT_HTTPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_REGIONS",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "THREATS",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "MAIN_PAGE_REDIRECTS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER_CRAWL_ENABLED",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "INSIGNIFICANT_CGI_PARAMETER",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "VIDEOHOST_OFFER_NEED_PAPER",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NOT_IN_SPRAV",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "URL_ALERT_4XX",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "FAVICON_ERROR",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    }
+  ],
+  "queries": [
+    {
+      "key": "рк тек",
+      "text": "рк тек",
+      "shows": 49,
+      "clicks": 36,
+      "ctr": 0.7346938775510204,
+      "pos": 1.3265306122448979,
+      "visits": 13,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "rk tech",
+      "text": "rk tech",
+      "shows": 36,
+      "clicks": 26,
+      "ctr": 0.7222222222222222,
+      "pos": 1.25,
+      "visits": 3,
+      "bounce": 33.33333333,
+      "demand": null
+    },
+    {
+      "key": "рк тех рязань",
+      "text": "рк тех рязань",
+      "shows": 15,
+      "clicks": 10,
+      "ctr": 0.6666666666666666,
+      "pos": 1.5333333333333334,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рктек",
+      "text": "рктек",
+      "shows": 14,
+      "clicks": 6,
+      "ctr": 0.42857142857142855,
+      "pos": 1.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тек рязань",
+      "text": "рк тек рязань",
+      "shows": 11,
+      "clicks": 7,
+      "ctr": 0.6363636363636364,
+      "pos": 1.3636363636363635,
+      "visits": 2,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "rk tech рязань",
+      "text": "rk tech рязань",
+      "shows": 11,
+      "clicks": 5,
+      "ctr": 0.45454545454545453,
+      "pos": 1.5454545454545454,
+      "visits": 4,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рк тек рф",
+      "text": "рк тек рф",
+      "shows": 9,
+      "clicks": 6,
+      "ctr": 0.6666666666666666,
+      "pos": 1.3333333333333333,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рк-тек.рф",
+      "text": "рк-тек.рф",
+      "shows": 8,
+      "clicks": 9,
+      "ctr": 1.125,
+      "pos": 1.125,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рк тек облако рязань",
+      "text": "рк тек облако рязань",
+      "shows": 8,
+      "clicks": 3,
+      "ctr": 0.375,
+      "pos": 1.625,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rktech",
+      "text": "rktech",
+      "shows": 7,
+      "clicks": 4,
+      "ctr": 0.5714285714285714,
+      "pos": 1.2857142857142858,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "айфон 17е стоит ли покупать",
+      "text": "айфон 17е стоит ли покупать",
+      "shows": 7,
+      "clicks": 1,
+      "ctr": 0.14285714285714285,
+      "pos": 12.285714285714286,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рктек рязань",
+      "text": "рктек рязань",
+      "shows": 5,
+      "clicks": 2,
+      "ctr": 0.4,
+      "pos": 1.6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rktech рязань",
+      "text": "rktech рязань",
+      "shows": 4,
+      "clicks": 5,
+      "ctr": 1.25,
+      "pos": 1.5,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рк-тек",
+      "text": "рк-тек",
+      "shows": 3,
+      "clicks": 2,
+      "ctr": 0.6666666666666666,
+      "pos": 1.3333333333333333,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "rtk магазин",
+      "text": "rtk магазин",
+      "shows": 3,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12.666666666666666,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать айфон 17е",
+      "text": "стоит ли брать айфон 17е",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "redlection рязань",
+      "text": "redlection рязань",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тех",
+      "text": "рк тех",
+      "shows": 2,
+      "clicks": 1,
+      "ctr": 0.5,
+      "pos": 3.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "интересную статью на вопрос стоит ли покупать iphone 17 e в 26 году",
+      "text": "интересную статью на вопрос стоит ли покупать iphone 17 e в 26 году",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин rutech",
+      "text": "магазин rutech",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин техники №1 | mac&more",
+      "text": "магазин техники №1 | mac&more",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 14,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apn мегафон режим модема айфон",
+      "text": "apn мегафон режим модема айфон",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk*",
+      "text": "rk*",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rtk магазин электроники",
+      "text": "rtk магазин электроники",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "сайты продажи айфонов рязань rk tech",
+      "text": "сайты продажи айфонов рязань rk tech",
+      "shows": 2,
+      "clicks": 1,
+      "ctr": 0.5,
+      "pos": 1.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "есть ли смысл переходить с айфона 16e на 17e",
+      "text": "есть ли смысл переходить с айфона 16e на 17e",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "обзор полный на айфон 17е и стоит ли его брать в 2026 году",
+      "text": "обзор полный на айфон 17е и стоит ли его брать в 2026 году",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apple store рязань",
+      "text": "apple store рязань",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 31.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тек промокоды",
+      "text": "рк тек промокоды",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 4,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тек промокод",
+      "text": "рк тек промокод",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 1.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "продать дайсон скупик 74994440146 skupik ru",
+      "text": "продать дайсон скупик 74994440146 skupik ru",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рязань 1 яблочковый",
+      "text": "рязань 1 яблочковый",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "кольцова 12",
+      "text": "кольцова 12",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone 17e стоит ли покупать",
+      "text": "iphone 17e стоит ли покупать",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "настройки модема на айфоне мегафон",
+      "text": "настройки модема на айфоне мегафон",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apple iphone 17e стоит ли брать в 2026",
+      "text": "apple iphone 17e стоит ли брать в 2026",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать iphone 17e",
+      "text": "стоит ли покупать iphone 17e",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "app store рязань",
+      "text": "app store рязань",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "апн мегафон режим модема",
+      "text": "апн мегафон режим модема",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "тек phone",
+      "text": "тек phone",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 4.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apn мегафон режим модема",
+      "text": "apn мегафон режим модема",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рек тек агентство",
+      "text": "рек тек агентство",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "тек тех айфон",
+      "text": "тек тех айфон",
+      "shows": 2,
+      "clicks": 1,
+      "ctr": 0.5,
+      "pos": 1.5,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "ркч рязань айфоны",
+      "text": "ркч рязань айфоны",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин электроники рязань",
+      "text": "магазин электроники рязань",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 36.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk teh",
+      "text": "rk teh",
+      "shows": 2,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 1.5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк теч",
+      "text": "рк теч",
+      "shows": 2,
+      "clicks": 1,
+      "ctr": 0.5,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "аймп магазин",
+      "text": "аймп магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "р тех рязань",
+      "text": "р тех рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать айфон 17 е в 2026 году",
+      "text": "стоит ли брать айфон 17 е в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rn тек",
+      "text": "rn тек",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин текнадео",
+      "text": "магазин текнадео",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать 17е айфон в 2026 году",
+      "text": "стоит ли покупать 17е айфон в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать 17e",
+      "text": "стоит ли брать 17e",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "как купаться в море с айфоном",
+      "text": "как купаться в море с айфоном",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk thect",
+      "text": "rk thect",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rktec",
+      "text": "rktec",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ваш тек",
+      "text": "ваш тек",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 27,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "вй стор рязань",
+      "text": "вй стор рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "tyoplyj магазин",
+      "text": "tyoplyj магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк ту",
+      "text": "рк ту",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "re rech казань",
+      "text": "re rech казань",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "icytu рязань",
+      "text": "icytu рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин техники apple в рязани",
+      "text": "магазин техники apple в рязани",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тейч рязань",
+      "text": "рк тейч рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать 17е в 26 году",
+      "text": "стоит ли покупать 17е в 26 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тэк рязань",
+      "text": "рк тэк рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать 17 е",
+      "text": "стоит ли покупать 17 е",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ребро магазин айфонов рязань",
+      "text": "ребро магазин айфонов рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рекитим",
+      "text": "рекитим",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "17е в 2026",
+      "text": "17е в 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать айфон 17 в 2026 году в россии",
+      "text": "стоит ли покупать айфон 17 в 2026 году в россии",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин iphone в рязани",
+      "text": "магазин iphone в рязани",
+      "shows": 1,
+      "clicks": 2,
+      "ctr": 2,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk/a",
+      "text": "rk/a",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ткратек. рф",
+      "text": "ткратек. рф",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "проституткиирязани",
+      "text": "проституткиирязани",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "можно ли брать айфон 17 е в 2026 году",
+      "text": "можно ли брать айфон 17 е в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "часы в 1995",
+      "text": "часы в 1995",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин техники рязань",
+      "text": "магазин техники рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "какой был мой первый iphone ask timlion",
+      "text": "какой был мой первый iphone ask timlion",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "хорош ли айфон 17е в 2026 году",
+      "text": "хорош ли айфон 17е в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "donoyak tech",
+      "text": "donoyak tech",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 36,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apn для билайн режим модема",
+      "text": "apn для билайн режим модема",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "re:tech",
+      "text": "re:tech",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать айфон 17 е в 2026",
+      "text": "стоит ли покупать айфон 17 е в 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk tek",
+      "text": "rk tek",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "настройки для режима модема билайн iphone 14",
+      "text": "настройки для режима модема билайн iphone 14",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ре: тех",
+      "text": "ре: тех",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин rzndооr рязань",
+      "text": "магазин rzndооr рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk tech улица кольцова, 12",
+      "text": "rk tech улица кольцова, 12",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "технотрска рязань товары",
+      "text": "технотрска рязань товары",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "17 е покупать или нет",
+      "text": "17 е покупать или нет",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать iphone 17e в середине 2026",
+      "text": "стоит ли покупать iphone 17e в середине 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ртк рязань шоп",
+      "text": "ртк рязань шоп",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тек облако",
+      "text": "рк тек облако",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apple рязань",
+      "text": "apple рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 30,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "можно ли айфон погружать в хлорированную воду",
+      "text": "можно ли айфон погружать в хлорированную воду",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "пйфон 17е стоит ли покупать",
+      "text": "пйфон 17е стоит ли покупать",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "сайты продажи айфонов рязань r tech",
+      "text": "сайты продажи айфонов рязань r tech",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk tech багратионовский пр 7 корп 2 отзывы",
+      "text": "rk tech багратионовский пр 7 корп 2 отзывы",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать айфон 17 с индии 2026",
+      "text": "стоит ли брать айфон 17 с индии 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 15,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "как вернуть режим модема на айфон xr тинькофф",
+      "text": "как вернуть режим модема на айфон xr тинькофф",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone 17 e стоит ли покупать",
+      "text": "iphone 17 e стоит ли покупать",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать 17e в 2026 году",
+      "text": "стоит ли брать 17e в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рек тек компания",
+      "text": "рек тек компания",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apple iphone 17e стоит ли покупать",
+      "text": "apple iphone 17e стоит ли покупать",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 14,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "аксв теч",
+      "text": "аксв теч",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "hitekgroup.ru интернет магазин",
+      "text": "hitekgroup.ru интернет магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 46,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айфон на высоковольтной рязань",
+      "text": "айфон на высоковольтной рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "+7 910 503 6533",
+      "text": "+7 910 503 6533",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 4,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ооо рк техника",
+      "text": "ооо рк техника",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 44,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "caope магазин",
+      "text": "caope магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тк телефоны рязань",
+      "text": "рк тк телефоны рязань",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать айфон 17 е",
+      "text": "стоит ли покупать айфон 17 е",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "первый яблочный рязань",
+      "text": "первый яблочный рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 24,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "хардтекл магазин",
+      "text": "хардтекл магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "купить айфон рязань",
+      "text": "купить айфон рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 50,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать айфон 17е в 2026",
+      "text": "стоит ли брать айфон 17е в 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айфон 17 е стоит брать ?",
+      "text": "айфон 17 е стоит брать ?",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли покупать айфон 17е в 2026году",
+      "text": "стоит ли покупать айфон 17е в 2026году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "кольцова эпл рязань",
+      "text": "кольцова эпл рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рктч рязань айфоны",
+      "text": "рктч рязань айфоны",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "топ магазинов айфонов в рязани",
+      "text": "топ магазинов айфонов в рязани",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 26,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "купить phone 17",
+      "text": "купить phone 17",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 31,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рект магазин",
+      "text": "рект магазин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин пйсити",
+      "text": "магазин пйсити",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ре теч",
+      "text": "ре теч",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 2,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин фенрин",
+      "text": "магазин фенрин",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "эпл магазин есенина рязань",
+      "text": "эпл магазин есенина рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "апл стор рязань",
+      "text": "апл стор рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк еуч",
+      "text": "рк еуч",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазины apple рязань",
+      "text": "магазины apple рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 21,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айфон в рязани купить apple маркет",
+      "text": "айфон в рязани купить apple маркет",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "режим модема йота настроить для айфона",
+      "text": "режим модема йота настроить для айфона",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рей тек",
+      "text": "рей тек",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "тэк рэйт",
+      "text": "тэк рэйт",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин кракен техно",
+      "text": "магазин кракен техно",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 20,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин rostek",
+      "text": "магазин rostek",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "можно ли айфон погружать в море соленое",
+      "text": "можно ли айфон погружать в море соленое",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 4,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айпстор рязань",
+      "text": "айпстор рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин rk 884502",
+      "text": "магазин rk 884502",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone кольцова рязань",
+      "text": "iphone кольцова рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "режим модема на айфон теле2",
+      "text": "режим модема на айфон теле2",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 33,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк-тек рф",
+      "text": "рк-тек рф",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "рктэк рязань телефоны",
+      "text": "рктэк рязань телефоны",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "первый яблочный рязань официальный",
+      "text": "первый яблочный рязань официальный",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк.тек.ры",
+      "text": "рк.тек.ры",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айфон 17 е стоит ли покупать в 2026 году",
+      "text": "айфон 17 е стоит ли покупать в 2026 году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone 17e стоит ли покупать в 2026",
+      "text": "iphone 17e стоит ли покупать в 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "актуально ли покупать айфон 17 е",
+      "text": "актуально ли покупать айфон 17 е",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин лореут рязянь",
+      "text": "магазин лореут рязянь",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "вернуть режим модема на айфон теле2",
+      "text": "вернуть режим модема на айфон теле2",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "продать дайсон skupik ru 74994440146 скупик",
+      "text": "продать дайсон skupik ru 74994440146 скупик",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "айпел рязань",
+      "text": "айпел рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин эпл в рязани",
+      "text": "магазин эпл в рязани",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 19,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "кольцова айфон рязань",
+      "text": "кольцова айфон рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": 1,
+      "bounce": 0,
+      "demand": null
+    },
+    {
+      "key": "можно ли плавать с айфоном в соленой вода",
+      "text": "можно ли плавать с айфоном в соленой вода",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rk tech багратионовский пр 7 корп 2",
+      "text": "rk tech багратионовский пр 7 корп 2",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "кому подойдет айфон 17 е",
+      "text": "кому подойдёт айфон 17 е",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "apple tech",
+      "text": "apple tech",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 5,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ру тек",
+      "text": "ру тек",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone 17e стоит ли брать",
+      "text": "iphone 17e стоит ли брать",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 14,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "phone 17",
+      "text": "phone 17",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазины с айфонами в рязани",
+      "text": "магазины с айфонами в рязани",
+      "shows": 1,
+      "clicks": 1,
+      "ctr": 1,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "сквик магазин технкиик",
+      "text": "сквик магазин технкиик",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "стоит ли брать iphone 17-е в 2026-м году",
+      "text": "стоит ли брать iphone 17-е в 2026-м году",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "режим модема апн йота",
+      "text": "режим модема апн йота",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "кому больше всего подойдет айфон 17 е",
+      "text": "кому больше всего подойдёт айфон 17 е",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 11,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "трейд тек интернет",
+      "text": "трейд тек интернет",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 10,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "магазин продажи айфонов ул пролетарская 17",
+      "text": "магазин продажи айфонов ул пролетарская 17",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 13,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "rock end tech рязань",
+      "text": "rock end tech рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "мойхолт магазин в рязани",
+      "text": "мойхолт магазин в рязани",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 6,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "рк тейч рязань сай",
+      "text": "рк тейч рязань сай",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "iphone 17e как с ним жить в 2026",
+      "text": "iphone 17e как с ним жить в 2026",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "текущее: рязань",
+      "text": "текущее: рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 7,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    }
+  ],
+  "spam_queries": [
+    {
+      "key": "продать дайсон скупик skupik ru 74994440146",
+      "text": "продать дайсон скупик skupik ru 74994440146",
+      "shows": 10,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9.6,
+      "reason": "top-no-clicks"
+    },
+    {
+      "key": "проституткиирязань",
+      "text": "проституткиирязань",
+      "shows": 9,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9.11111111111111,
+      "reason": "top-no-clicks"
+    },
+    {
+      "key": "пропал режим модема на iphone 8 iphones-repair",
+      "text": "пропал режим модема на iphone 8 iphones-repair",
+      "shows": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 9.625,
+      "reason": "top-no-clicks"
+    },
+    {
+      "key": "первый яблочный рязань официальный сайт",
+      "text": "первый яблочный рязань официальный сайт",
+      "shows": 4,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8.5,
+      "reason": "top-no-clicks"
+    },
+    {
+      "key": "режим модема на айфон йота",
+      "text": "режим модема на айфон йота",
+      "shows": 4,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 12,
+      "reason": "top-no-clicks"
+    },
+    {
+      "key": "можно ли с айфоном купаться в море",
+      "text": "можно ли с айфоном купаться в море",
+      "shows": 3,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 8.333333333333334,
+      "reason": "top-no-clicks"
+    }
+  ]
+}
