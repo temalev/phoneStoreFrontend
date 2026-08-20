@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "taken_at": "2026-05-22T10:00:00Z",
+  "host": "https://автоподбор62.рф/",
+  "host_id": "https:xn--62-6kceem3eacgpr.xn--p1ai:443",
+  "period": "свежее окно Вебмастера",
+  "counter": "108781955",
+  "summary": {
+    "sqi": 5,
+    "issues_count": 2,
+    "raw_problems": {
+      "RECOMMENDATION": 2
+    }
+  },
+  "diagnostics": [
+    {
+      "id": "NO_ROBOTS_TXT",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "ERROR_IN_ROBOTS_TXT",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "FAVICON_ERROR",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "URL_ALERT_5XX",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NOT_MOBILE_FRIENDLY",
+      "severity": "RECOMMENDATION",
+      "state": "UNDEFINED",
+      "last_state_update": null
+    },
+    {
+      "id": "ERRORS_IN_SITEMAPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "MAIN_PAGE_REDIRECTS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DNS_ERROR",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "FAVICON_PROBLEM",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_REGIONS",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "TOO_MANY_DOMAINS_ON_SEARCH",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DUPLICATE_PAGES",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "VIDEOHOST_OFFER_FAILED",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DOCUMENTS_MISSING_TITLE",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "THREATS",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "MAIN_PAGE_ERROR",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_SITEMAPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "SLOW_AVG_RESPONSE_TIME",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER_BINDING",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "URL_ALERT_4XX",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_SITEMAP_MODIFICATIONS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "SSL_CERTIFICATE_ERROR",
+      "severity": "CRITICAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER_CRAWL_ENABLED",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "CONNECT_FAILED",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DOCUMENTS_MISSING_DESCRIPTION",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DUPLICATE_CONTENT_ATTRS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "SOFT_404",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "MAIN_MIRROR_IS_NOT_HTTPS",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "VIDEOHOST_OFFER_NEED_PAPER",
+      "severity": "POSSIBLE_PROBLEM",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "NO_METRIKA_COUNTER",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "INSIGNIFICANT_CGI_PARAMETER",
+      "severity": "RECOMMENDATION",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "DISALLOWED_IN_ROBOTS",
+      "severity": "FATAL",
+      "state": "ABSENT",
+      "last_state_update": null
+    },
+    {
+      "id": "BIG_FAVICON_ABSENT",
+      "severity": "RECOMMENDATION",
+      "state": "PRESENT",
+      "last_state_update": "2026-05-21T20:27:06.172+03:00"
+    },
+    {
+      "id": "BAD_OPTIMIZATION",
+      "severity": "WARNING",
+      "state": "PRESENT"
+    }
+  ],
+  "queries": [
+    {
+      "key": "автоподбор-62.рф",
+      "text": "автоподбор-62.рф",
+      "shows": 2,
+      "clicks": 1,
+      "ctr": 0.5,
+      "pos": 1,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "дкп онлайн заполнение бесплатно",
+      "text": "дкп онлайн заполнение бесплатно",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "автоподбор рязань",
+      "text": "автоподбор рязань",
+      "shows": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 40,
+      "visits": null,
+      "bounce": null,
+      "demand": null
+    },
+    {
+      "key": "ремонт авто рязань",
+      "text": "ремонт авто рязань",
+      "shows": 5,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 18
+    }
+  ],
+  "spam_queries": [
+    {
+      "key": "автоподбор 62",
+      "text": "автоподбор 62",
+      "shows": 3,
+      "clicks": 0,
+      "ctr": 0,
+      "pos": 3,
+      "reason": "top-no-clicks"
+    }
+  ]
+}
