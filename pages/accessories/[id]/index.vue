@@ -46,22 +46,22 @@ if (!validAccessories.includes(currentCategory.value)) {
 const accessoryDescriptions = {
   case: {
     crumb: 'Аксессуары для iPhone',
-    title: 'Аксессуары для iPhone — купить в Москве | РК-Тек',
-    description: 'Чехлы, защитные стёкла и аксессуары для iPhone в Москве. Быстрая доставка, гарантия качества.',
+    title: 'Аксессуары для iPhone — купить в Рязани | РК-Тек',
+    description: 'Чехлы, защитные стёкла и аксессуары для iPhone в Рязани. Быстрая доставка, гарантия качества.',
     keywords: 'аксессуары для iphone, чехлы iphone, защитное стекло iphone, купить москва',
     img: '/images/case.webp',
   },
   cable: {
     crumb: 'Адаптеры питания и кабели для зарядки',
-    title: 'Кабели и адаптеры питания Apple — купить в Москве | РК-Тек',
-    description: 'Оригинальные кабели и адаптеры питания Apple в Москве. Быстрая доставка, гарантия.',
+    title: 'Кабели и адаптеры питания Apple — купить в Рязани | РК-Тек',
+    description: 'Оригинальные кабели и адаптеры питания Apple в Рязани. Быстрая доставка, гарантия.',
     keywords: 'кабель apple, адаптер питания apple, зарядка iphone, купить кабель москва',
     img: '/images/cable.webp',
   },
   mouse: {
     crumb: 'Клавиатуры и мыши',
-    title: 'Клавиатуры и мыши Apple — купить в Москве | РК-Тек',
-    description: 'Оригинальные клавиатуры и мыши Apple в Москве. Magic Mouse, Magic Keyboard с доставкой.',
+    title: 'Клавиатуры и мыши Apple — купить в Рязани | РК-Тек',
+    description: 'Оригинальные клавиатуры и мыши Apple в Рязани. Magic Mouse, Magic Keyboard с доставкой.',
     keywords: 'magic mouse купить, magic keyboard купить, клавиатура apple, мышь apple москва',
     img: '/images/mouse.webp',
   },
@@ -70,7 +70,7 @@ const accessoryDescriptions = {
 const desc = accessoryDescriptions[currentCategory.value] || {
   crumb: 'Аксессуары',
   title: `Аксессуары ${currentCategory.value} — РК-Тек`,
-  description: 'Аксессуары для Apple в Москве. Быстрая доставка, гарантия качества.',
+  description: 'Аксессуары для Apple в Рязани. Быстрая доставка, гарантия качества.',
   keywords: 'аксессуары apple, купить москва',
   img: '/images/accessories.webp',
 };

@@ -144,7 +144,7 @@ export default defineEventHandler(async (event) => {
       ? CATEGORY_COLLECTIONS[p.categoryUUID]?.name?.replace(/ в интернет-магазине РК-Тек$/, '') || ''
       : '';
     const namePart = p.name || categoryName || 'товар';
-    const fallback = `Купить ${namePart} в Москве и Рязани с доставкой. Оригинал, гарантия 1 год, низкие цены, проверка при получении.`;
+    const fallback = `Купить ${namePart} в Рязани с доставкой по России. Оригинал, гарантия 1 год, низкие цены, проверка при получении.`;
     return raw ? `${raw} ${fallback}` : fallback;
   };
 

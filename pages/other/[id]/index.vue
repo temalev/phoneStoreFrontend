@@ -39,36 +39,36 @@ if (!validBrands.includes(currentCategory.value)) {
 const otherDescriptions = {
   marshall: {
     crumb: 'Marshall',
-    title: 'Купить Marshall в Москве — колонки и наушники | РК-Тек',
-    description: 'Колонки и наушники Marshall в Москве. Подберём нужную модель по выгодной цене. Быстрая доставка.',
+    title: 'Купить Marshall в Рязани — колонки и наушники | РК-Тек',
+    description: 'Колонки и наушники Marshall в Рязани. Подберём нужную модель по выгодной цене. Быстрая доставка.',
     keywords: 'marshall купить москва, колонки marshall, наушники marshall',
     img: '/images/marshall.webp',
   },
   dji: {
     crumb: 'DJI',
-    title: 'Купить DJI в Москве — дроны и стабилизаторы | РК-Тек',
-    description: 'Дроны и стабилизаторы DJI в Москве. Подберём нужную модель по выгодной цене. Быстрая доставка.',
+    title: 'Купить DJI в Рязани — дроны и стабилизаторы | РК-Тек',
+    description: 'Дроны и стабилизаторы DJI в Рязани. Подберём нужную модель по выгодной цене. Быстрая доставка.',
     keywords: 'dji купить москва, дрон dji, стабилизатор dji',
     img: '/images/dji.webp',
   },
   xiaomi: {
     crumb: 'Xiaomi',
-    title: 'Купить Xiaomi в Москве — техника и гаджеты | РК-Тек',
-    description: 'Техника и гаджеты Xiaomi в Москве по выгодным ценам. Быстрая доставка, гарантия.',
+    title: 'Купить Xiaomi в Рязани — техника и гаджеты | РК-Тек',
+    description: 'Техника и гаджеты Xiaomi в Рязани по выгодным ценам. Быстрая доставка, гарантия.',
     keywords: 'xiaomi купить москва, техника xiaomi, гаджеты xiaomi',
     img: '/images/xiaomi.webp',
   },
   jbl: {
     crumb: 'JBL',
-    title: 'Купить JBL в Москве — колонки и наушники | РК-Тек',
-    description: 'Колонки и наушники JBL в Москве по выгодным ценам. Быстрая доставка, гарантия.',
+    title: 'Купить JBL в Рязани — колонки и наушники | РК-Тек',
+    description: 'Колонки и наушники JBL в Рязани по выгодным ценам. Быстрая доставка, гарантия.',
     keywords: 'jbl купить москва, колонки jbl, наушники jbl',
     img: '/images/jbl.webp',
   },
   dreame: {
     crumb: 'Dreame',
-    title: 'Купить Dreame в Москве — пылесосы и уход за волосами | РК-Тек',
-    description: 'Пылесосы и приборы для укладки волос Dreame в Москве. Быстрая доставка, гарантия.',
+    title: 'Купить Dreame в Рязани — пылесосы и уход за волосами | РК-Тек',
+    description: 'Пылесосы и приборы для укладки волос Dreame в Рязани. Быстрая доставка, гарантия.',
     keywords: 'dreame купить москва, пылесос dreame, фен dreame',
     img: '/images/dreame.webp',
   },
@@ -76,8 +76,8 @@ const otherDescriptions = {
 
 const desc = otherDescriptions[currentCategory.value] || {
   crumb: currentCategory.value,
-  title: `Купить ${currentCategory.value} в Москве | РК-Тек`,
-  description: 'Техника и гаджеты в Москве по выгодным ценам. Быстрая доставка, гарантия.',
+  title: `Купить ${currentCategory.value} в Рязани | РК-Тек`,
+  description: 'Техника и гаджеты в Рязани по выгодным ценам. Быстрая доставка, гарантия.',
   keywords: `${currentCategory.value} купить москва`,
   img: '/images/other.webp',
 };
