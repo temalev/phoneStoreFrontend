@@ -359,8 +359,8 @@ const minPrice = product.value?.variants?.length
   : product.value?.price || 0;
 
 const priceStr = minPrice ? `— цена ${formatPrice(minPrice)} ₽ ` : '';
-const pageTitle = computed(() => `Купить ${displayName.value} ${priceStr}в Москве и Рязани | РК-Тек`);
-const pageDescription = computed(() => `Купить ${displayName.value} в Москве и Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`);
+const pageTitle = computed(() => `Купить ${displayName.value} ${priceStr}в Рязани | РК-Тек`);
+const pageDescription = computed(() => `Купить ${displayName.value} в Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`);
 
 const brandMap = {
   iPhone: 'Apple',

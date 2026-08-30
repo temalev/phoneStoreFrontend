@@ -7,7 +7,7 @@
         <span class="accessories__sep">/</span>
         <span class="accessories__crumb accessories__crumb--current">Аксессуары</span>
       </nav>
-      <h1 class="accessories__title">Аксессуары для Apple в Рязани и Москве</h1>
+      <h1 class="accessories__title">Аксессуары для Apple в Рязани</h1>
       <p class="accessories__desc">Чехлы, кабели, клавиатуры и мыши для iPhone, iPad и MacBook. Оригинальные аксессуары с доставкой по Рязани и Москве.</p>
     </div>
     <Slider :categories="categories" />
@@ -19,8 +19,8 @@ import { SITE_URL } from '~/composables/useSiteUrl.ts';
 
 const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/accessories`;
-const pageTitle = 'Аксессуары для Apple — купить в Рязани и Москве | РК-Тек';
-const pageDescription = 'Аксессуары для iPhone, iPad и MacBook в Рязани и Москве. Чехлы, кабели для зарядки, клавиатуры и мыши. Быстрая доставка, гарантия качества.';
+const pageTitle = 'Аксессуары для Apple — купить в Рязани | РК-Тек';
+const pageDescription = 'Аксессуары для iPhone, iPad и MacBook в Рязани. Чехлы, кабели для зарядки, клавиатуры и мыши. Быстрая доставка, гарантия качества.';
 const ogImage = `${siteUrl}/images/accessories.webp`;
 
 useHead({

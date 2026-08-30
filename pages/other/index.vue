@@ -7,7 +7,7 @@
         <span class="other-page__sep">/</span>
         <span class="other-page__crumb other-page__crumb--current">Другие бренды</span>
       </nav>
-      <h1 class="other-page__title">Marshall, Xiaomi, DJI, JBL в Рязани и Москве</h1>
+      <h1 class="other-page__title">Marshall, Xiaomi, DJI, JBL в Рязани</h1>
       <p class="other-page__desc">Техника других брендов: Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL. Подберём нужный товар по выгодной цене с доставкой по Рязани и Москве.</p>
     </div>
     <Slider :categories="categories" is-message-block />
@@ -20,7 +20,7 @@ import { SITE_URL } from '~/composables/useSiteUrl.ts';
 const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/other`;
 const pageTitle = 'Другие бренды — Marshall, DJI, Xiaomi, JBL в Рязани | РК-Тек';
-const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Рязани и Москве. Подберём нужный товар по выгодной цене с доставкой.';
+const pageDescription = 'Техника Marshall, Samsung, DJI, Яндекс, Xiaomi, Dreame, JBL в Рязани. Подберём нужный товар по выгодной цене с доставкой.';
 const ogImage = `${siteUrl}/images/other.webp`;
 
 useHead({
