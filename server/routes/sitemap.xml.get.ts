@@ -47,6 +47,8 @@ function getStaticUrlEntries(now: string): string {
     { loc: '/samsung', changefreq: 'daily', priority: '0.7' },
     { loc: '/dyson', changefreq: 'daily', priority: '0.7' },
     { loc: '/ps', changefreq: 'daily', priority: '0.7' },
+    { loc: '/canon', changefreq: 'daily', priority: '0.7' },
+    { loc: '/whoop', changefreq: 'daily', priority: '0.7' },
     { loc: '/accessories', changefreq: 'daily', priority: '0.8' },
     { loc: '/accessories/case', changefreq: 'daily', priority: '0.7' },
     { loc: '/accessories/cable', changefreq: 'daily', priority: '0.7' },
