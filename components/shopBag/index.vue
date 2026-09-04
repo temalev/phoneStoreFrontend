@@ -152,17 +152,68 @@
           </span>
         </div>
 
-        <div v-else class="empty">
-          <img
-            src="/icons/bag.svg"
-            alt="Корзина пуста"
-            width="80"
-            height="80"
-            loading="lazy"
-            decoding="async"
-            class="emptyBag"
+        <div
+          v-else
+          class="empty"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="emptyBagTitle"
+        >
+          <button
+            type="button"
+            class="emptyClose"
+            aria-label="Закрыть корзину"
+            @click="closeShopBag()"
           />
-          <h3>Добавьте товар в корзину</h3>
+          <div class="emptyIllustration" aria-hidden="true">
+            <svg class="emptyBag" viewBox="0 0 64 64" fill="none">
+              <path
+                d="M14 20h36l-2.6 28.4A6 6 0 0 1 41.4 54H22.6a6 6 0 0 1-6-5.6L14 20Z"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M24 26V18a8 8 0 0 1 16 0v8"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="emptyText">
+            <h3 id="emptyBagTitle">Корзина пуста</h3>
+            <p>
+              Добавьте товары — они появятся здесь, и вы сможете оформить заказ.
+            </p>
+          </div>
+          <div class="emptyAction">
+            <CustomButton :name="'Перейти к покупкам'" @click="closeShopBag()" />
+          </div>
+          <div class="emptySuggest">
+            <span class="emptySuggestTitle">Популярные категории</span>
+            <div class="emptyChips">
+              <NuxtLink
+                v-for="link in popularCategories"
+                :key="link.name"
+                :to="link.link"
+                class="emptyChip"
+                @click="closeShopBag()"
+              >
+                <img
+                  :src="link.ico"
+                  class="emptyChipIco"
+                  alt=""
+                  aria-hidden="true"
+                  width="14"
+                  height="14"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span>{{ link.name }}</span>
+              </NuxtLink>
+            </div>
+          </div>
         </div>
       </Transition>
     </div>
@@ -173,10 +224,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed, watch } from 'vue';
 import { useApi } from '~/stores/api';
+import { useCategories } from '~/stores/categories';
 
 const api = useApi();
+const categories = useCategories();
 
 const emit = defineEmits(['closeShopBag']);
+
+const popularCategories = computed(() => categories.categories
+  .filter((el) => !el.isHiddenForHeader)
+  .slice(0, 5));
 
 const userData = ref({});
 const currentSel = ref(1);
@@ -606,24 +663,171 @@ h2 {
 }
 
 .empty {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   gap: 20px;
   background-color: #fff;
-  padding: 50px;
-  box-shadow: 0 0 20px rgb(166, 166, 166);
-  border-radius: 32px;
-  height: 200px;
-  width: 400px;
+  padding: 44px 32px 32px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 18px 50px rgba(44, 44, 44, 0.16);
+  border-radius: 28px;
+  width: min(400px, calc(100vw - 32px));
   box-sizing: border-box;
+  animation: emptyIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.emptyClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff url(/icons/close.svg) center / 15px 15px no-repeat;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 1;
+    background-color: #f4f4f4;
+  }
+}
+
+.emptyIllustration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 32%, #fbfbfb 0%, #efefef 100%);
+  box-shadow: inset 0 0 0 1px #ededed, 0 0 0 10px rgba(44, 44, 44, 0.02);
+  animation: emptyPop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.06s backwards;
 }
 
 .emptyBag {
-  width: 80px;
-  height: 80px;
-  opacity: 0.2;
+  width: 56px;
+  height: 56px;
+  color: #2c2c2c;
+  opacity: 0.5;
+}
+
+.emptyText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    font-size: 22px;
+  }
+
+  p {
+    max-width: 260px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #8a8a8a;
+  }
+}
+
+.emptyAction {
+  width: 100%;
+  max-width: 260px;
+}
+
+.emptySuggest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding-top: 20px;
+  border-top: 1px solid #f2f2f2;
+}
+
+.emptySuggestTitle {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a8a8a8;
+}
+
+.emptyChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.emptyChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid #ececec;
+  border-radius: 999px;
+  background-color: #fff;
+  font-size: 13px;
+  color: #2c2c2c;
+  transition: 0.2s;
+
+  &:hover {
+    border-color: #2c2c2c;
+    box-shadow: 0 4px 12px rgba(44, 44, 44, 0.08);
+    transform: translateY(-1px);
+
+    .emptyChipIco {
+      opacity: 1;
+    }
+  }
+}
+
+.emptyChipIco {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  opacity: 0.45;
+  transition: 0.2s;
+}
+
+@keyframes emptyIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes emptyPop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty,
+  .emptyIllustration {
+    animation: none;
+  }
+
+  .emptyChip:hover {
+    transform: none;
+  }
 }
 
 .v-enter-active,
