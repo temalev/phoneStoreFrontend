@@ -121,8 +121,13 @@ onMounted(() => {});
   text-align: center;
 }
 .img {
-  object-fit: fill;
+  // height: auto обязателен вместе с атрибутами width/height на теге: иначе флекс
+  // берёт за базу собственную высоту файла (у iphone.webp это 628px), ужимает её
+  // под 350px карточки, и object-fit растягивает картинку по неверной коробке.
+  // contain вместо fill — страховка: если флекс всё же ужмёт, картинка не расплющится.
+  object-fit: contain;
   width: 100%;
+  height: auto;
   background-color: #fff;
 }
 </style>
