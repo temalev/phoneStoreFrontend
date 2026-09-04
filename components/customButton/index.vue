@@ -5,7 +5,7 @@
     style="
       background-color: #fff;
       color: #979797;
-      border: 1px solid #eee;
+      border: 1.5px solid #eee;
       box-shadow: none;
       cursor: default;
     "
@@ -13,13 +13,6 @@
     <div class="spinner"></div>
     <span>Загрузка</span>
   </div>
-  <!-- <button
-      v-if="type === 'plus'"
-      style="width: 40px; height: 30px"
-      class="customButton"
-    >
-      +
-    </button> -->
   <button v-else class="customButton" :style="{backgroundColor: bColor}">
     <span v-if="type === 'plus'">+</span>
     <span v-else-if="type === 'minus'">-</span>
@@ -42,23 +35,41 @@ const props = defineProps({
 </script>
 <style scoped lang="scss">
 .customButton {
-  height: 40px;
+  height: 44px;
   color: #fff;
-  border-radius: 10px;
-  border: 1px solid #242424;
+  border-radius: 12px;
+  border: none;
   cursor: pointer;
-  transition: 0.2s;
+  transition: box-shadow 0.2s, transform 0.15s, background-color 0.2s;
   width: 100%;
   box-sizing: border-box;
   font-size: 16px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 0 2px 6px rgba(44, 44, 44, 0.18);
 
   &:hover {
-    box-shadow: 0 0 10px rgba(103, 103, 103, 0.781);
-    background-color: #313131;
+    box-shadow: 0 8px 20px rgba(44, 44, 44, 0.28);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(44, 44, 44, 0.24);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .customButton {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
   }
 }
 

@@ -26,11 +26,17 @@ onMounted(() => {});
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 5px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e0e0e0 transparent;
 }
 
 .orders::-webkit-scrollbar {
-  width: 0;
+  width: 4px;
+}
+
+.orders::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 4px;
 }
 </style>

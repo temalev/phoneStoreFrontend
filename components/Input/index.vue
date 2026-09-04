@@ -63,30 +63,48 @@ export default {
 .mainCustomInput {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   width: 100%;
 }
 
 label {
-  font-weight: 300;
-  font-size: 17px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #6c6c6c;
 }
 
 .input {
   display: flex;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  align-items: center;
+  height: 46px;
+  padding: 0 14px;
+  border: 1.5px solid #e6e6e6;
+  border-radius: 12px;
+  background-color: #fff;
   box-sizing: border-box;
   width: 100%;
-  padding: 5px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: #2c2c2c;
+    box-shadow: 0 0 0 3px rgba(44, 44, 44, 0.06);
+  }
 }
+
 .customInput {
-  padding: 2px 5px;
+  padding: 0;
   border: none;
   outline: none;
   width: 100%;
   font-size: 15px;
+  color: #2c2c2c;
+  background: transparent;
   box-sizing: border-box;
+}
+
+textarea.customInput {
+  padding: 12px 0;
+  resize: vertical;
 }
 
 input::-webkit-outer-spin-button,
@@ -94,17 +112,13 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-input::placeholder {
-  font: sans-serif;
-  font-size: 16px;
-  font-weight: 100;
+input::placeholder,
+textarea::placeholder {
+  font-size: 15px;
+  font-weight: 300;
+  color: #b4b4b4;
 }
 
-::-webkit-input-placeholder {
-  font-weight: 300;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
 input:focus::-webkit-input-placeholder {
   opacity: 0;
   transition: opacity 0.3s ease;

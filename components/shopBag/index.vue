@@ -9,9 +9,17 @@
     >
       <Transition>
         <div v-if="isEmptyShopBag && !isApprovedOrder" class="wrapper">
-          <div class="close" @click.self="closeShopBag()" />
+          <button
+            type="button"
+            class="close"
+            aria-label="Закрыть корзину"
+            @click="closeShopBag()"
+          />
           <div class="shopBagContainer">
-            <h3>Корзина</h3>
+            <div class="shopBagHead">
+              <h3>Корзина</h3>
+              <span class="itemsCount">{{ itemsCountLabel }}</span>
+            </div>
             <ShopBagOrders />
             <div class="allCost">
               <span class="name">Итого</span>
@@ -60,8 +68,10 @@
                 <div class="radioVariants">
                   <div
                     class="variant"
+                    :class="{ 'variant--active': currentSel === radio.id }"
                     v-for="radio in radioVariants"
                     :key="radio.id"
+                    @click="currentSel = radio.id"
                   >
                     <div class="rowVariant">
                       <el-radio v-model="currentSel" :label="radio.id">{{
@@ -109,10 +119,13 @@
                 <div class="d-flex align-flex-end gap-4">
                   <Input
                     label="Промокод"
+                    placeholder="Введите промокод"
                     @inputValue="(val) => (promocodeName = val)"
                   />
                   <CustomButton
-                    style="width: 188px"
+                    class="promoBtn"
+                    style="width: 160px; height: 46px; flex-shrink: 0"
+                    :b-color="'#fff'"
                     @click="checkPromocode"
                     name="Применить"
                   />
@@ -235,6 +248,22 @@ const popularCategories = computed(() => categories.categories
   .filter((el) => !el.isHiddenForHeader)
   .slice(0, 5));
 
+const itemsCount = computed(() => api.orders.reduce(
+  (total, order) => total + (order.quantity || 1),
+  0,
+));
+
+const itemsCountLabel = computed(() => {
+  const count = itemsCount.value;
+  const rest = count % 100;
+  const last = count % 10;
+
+  if (rest > 10 && rest < 20) return `${count} товаров`;
+  if (last === 1) return `${count} товар`;
+  if (last > 1 && last < 5) return `${count} товара`;
+  return `${count} товаров`;
+});
+
 const userData = ref({});
 const currentSel = ref(1);
 const isInvalidData = ref(false);
@@ -307,6 +336,8 @@ const orders = ref(api.orders);
 
 watch(() => api.orders, (newVal) => {
   isEmptyShopBag.value = !!newVal.length;
+  // Количество меняется прямо в корзине — пересчитываем итог
+  if (newVal.length) api.getTotalCost();
 }, { deep: true, immediate: true });
 
 // eslint-disable-next-line max-len
@@ -451,15 +482,16 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 40px;
+  gap: 32px;
   background-color: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 0 20px rgb(160, 160, 160);
-  border-radius: 32px 32px 0 0;
-  padding: 50px;
-  width: 375px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 18px 50px rgba(44, 44, 44, 0.16);
+  border-radius: 28px;
+  padding: 40px;
+  width: min(560px, calc(100vw - 40px));
   overflow: auto;
   height: fit-content;
+  box-sizing: border-box;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -472,19 +504,28 @@ h2 {
     height: 100%;
   }
   .close {
-    background-image: url(/icons/close.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background: transparent url(/icons/close.svg) center / 15px 15px no-repeat;
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
     flex-shrink: 0;
-    display: none;
+    opacity: 0.4;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      opacity: 1;
+      background-color: #f4f4f4;
+    }
+
     @media (max-width: 500px) {
-      display: block;
+      top: 12px;
+      right: 12px;
     }
   }
 }
@@ -531,6 +572,11 @@ h2 {
   gap: 22px;
   justify-content: space-between;
   width: 100%;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
 }
 
 .warning {
@@ -539,11 +585,14 @@ h2 {
 }
 
 .inputsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-  margin-right: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
+
+  @media (min-width: 560px) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .radioContainer {
@@ -562,6 +611,20 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+
+  &:hover {
+    border-color: #d8d8d8;
+  }
+
+  &--active {
+    border-color: #2c2c2c;
+    background-color: #fafafa;
+  }
 }
 
 .rowVariant {
@@ -630,17 +693,58 @@ h2 {
 .shopBagContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
-  max-height: 320px;
+  max-height: 380px;
   box-sizing: border-box;
+}
+
+.shopBagHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 4px;
+}
+
+.itemsCount {
+  font-size: 13px;
+  font-weight: 300;
+  color: #9a9a9a;
 }
 
 .allCost {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  border-top: 1px solid #eee;
-  padding: 5px 0;
+  margin-top: 4px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: #fafafa;
+
+  .name {
+    font-size: 15px;
+    color: #6c6c6c;
+  }
+
+  .price,
+  .discount {
+    font-size: 19px;
+    font-weight: 600;
+  }
+}
+
+.allPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: 19px;
+  font-weight: 600;
+  color: #2c2c2c;
+}
+
+.discount {
+  color: #d33a3a;
+  margin-left: 8px;
 }
 
 .message {
@@ -842,6 +946,41 @@ h2 {
 }
 
 ::v-deep {
+  // «Применить» — второстепенное действие рядом с главным CTA
+  .customButton.promoBtn {
+    color: #2c2c2c;
+    border: 1.5px solid #e6e6e6;
+    box-shadow: none;
+
+    &:hover {
+      border-color: #2c2c2c;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  .el-select .el-input__wrapper {
+    height: 46px;
+    padding: 0 14px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 1.5px #e6e6e6 inset;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: 0 0 0 1.5px #d8d8d8 inset;
+    }
+  }
+
+  .el-select .el-input.is-focus .el-input__wrapper,
+  .el-select .el-input__wrapper.is-focused {
+    box-shadow: 0 0 0 1.5px #2c2c2c inset;
+  }
+
+  .el-input__inner {
+    font-size: 15px;
+    color: #2c2c2c;
+  }
+
   .el-radio {
     margin-right: 0;
   }
