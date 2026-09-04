@@ -110,7 +110,7 @@ export const useCategories = defineStore('categories', {
         ico: '/icons/camera.svg',
         style: { height: '55', width: '55' },
         link: '/canon',
-        img: '/images/other.webp',
+        img: '/images/camera.webp',
         uuid: 'c568e1fd-4206-422d-aa73-a8e448fe5690',
         isName: true,
         isHiddenForHeader: true,
