@@ -79,20 +79,18 @@
 
         <div class="productPage__actions">
           <template v-if="currentPrice !== 0">
-            <button
-              v-if="!isInCart"
-              class="productPage__buyBtn"
-              @click="addToCart"
-            >
-              В корзину
-            </button>
-            <div v-else class="productPage__cartRow">
-              <div class="productPage__qtyControls">
-                <button class="productPage__qtyBtn" @click="decreaseQty">−</button>
-                <span class="productPage__qty">{{ cartQty }}</span>
-                <button class="productPage__qtyBtn" @click="increaseQty">+</button>
-              </div>
-              <button class="productPage__openCartBtn" @click="api.isCartOpen = true">
+            <div class="productPage__cartRow">
+              <AddToCart
+                :product="product"
+                :selected-options="selectedOptions"
+                size="lg"
+                :block="false"
+              />
+              <button
+                v-if="isInCart"
+                class="productPage__openCartBtn"
+                @click="api.isCartOpen = true"
+              >
                 В корзине →
               </button>
             </div>
@@ -299,54 +297,6 @@ const isInCart = computed(() => api.orders.some((order) => {
   }
   return true;
 }));
-
-const cartQty = computed(() => {
-  const item = api.orders.find((order) => {
-    if (order.product.uuid !== product.value?.uuid) return false;
-    if (product.value?.variants?.length) {
-      return order.options.length === selectedOptions.value.length
-        && order.options.every((id) => selectedOptions.value.includes(id));
-    }
-    return true;
-  });
-  return item?.quantity || 1;
-});
-
-const addToCart = () => {
-  api.orders.push({
-    product: { ...product.value },
-    options: [...selectedOptions.value],
-    quantity: 1,
-  });
-};
-
-const increaseQty = () => {
-  const idx = api.orders.findIndex((order) => {
-    if (order.product.uuid !== product.value?.uuid) return false;
-    if (product.value?.variants?.length) {
-      return order.options.length === selectedOptions.value.length
-        && order.options.every((id) => selectedOptions.value.includes(id));
-    }
-    return true;
-  });
-  if (idx !== -1) api.orders[idx].quantity = (api.orders[idx].quantity || 1) + 1;
-};
-
-const decreaseQty = () => {
-  const idx = api.orders.findIndex((order) => {
-    if (order.product.uuid !== product.value?.uuid) return false;
-    if (product.value?.variants?.length) {
-      return order.options.length === selectedOptions.value.length
-        && order.options.every((id) => selectedOptions.value.includes(id));
-    }
-    return true;
-  });
-  if (idx !== -1) {
-    const qty = api.orders[idx].quantity || 1;
-    if (qty > 1) api.orders[idx].quantity = qty - 1;
-    else api.orders.splice(idx, 1);
-  }
-};
 
 // --- SEO ---
 const pageUrl = `${SITE_URL}/${slug}`;
@@ -618,26 +568,6 @@ useHead({
   align-items: center;
 }
 
-.productPage__buyBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 52px;
-  padding: 0 32px;
-  background: #2c2c2c;
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s, transform 0.1s;
-
-  &:hover { background: #1a1a1a; }
-  &:active { transform: scale(0.98); }
-}
-
 .productPage__cartRow {
   display: inline-flex;
   align-items: center;
@@ -652,40 +582,6 @@ useHead({
       text-overflow: ellipsis;
     }
   }
-}
-
-.productPage__qtyControls {
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  background: #f5f5f5;
-  border-radius: 14px;
-  height: 52px;
-  padding: 0 20px;
-}
-
-.productPage__qtyBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid #d0d0d0;
-  background: #fff;
-  cursor: pointer;
-  font-size: 20px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.15s;
-
-  &:hover { border-color: #2c2c2c; }
-}
-
-.productPage__qty {
-  font-size: 18px;
-  font-weight: 500;
-  min-width: 24px;
-  text-align: center;
 }
 
 .productPage__openCartBtn {
