@@ -185,7 +185,7 @@
         <h3 class="variants-title">Загрузите общее изображение продукта:</h3>
         <div class="general-image-container">
           <div v-if="generalImage" class="general-image-preview">
-            <img :src="generalImage" alt="Preview" />
+            <img :src="generalImage" alt="Preview" loading="lazy" decoding="async" />
             <el-button
               :icon="Delete"
               circle
@@ -242,7 +242,7 @@
             </div>
             <div class="variant-image-upload">
               <div v-if="variant.image" class="variant-image-preview">
-                <img :src="variant.image" alt="Preview" />
+                <img :src="variant.image" alt="Preview" loading="lazy" decoding="async" />
                 <el-button
                   :icon="Delete"
                   circle

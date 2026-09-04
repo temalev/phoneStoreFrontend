@@ -4,7 +4,15 @@
     <template v-if="post">
       <div class="post-hero">
         <div class="post-hero__image">
-          <img v-if="post.image" :src="post.image" :alt="post.title" />
+          <img
+            v-if="post.image"
+            :src="post.image"
+            :alt="post.title"
+            v-bind="imageSize(post.image)"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
           <div v-else class="post-hero__image-placeholder">
             <span class="material-symbols-rounded">article</span>
           </div>
@@ -65,6 +73,7 @@
 import { useBlog } from '~/stores/blog';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
 import { withBrand, clipDescription } from '~/composables/useSeoText.ts';
+import { imageSize } from '~/composables/useImageSize.ts';
 
 const route = useRoute();
 const blog = useBlog();

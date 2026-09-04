@@ -1,7 +1,14 @@
 <template>
   <NuxtLink :to="`/blog/${post.slug}`" class="blog-card">
     <div class="blog-card__image">
-      <img v-if="post.image" :src="post.image" :alt="post.title" loading="lazy" />
+      <img
+        v-if="post.image"
+        :src="post.image"
+        :alt="post.title"
+        v-bind="imageSize(post.image)"
+        loading="lazy"
+        decoding="async"
+      />
       <div v-else class="blog-card__image-placeholder">
         <span class="material-symbols-rounded">article</span>
       </div>
@@ -22,6 +29,8 @@
 </template>
 
 <script setup>
+import { imageSize } from '~/composables/useImageSize.ts';
+
 defineProps({
   post: {
     type: Object,

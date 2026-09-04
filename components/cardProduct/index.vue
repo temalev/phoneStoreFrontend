@@ -1,7 +1,15 @@
 <template>
   <article class="mainCardProduct">
     <NuxtLink :to="`/${product.slug || product.uuid}`" class="mainCardContainer">
-      <img class="imgProduct" :src="baseImg" :alt="product.name" />
+      <img
+        class="imgProduct"
+        :src="baseImg"
+        :alt="`${product.name} — купить в РК-Тек`"
+        width="250"
+        height="250"
+        loading="lazy"
+        decoding="async"
+      />
       <div class="infoContainer">
         <div class="header">
           <h3 class="productName">{{ product.name }}</h3>

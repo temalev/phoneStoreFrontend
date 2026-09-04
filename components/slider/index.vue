@@ -10,7 +10,10 @@
         <img
           class="img"
           :src="card.img"
-          :alt="`Изображение категории ${card.name}`"
+          :alt="`${card.name} — купить в Рязани в РК-Тек`"
+          v-bind="imageSize(card.img)"
+          loading="lazy"
+          decoding="async"
         />
       </div>
       <div v-if="isMessageBlock" class="message-block">
@@ -26,6 +29,7 @@
 
 <script setup>
 import { useApi } from '~/stores/api';
+import { imageSize } from '~/composables/useImageSize.ts';
 
 const api = useApi();
 
