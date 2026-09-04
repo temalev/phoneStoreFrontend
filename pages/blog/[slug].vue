@@ -64,6 +64,7 @@
 <script setup>
 import { useBlog } from '~/stores/blog';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
+import { withBrand, clipDescription } from '~/composables/useSeoText.ts';
 
 const route = useRoute();
 const blog = useBlog();
@@ -98,11 +99,11 @@ const pageUrl = computed(() => `${siteUrl}/blog/${route.params.slug}`);
 const ogImage = computed(() => post.value?.image ? `${siteUrl}${post.value.image}` : defaultOgImage);
 
 useHead(() => ({
-  title: post.value ? `${post.value.title} — РК Тек` : 'Статья не найдена — РК Тек',
+  title: post.value ? withBrand(post.value.title, 'РК Тек') : 'Статья не найдена — РК Тек',
   link: [{ rel: 'canonical', href: pageUrl.value }],
   meta: post.value
     ? [
-        { name: 'description', content: post.value.excerpt },
+        { name: 'description', content: clipDescription(post.value.excerpt) },
         { property: 'og:locale', content: 'ru_RU' },
         { property: 'og:title', content: post.value.title },
         { property: 'og:description', content: post.value.excerpt },

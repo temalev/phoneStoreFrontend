@@ -117,8 +117,8 @@ const categories = useCategories();
 const blog = useBlog();
 
 const pageUrl = SITE_URL;
-const pageTitle = 'РК Тек — интернет-магазин техники Apple и Dyson в Рязани и Москве';
-const pageDescription = 'РК Тек — техника Apple и Dyson в Рязани и Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год. Доставка по Рязани и Москве в день заказа.';
+const pageTitle = 'Магазин техники Apple и Dyson в Рязани и Москве — РК Тек';
+const pageDescription = 'РК Тек — техника Apple и Dyson в Рязани и Москве по низким ценам. iPhone, iPad, Mac, AirPods, Apple Watch. Гарантия 1 год, доставка в день заказа.';
 const ogImage = `${pageUrl}/images/mainPageBackground.webp`;
 
 // eslint-disable-next-line no-undef
