@@ -153,7 +153,15 @@
         </div>
 
         <div v-else class="empty">
-          <img src="/icons/bag.svg" alt="bag" class="emptyBag" />
+          <img
+            src="/icons/bag.svg"
+            alt="Корзина пуста"
+            width="80"
+            height="80"
+            loading="lazy"
+            decoding="async"
+            class="emptyBag"
+          />
           <h3>Добавьте товар в корзину</h3>
         </div>
       </Transition>

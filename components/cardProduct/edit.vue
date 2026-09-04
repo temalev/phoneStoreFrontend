@@ -2,7 +2,16 @@
   <div class="mainCardProduct" :class="{ 'is-new': isNewProduct }">
     <div class="mainCardContainer">
       <div v-loading="isImageUploading" class="image-container">
-        <img v-if="baseImg" class="imgProduct" :src="baseImg" alt="Изображение продукта" />
+        <img
+          v-if="baseImg"
+          class="imgProduct"
+          :src="baseImg"
+          alt="Изображение продукта"
+          width="250"
+          height="250"
+          loading="lazy"
+          decoding="async"
+        />
         <el-button v-if="baseImg" type="danger" class="delete" :icon="Delete" circle @click="deleteImg" />
         <DropZone v-if="!baseImg" @drop.prevent="drop" @change="selectedFile" />
       </div>

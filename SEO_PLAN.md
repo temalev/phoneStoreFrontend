@@ -99,14 +99,55 @@ title с ценой и городом, `width`/`height`/`alt` на изобра�
   - [pages/other/index.vue](pages/other/index.vue), [pages/other/[id]/index.vue](pages/other/[id]/index.vue)
 - Email-адреса `info@рк-тек.рф` и видимый текст в футере оставлены на кириллице — это не URL.
 
-### 1.3. Атрибуты `width`/`height`/`loading`/`alt` на всех `<img>`
-Карточка товара: [components/cardProduct/index.vue:4](components/cardProduct/index.vue#L4) — нет `width`, `height`, `loading="lazy"`. Это бьёт по CLS (Cumulative Layout Shift) — Core Web Vital, влияющий на ранжирование.
+### 1.3. Атрибуты `width`/`height`/`loading`/`alt` на всех `<img>` ✅ DONE (2026-09-04)
 
-Что сделать (по всему проекту):
-- `<img loading="lazy" decoding="async" width="..." height="..." />` для всех листинговых изображений.
-- На главной картинке (above the fold) — `loading="eager"` + `fetchpriority="high"`.
-- `alt` должен описывать товар + бренд: `iPhone 16 Pro Max 256GB Titanium`, а не просто `${product.name}`.
-- Фон `welcome` ([pages/index.vue:252](pages/index.vue#L252)) — добавить `<link rel="preload" as="image" href="/images/mainPageBackground.webp">` в `useHead({ link: [...] })`.
+Замер по семи ключевым страницам: из 49 тегов `<img>` размеры были только у одного —
+у главной картинки карточки товара. Ленивую загрузку имели 11.
+
+**Главный источник CLS оказался не в карточке товара, а в слайдере категорий.**
+У `.img` в [components/slider/index.vue](components/slider/index.vue) стоит `width: 100%`
+без высоты, то есть до загрузки браузер резервировал нулевую высоту и страница прыгала.
+Причём у картинок категорий пропорции разные — от 480×642 до 2762×1660, — так что одной
+парой значений не обойтись.
+
+**Решение — [composables/useImageSize.ts](composables/useImageSize.ts):** карта собственных
+размеров всех 42 файлов из `public/images`, сгенерированная из самих файлов
+(`sips -g pixelWidth -g pixelHeight`), плюс `imageSize(src)`, отдающий `width`/`height`.
+Карта в одном месте намеренно: одни и те же изображения категорий перечислены в трёх
+списках (`stores/categories.js`, `pages/other/index.vue`, `pages/accessories/index.vue`),
+и размеры, разложенные по ним, гарантированно рассинхронятся. Неизвестный путь отдаёт
+пустой объект — тег остаётся как был, регресса нет.
+
+Что изменилось по файлам:
+
+| Файл | Что сделано |
+|---|---|
+| `components/slider/index.vue` | `width`/`height` из карты, `loading="lazy"`, `decoding="async"`, осмысленный `alt` |
+| `components/cardProduct/index.vue` | `250×250` под CSS, lazy, `alt` вида «{name} — купить в РК-Тек» вместо голого `product.name` |
+| `components/blogCard/index.vue` | размеры из карты, `decoding="async"` (lazy был) |
+| `pages/[uuid].vue` | LCP-картинка: `loading="eager"` + `fetchpriority="high"` |
+| `pages/blog/[slug].vue` | герой статьи — тоже LCP: eager + high + размеры |
+| `pages/index.vue` | `<link rel="preload" as="image">` для фона `.welcome` — он приходит из CSS, браузер узнаёт о нём только после разбора стилей |
+| `components/shopBag/index.vue`, `cardProduct/edit.vue`, `CreateProduct/index.vue` | иконка пустой корзины и превью в админке |
+
+Ленивую загрузку намеренно **не** ставили на две картинки, которые являются LCP страницы:
+главное фото товара и герой статьи. Лениво грузить LCP — классический способ испортить
+именно ту метрику, ради которой всё делается.
+
+**Проверено** на локальной сборке против боевого API, семь страниц:
+
+| | было | стало |
+|---|---|---|
+| `<img>` с `width` и `height` | 1 из 49 | **49 из 49** |
+| `<img>` с `loading` | 11 из 49 | 49 из 49 |
+| `<img>` без `alt` | 0 | 0 |
+
+Атрибуты равны реальным размерам файлов, поэтому вёрстка не поехала: браузер резервирует
+ровно ту высоту, которую всё равно получил бы после загрузки. `npm run build` проходит,
+новых ошибок линта нет (151 было, 151 стало).
+
+Осталось на будущее: `srcset` (п. 3.3) и замер Lighthouse (п. 3.1) — только он покажет
+итоговую цифру CLS.
 
 ### 1.4. Sitemap — поделить на `sitemap_index` и почистить
 Файл: [server/routes/sitemap.xml.get.ts](server/routes/sitemap.xml.get.ts)
@@ -552,8 +593,6 @@ throw createError({ statusCode: 404, statusMessage: 'Not Found', fatal: true });
 - [ ] 4.6. Устойчивость SSR к сбою API (приватный apiBase + ретрай на клиенте)
 - [ ] Перепроверить Вебмастер после ~18.09: ушли ли `SLOW_AVG_RESPONSE_TIME` и `DUPLICATE_PAGES`,
       вернулись ли 92 страницы в индекс
-- [ ] 1.3. `width`/`height`/`loading` в [components/cardProduct/index.vue:4](components/cardProduct/index.vue#L4) —
-      единственное место, где их до сих пор нет (на карточке товара уже проставлены)
 
 **Дальше по убыванию отдачи:**
 - [ ] 2.3. Расширение карточки товара (характеристики, отзывы, похожие)
@@ -573,6 +612,7 @@ throw createError({ statusCode: 404, statusMessage: 'Not Found', fatal: true });
 - [x] 4.2. Хлебные крошки на всех страницах (проверено 2026-09-04)
 - [x] 4.3. Внутренние ссылки в футере (2026-05-17)
 - [x] 2.4. Длина title и description — 69 страниц с превышением → 0 (2026-09-04)
+- [x] 1.3. width/height/loading/alt — 1 из 49 картинок с размерами → 49 из 49 (2026-09-04)
 
 **Постоянная работа:**
 - 2.5. Блог — сейчас 8 статей, держать темп 2-3 в месяц.

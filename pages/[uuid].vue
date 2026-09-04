@@ -19,6 +19,9 @@
           :alt="`${displayName} — купить в РК-Тек`"
           width="560"
           height="560"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
         />
       </div>
 

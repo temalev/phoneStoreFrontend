@@ -124,7 +124,19 @@ const ogImage = `${pageUrl}/images/mainPageBackground.webp`;
 // eslint-disable-next-line no-undef
 useHead({
   title: pageTitle,
-  link: [{ rel: 'canonical', href: pageUrl }],
+  link: [
+    { rel: 'canonical', href: pageUrl },
+    // Фон блока .welcome — LCP-изображение главной. Оно приходит из CSS,
+    // поэтому браузер узнаёт о нём только после разбора стилей; preload
+    // запускает загрузку параллельно с HTML.
+    {
+      rel: 'preload',
+      as: 'image',
+      href: '/images/mainPageBackground.webp',
+      type: 'image/webp',
+      fetchpriority: 'high',
+    },
+  ],
   meta: [
     { name: 'description', content: pageDescription },
     { property: 'og:type', content: 'website' },
