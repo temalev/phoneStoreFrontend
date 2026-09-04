@@ -89,7 +89,7 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  // md — карточка каталога, lg — страница товара
+  // sm — строка в корзине, md — карточка каталога, lg — страница товара
   size: {
     type: String,
     default: 'md',
@@ -175,6 +175,42 @@ const decrease = () => {
 
   .stepper__value {
     min-width: 34px;
+  }
+
+  &.addToCart--sm .stepper {
+    gap: 6px;
+    padding: 3px;
+  }
+
+  &.addToCart--sm .stepper__value {
+    min-width: 26px;
+  }
+}
+
+.addToCart--sm {
+  .addBtn,
+  .stepper {
+    height: 34px;
+  }
+
+  .stepper {
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  .stepper__btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .stepper__value {
+    font-size: 15px;
   }
 }
 
