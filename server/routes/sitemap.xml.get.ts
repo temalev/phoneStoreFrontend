@@ -61,6 +61,7 @@ function getStaticUrlEntries(now: string): string {
     { loc: '/other/dreame', changefreq: 'monthly', priority: '0.5' },
     { loc: '/contacts', changefreq: 'monthly', priority: '0.7' },
     { loc: '/blog', changefreq: 'daily', priority: '0.8' },
+    { loc: '/blog/iphone-18-sluhi-2026', changefreq: 'weekly', priority: '0.7' },
     { loc: '/blog/iphone-17e-obzor-2026', changefreq: 'monthly', priority: '0.7' },
     { loc: '/blog/kakoy-macbook-vybrat-v-2026', changefreq: 'monthly', priority: '0.7' },
     { loc: '/blog/apple-quartz-watch-1995', changefreq: 'monthly', priority: '0.6' },

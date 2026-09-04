@@ -19,6 +19,7 @@ export const IMAGE_SIZES = {
   '/images/applecare.webp': [778, 557],
   '/images/blog/17e.webp': [2640, 1486],
   '/images/blog/hard-reset.webp': [1242, 845],
+  '/images/blog/iphone-18.webp': [960, 640],
   '/images/blog/macbook-2026.webp': [1262, 580],
   '/images/blog/pervyy-iphone-fakty.webp': [5120, 2876],
   '/images/blog/quartz.webp': [5120, 3412],
