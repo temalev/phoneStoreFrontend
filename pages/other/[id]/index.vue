@@ -67,7 +67,7 @@ const otherDescriptions = {
   },
   dreame: {
     crumb: 'Dreame',
-    title: 'Купить Dreame в Рязани — пылесосы и уход за волосами | РК-Тек',
+    title: 'Купить Dreame в Рязани — пылесосы и стайлеры | РК-Тек',
     description: 'Пылесосы и приборы для укладки волос Dreame в Рязани. Быстрая доставка, гарантия.',
     keywords: 'dreame купить москва, пылесос dreame, фен dreame',
     img: '/images/dreame.webp',

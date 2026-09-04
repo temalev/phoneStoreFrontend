@@ -138,6 +138,7 @@ import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
+import { buildProductTitle, buildProductDescription } from '~/composables/useSeoText.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -358,9 +359,17 @@ const minPrice = product.value?.variants?.length
   ? Math.min(...product.value.variants.map((v) => v.optionsInfo?.price || 0).filter(Boolean))
   : product.value?.price || 0;
 
-const priceStr = minPrice ? `— цена ${formatPrice(minPrice)} ₽ ` : '';
-const pageTitle = computed(() => `Купить ${displayName.value} ${priceStr}в Рязани | РК-Тек`);
-const pageDescription = computed(() => `Купить ${displayName.value} в Рязани с доставкой.${productDescription ? ` ${productDescription}` : ''} Оригинал, гарантия 1 год, низкие цены.`);
+// В метатегах — базовое product.name, а не displayName: выбор опции не меняет URL,
+// поэтому в заголовке он только раздувает длину и дублирует название
+// («… никель/золото (Nickel/Gold) — Nickel/Gold»). Робот всё равно видит опцию по умолчанию.
+const productName = product.value?.name || '';
+const priceLabel = minPrice ? `${formatPrice(minPrice)} ₽` : '';
+const pageTitle = buildProductTitle(productName, priceLabel);
+const pageDescription = buildProductDescription({
+  name: productName,
+  priceLabel,
+  description: productDescription,
+});
 
 const brandMap = {
   iPhone: 'Apple',
@@ -405,7 +414,7 @@ useHead({
     { name: 'description', content: pageDescription },
     { property: 'og:type', content: 'product' },
     { property: 'og:locale', content: 'ru_RU' },
-    { property: 'og:title', content: computed(() => `Купить ${displayName.value} — РК-Тек`) },
+    { property: 'og:title', content: pageTitle },
     { property: 'og:description', content: pageDescription },
     { property: 'og:image', content: ogImage },
     { property: 'og:image:width', content: '1200' },
@@ -413,7 +422,7 @@ useHead({
     { property: 'og:url', content: pageUrl },
     { property: 'og:site_name', content: 'РК-Тек' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: computed(() => `Купить ${displayName.value} — РК-Тек`) },
+    { name: 'twitter:title', content: pageTitle },
     { name: 'twitter:description', content: pageDescription },
     { name: 'twitter:image', content: ogImage },
   ],
