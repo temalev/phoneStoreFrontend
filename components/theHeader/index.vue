@@ -46,7 +46,7 @@
     <ShopBag v-if="api.isCartOpen" @closeShopBag="api.isCartOpen = false" />
   </div>
 
-  <div class="mainHeader_mobile">
+  <div ref="mobileHeaderRef" class="mainHeader_mobile" :class="{ compact: isCompact }">
     <div class="wrapper" style="justify-content: space-between; align-items: center">
       <div class="btnMenu" :class="isToLeft ? 'active' : ''" @click="isToLeft = !isToLeft, onMenu()">
         <span></span>
@@ -105,7 +105,13 @@
 
 <script setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ref, watch, computed } from 'vue';
+import {
+  ref,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue';
 import { useCategories } from '~/stores/categories';
 import { useApi } from '~/stores/api';
 
@@ -136,8 +142,81 @@ const getProduct = (link) => {
   onMenu();
 };
 
+// Сжатие мобильного хедера при скролле вниз и возврат при скролле вверх
+const mobileHeaderRef = ref(null);
+const isCompact = ref(false);
+const COMPACT_FROM = 80; // до этой отметки хедер всегда в полном размере
+const SCROLL_DELTA = 6; // порог, чтобы не дёргаться на мелких движениях
+let scroller = null;
+let lastScrollY = 0;
+let ticking = false;
+
+// страница скроллится не в окне, а внутри контейнера лэйаута,
+// поэтому ищем ближайшего скроллящегося родителя
+const findScroller = (el) => {
+  let node = el?.parentElement;
+  while (node && node !== document.body) {
+    const { overflowY } = window.getComputedStyle(node);
+    if (overflowY === 'auto' || overflowY === 'scroll') return node;
+    node = node.parentElement;
+  }
+  return window;
+};
+
+const getScrollTop = () => {
+  if (!scroller || scroller === window) {
+    return window.scrollY || document.documentElement.scrollTop || 0;
+  }
+  return scroller.scrollTop;
+};
+
+const updateHeaderState = () => {
+  ticking = false;
+  const y = getScrollTop();
+
+  // при открытом меню хедер всегда развёрнут
+  if (isMenu.value) {
+    isCompact.value = false;
+    lastScrollY = y;
+    return;
+  }
+
+  if (y <= COMPACT_FROM) {
+    isCompact.value = false;
+  } else if (y - lastScrollY > SCROLL_DELTA) {
+    isCompact.value = true;
+  } else if (lastScrollY - y > SCROLL_DELTA) {
+    isCompact.value = false;
+  }
+
+  lastScrollY = y;
+};
+
+const onScroll = () => {
+  if (ticking) return;
+  ticking = true;
+  window.requestAnimationFrame(updateHeaderState);
+};
+
+onMounted(() => {
+  scroller = findScroller(mobileHeaderRef.value);
+  lastScrollY = getScrollTop();
+  updateHeaderState();
+  scroller.addEventListener('scroll', onScroll, { passive: true });
+  // подстраховка, если скролл окажется на окне
+  if (scroller !== window) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+});
+
+onBeforeUnmount(() => {
+  scroller?.removeEventListener('scroll', onScroll);
+  window.removeEventListener('scroll', onScroll);
+});
+
 watch(isMenu, (newVal, oldVal) => {
   if (newVal) {
+    isCompact.value = false;
     document.body.style.overflow = 'hidden';
   } else document.body.style.overflow = 'visible';
 });
@@ -182,9 +261,69 @@ const logout = () => {
   box-shadow: 0 0 10px #868686;
   box-sizing: border-box;
   padding: 0 20px;
+  transition: height 0.25s ease, box-shadow 0.25s ease;
 
   @media (max-width: 1300px) {
     display: flex;
+  }
+
+  .logo,
+  .btnMenu,
+  .call,
+  .shopBag,
+  .admin,
+  .logout,
+  .ordersCounter {
+    transition: width 0.25s ease, height 0.25s ease, font-size 0.25s ease;
+  }
+
+  // сжатое состояние при скролле вниз
+  &.compact {
+    height: 52px;
+    box-shadow: 0 0 6px #9c9c9c;
+
+    .logo {
+      width: 74px;
+      height: 37px;
+    }
+
+    .btnMenu:not(.active) {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+
+      &::before {
+        top: 11px;
+      }
+
+      &::after {
+        bottom: 11px;
+      }
+    }
+
+    .call,
+    .shopBag {
+      width: 32px;
+      height: 32px;
+    }
+
+    .admin {
+      width: 24px;
+      height: 24px;
+    }
+
+    .logout {
+      width: 20px;
+      height: 20px;
+    }
+
+    .ordersCounter {
+      width: 16px;
+      height: 16px;
+      top: -4px;
+      right: -4px;
+      font-size: 10px;
+    }
   }
 }
 
