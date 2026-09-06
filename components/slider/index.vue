@@ -54,10 +54,15 @@ onMounted(() => {});
 
 <style scoped lang="scss">
 .mainSliderContainer {
+  // ширина плитки нужна и карточке, и блоку-сообщению под ней — держим в одном месте,
+  // иначе при следующей правке размера они разъедутся
+  --tile-w: 260px;
+  --tile-h: 300px;
+
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 24px;
   overflow: scroll;
   scroll-behavior: smooth;
   padding: 20px 10px;
@@ -75,11 +80,11 @@ onMounted(() => {});
     display: none;
   }
   .productLink {
-    width: 300px;
-    height: 350px;
+    width: var(--tile-w);
+    height: var(--tile-h);
     flex-shrink: 0;
     overflow: hidden;
-    padding-top: 40px;
+    padding-top: 32px;
     background-color: #fff;
     border: 1px solid #eee;
     display: flex;
@@ -108,7 +113,7 @@ onMounted(() => {});
   box-shadow: 0px 0px 10px 5px rgb(247, 247, 247);
   font-size: 11px;
   color: #353535;
-  width: 300px;
+  width: var(--tile-w);
   box-sizing: border-box;
   // box-shadow: inset 0 5px 10px 5px #dedede;
 }
@@ -116,7 +121,7 @@ onMounted(() => {});
 .header {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 20px;
   color: #2c2c2c;
   text-align: center;
 }
