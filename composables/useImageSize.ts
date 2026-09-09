@@ -36,7 +36,7 @@ export const IMAGE_SIZES = {
   '/images/dreame.webp': [994, 1020],
   '/images/dyson.webp': [1548, 1080],
   '/images/ipad.webp': [800, 738],
-  '/images/iphone.webp': [863, 628],
+  '/images/iphone.webp': [960, 840],
   '/images/jbl.webp': [994, 1020],
   '/images/left_hand_tradein.webp': [2523, 894],
   '/images/mac.webp': [960, 881],
