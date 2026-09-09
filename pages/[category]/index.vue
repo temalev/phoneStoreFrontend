@@ -267,11 +267,22 @@ if (products.value) {
   padding: 20px;
 
   &-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     justify-content: center;
+    align-items: stretch;
     gap: 20px;
-    flex-wrap: wrap;
     padding: 20px;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    @media (max-width: 640px) {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+      padding: 12px;
+    }
   }
 }
 

@@ -34,12 +34,16 @@
 .skeleton-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  width: 330px;
-  border: 1px solid #eee;
-  box-shadow: 0 0 10px #eee;
-  border-radius: 12px;
+  // Совпадает с .mainCardProduct: в flex-родителе работает flex-basis,
+  // в grid-родителе — width/max-width. Иначе скелетон и карточка разной ширины.
+  flex: 0 1 330px;
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -52,6 +56,7 @@
 
 .skeleton-image {
   width: 250px;
+  max-width: calc(100% - 36px);
   height: 250px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
