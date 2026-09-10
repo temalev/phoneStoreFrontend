@@ -30,6 +30,12 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
+        // Яндексу для «большого фавикона» в выдаче нужен растр от 120x120 либо
+        // настоящий SVG. favicon.svg в public не подходит: это PNG 2001x2001,
+        // завёрнутый в base64 внутри svg, — 92 КБ без единого преимущества вектора.
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon-192.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         {
           rel: 'preload',
           as: 'font',
