@@ -18,6 +18,7 @@ export const IMAGE_SIZES = {
   '/images/airpods.webp': [2762, 1660],
   '/images/applecare.webp': [778, 557],
   '/images/blog/17e.webp': [2640, 1486],
+  '/images/blog/esim.webp': [1400, 1074],
   '/images/blog/hard-reset.webp': [1242, 845],
   '/images/blog/iphone-18.webp': [960, 640],
   '/images/blog/macbook-2026.webp': [1262, 580],
