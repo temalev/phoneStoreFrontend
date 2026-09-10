@@ -5,3 +5,4 @@ node_modules
 .nitro
 Jenkinsfile
 .output
+__pycache__/

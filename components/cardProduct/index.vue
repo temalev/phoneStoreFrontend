@@ -63,6 +63,7 @@ import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
+import { reachGoal } from '~/composables/useMetrika.ts';
 
 const categories = useCategories();
 const route = useRoute();
@@ -90,6 +91,10 @@ const uuidCurrentCategory = categories.categories.find(
 )?.uuid;
 
 const openTelegram = () => {
+  reachGoal('price_request_telegram', {
+    product: props.product?.name,
+    slug: props.product?.slug,
+  });
   window.open('https://t.me/rk_tech_support', '_blank');
 };
 const isColorOpt = (options) => (optionId) => {

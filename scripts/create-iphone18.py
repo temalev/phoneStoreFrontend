@@ -12,7 +12,7 @@
   python3 create-iphone18.py --base https://xn----jtbnc0ao.xn--p1ai
 """
 
-import argparse, json, mimetypes, os, ssl, sys, uuid
+import argparse, itertools, json, mimetypes, os, ssl, sys, uuid
 from urllib import request, parse, error
 
 # Python с python.org не подхватывает системный keychain — берём CA явно.
@@ -53,12 +53,109 @@ DUO_COLORS = [
 
 STORAGES = ["256 ГБ", "512 ГБ", "1 ТБ", "2 ТБ"]
 
+AIRPODS_IMG = "airpods-5-select-202609_FV1.png"
+
+# Apple Watch Series 12: 8 отделок корпуса. Hex подобран под название —
+# как это уже сделано в каталоге у Apple Watch 11 (#808080 Space Gray и т.п.),
+# снять пипеткой нельзя: во фронтальном ракурсе боковина корпуса почти не видна.
+S12_ALUMINIUM = [
+    ("Black",       "#1D1D1F", "aluminum-black"),
+    ("Space Gray",  "#52565A", "aluminum-space-gray"),
+    ("Dark Bronze", "#6E5849", "aluminum-darkbronze"),
+    ("Light Gold",  "#E8D4B8", "aluminum-lightgold"),
+]
+
+S12_TITANIUM = [
+    ("Natural",      "#C6C2B7", "titanium-natural"),
+    ("Radiant Gold", "#D9B47C", "titanium-radiantgold"),
+]
+
+# Керамика крупнее: 43/47 мм против 42/46 у алюминия и титана.
+# В именах файлов Apple стоит 46mm — это ярлык группы в селекторе, не размер корпуса.
+S12_CERAMIC = [
+    ("Night Blue",  "#2C3A4F", "ceramic-nightblue"),
+    ("Pearl White", "#F2F1EE", "ceramic-pearlwhite"),
+]
+
+# Ultra 4: корпус один (натуральный титан), различаются ремешки.
+# Hex снят пипеткой с самих ремешков. Названия описательные:
+# в спецификации Apple перечня ремешков нет, официально упомянут только
+# «translucent gray Ocean Band».
+ULTRA_SUFFIX = ("_VW_34FR+watch-case-49-titanium-natural-ultra4"
+                "_VW_34FR+watch-face-49-ultra4_VW_34FR_GEO_US.webp")
+# Сгруппировано по типу ремешка — каждый тип отдельной карточкой,
+# как уже заведён Ultra 3 с миланской петлёй. Названия типов — русские
+# официальные, цвета описательные (перечня ремешков в спецификации нет).
+ULTRA_MILANESE = [
+    ("Natural",           "#898179", "MK0A4ref"),
+]
+
+ULTRA_ALPINE = [
+    ("Rust",              "#4C2721", "MK7D4ref"),
+    ("Tan",               "#7A5A3C", "MK7G4ref"),
+]
+
+ULTRA_TRAIL = [
+    ("Dark Olive",        "#2A2522", "MK794ref"),
+    ("Burgundy",          "#3C121C", "MK8G4ref"),
+    ("Brown",             "#3B251B", "MK8J4ref"),
+    ("Tan",               "#947B60", "MK8M4ref"),
+]
+
+ULTRA_OCEAN = [
+    ("Translucent Gray",  "#A39E93", "MK7K4"),
+    ("Olive",             "#756C51", "MK7M4"),
+    ("Dark Gray",         "#4B4C47", "MK7P4"),
+]
+
+
+def s12_axis(finishes):
+    return {"name": "цвет", "type": "color", "items": [
+        (n, hx, f"s12-case-size-select-202609-{slug}-46mm.webp")
+        for n, hx, slug in finishes]}
+
+
+def ultra_axis(bands):
+    return {"name": "Цвет ремешка", "type": "color", "items": [
+        (n, hx, code + ULTRA_SUFFIX) for n, hx, code in bands]}
+
+
+def color_axis(colors):
+    """Ось «цвет»: подписи, hex и файл картинки для каждого варианта."""
+    return {"name": "цвет", "type": "color",
+            "items": [(n, hexv, f) for n, hexv, f in colors]}
+
+
+# Ось без картинок — файл None, картинку вариант берёт из model["image"].
+MEM_AXIS = {"name": "объем памяти", "type": "list",
+            "items": [(s, s, None) for s in STORAGES]}
+
+# Два варианта AirPods 5 различаются зарядным кейсом (проводной / беспроводной).
+CASE_AXIS = {"name": "зарядный кейс", "type": "list", "items": [
+    ("USB-C", "USB-C", None),
+    ("USB-C + беспроводная зарядка", "USB-C + беспроводная зарядка", None),
+]}
+
 # доплата за объём относительно базовой цены
 STORAGE_UPLIFT = {"256 ГБ": 0, "512 ГБ": 0, "1 ТБ": 0, "2 ТБ": 0}
 
 DESC_PRO = (
     "{name} — {screen}, OLED-дисплей, чип A20 Pro, титановый корпус. "
     "Система камер Pro с телеобъективом. Цвета: {colors}."
+)
+
+DESC_S12 = (
+    "{name}. Дисплей Always-On Retina, корпус {screen}. Цвета: {colors}."
+)
+
+DESC_ULTRA = (
+    "{name}. Корпус 49 мм из титана Grade 5 — самый прочный и автономный "
+    "Apple Watch. Цвета ремешка: {colors}."
+)
+
+DESC_AIRPODS = (
+    "{name} — беспроводные наушники Apple с активным шумоподавлением "
+    "и поддержкой Siri. Доступны с проводным и с беспроводным зарядным кейсом."
 )
 
 DESC_DUO = (
@@ -70,11 +167,34 @@ MODELS = [
     # idBase фиксирован: id опций должны быть стабильны между запусками,
     # иначе корзины и заказы со старыми optionsIds перестанут сходиться.
     {"name": "iPhone 18 Pro",     "base": 0, "screen": "6,3 дюйма", "idBase": 1800000,
-     "colors": PRO_COLORS, "desc": DESC_PRO},
+     "desc": DESC_PRO, "axes": [MEM_AXIS, color_axis(PRO_COLORS)]},
     {"name": "iPhone 18 Pro Max", "base": 0, "screen": "6,9 дюйма", "idBase": 1810000,
-     "colors": PRO_COLORS, "desc": DESC_PRO},
+     "desc": DESC_PRO, "axes": [MEM_AXIS, color_axis(PRO_COLORS)]},
     {"name": "iPhone Duo",        "base": 0, "screen": "7,6 дюйма", "idBase": 1820000,
-     "colors": DUO_COLORS, "desc": DESC_DUO},
+     "desc": DESC_DUO, "axes": [MEM_AXIS, color_axis(DUO_COLORS)]},
+    {"name": "AirPods 5",         "base": 0, "screen": "",          "idBase": 1830000,
+     "desc": DESC_AIRPODS, "image": AIRPODS_IMG, "axes": [CASE_AXIS]},
+    {"name": "Apple Watch Series 12 46 мм, корпус из алюминия", "base": 0,
+     "screen": "46 мм", "idBase": 1840000, "desc": DESC_S12,
+     "axes": [s12_axis(S12_ALUMINIUM)], "priceDependOnColor": False},
+    {"name": "Apple Watch Series 12 46 мм, корпус из титана", "base": 0,
+     "screen": "46 мм", "idBase": 1860000, "desc": DESC_S12,
+     "axes": [s12_axis(S12_TITANIUM)], "priceDependOnColor": False},
+    {"name": "Apple Watch Series 12 47 мм, корпус из керамики", "base": 0,
+     "screen": "47 мм", "idBase": 1870000, "desc": DESC_S12,
+     "axes": [s12_axis(S12_CERAMIC)], "priceDependOnColor": False},
+    {"name": "Apple Watch Ultra 4 49 мм, корпус из натурального титана, миланская петля", "base": 0, "screen": "49 мм",
+     "idBase": 1850000, "desc": DESC_ULTRA,
+     "axes": [ultra_axis(ULTRA_MILANESE)], "priceDependOnColor": False},
+    {"name": "Apple Watch Ultra 4 49 мм, корпус из натурального титана, альпийская петля", "base": 0, "screen": "49 мм",
+     "idBase": 1852000, "desc": DESC_ULTRA,
+     "axes": [ultra_axis(ULTRA_ALPINE)], "priceDependOnColor": False},
+    {"name": "Apple Watch Ultra 4 49 мм, корпус из натурального титана, трейловая петля", "base": 0, "screen": "49 мм",
+     "idBase": 1854000, "desc": DESC_ULTRA,
+     "axes": [ultra_axis(ULTRA_TRAIL)], "priceDependOnColor": False},
+    {"name": "Apple Watch Ultra 4 49 мм, корпус из натурального титана, океанский ремешок", "base": 0, "screen": "49 мм",
+     "idBase": 1856000, "desc": DESC_ULTRA,
+     "axes": [ultra_axis(ULTRA_OCEAN)], "priceDependOnColor": False},
 ]
 
 # --- http --------------------------------------------------------------------
@@ -143,48 +263,55 @@ class Api:
 # --- сборка ------------------------------------------------------------------
 
 def build(model, category_uuid, image_urls, sort_start):
-    """options + декартово произведение цвет x память -> variants."""
+    """Оси опций -> декартово произведение -> variants.
+
+    id раскладываются как idBase + 100*номер_оси + номер_элемента,
+    варианты — от idBase+1000. Внутри товара стабильно между запусками.
+    """
     base_id = model["idBase"]
+    axes = model["axes"]
 
-    color_items, mem_items = [], []
-    colors = model["colors"]
-    for i, (cname, chex, cfile) in enumerate(colors):
-        color_items.append({"id": base_id + i, "type": "color", "name": cname, "value": chex})
-    for j, s in enumerate(STORAGES):
-        mem_items.append({"id": base_id + 100 + j, "type": "list", "name": s, "value": s})
+    options = []
+    for ai, ax in enumerate(axes):
+        items = [{"id": base_id + 100 * ai + k, "type": ax["type"],
+                  "name": label, "value": value}
+                 for k, (label, value, _) in enumerate(ax["items"])]
+        options.append({"name": ax["name"], "type": ax["type"], "items": items})
 
-    options = [
-        {"name": "объем памяти", "type": "list",  "items": mem_items},
-        {"name": "цвет",         "type": "color", "items": color_items},
-    ]
+    default_img = image_urls.get(model.get("image", ""))
 
-    variants, n = [], 0
-    for i, (cname, chex, cfile) in enumerate(colors):
-        for j, s in enumerate(STORAGES):
-            price = model["base"] + STORAGE_UPLIFT[s]
-            variants.append({
-                "id": base_id + 1000 + n,
-                "optionsIds": [mem_items[j]["id"], color_items[i]["id"]],
-                "optionsInfo": {
-                    "price": price,
-                    "images": [image_urls[cfile]] if image_urls.get(cfile) else [],
-                    "oldPrice": 0,
-                },
-                "isDefault": n == 0,
-            })
-            n += 1
+    variants = []
+    for n, combo in enumerate(itertools.product(*[range(len(ax["items"])) for ax in axes])):
+        img = None
+        for ai, k in enumerate(combo):
+            fname = axes[ai]["items"][k][2]
+            if fname and image_urls.get(fname):
+                img = image_urls[fname]
+        img = img or default_img
+        variants.append({
+            "id": base_id + 1000 + n,
+            "optionsIds": [options[ai]["items"][k]["id"] for ai, k in enumerate(combo)],
+            "optionsInfo": {
+                "price": model["base"],
+                "images": [img] if img else [],
+                "oldPrice": 0,
+            },
+            "isDefault": n == 0,
+        })
 
+    color_ax = next((ax for ax in axes if ax["type"] == "color"), None)
+    colors_str = ", ".join(i[0] for i in color_ax["items"]) if color_ax else ""
     return {
         "categoryUUID": category_uuid,
         "name": model["name"],
-        "description": model["desc"].format(name=model["name"], screen=model["screen"],
-                                            colors=", ".join(c[0] for c in colors)),
+        "description": model["desc"].format(name=model["name"],
+                                            screen=model["screen"], colors=colors_str),
         "price": model["base"],
         "priceOld": 0,
         "sortValue": sort_start,
         "visible": True,
         "images": [],
-        "priceDependOnColor": True,
+        "priceDependOnColor": model.get("priceDependOnColor", True),
         "options": options,
         "variants": variants,
     }
@@ -238,7 +365,7 @@ def main():
     sel = [m for m in MODELS if not a.only or a.only.lower() in m["name"].lower()]
     todo = [m for m in sel if m["name"] not in existing]
     if not todo:
-        print("Оба товара уже есть, ничего не делаю.")
+        print("Всё уже создано, ничего не делаю.")
         return
     for m in sel:
         if m["name"] in existing:
@@ -249,7 +376,8 @@ def main():
 
     cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
     urls = {}
-    needed = {c[2] for m in todo for c in m["colors"]}
+    needed = {f for m in todo for ax in m["axes"] for _, _, f in ax["items"] if f}
+    needed |= {m["image"] for m in todo if m.get("image")}
     for fname in sorted(needed):
         if fname in cache:
             urls[fname] = cache[fname]

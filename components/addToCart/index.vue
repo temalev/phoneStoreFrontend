@@ -80,6 +80,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ref, computed } from 'vue';
 import { useApi } from '~/stores/api';
+import { reachGoal } from '~/composables/useMetrika.ts';
 
 const api = useApi();
 
@@ -127,6 +128,10 @@ const add = () => {
     product: { ...props.product },
     options: [...props.selectedOptions],
     quantity: 1,
+  });
+  reachGoal('add_to_cart', {
+    product: props.product?.name,
+    slug: props.product?.slug,
   });
 };
 
