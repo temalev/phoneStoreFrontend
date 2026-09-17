@@ -51,6 +51,15 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Приватный адрес API для серверных запросов. В браузер не попадает.
+    //
+    // SSR ходил в собственный бэкенд через публичный домен: DNS-резолв, выход
+    // наружу, hairpin NAT и TLS там, где достаточно одного хопа по docker-сети.
+    // Каждое звено — отдельная точка отказа, и DNS в ней уже ломался в августе.
+    //
+    // Задаётся через NUXT_API_INTERNAL в docker-compose прода. Пусто —
+    // откатываемся на публичный адрес, поведение как раньше.
+    apiInternal: process.env.NUXT_API_INTERNAL || '',
     public: {
       URL: process.env.URL || '',
       NODE_ENV: process.env.NODE_ENV || 'production',

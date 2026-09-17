@@ -147,7 +147,8 @@ const config = useRuntimeConfig();
 const api = useApi();
 const categories = useCategories();
 
-const apiBase = config.public.URL;
+// На сервере — внутренний адрес бэкенда, в браузере — публичный. См. useApiBase.
+const apiBase = useApiBase();
 
 const { data: product, pending, error: productError } = await useAsyncData(
   `product-${slug}`,

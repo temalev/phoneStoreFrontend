@@ -22,6 +22,23 @@ ALPHA_PORT     := 7000
 # собирает arm64 — образ не запустится на сервере. Принудительно amd64.
 PLATFORM       := linux/amd64
 
+# Каждый деплой оставляет на сервере новый тегированный образ (~139 МБ уникальных
+# слоёв) плюс безымянный сборочный. Без уборки они копятся: к 17.09.2026 набралось
+# 25 образов фронта, из них рабочий — один. Чистим сразу после пересоздания
+# контейнера, иначе диск повторит историю 09.09, когда он забился под ноль
+# и уронил Postgres в краш-цикл.
+#
+# tail -n +4 оставляет три самых свежих тега (docker images сортирует от новых
+# к старым): текущий, предыдущий и позапрошлый — этого хватает на откат.
+# `latest` не трогаем никогда: именно на него ссылается docker-compose.prod.yml,
+# и это манифест-лист, резолвящийся в работающий образ.
+# `docker image prune -f` убирает только безымянные образы и никогда — тома;
+# `--volumes` здесь смертелен, в одном из томов лежит база.
+CLEANUP_IMAGES := docker images $(PROD_IMAGE) --format "{{.Tag}}" \
+	| grep -vx latest | grep -vx "<none>" | tail -n +4 \
+	| xargs -r -I{} docker rmi $(PROD_IMAGE):{} >/dev/null 2>&1; \
+	docker image prune -f | tail -1
+
 # === Help ===
 .PHONY: help
 help:
@@ -71,6 +88,8 @@ deploy: _fetch
 	echo "==> docker load + recreate on server" && \
 	$(SSH) "docker load < $$TARBALL && rm $$TARBALL && cd $(COMPOSE_DIR) && docker compose -f docker-compose.prod.yml up -d --no-deps frontend" && \
 	rm -f $$TARBALL && \
+	echo "==> Уборка старых образов на сервере (оставляем 3 последних + latest)" && \
+	$(SSH) '$(CLEANUP_IMAGES)' && \
 	echo "==> Health check" && sleep 3 && \
 	$(SSH) 'curl -sI --max-time 10 http://127.0.0.1:$(PROD_PORT)/ | head -1' && \
 	echo "✅ Прод задеплоен: $(PROD_IMAGE):$$COMMIT"

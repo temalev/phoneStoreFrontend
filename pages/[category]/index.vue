@@ -60,7 +60,8 @@ const config = useRuntimeConfig();
 
 const currentCategory = ref(route.params.category);
 
-const apiBase = config.public.URL;
+// На сервере — внутренний адрес бэкенда, в браузере — публичный. См. useApiBase.
+const apiBase = useApiBase();
 const siteUrl = SITE_URL;
 const pageUrl = `${siteUrl}/${currentCategory.value}`;
 

@@ -109,7 +109,9 @@ function getStaticUrlEntries(now: string): string {
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const apiBase = config.public.URL;
+  // Роут всегда серверный: берём внутренний адрес бэкенда, если он задан.
+  // Хвостовой слэш из NUXT_PUBLIC_URL срезаем, иначе получается двойной.
+  const apiBase = String(config.apiInternal || config.public.URL || '').replace(/\/+$/, '');
 
   const now = new Date()
     .toISOString()

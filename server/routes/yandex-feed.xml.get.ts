@@ -62,7 +62,9 @@ const escapeXml = (unsafe: unknown): string => {
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const apiBase = config.public.URL;
+  // Роут всегда серверный: берём внутренний адрес бэкенда, если он задан.
+  // Хвостовой слэш из NUXT_PUBLIC_URL срезаем, иначе получается двойной.
+  const apiBase = String(config.apiInternal || config.public.URL || '').replace(/\/+$/, '');
 
   if (!apiBase) {
     setResponseHeader(event, 'Content-Type', 'text/plain; charset=utf-8');
