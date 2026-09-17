@@ -175,14 +175,12 @@ useHead({
               addressLocality: 'Рязань',
               addressCountry: 'RU',
             },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '5.0',
-              ratingCount: '100',
-              reviewCount: '77',
-              bestRating: '5',
-              worstRating: '1',
-            },
+            // aggregateRating здесь не место: отзывов на странице нет, а разметка
+            // должна описывать то, что человек видит. Одинаковые 5.0 / 100 / 77
+            // на обе точки — это не данные, а декларация, и поисковики читают её
+            // как накрутку. Отзывы у нас живут во встроенной карточке Яндекс.Карт;
+            // чужие оценки своим aggregateRating объявлять нельзя. Вернуть можно
+            // будет тогда, когда отзывы появятся на самом сайте и в базе.
             sameAs: [
               'https://t.me/Rktech_shop',
               'https://wa.me/79105033237',
@@ -205,14 +203,12 @@ useHead({
               addressLocality: 'Москва',
               addressCountry: 'RU',
             },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '5.0',
-              ratingCount: '100',
-              reviewCount: '77',
-              bestRating: '5',
-              worstRating: '1',
-            },
+            // aggregateRating здесь не место: отзывов на странице нет, а разметка
+            // должна описывать то, что человек видит. Одинаковые 5.0 / 100 / 77
+            // на обе точки — это не данные, а декларация, и поисковики читают её
+            // как накрутку. Отзывы у нас живут во встроенной карточке Яндекс.Карт;
+            // чужие оценки своим aggregateRating объявлять нельзя. Вернуть можно
+            // будет тогда, когда отзывы появятся на самом сайте и в базе.
             sameAs: [
               'https://t.me/Rktech_shop',
               'https://yandex.ru/maps/org/225229871067',

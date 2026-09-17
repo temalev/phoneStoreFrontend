@@ -159,14 +159,8 @@ useHead({
               addressLocality: 'Рязань',
               addressCountry: 'RU',
             },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '5.0',
-              ratingCount: '100',
-              reviewCount: '77',
-              bestRating: '5',
-              worstRating: '1',
-            },
+            // aggregateRating убран: отзывов на странице нет, а разметка должна
+            // описывать то, что человек видит. Подробнее — в pages/index.vue.
             sameAs: [
               'https://t.me/Rktech_shop',
               'https://wa.me/79105033237',
