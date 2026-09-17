@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useApi } from "~/stores/api";
 import { useCategories } from "~/stores/categories";
 import { useRoute } from "vue-router";
@@ -247,15 +247,35 @@ const uuidCategory = categories.categories.find(
   (el) => el.link.split('/').pop() === currentCategory.value,
 )?.uuid;
 
-const { data: products, pending: isLoading } = await useAsyncData(
+const {
+  data: products,
+  pending: isLoading,
+  error: productsError,
+  refresh: refreshProducts,
+} = await useAsyncData(
   `products-${currentCategory.value}`,
   () => $fetch(`${apiBase}/api/v1/product?categoryUUID=${uuidCategory}`),
 );
 
+const publishProducts = () => {
+  if (products.value) {
+    api.products[currentCategory.value] = products.value;
+  }
+};
+
 api.currentCategory = currentCategory.value;
-if (products.value) {
-  api.products[currentCategory.value] = products.value;
-}
+publishProducts();
+
+// Если SSR-фетч упал, ошибка уезжает в payload, и после гидратации клиент
+// повторный запрос не делает: человек, зашедший в секунду сбоя, видит пустой
+// каталог до конца сессии — даже если API поднялся через мгновение.
+// Повторяем один раз после монтирования. Один раз, а не в цикле: если API
+// лежит всерьёз, стучать в него с каждой открытой вкладки только хуже.
+onMounted(async () => {
+  if (!productsError.value) return;
+  await refreshProducts();
+  publishProducts();
+});
 
 </script>
 

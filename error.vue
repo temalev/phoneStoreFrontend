@@ -12,7 +12,26 @@
           : 'Произошла ошибка на сервере. Попробуйте обновить страницу или вернуться позже.' }}
       </p>
       <div class="error-page__actions">
-        <NuxtLink to="/" class="error-page__btn error-page__btn--primary" @click="clearError">
+        <!--
+          При временном отказе API страница товара отдаёт 503 (см. pages/[uuid].vue),
+          и компонент не монтируется — повторить запрос изнутри страницы нельзя.
+          Поэтому повтор живёт здесь: для 404 он бессмысленен, для остального
+          это ровно то, что человек и так сделал бы руками.
+        -->
+        <button
+          v-if="!isNotFound"
+          type="button"
+          class="error-page__btn error-page__btn--primary"
+          @click="retry"
+        >
+          Попробовать снова
+        </button>
+        <NuxtLink
+          to="/"
+          class="error-page__btn"
+          :class="isNotFound ? 'error-page__btn--primary' : 'error-page__btn--secondary'"
+          @click="clearError"
+        >
           На главную
         </NuxtLink>
         <NuxtLink to="/blog" class="error-page__btn error-page__btn--secondary" @click="clearError">
@@ -42,6 +61,13 @@ const props = defineProps({
 });
 
 const clearError = () => clearNuxtError();
+
+// Полная перезагрузка, а не clearNuxtError(): ошибка возникла на серверном
+// рендере, и повторять его надо тоже на сервере. Клиентская очистка ошибки
+// перерисовала бы маршрут силами браузера и дала бы другой результат.
+const retry = () => {
+  if (process.client) window.location.reload();
+};
 
 // Заголовок был захардкожен под 404. С появлением 503 (временный отказ API,
 // см. pages/[uuid].vue) страница с кодом 503 представлялась бы «страницей не найдена» —
@@ -127,6 +153,13 @@ useHead(() => ({
   font-weight: 500;
   text-decoration: none;
   transition: opacity 0.2s;
+
+  // Класс висит и на <a>, и на <button> («Попробовать снова»), поэтому
+  // гасим дефолтные стили кнопки — иначе она вылезает рамкой и своим шрифтом.
+  border: none;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.8;
