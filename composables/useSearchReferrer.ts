@@ -16,7 +16,9 @@ export function useSearchReferrer() {
   let searchQuery = '';
   let searchEngine = '';
 
-  if (import.meta.client && typeof document !== 'undefined') {
+  // process.client, а не import.meta.client — см. комментарий в useMetrika.ts:
+  // на Nuxt 3.0.0 второе не подставляется и условие всегда ложно.
+  if (process.client && typeof document !== 'undefined') {
     const ref = document.referrer || '';
     const lower = ref.toLowerCase();
 

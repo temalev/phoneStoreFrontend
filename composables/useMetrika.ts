@@ -13,7 +13,11 @@ export const METRIKA_COUNTER_ID = 92637429;
  * @param {object} [params] произвольные параметры визита
  */
 export function reachGoal(goal, params) {
-  if (!import.meta.client) return;
+  // Именно process.client, а не import.meta.client: проект собирается Nuxt 3.0.0,
+  // который не подставляет import.meta.client на сборке. В браузере это выражение
+  // было undefined, условие всегда истинным, и цель не отправлялась ни разу —
+  // отсюда нулевые достижения за 10–13.09.2026 при живом счётчике.
+  if (!process.client) return;
   const { ym } = window;
   if (typeof ym !== 'function') return;
   try {
