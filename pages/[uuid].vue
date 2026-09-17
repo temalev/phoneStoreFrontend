@@ -154,12 +154,51 @@ const { data: product, pending, error: productError } = await useAsyncData(
   () => $fetch(`${apiBase}/api/v1/product/${slug}`),
 );
 
-if (import.meta.server && productError.value) {
+if (process.server && productError.value) {
   // eslint-disable-next-line no-console
   console.error(`[${slug}] API error:`, productError.value);
 }
 
-if (productError.value || !product.value) {
+// Два принципиально разных случая, которые раньше сливались в один 404.
+//
+// «API ответил, такого товара нет» — честный 404: страницу можно выбрасывать из индекса.
+// «API не ответил вовсе» — 503: сервер занят, зайдите позже, индекс сохраняется.
+//
+// Раньше оба давали 404, и во время аварии 09.09.2026, пока база лежала, каждая карточка
+// несколько часов говорила роботам «товар удалён». Разница между потерей десятков адресов
+// и паузой на день.
+//
+// У ошибки ofetch statusCode — геттер от response.status, поэтому при сетевом сбое
+// (ответа нет вовсе) он undefined и мы корректно уходим в ветку 503.
+if (productError.value) {
+  const upstream = productError.value.statusCode ?? productError.value.response?.status;
+
+  if (upstream === 404) {
+    // eslint-disable-next-line no-undef
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Not Found',
+      fatal: true,
+    });
+  }
+
+  if (process.server) {
+    // Заголовок ставим на сырой ответ: тянуть h3 в прямые зависимости ради
+    // одного setResponseHeader незачем, а event.node.res есть начиная с h3 1.0.
+    // eslint-disable-next-line no-undef
+    const res = useRequestEvent()?.node?.res;
+    if (res && !res.headersSent) res.setHeader('Retry-After', '600');
+  }
+
+  // eslint-disable-next-line no-undef
+  throw createError({
+    statusCode: 503,
+    statusMessage: 'Service Unavailable',
+    fatal: true,
+  });
+}
+
+if (!product.value) {
   // eslint-disable-next-line no-undef
   throw createError({
     statusCode: 404,

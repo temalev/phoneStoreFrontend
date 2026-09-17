@@ -32,7 +32,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   error: {
     type: Object,
     required: true,
@@ -41,13 +43,25 @@ defineProps({
 
 const clearError = () => clearNuxtError();
 
-useHead({
-  title: '404 — Страница не найдена | РК Тек',
+// Заголовок был захардкожен под 404. С появлением 503 (временный отказ API,
+// см. pages/[uuid].vue) страница с кодом 503 представлялась бы «страницей не найдена» —
+// ровно тот сигнал, которого мы и стараемся избежать.
+const isNotFound = computed(() => props.error?.statusCode === 404);
+
+useHead(() => ({
+  title: isNotFound.value
+    ? '404 — Страница не найдена | РК Тек'
+    : 'Сервис временно недоступен | РК Тек',
   meta: [
-    { name: 'description', content: 'Страница не найдена. Вернитесь на главную страницу интернет-магазина РК Тек.' },
+    {
+      name: 'description',
+      content: isNotFound.value
+        ? 'Страница не найдена. Вернитесь на главную страницу интернет-магазина РК Тек.'
+        : 'Страница временно недоступна, мы уже чиним. Попробуйте обновить через несколько минут.',
+    },
     { name: 'robots', content: 'noindex, nofollow' },
   ],
-});
+}));
 </script>
 
 <style scoped lang="scss">
