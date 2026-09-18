@@ -14,6 +14,6 @@ Disallow: /admin
 Disallow: /OrdersList
 Disallow: /PromocodesList
 Disallow: /api/
-Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&from&ref&gclid&yclid
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&from&ref&gclid&yclid&clckid&fbclid
 
 Sitemap: https://xn----jtbnc0ao.xn--p1ai/sitemap.xml
