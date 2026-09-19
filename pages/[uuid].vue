@@ -140,6 +140,7 @@ import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
 import { buildProductTitle, buildProductDescription } from '~/composables/useSeoText.ts';
+import { productPrices, minProductPrice } from '~/composables/useProductPrice.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -348,9 +349,10 @@ const ogImageRaw = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
   || `${siteUrl}/images/mainPageBackground.webp`;
 const ogImage = ogImageRaw.startsWith('http') ? ogImageRaw : `${siteUrl}${ogImageRaw}`;
 
-const minPrice = product.value?.variants?.length
-  ? Math.min(...product.value.variants.map((v) => v.optionsInfo?.price || 0).filter(Boolean))
-  : product.value?.price || 0;
+// Ноль здесь означает «цена по запросу»: priceLabel станет пустым,
+// и buildProductTitle соберёт заголовок без цены. Раньше Math.min() на пустом
+// массиве отдавал Infinity, и семнадцать карточек уходили в выдачу с «∞ ₽».
+const minPrice = minProductPrice(product.value);
 
 // В метатегах — базовое product.name, а не displayName: выбор опции не меняет URL,
 // поэтому в заголовке он только раздувает длину и дублирует название
@@ -380,25 +382,18 @@ const allImages = product.value?.variants
   ?.map((v) => v.optionsInfo?.images?.[0])
   .filter(Boolean) || [];
 
-const offers = product.value?.variants?.length
-  ? product.value.variants.map((v) => ({
-    '@type': 'Offer',
-    priceCurrency: 'RUB',
-    price: v.optionsInfo?.price || 0,
-    availability: v.optionsInfo?.price
-      ? 'https://schema.org/InStock'
-      : 'https://schema.org/PreOrder',
-    seller: { '@type': 'Organization', name: 'РК-Тек' },
-    url: pageUrl,
-  }))
-  : [{
-    '@type': 'Offer',
-    priceCurrency: 'RUB',
-    price: product.value?.price || 0,
-    availability: 'https://schema.org/InStock',
-    seller: { '@type': 'Organization', name: 'РК-Тек' },
-    url: pageUrl,
-  }];
+// Оффер без цены — не оффер: Google по `price: 0` собирает lowPrice = 0
+// и либо выбрасывает карточку из расширенного сниппета, либо рисует «от 0 ₽».
+// Товар без цены остаётся валидным Product — с названием, картинками,
+// брендом и описанием, — просто без ключа offers.
+const offers = productPrices(product.value).map((price) => ({
+  '@type': 'Offer',
+  priceCurrency: 'RUB',
+  price,
+  availability: 'https://schema.org/InStock',
+  seller: { '@type': 'Organization', name: 'РК-Тек' },
+  url: pageUrl,
+}));
 
 useHead({
   title: pageTitle,
@@ -432,7 +427,7 @@ useHead({
             image: allImages,
             brand: { '@type': 'Brand', name: brandName },
             category: categoryName,
-            offers,
+            ...(offers.length ? { offers } : {}),
           },
           {
             '@type': 'BreadcrumbList',

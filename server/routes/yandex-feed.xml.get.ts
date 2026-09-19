@@ -1,4 +1,5 @@
 import { defineEventHandler, setResponseHeader } from 'h3';
+import { minProductPrice } from '../../composables/useProductPrice';
 
 type YandexCategory = {
   uuid: string;
@@ -150,12 +151,16 @@ export default defineEventHandler(async (event) => {
     return raw ? `${raw} ${fallback}` : fallback;
   };
 
+  /**
+   * Оффер без положительной цены Яндекс отвергает — `<price>` обязателен
+   * и должен быть больше нуля. Такие товары («цена по запросу») из фида
+   * выпадают целиком, а не отдаются нулём: ноль — это гарантированная
+   * ошибка в Мерчантах, причём ежедневная.
+   */
   const offersXml = validProducts
     .map((p) => {
-      const basePrice =
-        p.price ??
-        p.variants?.[0]?.optionsInfo?.price ??
-        0;
+      const basePrice = minProductPrice(p);
+      if (!basePrice) return '';
 
       const rawPicture =
         p.images?.[0] ??
@@ -185,6 +190,7 @@ export default defineEventHandler(async (event) => {
   ${collection ? `<collectionId>${escapeXml(collection.id)}</collectionId>` : ''}
 </offer>`;
     })
+    .filter(Boolean)
     .join('');
 
   const now = new Date();
