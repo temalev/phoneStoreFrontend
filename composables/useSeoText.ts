@@ -53,8 +53,15 @@ export function clip(text, max) {
 
 /**
  * Формы названия от полной к короткой: целиком, без скобочного уточнения,
- * без всего после первой запятой. Так «Dyson V15S Detect SV47, никель (Nickel)»
- * сжимается до «Dyson V15S Detect SV47» без потери модели.
+ * база плюс различающий хвост, без всего после первой запятой.
+ * Так «Dyson V15S Detect SV47, никель (Nickel)» сжимается
+ * до «Dyson V15S Detect SV47» без потери модели.
+ *
+ * Промежуточная форма нужна товарам одной модели: у четырёх Apple Watch Ultra 4
+ * различается только последний сегмент («…, океанский ремешок» против
+ * «…, миланская петля»), а середина — «корпус из натурального титана» — у всех
+ * одна. Отбрасывая всё после первой запятой, мы выкидывали ровно то
+ * единственное, что отличает страницу от соседней.
  * @param {string} name
  * @returns {string[]}
  */
@@ -66,7 +73,13 @@ function nameForms(name) {
   if (paren > 2) forms.push(full.slice(0, paren).trim());
 
   const comma = full.indexOf(',');
-  if (comma > 2) forms.push(full.slice(0, comma).trim());
+  if (comma > 2) {
+    const base = full.slice(0, comma).trim();
+    const segments = full.split(',').map((part) => part.trim()).filter(Boolean);
+    const tail = segments[segments.length - 1];
+    if (tail) forms.push(`${base}, ${tail}`);
+    forms.push(base);
+  }
 
   return [...new Set(forms)]
     .filter((form) => form.length > 2)
@@ -89,12 +102,16 @@ export function buildProductTitle(name, priceLabel = '') {
   const price = priceLabel ? ` — ${priceLabel}` : '';
   const candidates = [];
 
+  // Форма названия — внешний цикл, суффиксы — внутренний. Раньше было наоборот,
+  // и получалось, что название режется раньше, чем отбрасывается город, —
+  // прямо против порядка, заявленного выше. Восемь карточек часов приезжали
+  // в выдачу с тремя заголовками на всех и собрали DUPLICATE_CONTENT_ATTRS.
   forms.forEach((form) => {
     candidates.push(`${TITLE_PREFIX}${form}${TITLE_CITY}${price}${TITLE_BRAND}`);
     candidates.push(`${TITLE_PREFIX}${form}${TITLE_CITY}${price}`);
+    candidates.push(`${TITLE_PREFIX}${form}${TITLE_CITY}`);
+    candidates.push(`${TITLE_PREFIX}${form}`);
   });
-  forms.forEach((form) => candidates.push(`${TITLE_PREFIX}${form}${TITLE_CITY}`));
-  forms.forEach((form) => candidates.push(`${TITLE_PREFIX}${form}`));
 
   const fit = candidates.find((title) => title.length <= TITLE_MAX);
   if (fit) return fit;
