@@ -4,6 +4,7 @@
     :option="option"
     :show-sync-button="showSyncButton"
     :option-index="optionIndex"
+    :selected-id="selectedId"
     @selectedOpt="$emit('selectedOpt', $event)"
     @moveColor="$emit('moveColor', $event)"
     @onEdit="$emit('onEdit', $event)"
@@ -31,6 +32,11 @@ export default {
     optionIndex: {
       type: Number,
       default: 0,
+    },
+    // Выбранный пункт, если выбором управляет родитель (карточка товара)
+    selectedId: {
+      type: [Number, String],
+      default: null,
     },
   },
   computed: {

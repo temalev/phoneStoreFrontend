@@ -1,5 +1,6 @@
 import { defineEventHandler, setResponseHeader } from 'h3';
-import { minProductPrice } from '../../composables/useProductPrice';
+import { productOffers } from '../../composables/useProductOffers';
+import { productBrand, hasWord } from '../../composables/useProductBrand';
 
 type YandexCategory = {
   uuid: string;
@@ -9,12 +10,26 @@ type YandexCategory = {
   parent_id?: string | null;
 };
 
+type YandexOptionItem = {
+  id: number | string;
+  name?: string;
+  value?: string;
+};
+
+type YandexOption = {
+  name: string;
+  items?: YandexOptionItem[];
+};
+
 type YandexProductVariantInfo = {
   price?: number;
+  oldPrice?: number;
   images?: string[];
 };
 
 type YandexProductVariant = {
+  id?: number;
+  optionsIds?: (number | string)[];
   optionsInfo?: YandexProductVariantInfo;
 };
 
@@ -24,7 +39,9 @@ type YandexProduct = {
   slug?: string;
   description?: string;
   price?: number;
+  priceOld?: number;
   images?: string[];
+  options?: YandexOption[];
   variants?: YandexProductVariant[];
   isDeleted?: boolean;
   categoryUUID?: string;
@@ -60,6 +77,114 @@ const escapeXml = (unsafe: unknown): string => {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 };
+
+/**
+ * Название предложения Яндекс просит собирать по схеме
+ * «тип + бренд + модель + параметры»: объединённая карточка в Поиске —
+ * это конкретная модификация, и название должно отличать её от соседних.
+ * Пример из их справки: «Смартфон Apple iPhone 14 Pro 256 ГБ RU, …, космический черный».
+ *
+ * Тип дописывается, только если название начинается не с русского слова:
+ * у «Стайлер Dyson…» и «Кабель Apple…» он уже есть.
+ */
+const PRODUCT_TYPES: [RegExp, string][] = [
+  [/MacBook/i, 'Ноутбук'],
+  [/iPad/i, 'Планшет'],
+  [/\bi?Phone\b|Galaxy [SZA]/i, 'Смартфон'],
+  [/Watch/i, 'Умные часы'],
+  [/AirPods/i, 'Наушники'],
+  [/DualSense/i, 'Геймпад'],
+  [/PlayStation/i, 'Игровая приставка'],
+];
+
+const startsWithCyrillic = (text: string) => /^[А-ЯЁа-яё]/.test(text);
+
+/** Бренд в название, если его там нет: после русского типа или в начало. */
+const withBrand = (name: string, brand: string | null): string => {
+  if (!brand || hasWord(name, brand)) return name;
+  if (!startsWithCyrillic(name)) return `${brand} ${name}`;
+  // «Кабель USB-C — Lightning» → «Кабель Apple USB-C — Lightning»
+  const typed = name.match(/^((?:[А-ЯЁа-яё-]+\s+)+)([^А-ЯЁа-яё].*)$/);
+  return typed ? `${typed[1]}${brand} ${typed[2]}` : name;
+};
+
+const withType = (name: string): string => {
+  if (startsWithCyrillic(name)) return name;
+  const type = PRODUCT_TYPES.find(([pattern]) => pattern.test(name))?.[1];
+  return type ? `${type} ${name}` : name;
+};
+
+/** Подписи опций в названии там, где голое значение непонятно. */
+const OPTION_LABELS: Record<string, string> = {
+  'цвет ремешка': 'ремешок',
+  'цвет корпуса': 'корпус',
+  'зарядный кейс': 'кейс',
+};
+
+/** Имена характеристик в `<param>`: в админке они заведены вразнобой. */
+const PARAM_NAMES: Record<string, string> = {
+  sim: 'SIM',
+  'объем памяти': 'Объём памяти',
+  'возможность подключения': 'Подключение',
+};
+
+const isRam = (optionName: string) => /оперативн/i.test(optionName);
+const isStorage = (optionName: string) => /ssd|накопит|объ[её]м памяти/i.test(optionName);
+const isHexColor = (value: string) => /^#[0-9a-f]{3,8}$/i.test(value);
+
+type VariantOption = { name: string; value: string };
+
+/** Выбранные в варианте пункты опций по порядку опций товара. */
+const variantOptions = (p: YandexProduct, v: YandexProductVariant | null): VariantOption[] => {
+  if (!v) return [];
+  const ids = new Set((v.optionsIds ?? []).map(String));
+  return (p.options ?? []).flatMap((option) => {
+    const item = option.items?.find((i) => ids.has(String(i.id)));
+    const value = String(item?.name ?? item?.value ?? '').trim();
+    return value && !isHexColor(value) ? [{ name: option.name.trim(), value }] : [];
+  });
+};
+
+const buildOfferName = (p: YandexProduct, options: VariantOption[]): string => {
+  const base = withType(withBrand((p.name || '').replace(/\s+/g, ' ').trim(), productBrand(p)));
+  const hasRam = options.some((o) => isRam(o.name));
+
+  const parts = options
+    // «iPhone Air (eSim)» уже говорит про eSIM, «…(Nickel/Gold)» — про цвет
+    .filter((o) => !base.toLowerCase().includes(o.value.toLowerCase()))
+    .map((o) => {
+      if (hasRam && isRam(o.name)) return `${o.value} RAM`;
+      if (hasRam && isStorage(o.name)) return `${o.value} SSD`;
+      // «Белый» → «белый», «С шумоподавлением» → «с шумоподавлением»
+      const value = o.value.replace(/^[А-ЯЁ](?=[а-яё\s])/, (c) => c.toLowerCase());
+      const label = OPTION_LABELS[o.name.toLowerCase()];
+      return label ? `${label} ${value}` : value;
+    });
+
+  if (!parts.length) return base;
+  return `${base}${base.includes(',') ? ', ' : ' '}${parts.join(', ')}`;
+};
+
+const paramName = (optionName: string): string =>
+  PARAM_NAMES[optionName.toLowerCase()]
+  ?? optionName.charAt(0).toUpperCase() + optionName.slice(1);
+
+/**
+ * В описании Яндекс запрещает рекламу, регион, условия продажи и контакты.
+ * В админке же туда пишутся заметки для покупателя на сайте: «5 подарков
+ * при покупке», «уточняйте в аккаунте поддержки», «модель снята
+ * с производства» — на сайте они уместны, в фиде это ошибки. Такие
+ * предложения из описания для фида вырезаются, остальное остаётся как есть.
+ */
+const SHOP_NOTE = /подар|уточн|снят[аы]? с производства|другие (конфигурации|модели|цвета)|по запросу|заказ|в наличии|стоимост|дешевле|скидк|акци|бесплатн|рязан|москв|доставк|\*/i;
+
+const cleanDescription = (raw: string | undefined): string =>
+  (raw || '')
+    .split(/\n+/)
+    .flatMap((line) => line.split(/(?<=[.!?…])\s+/))
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence && !SHOP_NOTE.test(sentence))
+    .join(' ');
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -135,73 +260,65 @@ export default defineEventHandler(async (event) => {
     return null;
   };
 
-  /**
-   * Description обязателен для Яндекса. Если в API его нет — генерируем
-   * осмысленный fallback из имени и категории, иначе Яндекс отвергает оффер
-   * «не указан description».
-   */
-  const buildDescription = (p: YandexProduct): string => {
-    const raw = (p.description || '').trim();
-    if (raw.length >= 30) return raw;
-    const categoryName = p.categoryUUID
-      ? CATEGORY_COLLECTIONS[p.categoryUUID]?.name?.replace(/ в интернет-магазине РК-Тек$/, '') || ''
-      : '';
-    const namePart = p.name || categoryName || 'товар';
-    const fallback = `Купить ${namePart} в Рязани с доставкой по России. Оригинал, гарантия 1 год, низкие цены, проверка при получении.`;
-    return raw ? `${raw} ${fallback}` : fallback;
-  };
+  const absoluteUrl = (src: string) => (src.startsWith('http') ? src : `${SITE_URL}${src}`);
 
   /**
-   * Оффер без положительной цены Яндекс отвергает — `<price>` обязателен
-   * и должен быть больше нуля. Такие товары («цена по запросу») из фида
-   * выпадают целиком, а не отдаются нулём: ноль — это гарантированная
-   * ошибка в Мерчантах, причём ежедневная.
+   * По предложению на каждый вариант с ценой — см. useProductOffers.ts.
+   * Вариант без положительной цены («цена по запросу») в фид не попадает:
+   * `<price>` обязателен и должен быть больше нуля, ноль — ежедневная
+   * ошибка в Мерчантах.
    */
   const offersXml = validProducts
-    .map((p) => {
-      const basePrice = minProductPrice(p);
-      if (!basePrice) return '';
-
-      const rawPicture =
-        p.images?.[0] ??
-        p.variants?.[0]?.optionsInfo?.images?.[0] ??
-        '';
-
-      const picture = rawPicture
-        ? rawPicture.startsWith('http')
-          ? rawPicture
-          : `${SITE_URL}${rawPicture}`
-        : '';
-
-      const url = `${SITE_URL}/${p.slug || p.uuid}`;
+    .flatMap((p) => {
+      const slug = p.slug || p.uuid;
       const categoryId = getCategoryNumericId(p);
-
       const collection = p.categoryUUID ? CATEGORY_COLLECTIONS[p.categoryUUID] : null;
-      const description = buildDescription(p);
+      const brand = productBrand(p);
+      const productDescription = cleanDescription(p.description);
 
-      return `<offer id="${escapeXml(p.uuid)}" available="true">
+      return productOffers(p).map((offer) => {
+        const options = variantOptions(p, offer.variant);
+        const name = buildOfferName(p, options);
+
+        const pictures = (offer.images.length ? offer.images : p.images ?? [])
+          .filter(Boolean)
+          .slice(0, 20)
+          .map(absoluteUrl);
+
+        // Адрес открывает карточку ровно с этим вариантом: одинаковый URL
+        // у разных предложений Яндекс считает дублем и показывает только первое.
+        const url = offer.key
+          ? `${SITE_URL}/${slug}?v=${offer.key}`
+          : `${SITE_URL}/${slug}`;
+
+        // Старую цену Яндекс принимает при скидке от 5 до 75%. У большинства
+        // вариантов в API oldPrice ниже новой цены — это не скидка.
+        const discount = offer.oldPrice > offer.price ? 1 - offer.price / offer.oldPrice : 0;
+        const oldPrice = discount >= 0.05 && discount <= 0.75 ? offer.oldPrice : 0;
+
+        // Описание обязательно. Пока своего текста нет, лучше повторить
+        // название, чем писать туда условия продажи.
+        const description = productDescription.length >= 30 ? productDescription : `${name}.`;
+
+        return `<offer id="${escapeXml(offer.id)}" available="true">
   <url>${escapeXml(url)}</url>
-  <price>${escapeXml(basePrice)}</price>
+  <price>${offer.price}</price>
+  ${oldPrice ? `<oldprice>${oldPrice}</oldprice>` : ''}
   <currencyId>RUR</currencyId>
   ${categoryId != null ? `<categoryId>${categoryId}</categoryId>` : ''}
-  ${picture ? `<picture>${escapeXml(picture)}</picture>` : ''}
-  <name>${escapeXml(p.name)}</name>
+  ${pictures.map((src) => `<picture>${escapeXml(src)}</picture>`).join('\n  ')}
+  <name>${escapeXml(name)}</name>
+  ${brand ? `<vendor>${escapeXml(brand)}</vendor>` : ''}
   <description>${escapeXml(description)}</description>
+  ${options.map((o) => `<param name="${escapeXml(paramName(o.name))}">${escapeXml(o.value)}</param>`).join('\n  ')}
   ${collection ? `<collectionId>${escapeXml(collection.id)}</collectionId>` : ''}
 </offer>`;
+      });
     })
-    .filter(Boolean)
     .join('');
 
-  const now = new Date();
-  const dateStr = `${now.getFullYear()}-${String(
-    now.getMonth() + 1,
-  ).padStart(2, '0')}-${String(now.getDate()).padStart(
-    2,
-    '0',
-  )} ${String(now.getHours()).padStart(2, '0')}:${String(
-    now.getMinutes(),
-  ).padStart(2, '0')}`;
+  // RFC 3339 с часовым поясом — так требует справка Яндекс Товаров.
+  const dateStr = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 
   const collectionsXml = Object.values(CATEGORY_COLLECTIONS)
     .map(

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Edit, RefreshRight } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
 
@@ -33,9 +33,16 @@ const props = defineProps({
   option: Object,
   showSyncButton: { type: Boolean, default: false },
   optionIndex: { type: Number, default: 0 },
+  // Выбор, которым управляет родитель. Без него компонент, как и раньше,
+  // сам берёт первый пункт и сообщает о нём наверх.
+  selectedId: { type: [Number, String], default: null },
 });
 
-const selectedOpt = ref(props.option.items[0].id);
+const selectedOpt = ref(props.selectedId ?? props.option.items[0].id);
+
+watch(() => props.selectedId, (id) => {
+  if (id != null) selectedOpt.value = id;
+});
 
 const selectOpt = (id) => {
   selectedOpt.value = id;
@@ -44,7 +51,10 @@ const selectOpt = (id) => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  emit('selectedOpt', selectedOpt.value);
+  // Родитель, передавший selectedId, выбор уже знает. Эхо первого пункта
+  // перетёрло бы его сразу после загрузки: вариант по умолчанию и вариант
+  // из ссылки ?v= в браузере подменялись первым пунктом каждой опции.
+  if (props.selectedId == null) emit('selectedOpt', selectedOpt.value);
 });
 </script>
 <style scoped lang="scss">

@@ -9,10 +9,13 @@
  *   — фид Я.Товаров брал `p.price ?? variants[0].price`, и `??` пропускал
  *     нулевой `p.price` вперёд настоящих цен вариантов — 54 нулевых оффера.
  * Три разных неверных ответа на один вопрос, поэтому ответ теперь один.
+ * Само правило живёт в useProductOffers.ts: цены — это цены предложений,
+ * которые оттуда же получают фид и разметка.
  *
  * Типы в JSDoc, а не аннотациями: eslint проекта без TS-парсера,
  * соседние useSiteUrl.ts и useSeoText.ts написаны так же.
  */
+import { productOffers } from './useProductOffers.ts';
 
 /**
  * Все реальные цены товара по возрастанию.
@@ -22,16 +25,9 @@
  * @returns {number[]}
  */
 export function productPrices(product) {
-  if (!product) return [];
-
-  const variantPrices = (product.variants ?? [])
-    .map((v) => Number(v?.optionsInfo?.price))
-    .filter((p) => Number.isFinite(p) && p > 0);
-
-  if (variantPrices.length) return variantPrices.sort((a, b) => a - b);
-
-  const base = Number(product.price);
-  return Number.isFinite(base) && base > 0 ? [base] : [];
+  return productOffers(product)
+    .map(({ price }) => price)
+    .sort((a, b) => a - b);
 }
 
 /**

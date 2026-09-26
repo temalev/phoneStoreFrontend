@@ -73,6 +73,7 @@
             :key="option.name"
             :option="option"
             :option-index="idOpt"
+            :selected-id="selectedOptions[idOpt] ?? null"
             @selectedOpt="(id) => selectOption(id, idOpt)"
           />
         </div>
@@ -140,7 +141,9 @@ import { useCategories } from '~/stores/categories';
 import { useRoute } from 'vue-router';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
 import { buildProductTitle, buildProductDescription } from '~/composables/useSeoText.ts';
-import { productPrices, minProductPrice } from '~/composables/useProductPrice.ts';
+import { minProductPrice } from '~/composables/useProductPrice.ts';
+import { productOffers, variantKey } from '~/composables/useProductOffers.ts';
+import { productBrand } from '~/composables/useProductBrand.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -256,13 +259,22 @@ if (productCategory) {
 // --- Опции ---
 const selectedOptions = ref([]);
 
+// Вариант из ссылки ?v=<ключ>: так на карточку ведут предложения фида
+// Яндекс Товаров, и цена на странице должна совпасть с ценой в фиде.
+const requestedVariant = () => {
+  const key = [route.query.v].flat()[0];
+  if (!key) return null;
+  return product.value?.variants?.find((v) => variantKey(v) === key) ?? null;
+};
+
 const getDefaultOptions = () => {
   if (!product.value?.options) return;
+  const presetVariant = requestedVariant()
+    ?? product.value.variants?.find((v) => v.isDefault);
   product.value.options.forEach((option, idx) => {
-    const defaultVariant = product.value.variants?.find((v) => v.isDefault);
-    if (defaultVariant) {
+    if (presetVariant) {
       const matchingId = option.items.find((item) =>
-        defaultVariant.optionsIds.includes(item.id),
+        presetVariant.optionsIds.includes(item.id),
       );
       if (matchingId) selectedOptions.value[idx] = matchingId.id;
     } else if (option.items[0]) {
@@ -366,17 +378,8 @@ const pageDescription = buildProductDescription({
   description: productDescription,
 });
 
-const brandMap = {
-  iPhone: 'Apple',
-  iPad: 'Apple',
-  Mac: 'Apple',
-  Watch: 'Apple',
-  AirPods: 'Apple',
-  Samsung: 'Samsung',
-  Dyson: 'Dyson',
-  'PlayStation 5': 'Sony',
-};
-const brandName = brandMap[categoryName] || categoryName || 'РК-Тек';
+// Тот же бренд, что уходит в <vendor> фида Яндекс Товаров.
+const brandName = productBrand(product.value);
 
 const allImages = product.value?.variants
   ?.map((v) => v.optionsInfo?.images?.[0])
@@ -386,13 +389,15 @@ const allImages = product.value?.variants
 // и либо выбрасывает карточку из расширенного сниппета, либо рисует «от 0 ₽».
 // Товар без цены остаётся валидным Product — с названием, картинками,
 // брендом и описанием, — просто без ключа offers.
-const offers = productPrices(product.value).map((price) => ({
+// Адрес и sku у каждого оффера те же, что у предложения в фиде Яндекс Товаров.
+const offers = productOffers(product.value).map((offer) => ({
   '@type': 'Offer',
   priceCurrency: 'RUB',
-  price,
+  price: offer.price,
+  sku: offer.id,
   availability: 'https://schema.org/InStock',
   seller: { '@type': 'Organization', name: 'РК-Тек' },
-  url: pageUrl,
+  url: offer.key ? `${pageUrl}?v=${offer.key}` : pageUrl,
 }));
 
 useHead({
@@ -425,7 +430,7 @@ useHead({
             name: displayName.value,
             description: productDescription,
             image: allImages,
-            brand: { '@type': 'Brand', name: brandName },
+            ...(brandName ? { brand: { '@type': 'Brand', name: brandName } } : {}),
             category: categoryName,
             ...(offers.length ? { offers } : {}),
           },

@@ -79,7 +79,7 @@
 
 <script setup>
 // eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import draggable from 'vuedraggable';
 import { Delete, Plus } from '@element-plus/icons-vue';
 import { useApi } from '~/stores/api';
@@ -91,11 +91,17 @@ const props = defineProps({
   option: Object,
   showSyncButton: { type: Boolean, default: false },
   optionIndex: { type: Number, default: 0 },
+  // Выбор, которым управляет родитель. Без него — первый пункт, как раньше.
+  selectedId: { type: [Number, String], default: null },
 });
 
 const emit = defineEmits(['selectedOpt', 'moveColor', 'deleteColor', 'addColor']);
 
-const selectedItem = ref(props.option.items[0]?.id);
+const selectedItem = ref(props.selectedId ?? props.option.items[0]?.id);
+
+watch(() => props.selectedId, (id) => {
+  if (id != null) selectedItem.value = id;
+});
 const isAdding = ref(false);
 const newColorValue = ref('#000000');
 const newColorName = ref('');
@@ -130,7 +136,8 @@ const cancelAddColor = () => {
 
 // eslint-disable-next-line no-undef
 onMounted(() => {
-  emit('selectedOpt', selectedItem.value);
+  // См. defaultOption.vue: при selectedId от родителя эхо первого пункта не нужно.
+  if (props.selectedId == null) emit('selectedOpt', selectedItem.value);
 });
 </script>
 
