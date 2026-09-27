@@ -135,10 +135,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useApi } from '~/stores/api';
 import { useCategories } from '~/stores/categories';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { SITE_URL } from '~/composables/useSiteUrl.ts';
 import { buildProductTitle, buildProductDescription } from '~/composables/useSeoText.ts';
 import { minProductPrice } from '~/composables/useProductPrice.ts';
@@ -285,8 +285,32 @@ const getDefaultOptions = () => {
 
 getDefaultOptions();
 
+// Выбор опций попадает в адрес как ?v=<ключ>, чтобы ссылкой на конкретный
+// вариант можно было поделиться. replace, а не push: перебор цветов не должен
+// копить записи в истории. До монтирования страницы адрес не трогаем —
+// переключатели без selectedId сообщают о первом пункте раньше её onMounted,
+// и это не выбор покупателя.
+const router = useRouter();
+let isMounted = false;
+onMounted(() => { isMounted = true; });
+
+const syncVariantToUrl = () => {
+  if (!isMounted) return;
+  const variant = product.value?.variants?.find(({ optionsIds }) => (
+    optionsIds.every((optId) => selectedOptions.value.includes(optId))
+  ));
+  const key = variant ? variantKey(variant) : undefined;
+  if ([route.query.v].flat()[0] === key) return;
+
+  const query = { ...route.query };
+  if (key) query.v = key;
+  else delete query.v;
+  router.replace({ query });
+};
+
 const selectOption = (id, index) => {
   selectedOptions.value[index] = id;
+  syncVariantToUrl();
 };
 
 /** Название: name + выбранные опции (например «AirPods 4 — С шумоподавлением») */
