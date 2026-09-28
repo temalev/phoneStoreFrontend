@@ -131,6 +131,13 @@
       <p>Товар не найден</p>
       <NuxtLink to="/" class="productPage__backLink">На главную</NuxtLink>
     </div>
+
+    <RelatedModels
+      v-if="product && !pending"
+      :items="relatedItems"
+      :title="relatedTitle"
+      :all-link="relatedAllLink"
+    />
   </div>
 </template>
 
@@ -144,6 +151,7 @@ import { buildProductTitle, buildProductDescription } from '~/composables/useSeo
 import { minProductPrice } from '~/composables/useProductPrice.ts';
 import { productOffers, variantKey } from '~/composables/useProductOffers.ts';
 import { productBrand } from '~/composables/useProductBrand.ts';
+import { relatedModels } from '~/composables/useRelatedModels.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -255,6 +263,61 @@ if (productCategory) {
     breadcrumbCategory = { label: catName, to: `/other/${brandSlug}` };
   }
 }
+
+// --- Другие модели того же раздела ---
+// Перелинковка внизу карточки (SEO_PLAN, п. 2.3). Правила подборки —
+// в composables/useRelatedModels.ts.
+//
+// lazy: переход между карточками в браузере не ждёт этого запроса, а на сервере
+// useAsyncData всё равно дожидается его через onServerPrefetch — ссылки
+// оказываются в отданном HTML. Сбой запроса блок просто прячет: карточка
+// без подборки лучше, чем карточка с ошибкой.
+const relatedCategoryUuid = product.value?.category?.uuid || product.value?.categoryUUID;
+const currentProductUuid = product.value?.uuid;
+
+const {
+  data: relatedItems,
+  error: relatedError,
+  refresh: refreshRelated,
+} = useAsyncData(
+  `related-${slug}`,
+  () => (relatedCategoryUuid
+    ? $fetch(`${apiBase}/api/v1/product?categoryUUID=${relatedCategoryUuid}`)
+    : Promise.resolve([])),
+  {
+    lazy: true,
+    default: () => [],
+    // В payload уходят только восемь лёгких записей, а не весь раздел с вариантами.
+    transform: (list) => relatedModels(list, currentProductUuid),
+  },
+);
+
+// Как на странице раздела: упавший SSR-фетч клиент сам не повторяет.
+onMounted(() => {
+  if (relatedError.value) refreshRelated();
+});
+
+// «Другие модели iPhone» — для разделов-брендов, «Ещё в разделе «…»» — для
+// аксессуаров и «Других брендов», где «модели» звучат странно.
+const isSectionCategory = productCategory
+  && (productCategory.link === '/other'
+    || accessoriesCat?.categories?.some((c) => c.uuid === productCategory.uuid));
+const relatedLabel = breadcrumbCategory?.label
+  || productCategory?.name
+  || product.value?.category?.name
+  || '';
+
+const relatedTitle = (() => {
+  if (!relatedLabel) return 'Другие модели';
+  return isSectionCategory ? `Ещё в разделе «${relatedLabel}»` : `Другие модели ${relatedLabel}`;
+})();
+
+const relatedAllLink = breadcrumbCategory
+  ? {
+    to: breadcrumbCategory.to,
+    label: isSectionCategory ? 'Весь раздел' : `Все модели ${breadcrumbCategory.label}`,
+  }
+  : null;
 
 // --- Опции ---
 const selectedOptions = ref([]);
