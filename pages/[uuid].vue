@@ -63,9 +63,9 @@
           </span>
         </div>
 
-        <p v-if="product.description" class="productPage__description">
-          {{ product.description }}
-        </p>
+        <!-- Разметка собрана санитайзером из белого списка тегов — см. useRichText.ts -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div v-if="descriptionMarkup" class="productPage__description" v-html="descriptionMarkup" />
 
         <div v-if="product.options?.length" class="productPage__options">
           <Option
@@ -132,6 +132,12 @@
       <NuxtLink to="/" class="productPage__backLink">На главную</NuxtLink>
     </div>
 
+    <ProductSpecs
+      v-if="product && !pending"
+      :specs="product.specs"
+      :name="product.name"
+    />
+
     <RelatedModels
       v-if="product && !pending"
       :items="relatedItems"
@@ -152,6 +158,8 @@ import { minProductPrice } from '~/composables/useProductPrice.ts';
 import { productOffers, variantKey } from '~/composables/useProductOffers.ts';
 import { productBrand } from '~/composables/useProductBrand.ts';
 import { relatedModels } from '~/composables/useRelatedModels.ts';
+import { descriptionHtml, richTextToPlain } from '~/composables/useRichText.ts';
+import { specProperties } from '~/composables/useProductSpecs.ts';
 
 const route = useRoute();
 const slug = route.params.uuid; // в URL теперь slug товара (напр. airpods-4)
@@ -438,9 +446,13 @@ const isInCart = computed(() => api.orders.some((order) => {
   return true;
 }));
 
+// Описание из визивига — HTML; старые карточки — простой текст. На странице
+// оба пути дают одну и ту же безопасную разметку, в метатеги идёт текст.
+const descriptionMarkup = computed(() => descriptionHtml(product.value?.description));
+
 // --- SEO ---
 const pageUrl = `${SITE_URL}/${slug}`;
-const productDescription = product.value?.description || '';
+const productDescription = richTextToPlain(product.value?.description);
 const categoryName = product.value?.category?.name || '';
 const siteUrl = SITE_URL;
 const ogImageRaw = product.value?.variants?.[0]?.optionsInfo?.images?.[0]
@@ -467,6 +479,13 @@ const pageDescription = buildProductDescription({
 
 // Тот же бренд, что уходит в <vendor> фида Яндекс Товаров.
 const brandName = productBrand(product.value);
+
+// Те же строки, что уходят в <param> фида: «Дисплей: диагональ» → «6,3 дюйма».
+const additionalProperty = specProperties(product.value).map(({ name, value }) => ({
+  '@type': 'PropertyValue',
+  name,
+  value,
+}));
 
 const allImages = product.value?.variants
   ?.map((v) => v.optionsInfo?.images?.[0])
@@ -519,6 +538,7 @@ useHead({
             image: allImages,
             ...(brandName ? { brand: { '@type': 'Brand', name: brandName } } : {}),
             category: categoryName,
+            ...(additionalProperty.length ? { additionalProperty } : {}),
             ...(offers.length ? { offers } : {}),
           },
           {
@@ -680,6 +700,26 @@ useHead({
   line-height: 1.6;
   color: #555;
   font-weight: 300;
+
+  // Содержимое приходит через v-html — scoped-стили до него не доходят без :deep.
+  :deep(p) { margin: 0 0 10px; }
+  :deep(p:last-child) { margin-bottom: 0; }
+  :deep(h2), :deep(h3), :deep(h4) {
+    margin: 16px 0 8px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+  :deep(ul), :deep(ol) { margin: 0 0 10px; padding-left: 20px; }
+  :deep(li) { margin-bottom: 4px; }
+  :deep(li > p) { margin: 0; }
+  :deep(strong), :deep(b) { font-weight: 500; color: #1a1a1a; }
+  :deep(a) { color: #0071e3; }
+  :deep(blockquote) {
+    margin: 0 0 10px;
+    padding-left: 12px;
+    border-left: 2px solid #e0e0e0;
+  }
 }
 
 .productPage__options {

@@ -1,6 +1,8 @@
 import { defineEventHandler, setResponseHeader } from 'h3';
 import { productOffers } from '../../composables/useProductOffers';
 import { productBrand, hasWord } from '../../composables/useProductBrand';
+import { richTextToPlain } from '../../composables/useRichText';
+import { specProperties } from '../../composables/useProductSpecs';
 
 type YandexCategory = {
   uuid: string;
@@ -45,6 +47,8 @@ type YandexProduct = {
   variants?: YandexProductVariant[];
   isDeleted?: boolean;
   categoryUUID?: string;
+  /** Характеристики: [{ title, items: [{ name, value }] }] — см. useProductSpecs.ts */
+  specs?: unknown;
 };
 
 const SITE_URL = 'https://xn----jtbnc0ao.xn--p1ai';
@@ -178,8 +182,9 @@ const paramName = (optionName: string): string =>
  */
 const SHOP_NOTE = /подар|уточн|снят[аы]? с производства|другие (конфигурации|модели|цвета)|по запросу|заказ|в наличии|стоимост|дешевле|скидк|акци|бесплатн|рязан|москв|доставк|\*/i;
 
+// Описание из визивига — HTML: сначала в текст, абзацы — переводами строк.
 const cleanDescription = (raw: string | undefined): string =>
-  (raw || '')
+  richTextToPlain(raw)
     .split(/\n+/)
     .flatMap((line) => line.split(/(?<=[.!?…])\s+/))
     .map((sentence) => sentence.trim())
@@ -275,10 +280,17 @@ export default defineEventHandler(async (event) => {
       const collection = p.categoryUUID ? CATEGORY_COLLECTIONS[p.categoryUUID] : null;
       const brand = productBrand(p);
       const productDescription = cleanDescription(p.description);
+      const specs = specProperties(p);
 
       return productOffers(p).map((offer) => {
         const options = variantOptions(p, offer.variant);
         const name = buildOfferName(p, options);
+
+        // Характеристики модели — следом за параметрами варианта. Имя, уже
+        // занятое опцией варианта, не повторяем: значение варианта точнее.
+        const optionParams = options.map((o) => ({ name: paramName(o.name), value: o.value }));
+        const taken = new Set(optionParams.map((o) => o.name.toLowerCase()));
+        const params = [...optionParams, ...specs.filter((s) => !taken.has(s.name.toLowerCase()))];
 
         const pictures = (offer.images.length ? offer.images : p.images ?? [])
           .filter(Boolean)
@@ -310,7 +322,7 @@ export default defineEventHandler(async (event) => {
   <name>${escapeXml(name)}</name>
   ${brand ? `<vendor>${escapeXml(brand)}</vendor>` : ''}
   <description>${escapeXml(description)}</description>
-  ${options.map((o) => `<param name="${escapeXml(paramName(o.name))}">${escapeXml(o.value)}</param>`).join('\n  ')}
+  ${params.map((o) => `<param name="${escapeXml(o.name)}">${escapeXml(o.value)}</param>`).join('\n  ')}
   ${collection ? `<collectionId>${escapeXml(collection.id)}</collectionId>` : ''}
 </offer>`;
       });

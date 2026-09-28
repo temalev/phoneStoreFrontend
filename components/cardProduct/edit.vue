@@ -20,8 +20,12 @@
           <div class="header">
             <Input :value="product.name" type="text" @inputValue="(val) => (formData.name = val)" />
             <Input v-if="api.isAuth" :value="price" type="number" @inputValue="setVariants" />
-            <Input v-if="api.isAuth" textArea :value="product?.description" type="text"
-              @inputValue="(val) => (formData.description = val)" />
+            <!-- Описание стало HTML из визивига: в простом textarea оно
+                 показывалось бы разметкой, поэтому правится в отдельном окне. -->
+            <el-button v-if="api.isAuth" class="contentButton" @click="isContentDialogOpen = true">
+              Описание и характеристики
+              <span class="contentButton__meta">{{ contentSummary }}</span>
+            </el-button>
             <!-- <Input
               v-if="api.isAuth"
               :value="product?.sortValue"
@@ -71,6 +75,15 @@
         :isLoading="isLoading" @click="onSaveProductData"
         :name="isSaved ? (isNewProduct ? 'Создан' : 'Сохранено') : (isNewProduct ? 'Создать' : 'Сохранить')" />
     </div>
+
+    <!-- Lazy: визивиг грузится, только когда окно открыли, а не у каждого
+         посетителя страницы категории. -->
+    <LazyProductContentDialog
+      v-if="isContentDialogOpen"
+      :product="{ ...formData, name: formData.name || product.name }"
+      @saved="onContentSaved"
+      @close="isContentDialogOpen = false"
+    />
   </div>
 </template>
 
@@ -115,6 +128,28 @@ const uuidCurrentCategory = categories.categories.find((el) =>
 )?.uuid;
 
 const isNewProduct = computed(() => !props.product.uuid);
+
+// --- Описание и характеристики ---
+const isContentDialogOpen = ref(false);
+
+const contentSummary = computed(() => {
+  const rows = (formData.value.specs || []).reduce((sum, g) => sum + (g.items?.length || 0), 0);
+  const mod10 = rows % 10;
+  const mod100 = rows % 100;
+  let word = 'характеристик';
+  if (mod10 === 1 && mod100 !== 11) word = 'характеристика';
+  else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) word = 'характеристики';
+  const parts = [formData.value.description ? 'описание есть' : 'без описания'];
+  parts.push(rows ? `${rows} ${word}` : 'без характеристик');
+  return parts.join(' · ');
+});
+
+// Окно у существующего товара уже сохранило поля само — кладём ответ
+// в карточку, чтобы общий «Сохранить» не отправил старые значения.
+const onContentSaved = ({ description, specs }) => {
+  formData.value.description = description;
+  formData.value.specs = specs;
+};
 
 const isColorOpt = (options) => (optionId) => {
   const colorOption = options.find((el) =>
@@ -413,6 +448,8 @@ const onSaveProductData = async () => {
     images: formData.value.images,
     sortValue: formData.value.sortValue,
     options: localOptions.value,
+    // Без поля бэкенд таблицу не трогает — поэтому шлём, только если она есть.
+    ...(Array.isArray(formData.value.specs) ? { specs: formData.value.specs } : {}),
   };
 
   try {
@@ -658,6 +695,25 @@ onMounted(() => {
 
 .description {
   padding-top: 6px;
+}
+
+.contentButton {
+  width: 100%;
+  height: auto;
+  min-height: 40px;
+  margin-left: 0;
+  white-space: normal;
+
+  :deep(> span) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+.contentButton__meta {
+  font-size: 12px;
+  color: #909399;
 }
 
 .optionsContainer {
